@@ -18,7 +18,7 @@ public class Grid<TGridObject>
     private int width;                      //Ancho del tablero de casillas
     private int height;                     //Alto del tablero de casillas
     private float cellSize;                 //Tamaño de las casillas
-    private Vector3 originPosition;         //Posicion inicial del tablero
+    private Vector3 originPosition = new Vector3(0, 0, 0);         //Posicion inicial del tablero
     private TGridObject[,] gridArray;               //El Tablero
     private TextMesh[,] debugTextArray;     //Para actualizar el numero necesitamos un array de TextMesh (Propositos de Debug)
 
