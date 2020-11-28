@@ -21,7 +21,7 @@ public class PlayerStateUpdater : MonoBehaviour
     private enum State {
         Normal,
         Moving,
-       // Attacking
+        Attacking
     }
 
     private void Awake() {
@@ -31,14 +31,15 @@ public class PlayerStateUpdater : MonoBehaviour
         //SetSelectedVisible(false);
         state = State.Normal;
         healthSystem = new HealthSystem(100);
+        //init y actualizar la barra de vida
         //healthBar = new World_Bar(transform, new Vector3(0, 10), new Vector3(10, 1.3f), Color.grey, Color.red, 1f, 10000, new World_Bar.Outline { color = Color.black, size = .5f });
-        healthSystem.OnHealthChanged += HealthSystem_OnHealthChanged;
+        //healthSystem.OnHealthChanged += HealthSystem_OnHealthChanged;
     }
 
     //Acortar la barra de vida cuando te atacan
-    private void HealthSystem_OnHealthChanged(object sender, EventArgs e) {
+    //private void HealthSystem_OnHealthChanged(object sender, EventArgs e) {
         //healthBar.SetSize(healthSystem.GetHealthNormalized());
-    }
+    //}
 
     private void Update() {
         switch (state) {
@@ -46,8 +47,8 @@ public class PlayerStateUpdater : MonoBehaviour
                 break;
             case State.Moving:
                 break;
-           // case State.Attacking:
-            //    break;
+            case State.Attacking:
+                break;
         }
     }
 
@@ -69,7 +70,7 @@ public class PlayerStateUpdater : MonoBehaviour
         return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) < 50f;
     }
 
-   /* public void AttackUnit(PlayerStateUpdater unitGridCombat, Action onAttackComplete) {
+    public void AttackUnit(PlayerStateUpdater unitGridCombat, Action onAttackComplete) {
         state = State.Attacking;
 
         ShootUnit(unitGridCombat, () => {
@@ -88,26 +89,15 @@ public class PlayerStateUpdater : MonoBehaviour
                 });
             } else { state = State.Normal; onAttackComplete(); }
         });
-    }*/
+    }
 
-    /*private void ShootUnit(PlayerStateUpdater unitGridCombat, Action onShootComplete) {
+    private void ShootUnit(PlayerStateUpdater unitGridCombat, Action onShootComplete) {
         GetComponent<IMoveVelocity>().Disable();
         //Direccion del ataque, se tendra que rehacer
         Vector3 attackDir = (unitGridCombat.GetPosition() - transform.position).normalized;
         //UtilsClass.ShakeCamera(.6f, .1f);
         //GameHandler_GridCombatSystem.Instance.ScreenShake();
-
-        characterBase.PlayShootAnimation(attackDir, (Vector3 vec) => {
-            Shoot_Flash.AddFlash(vec);
-            WeaponTracer.Create(vec, unitGridCombat.GetPosition() + UtilsClass.GetRandomDir() * UnityEngine.Random.Range(-2f, 4f));
-            unitGridCombat.Damage(this, UnityEngine.Random.Range(4, 12));
-        }, () => {
-            characterBase.PlayIdleAnim();
-            GetComponent<IMoveVelocity>().Enable();
-
-            onShootComplete();
-        });
-    }*/
+    }
 
     public void Damage(PlayerStateUpdater attacker, int damageAmount) {
         //Sangre

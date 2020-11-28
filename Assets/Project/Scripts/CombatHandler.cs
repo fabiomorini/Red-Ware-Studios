@@ -152,10 +152,10 @@ public class CombatHandler : MonoBehaviour
                                     canAttackThisTurn = false;
                                     // Attack Enemy
                                     state = State.Waiting;
-                                   /* PlayerStateUpdater.AttackUnit(gridObject.GetUnitGridCombat(), () => {
-                                        state = State.Normal;
-                                        TestTurnOver();
-                                    });*/
+                                    //PlayerStateUpdater.AttackUnit(gridObject.GetUnitGridCombat(), () => {
+                                     //   state = State.Normal;
+                                      //  TestTurnOver();
+                                    //});
                                 }
                             } else {
                                 // Cannot attack enemy

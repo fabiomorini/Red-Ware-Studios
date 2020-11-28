@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class MovingVelocity : MonoBehaviour, IMoveVelocity {
 
-    [SerializeField] private float moveSpeed = 50f;
+    [SerializeField] private float moveSpeed;
 
     private Vector3 velocityVector;
-    private Rigidbody2D rb;
+    private Rigidbody2D rigidbody2D;
     private CharacterBase characterBase;
 
     private void Awake() {
-        rb = GetComponent<Rigidbody2D>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
         characterBase = GetComponent<CharacterBase>();
     }
 
@@ -20,14 +20,12 @@ public class MovingVelocity : MonoBehaviour, IMoveVelocity {
     }
 
     private void FixedUpdate() {
-        rb.velocity = velocityVector * moveSpeed;
-
-        //characterBase.PlayMoveAnim(velocityVector);
+        rigidbody2D.velocity = velocityVector * moveSpeed;
     }
 
     public void Disable() {
         this.enabled = false;
-        rb.velocity = Vector3.zero;
+        rigidbody2D.velocity = Vector3.zero;
     }
 
     public void Enable() {

@@ -14,8 +14,13 @@ public class UpdatePositionPathfinding : MonoBehaviour
     public void SetMovePosition(Vector3 movePosition, Action onReachedTargetPosition) {
         this.onReachedTargetPosition = onReachedTargetPosition;
         pathVectorList = GridPathfinding.instance.GetPathRouteWithShortcuts(transform.position, movePosition).pathVectorList;
+        //Debug
+        Debug.Log("##########");
+        foreach (Vector3 vec in pathVectorList) {
+            Debug.Log(vec);}
+
         if (pathVectorList.Count > 0) {
-            // Remove first position so he doesn't go backwards
+            //Hay que remover el primer índice para que no vaya hacia atrás
             //pathVectorList.RemoveAt(0);
         }
         if (pathVectorList.Count > 0) {
@@ -27,7 +32,7 @@ public class UpdatePositionPathfinding : MonoBehaviour
 
     private void Update() {
         if (pathIndex != -1) {
-            // Move to next path position
+            // Mueve el jugador hacia la próxima posición del tablero
             Vector3 nextPathPosition = pathVectorList[pathIndex];
             Vector3 moveVelocity = (nextPathPosition - transform.position).normalized;
             GetComponent<IMoveVelocity>().SetVelocity(moveVelocity);
