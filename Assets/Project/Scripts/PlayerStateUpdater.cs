@@ -13,7 +13,6 @@ public class PlayerStateUpdater : MonoBehaviour
     private GameObject selectedGameObject;
     private UpdatePositionPathfinding movePosition;
     private State state;
-    private World_Bar healthBar;
 
     public enum Team {
         Blue,
@@ -33,13 +32,13 @@ public class PlayerStateUpdater : MonoBehaviour
         //SetSelectedVisible(false);
         state = State.Normal;
         healthSystem = new HealthSystem(100);
-        healthBar = new World_Bar(transform, new Vector3(0, 10), new Vector3(10, 1.3f), Color.grey, Color.red, 1f, 10000, new World_Bar.Outline { color = Color.black, size = .5f });
+        //healthBar = new World_Bar(transform, new Vector3(0, 10), new Vector3(10, 1.3f), Color.grey, Color.red, 1f, 10000, new World_Bar.Outline { color = Color.black, size = .5f });
         healthSystem.OnHealthChanged += HealthSystem_OnHealthChanged;
     }
 
     //Acortar la barra de vida cuando te atacan
     private void HealthSystem_OnHealthChanged(object sender, EventArgs e) {
-        healthBar.SetSize(healthSystem.GetHealthNormalized());
+        //healthBar.SetSize(healthSystem.GetHealthNormalized());
     }
 
     private void Update() {
