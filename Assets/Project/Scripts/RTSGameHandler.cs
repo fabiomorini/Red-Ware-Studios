@@ -17,13 +17,13 @@ public class RTSGameHandler : MonoBehaviour {
     private Grid<CombatHandler.GridObject> grid;
     private MovementTilemap movementTilemap;
     public GridPathfinding gridPathfinding;
-    //Tamaño
-    [SerializeField] private int mapWidth = 40;
-    [SerializeField] private int mapHeight = 25;
-    [SerializeField] private float cellSize = 10f;
 
     private void Awake() {
         Instance = this;
+            //Tamaño
+        int mapWidth = 40;
+        int mapHeight = 25;
+        float cellSize = 10f;
 
         Vector3 origin = new Vector3(0, 0);
 
@@ -36,9 +36,8 @@ public class RTSGameHandler : MonoBehaviour {
     }
 
     private void Start() {
-        movementTilemap.SetTilemapVisual(movementTilemapVisual);
+        movementTilemap.SetTilemapVisual(movementTilemapVisual);       
     }
-
     //Mover la camara libremente
     private void Update() {
         HandleCameraMovement();

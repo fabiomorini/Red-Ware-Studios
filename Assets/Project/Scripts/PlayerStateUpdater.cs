@@ -7,7 +7,6 @@ public class PlayerStateUpdater : MonoBehaviour
 {
     [SerializeField] private Team team;
 
-    //Character_base no se va a utilizar, cambiar por script nuevo
     private CharacterBase characterBase;
     private HealthSystem healthSystem;
     private GameObject selectedGameObject;
@@ -22,7 +21,7 @@ public class PlayerStateUpdater : MonoBehaviour
     private enum State {
         Normal,
         Moving,
-        Attacking
+       // Attacking
     }
 
     private void Awake() {
@@ -47,8 +46,8 @@ public class PlayerStateUpdater : MonoBehaviour
                 break;
             case State.Moving:
                 break;
-            case State.Attacking:
-                break;
+           // case State.Attacking:
+            //    break;
         }
     }
 
