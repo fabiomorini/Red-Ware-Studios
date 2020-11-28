@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class Grid<TGridObject>
 {
-    public const int HEAT_MAP_MAX_VALUE = 100;
-    public const int HEAT_MAP_MIN_VALUE = 0;
-
     public event EventHandler<OnGridValueChangedEventArgs> OnGridValueChanged;
     public class OnGridValueChangedEventArgs : EventArgs
     {
@@ -27,6 +24,7 @@ public class Grid<TGridObject>
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
+        this.originPosition = originPosition;
 
         gridArray = new TGridObject[width, height];             //Inicializamos los arrays con las variables
 

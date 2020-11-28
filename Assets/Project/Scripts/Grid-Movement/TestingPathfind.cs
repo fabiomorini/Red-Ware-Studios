@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TestingPathfind : MonoBehaviour
 {
+    //[SerializeField] private PathfindingVisual pathfindingVisual;
+    [SerializeField] private CharacterMovement characterMovement;
     private Pathfinding pathfinding;
 
     private void Start()
@@ -25,6 +27,15 @@ public class TestingPathfind : MonoBehaviour
                     Debug.DrawLine(new Vector3(path[i].x, path[i].y) * 10f + Vector3.one * 5f, new Vector3(path[i + 1].x, path[i + 1].y) * 10f + Vector3.one * 5f, Color.green);
                 }
             }
+
+            //characterMovement.SetTargetPosition(mouseWorldPosition);
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            Vector3 mouseWorldPosition = GetMouseWorldPosition();
+            pathfinding.GetGrid().GetXY(mouseWorldPosition, out int x, out int y);
+            pathfinding.GetNode(x, y).SetIsWalkable(!pathfinding.GetNode(x, y).isWalkable);
         }
     }
 
