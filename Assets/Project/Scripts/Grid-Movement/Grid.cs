@@ -8,8 +8,8 @@ public class Grid<TGridObject>
     public const int HEAT_MAP_MAX_VALUE = 100;
     public const int HEAT_MAP_MIN_VALUE = 0;
 
-    public event EventHandler<OnGridValueChangedEventArgs> OnGridValueChanged;
-    public class OnGridValueChangedEventArgs : EventArgs
+    public event EventHandler<OnGridObjectChangedEventArgs> OnGridObjectChanged;
+    public class OnGridObjectChangedEventArgs : EventArgs
     {
         public int x;
         public int y;
@@ -63,7 +63,7 @@ public class Grid<TGridObject>
         Debug.DrawLine(GetWorldPosition(0, height), GetWorldPosition(width, height), Color.white, 100f);
         Debug.DrawLine(GetWorldPosition(width, 0), GetWorldPosition(width, height), Color.white, 100f);
 
-        OnGridValueChanged += (object sender, OnGridValueChangedEventArgs eventArgs) =>
+        OnGridObjectChanged += (object sender, OnGridObjectChangedEventArgs eventArgs) =>
         {
             debugTextArray[eventArgs.x, eventArgs.y].text = gridArray[eventArgs.x, eventArgs.y]?.ToString();
         };
@@ -87,7 +87,7 @@ public class Grid<TGridObject>
     }
 
     //Convierte una posicion x,y (Grid) en una WorldPosition
-    private Vector3 GetWorldPosition(int x, int y)
+    public Vector3 GetWorldPosition(int x, int y)
     {
         return new Vector3(x, y) * cellSize + originPosition;
     }
@@ -107,9 +107,9 @@ public class Grid<TGridObject>
         {
             gridArray[x, y] = value;
             //debugTextArray[x, y].text = gridArray[x, y].ToString();
-            if (OnGridValueChanged != null)
+            if (OnGridObjectChanged != null)
             {
-                OnGridValueChanged(this, new OnGridValueChangedEventArgs { x = x, y = y });
+                OnGridObjectChanged(this, new OnGridObjectChangedEventArgs { x = x, y = y });
             }
         }
     }
@@ -117,9 +117,9 @@ public class Grid<TGridObject>
     //se llama cuando cambiamos el contenido de una celda
     public void TriggerGridObjectChanged(int x, int y)
     {
-        if (OnGridValueChanged != null)
+        if (OnGridObjectChanged != null)
         {
-            OnGridValueChanged(this, new OnGridValueChangedEventArgs { x = x, y = y });
+            OnGridObjectChanged(this, new OnGridObjectChangedEventArgs { x = x, y = y });
         }
     }
 
@@ -178,4 +178,6 @@ public class Grid<TGridObject>
         textMesh.GetComponent<MeshRenderer>().sortingOrder = sortingOrder;
         return textMesh;
     }
+
+    
 }
