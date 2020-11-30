@@ -94,19 +94,7 @@ public class GridCombatSystem : MonoBehaviour {
         RedTurn.SetActive(false);
         BlueTurn.SetActive(false);
     }
-    /*
-    private void SelectNextActiveUnit() {
-        if (unitGridCombat == null || unitGridCombat.GetTeam() == UnitGridCombat.Team.Red) {
-            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Blue);
-        } else {
-            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
-        }
-
-        GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
-        canMoveThisTurn = true;
-        canAttackThisTurn = true;
-    }*/
-    
+  
     private UnitGridCombat GetNextActiveUnit(UnitGridCombat.Team team) {
         if (team == UnitGridCombat.Team.Blue) {
             blueTeamActiveUnitIndex = (blueTeamActiveUnitIndex + 1) % blueTeamList.Count;
