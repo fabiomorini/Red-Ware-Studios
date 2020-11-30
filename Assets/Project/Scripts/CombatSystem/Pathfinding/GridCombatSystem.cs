@@ -16,6 +16,13 @@ public class GridCombatSystem : MonoBehaviour {
     private bool canMoveThisTurn;
     private bool canAttackThisTurn;
 
+    private bool isBlueTurn = true;
+    private int BlueIndex = 0;
+    private int RedIndex = 0;
+    public GameObject BlueTurn;
+    public GameObject RedTurn;
+    private bool TextShow;
+    private float SecondsWaitingUI = 1.0f;
     private enum State {
         Normal,
         Waiting
@@ -36,15 +43,58 @@ public class GridCombatSystem : MonoBehaviour {
             GameHandler_GridCombatSystem.Instance.GetGrid().GetGridObject(unitGridCombat.GetPosition()).SetUnitGridCombat(unitGridCombat);
             if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue) {
                 blueTeamList.Add(unitGridCombat);
+                BlueIndex++;
+
             } else {
                 redTeamList.Add(unitGridCombat);
+                RedIndex++;
             }
         }
-
+        
         SelectNextActiveUnit();
         UpdateValidMovePositions();
+        StartCoroutine(TurnSwap());
     }
 
+    private void SelectNextActiveUnit(){
+        if(unitGridCombat == null || isBlueTurn){
+            if(TextShow){
+                StartCoroutine(TurnSwap());
+                TextShow = false;               
+            }
+            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Blue);
+            if(blueTeamActiveUnitIndex == BlueIndex -1){
+                isBlueTurn = false;
+                TextShow = true;
+            }
+        }
+        else{
+            if(TextShow){
+                StartCoroutine(TurnSwap());
+                TextShow = false;
+            }
+         unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
+         if(redTeamActiveUnitIndex == RedIndex -1){
+                isBlueTurn = true;
+                TextShow = true;
+            }
+        }
+        GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
+        canMoveThisTurn = true;
+        canAttackThisTurn = true;
+    }
+
+    private IEnumerator TurnSwap(){
+        if(isBlueTurn){
+            BlueTurn.SetActive(true);
+        }
+        else RedTurn.SetActive(true);
+
+        yield return new WaitForSeconds(SecondsWaitingUI);
+        RedTurn.SetActive(false);
+        BlueTurn.SetActive(false);
+    }
+    /*
     private void SelectNextActiveUnit() {
         if (unitGridCombat == null || unitGridCombat.GetTeam() == UnitGridCombat.Team.Red) {
             unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Blue);
@@ -55,7 +105,7 @@ public class GridCombatSystem : MonoBehaviour {
         GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
         canMoveThisTurn = true;
         canAttackThisTurn = true;
-    }
+    }*/
     
     private UnitGridCombat GetNextActiveUnit(UnitGridCombat.Team team) {
         if (team == UnitGridCombat.Team.Blue) {
