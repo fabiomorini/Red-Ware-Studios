@@ -69,6 +69,7 @@ public class GameHandler_GridCombatSystem : MonoBehaviour {
 
     public void SetCameraFollowPosition(Vector3 targetPosition) {
         cinemachineFollowTransform.position = targetPosition;
+        //CameraBounds.target.position = targetPosition;
     }
 
     public class EmptyGridObject {
