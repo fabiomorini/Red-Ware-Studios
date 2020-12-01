@@ -11,7 +11,8 @@ public class UnitGridCombat : MonoBehaviour {
     private GameObject selectedGameObject;
     private MovePositionPathfinding movePosition;
     private State state;
-
+    public float damageAmount = 1.0f;
+    private HealthSystem healthSystem;
     public enum Team {
         Blue,
         Red
@@ -64,6 +65,15 @@ public class UnitGridCombat : MonoBehaviour {
 
     public bool IsEnemy(UnitGridCombat unitGridCombat) {
         return unitGridCombat.GetTeam() != team;
+    }
+
+    public void AttackUnit(UnitGridCombat unitGridCombat){
+        Debug.Log("damaged");
+        state = State.Attacking;
+        healthSystem.Damage(damageAmount);
+    }
+    public bool CanAttackUnit(UnitGridCombat unitGridCombat) {
+        return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= 17.0f;
     }
 
 }

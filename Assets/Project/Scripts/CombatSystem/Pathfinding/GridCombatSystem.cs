@@ -23,6 +23,8 @@ public class GridCombatSystem : MonoBehaviour {
     public GameObject RedTurn;
     private bool TextShow;
     private float SecondsWaitingUI = 1.0f;
+
+    public int maxMoveDistance = 5;
     private enum State {
         Normal,
         Waiting
@@ -134,7 +136,6 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
 
-        int maxMoveDistance = 5;
         for (int x = unitX - maxMoveDistance; x <= unitX + maxMoveDistance; x++) {
             for (int y = unitY - maxMoveDistance; y <= unitY + maxMoveDistance; y++) {
                 if (gridPathfinding.IsWalkable(x, y)) {
@@ -170,6 +171,37 @@ public class GridCombatSystem : MonoBehaviour {
                     Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
                     GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
 
+                    // Check if clicking on a unit position
+                    if (gridObject.GetUnitGridCombat() != null) {
+                        Debug.Log("Detecto que hay algo");
+                        // Clicked on top of a Unit
+                        if (unitGridCombat.IsEnemy(gridObject.GetUnitGridCombat())) {
+                             Debug.Log("Detecto que es un enemigo");
+                            // Clicked on an Enemy of the current unit
+                            if (unitGridCombat.CanAttackUnit(gridObject.GetUnitGridCombat())) {
+                                 Debug.Log("lo puedo atacar");
+                                // Can Attack Enemy
+                                if (canAttackThisTurn) {
+                                    Debug.Log("Lo ataco");
+                                    canAttackThisTurn = false;
+                                    // Attack Enemy
+                                    state = State.Waiting;
+                                    unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                                    state = State.Normal;
+                                    TestTurnOver();
+                                }
+                            } else {
+                                // Cannot attack enemy
+                                //CodeMonkey.CMDebug.TextPopupMouse("Cannot attack!");
+                            }
+                            break;
+                        } else {
+                            // Not an enemy
+                        }
+                    } else {
+                        // No unit here
+                    }
+                    
                     if (gridObject.GetIsValidMovePosition()) {
                         // Valid Move Position
 
