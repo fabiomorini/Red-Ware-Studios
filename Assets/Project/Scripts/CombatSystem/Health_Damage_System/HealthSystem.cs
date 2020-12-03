@@ -1,0 +1,38 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+public class HealthSystem : MonoBehaviour
+{
+    public event EventHandler OnHealthChanged;
+    public event EventHandler OnHealthMaxChanged;
+    public event EventHandler OnDamaged;
+    public event EventHandler OnHealed;
+    public event EventHandler OnDead;
+    public float MaxHealth;
+    public float CurrentHealth;
+    public bool isDead;
+
+    public HealthSystem(float MaxHealth) {
+        this.MaxHealth = MaxHealth;
+        CurrentHealth = MaxHealth;
+    }
+    public void Damage(float DamageAmount){
+        CurrentHealth -= DamageAmount;
+        if (CurrentHealth < 0) {
+            CurrentHealth = 0;
+        }
+        OnHealthChanged?.Invoke(this, EventArgs.Empty);
+        OnDamaged?.Invoke(this, EventArgs.Empty);
+
+        if (CurrentHealth <= 0) {
+            Die();
+        }
+    }
+    public bool IsDead() {
+        return CurrentHealth <= 0;
+    }
+    public void Die() {
+        OnDead?.Invoke(this, EventArgs.Empty);
+    }
+}

@@ -19,10 +19,16 @@ public class GridCombatSystem : MonoBehaviour {
     private bool isBlueTurn = true;
     private int BlueIndex = 0;
     private int RedIndex = 0;
+    public int CurrentAliveBlue;
+    public int CurrentAliveRed;
     public GameObject BlueTurn;
     public GameObject RedTurn;
+    public GameObject GameOverUI;
     private bool TextShow;
+    private bool GameOver;
     private float SecondsWaitingUI = 1.0f;
+
+    public int maxMoveDistance = 5;
     private enum State {
         Normal,
         Waiting
@@ -50,6 +56,9 @@ public class GridCombatSystem : MonoBehaviour {
                 RedIndex++;
             }
         }
+
+        CurrentAliveBlue = BlueIndex;
+        CurrentAliveRed = RedIndex;
         
         SelectNextActiveUnit();
         UpdateValidMovePositions();
@@ -94,20 +103,9 @@ public class GridCombatSystem : MonoBehaviour {
         RedTurn.SetActive(false);
         BlueTurn.SetActive(false);
     }
-    /*
-    private void SelectNextActiveUnit() {
-        if (unitGridCombat == null || unitGridCombat.GetTeam() == UnitGridCombat.Team.Red) {
-            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Blue);
-        } else {
-            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
-        }
-
-        GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
-        canMoveThisTurn = true;
-        canAttackThisTurn = true;
-    }*/
-    
+  
     private UnitGridCombat GetNextActiveUnit(UnitGridCombat.Team team) {
+        //Comprobamos si no hay más jugadores de cada equipo
         if (team == UnitGridCombat.Team.Blue) {
             blueTeamActiveUnitIndex = (blueTeamActiveUnitIndex + 1) % blueTeamList.Count;
             if (blueTeamList[blueTeamActiveUnitIndex] == null ) {
@@ -125,6 +123,11 @@ public class GridCombatSystem : MonoBehaviour {
                 return redTeamList[redTeamActiveUnitIndex];
             }
         }
+    }
+
+    private void RestartGame(){
+        GameOverUI.SetActive(true);
+        Time.timeScale = 0;
     }
 
     private void UpdateValidMovePositions() {
@@ -146,7 +149,6 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
 
-        int maxMoveDistance = 5;
         for (int x = unitX - maxMoveDistance; x <= unitX + maxMoveDistance; x++) {
             for (int y = unitY - maxMoveDistance; y <= unitY + maxMoveDistance; y++) {
                 if (gridPathfinding.IsWalkable(x, y)) {
@@ -175,48 +177,89 @@ public class GridCombatSystem : MonoBehaviour {
         }
     }
 
-    private void Update() {
-        switch (state) {
-            case State.Normal:
-                if (Input.GetMouseButtonDown(0)) {
-                    Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
-                    GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
-
-                    if (gridObject.GetIsValidMovePosition()) {
-                        // Valid Move Position
-
-                        if (canMoveThisTurn) {
-                            canMoveThisTurn = false;
-
-                            state = State.Waiting;
-
-                            // Set entire Tilemap to Invisible
-                            GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
-                                MovementTilemap.TilemapObject.TilemapSprite.None
-                            );
-
-                            // Remove Unit from current Grid Object
-                            grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
-                            // Set Unit on target Grid Object
-                            gridObject.SetUnitGridCombat(unitGridCombat);
-
-                            unitGridCombat.MoveTo(GetMouseWorldPosition(), () => {
-                                state = State.Normal;
-                                UpdateValidMovePositions();
-                                TestTurnOver();
-                            });
-                        }
-                    }
-                }
-
-                if (Input.GetKeyDown(KeyCode.Space)) {
-                    ForceTurnOver();
-                }
-                break;
-            case State.Waiting:
-                break;
+    private void CheckNumberPlayers(){
+        if(CurrentAliveRed == 0){
+            GameOver = true;  
+            RestartGame();
+        }
+        if(CurrentAliveBlue == 0){
+            GameOver = true;
+            RestartGame();
         }
     }
+
+    private void Update() {
+        if(GameOver == false){
+            CheckNumberPlayers();
+            switch (state) {
+                case State.Normal:
+                    if (Input.GetMouseButtonDown(0)) {
+                        Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+                        GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
+
+                        // Check if clicking on a unit position
+                        if (gridObject.GetUnitGridCombat() != null) {
+                            // Clicked on top of a Unit
+                            if (unitGridCombat.IsEnemy(gridObject.GetUnitGridCombat())) {
+                                // Clicked on an Enemy of the current unit
+                                if (unitGridCombat.CanAttackUnit(gridObject.GetUnitGridCombat())) {
+                                    // Can Attack Enemy
+                                    if (canAttackThisTurn) {
+                                        canAttackThisTurn = false;
+                                        // Attack Enemy
+                                        state = State.Waiting;
+                                        unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                                        state = State.Normal;
+                                        TestTurnOver();
+                                    }
+                                } else {
+                                    // Cannot attack enemy
+                                }
+                                break;
+                            } else {
+                                // Not an enemy
+                            }
+                        } else {
+                            // No unit here
+                        }
+                        
+                        if (gridObject.GetIsValidMovePosition()) {
+                            // Valid Move Position
+
+                            if (canMoveThisTurn) {
+                                canMoveThisTurn = false;
+
+                                state = State.Waiting;
+
+                                // Set entire Tilemap to Invisible
+                                GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
+                                    MovementTilemap.TilemapObject.TilemapSprite.None
+                                );
+
+                                // Remove Unit from current Grid Object
+                                grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
+                                // Set Unit on target Grid Object
+                                gridObject.SetUnitGridCombat(unitGridCombat);
+
+                                unitGridCombat.MoveTo(GetMouseWorldPosition(), () => {
+                                    state = State.Normal;
+                                    UpdateValidMovePositions();
+                                    TestTurnOver();
+                                });
+                            }
+                        }
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.Space)) {
+                        ForceTurnOver();
+                    }
+                    break;
+                case State.Waiting:
+                    break;
+                }
+        }
+    }
+    
 
     private void TestTurnOver() {
         if (!canMoveThisTurn && !canAttackThisTurn) {
