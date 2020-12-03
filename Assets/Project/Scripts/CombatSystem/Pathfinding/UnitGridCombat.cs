@@ -14,6 +14,12 @@ public class UnitGridCombat : MonoBehaviour {
     private State state;
     public float damageAmount = 1.0f;
     private HealthSystem healthSystem;
+
+    //Temporal para el prototipo
+    public GameObject healthUI1;
+    public GameObject healthUI2;
+    public GameObject healthUI3;
+
     public enum Team {
         Blue,
         Red
@@ -33,6 +39,7 @@ public class UnitGridCombat : MonoBehaviour {
         healthSystem = new HealthSystem(3.0f);
     }
     private void Update() {
+        healthUIShow();
         switch (state) {
             case State.Normal:
                 break;
@@ -87,4 +94,24 @@ public class UnitGridCombat : MonoBehaviour {
         return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= 17.0f;
     }
 
+
+    private void healthUIShow(){
+        for(int i = 0; i <= 2; i++){
+            healthUI1.SetActive(false);
+            healthUI2.SetActive(false);
+            healthUI3.SetActive(false);
+        }
+        if(healthSystem.CurrentHealth == 3.0f)
+        {
+            healthUI3.SetActive(true);
+        }
+        else if (healthSystem.CurrentHealth == 2.0f)
+        {
+            healthUI2.SetActive(true);
+        }
+        else if(healthSystem.CurrentHealth == 1.0f)
+        {
+            healthUI1.SetActive(true);
+        }
+    }
 }
