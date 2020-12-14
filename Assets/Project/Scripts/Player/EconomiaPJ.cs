@@ -6,7 +6,6 @@ public class EconomiaPJ : MonoBehaviour
 {
     public int coins;
 
-
     public void Update()
     {
         
