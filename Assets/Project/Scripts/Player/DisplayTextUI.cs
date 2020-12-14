@@ -1,18 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class DisplayTextUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private PlayerVariables playerVariables;
+    private int PlayerCoins;
+
+    private void Awake()
     {
-        
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        
+
     }
 }
