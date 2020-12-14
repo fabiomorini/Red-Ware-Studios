@@ -10,8 +10,4 @@ public class EconomiaPJ : MonoBehaviour
     {
         
     }
-
-
-
-
-}
+ }
