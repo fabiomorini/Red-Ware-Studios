@@ -37,7 +37,9 @@ public class UnitGridCombat : MonoBehaviour {
         movePosition = GetComponent<MovePositionPathfinding>();
         state = State.Normal;
         healthSystem = new HealthSystem(3.0f);
+        gridCombatSystem = GameObject.Find("CombatHandler");
     }
+
     private void Update() {
         healthUIShow();
         switch (state) {

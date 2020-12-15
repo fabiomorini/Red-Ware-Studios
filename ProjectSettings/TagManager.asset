@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Selected
   - Active
+  - CombatHandler
   layers:
   - Default
   - TransparentFX
