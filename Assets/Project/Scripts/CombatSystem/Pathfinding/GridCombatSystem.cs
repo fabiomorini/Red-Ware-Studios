@@ -5,11 +5,11 @@ using GridPathfindingSystem;
 
 public class GridCombatSystem : MonoBehaviour {
 
-    [SerializeField] private UnitGridCombat[] unitGridCombatArray;
-
+    public List<UnitGridCombat> unitGridCombatArray;
     private State state;
     private UnitGridCombat unitGridCombat;
-    private List<UnitGridCombat> blueTeamList;
+    [HideInInspector]
+    public List<UnitGridCombat> blueTeamList;
     private List<UnitGridCombat> redTeamList;
     private int blueTeamActiveUnitIndex;
     private int redTeamActiveUnitIndex;
@@ -17,7 +17,8 @@ public class GridCombatSystem : MonoBehaviour {
     private bool canAttackThisTurn;
 
     private bool isBlueTurn = true;
-    private int BlueIndex = 0;
+    [HideInInspector]
+    public int BlueIndex = 0;
     private int RedIndex = 0;
     public int CurrentAliveBlue;
     public int CurrentAliveRed;
@@ -39,6 +40,7 @@ public class GridCombatSystem : MonoBehaviour {
     }
 
     private void Start() {
+
         blueTeamList = new List<UnitGridCombat>();
         redTeamList = new List<UnitGridCombat>();
         blueTeamActiveUnitIndex = -1;
@@ -59,13 +61,13 @@ public class GridCombatSystem : MonoBehaviour {
 
         CurrentAliveBlue = BlueIndex;
         CurrentAliveRed = RedIndex;
-        
+        Debug.Log(BlueIndex);
         SelectNextActiveUnit();
         UpdateValidMovePositions();
         StartCoroutine(TurnSwap());
     }
 
-    private void SelectNextActiveUnit(){
+     private void SelectNextActiveUnit(){
         if(unitGridCombat == null || isBlueTurn){
             if(TextShow){
                 StartCoroutine(TurnSwap());
@@ -327,5 +329,4 @@ public class GridCombatSystem : MonoBehaviour {
             Vector3 worldPosition = worldCamera.ScreenToWorldPoint(screenPosition);
             return worldPosition;
         }
-
 }
