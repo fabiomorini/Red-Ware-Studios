@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class Character_Base : MonoBehaviour {
+public class CHARACTER_PREFS : MonoBehaviour {
 
     [HideInInspector]
     public int level;

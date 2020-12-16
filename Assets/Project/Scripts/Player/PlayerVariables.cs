@@ -8,17 +8,17 @@ public class PlayerVariables : MonoBehaviour
     public int allies_counter = 0;
     private GridCombatSystem gridCombatSystem;
     [HideInInspector]
-    public List<Character_Base> alliesList;
-    private Character_Base characterBase;
+    public List<CHARACTER_PREFS> alliesList;
+    private CHARACTER_PREFS characterPrefs;
 
 
     private void Start()
     {
-        alliesList = new List<Character_Base>();
+        alliesList = new List<CHARACTER_PREFS>();
 
         for (int i = 0; i < allies_counter; i++)
         {
-            alliesList.Add(characterBase);
+            alliesList.Add(characterPrefs);
         }
     }
 
