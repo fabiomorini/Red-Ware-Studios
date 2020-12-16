@@ -7,7 +7,7 @@ public class UnitGridCombat : MonoBehaviour {
 
     [SerializeField] private Team team;
     private Team enemyTeam;
-    private Character_Base characterBase;
+    private CHARACTER_PREFS characterPrefs;
     private GameObject selectedGameObject;
     public GameObject gridCombatSystem;
     private MovePositionPathfinding movePosition;
@@ -32,7 +32,7 @@ public class UnitGridCombat : MonoBehaviour {
     }
 
     private void Awake() {
-        characterBase = GetComponent<Character_Base>();
+        characterPrefs = GetComponent<CHARACTER_PREFS>();
         selectedGameObject = transform.Find("Selected").gameObject;
         movePosition = GetComponent<MovePositionPathfinding>();
         state = State.Normal;

@@ -8,11 +8,11 @@ public class MoveVelocity : MonoBehaviour, IMoveVelocity {
 
     private Vector3 velocityVector;
     private Rigidbody2D rigidbody2D;
-    private Character_Base characterBase;
+    private CHARACTER_PREFS characterPrefs;
 
     private void Awake() {
         rigidbody2D = GetComponent<Rigidbody2D>();
-        characterBase = GetComponent<Character_Base>();
+        characterPrefs = GetComponent<CHARACTER_PREFS>();
     }
 
     public void SetVelocity(Vector3 velocityVector) {

@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnHandler : MonoBehaviour
+public class CHARACTER_MANAGER : MonoBehaviour
 {
     public GridCombatSystem gridCombatSystem;
     public GameObject Ally;
     public int numberOfAllies = 3;
     private const int maxOfAlliesBattle1 = 6;
-    private List<Character_Base> character_base;
+    private List<CHARACTER_PREFS> character_base;
     private GameObject hola; // deep lore
 
     private void Start()
     {
-        character_base = new List<Character_Base>();
+        character_base = new List<CHARACTER_PREFS>();
 
         // leer todas las player prefs de cada personaje
         // se las añadimos por cada index
