@@ -96,7 +96,7 @@ public class UnitGridCombat : MonoBehaviour {
             {
                 gridCombatSystem.GetComponent<GridCombatSystem>().CurrentAliveBlue -= 1;
                 Destroy(gameObject);
-                //characterManager.checkIfDead();
+                characterManager.checkIfDead();
             }
         }
     }
