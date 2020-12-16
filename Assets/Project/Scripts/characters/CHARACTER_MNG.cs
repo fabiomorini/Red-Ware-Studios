@@ -88,10 +88,8 @@ public class CHARACTER_MNG : MonoBehaviour
     {
         for (int i = 0; i < numberOfAllies; i++)
         {
-            Debug.Log("xxx");
             if (characterPrefs.Equals(null))
             {
-                Debug.Log("yyy");
                 characterPrefs.RemoveAt(i);
                 numberOfAllies--;
             }
