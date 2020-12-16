@@ -61,7 +61,6 @@ public class GridCombatSystem : MonoBehaviour {
 
         CurrentAliveBlue = BlueIndex;
         CurrentAliveRed = RedIndex;
-        Debug.Log(BlueIndex);
         SelectNextActiveUnit();
         UpdateValidMovePositions();
         StartCoroutine(TurnSwap());

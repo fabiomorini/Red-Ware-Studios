@@ -1,28 +1,77 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CHARACTER_MANAGER : MonoBehaviour
 {
     public GridCombatSystem gridCombatSystem;
     public GameObject Ally;
     public int numberOfAllies = 3;
-    private const int maxOfAlliesBattle1 = 6;
-    private List<CHARACTER_PREFS> character_base;
+    private int maxOfCharacters;
+    [HideInInspector]
+    public List<CHARACTER_PREFS> characterPrefs;
     private GameObject hola; // deep lore
+
+    //Escenas de Unity por buildIndex
+    private int IndexL1;
+    private int IndexL2;
+    private int IndexL3;
+    private int IndexL4;
+    private int IndexL5;
+    private int IndexL6;
+
+    //MAX personajes por nivel
+    private int maxL1;
+    private int maxL2;
+    private int maxL3;
+    private int maxL4;
+    private int maxL5;
+    private int maxL6;
 
     private void Start()
     {
-        character_base = new List<CHARACTER_PREFS>();
-
+        characterPrefs = new List<CHARACTER_PREFS>();
+        checkMaxCharacters();
+        spawnCharacters();
         // leer todas las player prefs de cada personaje
         // se las añadimos por cada index
+    }
 
-        if (numberOfAllies > maxOfAlliesBattle1)
+    // Dependiendo de la escena, mira el build index del scene manager y asigna un maximo de personajes jugables 
+    private void checkMaxCharacters()
+    {
+        if(SceneManager.GetActiveScene().buildIndex == IndexL1){
+            maxOfCharacters = maxL1;
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL2){
+            maxOfCharacters = maxL2;
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL3)
         {
-            numberOfAllies = maxOfAlliesBattle1;
+            maxOfCharacters = maxL3;
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL4)
+        {
+            maxOfCharacters = maxL4;
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL5)
+        {
+            maxOfCharacters = maxL5;
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL6)
+        {
+            maxOfCharacters = maxL6;
         }
 
+        if (numberOfAllies > maxOfCharacters)
+        {
+            numberOfAllies = maxOfCharacters;
+        }
+    }
+
+    private void spawnCharacters()
+    {
         for (int i = 0; i < numberOfAllies; i++)
         {
             // leer de la lista los playerprefs y añadirlos a los characters
@@ -30,8 +79,5 @@ public class CHARACTER_MANAGER : MonoBehaviour
             Ally.name = "Ally" + i;
             gridCombatSystem.unitGridCombatArray.Add(hola.GetComponent<UnitGridCombat>());
         }
-
     }
-
-
 }

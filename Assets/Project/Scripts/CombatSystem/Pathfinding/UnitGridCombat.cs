@@ -8,6 +8,7 @@ public class UnitGridCombat : MonoBehaviour {
     [SerializeField] private Team team;
     private Team enemyTeam;
     private CHARACTER_PREFS characterPrefs;
+    private CHARACTER_MANAGER characterManager;
     private GameObject selectedGameObject;
     public GameObject gridCombatSystem;
     private MovePositionPathfinding movePosition;
@@ -82,21 +83,40 @@ public class UnitGridCombat : MonoBehaviour {
         unitGridCombat.Damage(this, damageAmount);
         GetComponent<IMoveVelocity>().Enable();
     }
+
     public void Damage(UnitGridCombat Attacker,float damage){
         healthSystem.Damage(damageAmount);
         if(healthSystem.IsDead()){
-            if(Attacker.GetTeam() == Team.Blue)
-               gridCombatSystem.GetComponent<GridCombatSystem>().CurrentAliveRed -= 1;
+            if(Attacker.GetTeam() == Team.Blue) 
+            {
+                gridCombatSystem.GetComponent<GridCombatSystem>().CurrentAliveRed -= 1;
+            }
             if(Attacker.GetTeam() == Team.Red)
-               gridCombatSystem.GetComponent<GridCombatSystem>().CurrentAliveBlue -= 1;
+            {
+                gridCombatSystem.GetComponent<GridCombatSystem>().CurrentAliveBlue -= 1;
+                //removeCharFromList();
+
+            }
             Destroy(gameObject);
         }
     }
+
+    // hacemos un for donde comparamos la lista (que tenemos que crear) de game objects con NULL
+    // y si es null, cogemos el index de la lista y hacemos un characterManager.characterPrefs.RemoveAt(index);
+    /*private void removeCharFromList()
+    {
+        for(int i = 0; i < characterManager.numberOfAllies)
+        {
+            if()
+        }
+    }*/
+
+
     public bool CanAttackUnit(UnitGridCombat unitGridCombat) {
         return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= 17.0f;
     }
 
-
+    // Temporal
     private void healthUIShow(){
         for(int i = 0; i <= 2; i++){
             healthUI1.SetActive(false);
