@@ -915,6 +915,7 @@ GameObject:
   m_Component:
   - component: {fileID: 458908037}
   - component: {fileID: 458908036}
+  - component: {fileID: 458908038}
   m_Layer: 0
   m_Name: Spawnhandler
   m_TagString: Untagged
@@ -929,7 +930,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 458908035}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 334406e8652597a499f725a3bd002027, type: 3}
   m_Name: 
@@ -937,6 +938,7 @@ MonoBehaviour:
   gridCombatSystem: {fileID: 1339107822}
   Ally: {fileID: 3300769062914515420, guid: 8a2310e5bd9b4c84194148a23ca9bbfd, type: 3}
   numberOfAllies: 5
+  characterPrefs: []
 --- !u!4 &458908037
 Transform:
   m_ObjectHideFlags: 0
@@ -958,6 +960,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &458908038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458908035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3585a5637f4d34245be78c22f413582e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridCombatSystem: {fileID: 1339107822}
+  Ally: {fileID: 3300769062914515420, guid: 8a2310e5bd9b4c84194148a23ca9bbfd, type: 3}
+  numberOfAllies: 5
+  characterPrefs: []
 --- !u!1 &482838984
 GameObject:
   m_ObjectHideFlags: 0
