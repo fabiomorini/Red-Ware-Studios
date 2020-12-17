@@ -15,19 +15,19 @@ public class CHARACTER_MNG : MonoBehaviour
 
     //Escenas de Unity por buildIndex
     private int IndexL1 = 1;
-    private int IndexL2;
-    private int IndexL3;
-    private int IndexL4;
-    private int IndexL5;
-    private int IndexL6;
+    private int IndexL2 = 3;
+    private int IndexL3 = 4;
+    private int IndexL4 = 5;
+    private int IndexL5 = 6;
+    private int IndexL6 = 7;
 
     //MAX personajes por nivel
     private int maxL1 = 5;
-    private int maxL2;
-    private int maxL3;
-    private int maxL4;
-    private int maxL5;
-    private int maxL6;
+    private int maxL2 = 5;
+    private int maxL3 = 5;
+    private int maxL4 = 5;
+    private int maxL5 = 5;
+    private int maxL6 = 5;
 
     private void Start()
     {
