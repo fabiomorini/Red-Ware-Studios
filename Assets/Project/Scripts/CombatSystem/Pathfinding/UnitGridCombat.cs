@@ -14,6 +14,10 @@ public class UnitGridCombat : MonoBehaviour {
     private MovePositionPathfinding movePosition;
     private State state;
     public float damageAmount = 1.0f;
+
+    //17 = 1 casilla, 34 = 2, 51 = 3
+    public float attackRangeMelee = 17.0f;
+    public float attackRangeRanged = 34.0f;
     private HealthSystem healthSystem;
 
     //Temporal para el prototipo
@@ -39,6 +43,11 @@ public class UnitGridCombat : MonoBehaviour {
         state = State.Normal;
         healthSystem = new HealthSystem(3.0f);
         gridCombatSystem = GameObject.Find("CombatHandler");
+
+        if (gameObject.GetComponent<CHARACTER_PREFS>().GetType() == CHARACTER_PREFS.Tipo.Ranged)
+        {
+            //PONER SPRITE DE ARQUERO EN VEZ DE CABALLERO
+        }
     }
 
     private void Update() {
@@ -105,7 +114,14 @@ public class UnitGridCombat : MonoBehaviour {
     // y si es null, cogemos el index de la lista y hacemos un characterManager.characterPrefs.RemoveAt(index);
 
     public bool CanAttackUnit(UnitGridCombat unitGridCombat) {
-        return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= 17.0f;
+        if (gameObject.GetComponent<CHARACTER_PREFS>().GetType() == CHARACTER_PREFS.Tipo.Melee)
+        {
+            return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeMelee;
+        }
+        else
+        {
+            return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeRanged;
+        }
     }
 
     // Temporal
