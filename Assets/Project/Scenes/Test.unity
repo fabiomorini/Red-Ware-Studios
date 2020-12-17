@@ -917,7 +917,7 @@ GameObject:
   - component: {fileID: 458908036}
   m_Layer: 0
   m_Name: Spawnhandler
-  m_TagString: Untagged
+  m_TagString: characterManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -931,12 +931,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 458908035}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 334406e8652597a499f725a3bd002027, type: 3}
+  m_Script: {fileID: 11500000, guid: 4cbd2df3c513d1d4fabbea61393b2c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gridCombatSystem: {fileID: 1339107822}
   Ally: {fileID: 3300769062914515420, guid: 8a2310e5bd9b4c84194148a23ca9bbfd, type: 3}
-  numberOfAllies: 5
+  numberOfAllies: 3
+  characterPrefs: []
 --- !u!4 &458908037
 Transform:
   m_ObjectHideFlags: 0
