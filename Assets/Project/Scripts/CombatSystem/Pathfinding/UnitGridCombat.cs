@@ -10,7 +10,7 @@ public class UnitGridCombat : MonoBehaviour {
     private CHARACTER_PREFS characterPrefs;
     private CHARACTER_MNG characterManager;
     private GameObject selectedGameObject;
-    public GameObject gridCombatSystem;
+    private GameObject gridCombatSystem;
     private MovePositionPathfinding movePosition;
     private State state;
     public float damageAmount = 1.0f;

@@ -273,8 +273,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  gridCombatSystem: {fileID: 1017251613281193748, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
-    type: 3}
   damageAmount: 1
   healthUI1: {fileID: 3335223741617747332}
   healthUI2: {fileID: 7672931061926728989}
