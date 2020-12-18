@@ -8,7 +8,7 @@ public class UnitGridCombat : MonoBehaviour {
     [SerializeField] private Team team;
     private Team enemyTeam;
     private CHARACTER_PREFS characterPrefs;
-    private CHARACTER_MNG characterManager;
+    private GameObject characterManager;
     private GameObject selectedGameObject;
     private GameObject gridCombatSystem;
     private MovePositionPathfinding movePosition;
@@ -39,6 +39,7 @@ public class UnitGridCombat : MonoBehaviour {
         state = State.Normal;
         healthSystem = new HealthSystem(3.0f);
         gridCombatSystem = GameObject.Find("CombatHandler");
+        characterManager = GameObject.FindWithTag("characterManager");
     }
 
     private void Update() {
@@ -96,7 +97,7 @@ public class UnitGridCombat : MonoBehaviour {
             {
                 gridCombatSystem.GetComponent<GridCombatSystem>().CurrentAliveBlue -= 1;
                 Destroy(gameObject);
-                characterManager.checkIfDead();
+                characterManager.GetComponent<CHARACTER_MNG>().checkIfDead();
             }
         }
     }
