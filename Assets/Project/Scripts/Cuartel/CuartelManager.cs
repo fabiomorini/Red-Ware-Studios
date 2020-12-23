@@ -5,10 +5,11 @@ using TMPro;
 
 public class CuartelManager : MonoBehaviour
 {
-    public int coins = 0;
     private int knightCounter = 0;
     private int ArcherCounter = 0;
+    [SerializeField]
     private int knightPrice = 100;
+    [SerializeField]
     private int archerPrice = 120;
 
     public TMP_Text coinsText;
@@ -16,7 +17,9 @@ public class CuartelManager : MonoBehaviour
     public TMP_Text KnightText;
     public GameObject cuartel;
 
+    public GameObject characterManager;
     private bool isActive;
+
 
     private void Update()
     {
@@ -30,27 +33,38 @@ public class CuartelManager : MonoBehaviour
             cuartel.SetActive(false);
             isActive = false;
         }
-        coinsText.SetText("¥ " + coins);
+        coinsText.SetText("¥ " + characterManager.GetComponent<CHARACTER_MNG>().coins);
         ArcherText.SetText("x " + ArcherCounter);
         KnightText.SetText("x " + knightCounter);
     }
 
     public void BuyKnight()
     {
-        if(coins >= knightPrice)
+        if(characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
         {
-            coins -= knightPrice;
+            characterManager.GetComponent<CHARACTER_MNG>().coins -= knightPrice;
             knightCounter++;
+            characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee++;
         }
 
     }
     public void BuyArcher()
     {
-        if (coins >= knightPrice)
+        if (characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
         {
-            coins -= archerPrice;
+            characterManager.GetComponent<CHARACTER_MNG>().coins -= archerPrice;
             ArcherCounter++;
+            characterManager.GetComponent<CHARACTER_MNG>().numberOfRanged++;
         }
     }
-
+    public void BuyHealer()
+    {
+        if (characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
+        {
+            characterManager.GetComponent<CHARACTER_MNG>().coins -= archerPrice;
+            ArcherCounter++;
+            characterManager.GetComponent<CHARACTER_MNG>().numberOfHealer++;
+        }
+    }
+ 
 }

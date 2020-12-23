@@ -12,14 +12,22 @@ public class CHARACTER_PREFS : MonoBehaviour {
      armadura
      arma
     */
+    [SerializeField]
+    private Tipo tipo;
 
-    public enum tipos
+    public enum Tipo
     {
         melee,
         ranged, 
         healer
     }
+
     public Vector3 GetPosition() {
         return transform.position;
+    }
+
+    public Tipo getType()
+    {
+        return tipo;
     }
 }

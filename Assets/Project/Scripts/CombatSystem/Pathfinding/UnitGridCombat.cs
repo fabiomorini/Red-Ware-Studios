@@ -18,6 +18,10 @@ public class UnitGridCombat : MonoBehaviour {
 
     [HideInInspector]
     public bool imDead = false;
+    public float attackRangeMelee = 17;
+    public float attackRangeRanged = 34;
+    public float attackRangeHealer = 34;
+
 
     //Temporal para el prototipo
     public GameObject healthUI1;
@@ -106,11 +110,20 @@ public class UnitGridCombat : MonoBehaviour {
         }
     }
 
-    // hacemos un for donde comparamos la lista (que tenemos que crear) de game objects con NULL
-    // y si es null, cogemos el index de la lista y hacemos un characterManager.characterPrefs.RemoveAt(index);
-
     public bool CanAttackUnit(UnitGridCombat unitGridCombat) {
-        return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= 17.0f;
+        if(gameObject.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.melee)
+        {
+            return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeMelee;
+        }
+        else if (gameObject.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.ranged)
+        {
+            return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeRanged;
+        }
+        else
+        {
+            return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeHealer;
+        }
+
     }
 
     // Temporal
