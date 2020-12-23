@@ -16,7 +16,8 @@ public class CHARACTER_PREFS : MonoBehaviour {
     public enum tipos
     {
         melee,
-        ranged
+        ranged, 
+        healer
     }
     public Vector3 GetPosition() {
         return transform.position;

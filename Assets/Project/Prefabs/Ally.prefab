@@ -274,6 +274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 0
   damageAmount: 1
+  imDead: 0
   healthUI1: {fileID: 3335223741617747332}
   healthUI2: {fileID: 7672931061926728989}
   healthUI3: {fileID: 7819600730770123257}

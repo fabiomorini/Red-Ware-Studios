@@ -88,7 +88,7 @@ public class CHARACTER_MNG : MonoBehaviour
     {
         for (int i = 0; i < numberOfAllies; i++)
         {
-            if (characterPrefs.Equals(null))
+            if (characterPrefs[i].GetComponent<UnitGridCombat>().imDead)
             {
                 characterPrefs.RemoveAt(i);
                 numberOfAllies--;

@@ -302,7 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridCombatSystem: {fileID: 1339107822}
   Ally: {fileID: 3300769062914515420, guid: 8a2310e5bd9b4c84194148a23ca9bbfd, type: 3}
-  numberOfAllies: 3
+  numberOfAllies: 4
   characterPrefs: []
 --- !u!4 &458908037
 Transform:

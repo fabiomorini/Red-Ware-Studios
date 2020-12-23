@@ -16,6 +16,9 @@ public class UnitGridCombat : MonoBehaviour {
     public float damageAmount = 1.0f;
     private HealthSystem healthSystem;
 
+    [HideInInspector]
+    public bool imDead = false;
+
     //Temporal para el prototipo
     public GameObject healthUI1;
     public GameObject healthUI2;
@@ -96,8 +99,9 @@ public class UnitGridCombat : MonoBehaviour {
             if(Attacker.GetTeam() == Team.Red)
             {
                 gridCombatSystem.GetComponent<GridCombatSystem>().CurrentAliveBlue -= 1;
-                Destroy(gameObject);
+                gameObject.GetComponent<UnitGridCombat>().imDead = true;
                 characterManager.GetComponent<CHARACTER_MNG>().checkIfDead();
+                Destroy(gameObject);
             }
         }
     }
