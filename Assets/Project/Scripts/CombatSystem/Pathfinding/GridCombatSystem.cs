@@ -57,7 +57,6 @@ public class GridCombatSystem : MonoBehaviour {
             }
             else
             {
-
                 redTeamList.Add(unitGridCombat);
                 RedIndex++;
             }

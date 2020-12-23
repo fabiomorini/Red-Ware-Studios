@@ -235,6 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
+  tipo: 0
 --- !u!114 &3300769062914515238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +276,9 @@ MonoBehaviour:
   team: 0
   damageAmount: 1
   imDead: 0
+  attackRangeMelee: 17
+  attackRangeRanged: 34
+  attackRangeHealer: 34
   healthUI1: {fileID: 3335223741617747332}
   healthUI2: {fileID: 7672931061926728989}
   healthUI3: {fileID: 7819600730770123257}
