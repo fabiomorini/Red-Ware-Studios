@@ -47,13 +47,16 @@ public class GridCombatSystem : MonoBehaviour {
         redTeamActiveUnitIndex = -1;
 
         // Set all UnitGridCombat on their GridPosition
-        foreach (UnitGridCombat unitGridCombat in unitGridCombatArray) {
+        foreach (UnitGridCombat unitGridCombat in unitGridCombatArray)
+        {
             GameHandler_GridCombatSystem.Instance.GetGrid().GetGridObject(unitGridCombat.GetPosition()).SetUnitGridCombat(unitGridCombat);
-            if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue) {
+            if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
+            {
                 blueTeamList.Add(unitGridCombat);
                 BlueIndex++;
-
-            } else {
+            }
+            else
+            {
                 redTeamList.Add(unitGridCombat);
                 RedIndex++;
             }
@@ -61,12 +64,14 @@ public class GridCombatSystem : MonoBehaviour {
 
         CurrentAliveBlue = BlueIndex;
         CurrentAliveRed = RedIndex;
+
+
         SelectNextActiveUnit();
         UpdateValidMovePositions();
         StartCoroutine(TurnSwap());
     }
 
-     private void SelectNextActiveUnit(){
+     public void SelectNextActiveUnit(){
         if(unitGridCombat == null || isBlueTurn){
             if(TextShow){
                 StartCoroutine(TurnSwap());
@@ -94,7 +99,7 @@ public class GridCombatSystem : MonoBehaviour {
         canAttackThisTurn = true;
     }
 
-    private IEnumerator TurnSwap(){
+    public IEnumerator TurnSwap(){
         if(isBlueTurn){
             BlueTurn.SetActive(true);
         }
@@ -104,8 +109,8 @@ public class GridCombatSystem : MonoBehaviour {
         RedTurn.SetActive(false);
         BlueTurn.SetActive(false);
     }
-  
-    private UnitGridCombat GetNextActiveUnit(UnitGridCombat.Team team) {
+
+    public UnitGridCombat GetNextActiveUnit(UnitGridCombat.Team team) {
         //Comprobamos si no hay más jugadores de cada equipo
         if (team == UnitGridCombat.Team.Blue) {
             blueTeamActiveUnitIndex = (blueTeamActiveUnitIndex + 1) % blueTeamList.Count;
@@ -131,7 +136,7 @@ public class GridCombatSystem : MonoBehaviour {
         Time.timeScale = 0;
     }
 
-    private void UpdateValidMovePositions() {
+    public void UpdateValidMovePositions() {
         Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
         GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
 
