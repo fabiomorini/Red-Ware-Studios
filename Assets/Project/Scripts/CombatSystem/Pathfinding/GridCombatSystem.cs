@@ -108,7 +108,7 @@ public class GridCombatSystem : MonoBehaviour {
             hola = Instantiate(Ally, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
             Ally.name = "Ally" + i;
             unitGridCombatArray.Add(hola.GetComponent<UnitGridCombat>());
-            //characterPrefs.Add(hola.GetComponent<CHARACTER_PREFS>());
+            characterPrefs.Add(hola.GetComponent<CHARACTER_PREFS>());
         }
     }
     private void checkMaxCharacters()
