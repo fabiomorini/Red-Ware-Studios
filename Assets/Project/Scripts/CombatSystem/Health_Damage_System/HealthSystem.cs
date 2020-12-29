@@ -23,7 +23,7 @@ public class HealthSystem : MonoBehaviour
             CurrentHealth = 0;
         }
         OnHealthChanged?.Invoke(this, EventArgs.Empty);
-        OnHealed?.Invoke(this, EventArgs.Empty);
+        OnDamaged?.Invoke(this, EventArgs.Empty);
 
         if (CurrentHealth <= 0) {
             Die();
@@ -37,7 +37,7 @@ public class HealthSystem : MonoBehaviour
             CurrentHealth = 3;
         }
         OnHealthChanged?.Invoke(this, EventArgs.Empty);
-        OnDamaged?.Invoke(this, EventArgs.Empty);
+        OnHealed?.Invoke(this, EventArgs.Empty);
     }
 
     public bool IsDead() {

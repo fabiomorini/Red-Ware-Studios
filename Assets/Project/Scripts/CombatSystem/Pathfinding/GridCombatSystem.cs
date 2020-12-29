@@ -364,6 +364,12 @@ public class GridCombatSystem : MonoBehaviour {
     }
 
 
+    public void deleteCharacterWhenDead(UnitGridCombat unitGridCombat)
+    {
+        Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+        GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
+        grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
+    }
 
     public class GridObject {
 

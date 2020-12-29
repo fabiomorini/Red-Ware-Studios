@@ -15,7 +15,7 @@ public class UnitGridCombat : MonoBehaviour {
     private State state;
     public float damageAmount = 1.0f;
     private HealthSystem healthSystem;
-
+    private UnitGridCombat unitGridCombat;
     // 17 = 1 casilla, 34 = 2, en diagonal no es exacto;
     [HideInInspector]
     public bool imDead = false;
@@ -100,6 +100,7 @@ public class UnitGridCombat : MonoBehaviour {
             if(Attacker.GetTeam() == Team.Blue) 
             {
                 gridCombatSystem.GetComponent<GridCombatSystem>().CurrentAliveRed -= 1;
+                //gridCombatSystem.GetComponent<GridCombatSystem>().deleteCharacterWhenDead(this.gameObject.GetComponent<UnitGridCombat>());
                 Destroy(gameObject);
             }
             if(Attacker.GetTeam() == Team.Red)
@@ -107,6 +108,7 @@ public class UnitGridCombat : MonoBehaviour {
                 gridCombatSystem.GetComponent<GridCombatSystem>().CurrentAliveBlue -= 1;
                 gameObject.GetComponent<UnitGridCombat>().imDead = true;
                 characterManager.GetComponent<CHARACTER_MNG>().checkIfDead();
+                //gridCombatSystem.GetComponent<GridCombatSystem>().deleteCharacterWhenDead(this.gameObject.GetComponent<UnitGridCombat>());
                 Destroy(gameObject);
             }
         }
