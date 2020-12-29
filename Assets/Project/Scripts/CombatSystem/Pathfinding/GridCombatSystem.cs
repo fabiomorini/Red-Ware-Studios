@@ -2,19 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 using GridPathfindingSystem;
+using UnityEngine.SceneManagement;
 
 public class GridCombatSystem : MonoBehaviour {
 
     public List<UnitGridCombat> unitGridCombatArray;
     private State state;
     private UnitGridCombat unitGridCombat;
-    [HideInInspector]
-    public List<UnitGridCombat> blueTeamList;
+    private List<UnitGridCombat> blueTeamList;
     private List<UnitGridCombat> redTeamList;
     private int blueTeamActiveUnitIndex;
     private int redTeamActiveUnitIndex;
     private bool canMoveThisTurn;
     private bool canAttackThisTurn;
+
+    /////////////////////////////////////////////////////////////////
+    ///Sistema de spawning de tropas según cuantas tienes compradas en el cuartel
+    private GameObject hola; // deep lore, se usa solo para que no de error, no sirve para nada
+    public GameObject Ally; /// Se tiene que cambiar por los game objects de cada tipo de soldado
+    private int numberOfAllies; //lo inicializa según el character Manager
+    private List<CHARACTER_PREFS> characterPrefs; // lista paralela a unitGridCombatArray donde comprobamos las características de cada aliado (CHARACTER_MNG)
+
+    /////////////////////////////////////////////////////////////////
+    /// Sistema de limitación de spawning de tropas por escenas 
+    private int maxOfCharacters; 
+
+    //Escenas de Unity por buildIndex
+    private int IndexL1 = 2;
+    private int IndexL2 = 3;
+    private int IndexL3 = 4;
+    private int IndexL4 = 5;
+    private int IndexL5 = 6;
+    private int IndexL6 = 7;
+
+    //MAX personajes por nivel
+    private int maxL1 = 3;
+    private int maxL2 = 4;
+    private int maxL3 = 4;
+    private int maxL4 = 5;
+    private int maxL5 = 6;
+    private int maxL6 = 7;
+    /////////////////////////////////////////////////////////////////
 
     private bool isBlueTurn = true;
     [HideInInspector]
@@ -40,7 +68,9 @@ public class GridCombatSystem : MonoBehaviour {
     }
 
     private void Start() {
-
+        numberOfAllies = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().numAllies();
+        characterPrefs = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().characterPrefs;
+        spawnCharacters();
         blueTeamList = new List<UnitGridCombat>();
         redTeamList = new List<UnitGridCombat>();
         blueTeamActiveUnitIndex = -1;
@@ -70,8 +100,50 @@ public class GridCombatSystem : MonoBehaviour {
         UpdateValidMovePositions();
         StartCoroutine(TurnSwap());
     }
+    public void spawnCharacters()
+    {
+        for (int i = 0; i < numberOfAllies; i++)
+        {
+            // leer de la lista los playerprefs y añadirlos a los characters
+            hola = Instantiate(Ally, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
+            Ally.name = "Ally" + i;
+            unitGridCombatArray.Add(hola.GetComponent<UnitGridCombat>());
+            characterPrefs.Add(hola.GetComponent<CHARACTER_PREFS>());
+        }
+    }
+    private void checkMaxCharacters()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == IndexL1)
+        {
+            maxOfCharacters = maxL1;
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL2)
+        {
+            maxOfCharacters = maxL2;
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL3)
+        {
+            maxOfCharacters = maxL3;
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL4)
+        {
+            maxOfCharacters = maxL4;
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL5)
+        {
+            maxOfCharacters = maxL5;
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL6)
+        {
+            maxOfCharacters = maxL6;
+        }
 
-     public void SelectNextActiveUnit(){
+        if (numberOfAllies > maxOfCharacters)
+        {
+            numberOfAllies = maxOfCharacters;
+        }
+    }
+    public void SelectNextActiveUnit(){
         if(unitGridCombat == null || isBlueTurn){
             if(TextShow){
                 StartCoroutine(TurnSwap());

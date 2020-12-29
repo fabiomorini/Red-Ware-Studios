@@ -9,8 +9,9 @@ public class levelAlliesManager : MonoBehaviour
     private int numberOfAllies;
     private int maxOfCharacters;
     public GameObject Ally;
-    public GridCombatSystem gridCombatSystem;
-    private GameObject hola; // deep lore
+    private GameObject CombatHandler;
+    [HideInInspector]
+    public GameObject hola; // deep lore
     private List<CHARACTER_PREFS> characterPrefs;
 
     //Escenas de Unity por buildIndex
@@ -29,14 +30,15 @@ public class levelAlliesManager : MonoBehaviour
     private int maxL5 = 6;
     private int maxL6 = 7;
 
-    private void Start()
+    /*private void Start()
     {
+        CombatHandler = GameObject.FindWithTag("CombatHandler");
         numberOfAllies = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().numAllies();
         characterPrefs = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().characterPrefs;
         checkMaxCharacters();
         spawnCharacters();
         
-    }
+    }*/
     public void spawnCharacters()
     {
         for (int i = 0; i < numberOfAllies; i++)
@@ -44,7 +46,7 @@ public class levelAlliesManager : MonoBehaviour
             // leer de la lista los playerprefs y añadirlos a los characters
             hola = Instantiate(Ally, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
             Ally.name = "Ally" + i;
-            gridCombatSystem.unitGridCombatArray.Add(hola.GetComponent<UnitGridCombat>());
+            CombatHandler.GetComponent<GridCombatSystem>().unitGridCombatArray.Add(hola.GetComponent<UnitGridCombat>());
             characterPrefs.Add(hola.GetComponent<CHARACTER_PREFS>());
         }
     }
