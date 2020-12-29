@@ -16,12 +16,17 @@ public class GridCombatSystem : MonoBehaviour {
     private bool canMoveThisTurn;
     private bool canAttackThisTurn;
 
-    //level allies manager 
-    private GameObject hola; // deep lore
-    public GameObject Ally;
-    private int numberOfAllies = 3;
-    private List<CHARACTER_PREFS> characterPrefs;
-    private int maxOfCharacters;
+    /////////////////////////////////////////////////////////////////
+    ///Sistema de spawning de tropas según cuantas tienes compradas en el cuartel
+    private GameObject hola; // deep lore, se usa solo para que no de error, no sirve para nada
+    public GameObject Ally; /// Se tiene que cambiar por los game objects de cada tipo de soldado
+    private int numberOfAllies; //lo inicializa según el character Manager
+    private List<CHARACTER_PREFS> characterPrefs; // lista paralela a unitGridCombatArray donde comprobamos las características de cada aliado (CHARACTER_MNG)
+
+    /////////////////////////////////////////////////////////////////
+    /// Sistema de limitación de spawning de tropas por escenas 
+    private int maxOfCharacters; 
+
     //Escenas de Unity por buildIndex
     private int IndexL1 = 2;
     private int IndexL2 = 3;
@@ -37,6 +42,7 @@ public class GridCombatSystem : MonoBehaviour {
     private int maxL4 = 5;
     private int maxL5 = 6;
     private int maxL6 = 7;
+    /////////////////////////////////////////////////////////////////
 
     private bool isBlueTurn = true;
     [HideInInspector]
