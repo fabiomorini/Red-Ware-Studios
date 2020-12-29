@@ -645,18 +645,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41e2e604321763e419f1720138918f59, type: 3}
---- !u!114 &923560125 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
-    type: 3}
-  m_PrefabInstance: {fileID: 902734892}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 106713138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b38979d77be78e41a471ae413b6679a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1129614339
 GameObject:
   m_ObjectHideFlags: 0
@@ -2026,9 +2014,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cbd2df3c513d1d4fabbea61393b2c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridCombatSystem: {fileID: 923560125}
-  Ally: {fileID: 3300769062914515420, guid: 8a2310e5bd9b4c84194148a23ca9bbfd, type: 3}
   numberOfAllies: 3
+  numberOfMelee: 0
+  numberOfRanged: 0
+  numberOfHealer: 0
+  coins: 0
   characterPrefs: []
 --- !u!4 &8767175201433983153
 Transform:
