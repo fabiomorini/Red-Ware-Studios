@@ -7,11 +7,11 @@ public class CHARACTER_PREFS : MonoBehaviour {
     public int level;
 
     /*
-     tipo
      nivel
      armadura
      arma
     */
+
     [SerializeField]
     private Tipo tipo;
 

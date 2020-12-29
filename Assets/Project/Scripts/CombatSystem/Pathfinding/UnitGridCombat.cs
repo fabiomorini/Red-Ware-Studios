@@ -16,11 +16,13 @@ public class UnitGridCombat : MonoBehaviour {
     public float damageAmount = 1.0f;
     private HealthSystem healthSystem;
 
+    // 17 = 1 casilla, 34 = 2, en diagonal no es exacto;
     [HideInInspector]
     public bool imDead = false;
     public float attackRangeMelee = 17;
     public float attackRangeRanged = 34;
-    public float attackRangeHealer = 34;
+    public float attackRangeHealer = 0;
+    public float rangeHealer = 34; // curar
 
 
     //Temporal para el prototipo
@@ -110,6 +112,19 @@ public class UnitGridCombat : MonoBehaviour {
         }
     }
 
+    public void HealAlly(UnitGridCombat unitGridCombat)
+    {
+        GetComponent<IMoveVelocity>().Disable();
+        state = State.Attacking;
+        unitGridCombat.Heal(this, damageAmount);
+        GetComponent<IMoveVelocity>().Enable();
+    }
+
+    public void Heal(UnitGridCombat Attacker, float damage)
+    {
+        healthSystem.Heal(damageAmount);
+    }
+
     public bool CanAttackUnit(UnitGridCombat unitGridCombat) {
         if(gameObject.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.melee)
         {
@@ -123,7 +138,10 @@ public class UnitGridCombat : MonoBehaviour {
         {
             return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeHealer;
         }
-
+    }
+    public bool CanHealUnit(UnitGridCombat unitGridCombat)
+    {
+        return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= rangeHealer;
     }
 
     // Temporal

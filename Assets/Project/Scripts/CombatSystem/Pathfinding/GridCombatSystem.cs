@@ -295,7 +295,19 @@ public class GridCombatSystem : MonoBehaviour {
                                 }
                                 break;
                             } else {
-                                // Not an enemy
+                                if (unitGridCombat.CanHealUnit(gridObject.GetUnitGridCombat()) && unitGridCombat.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.healer)
+                                    // si eres un healer
+                                {
+                                    if (canAttackThisTurn)
+                                    {
+                                        canAttackThisTurn = false;
+                                        state = State.Waiting;
+                                        unitGridCombat.HealAlly(gridObject.GetUnitGridCombat());
+                                        state = State.Normal;
+                                        TestTurnOver();
+                                    }
+                                }
+                                break;
                             }
                         } else {
                             // No unit here
