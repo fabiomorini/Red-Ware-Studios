@@ -45,6 +45,7 @@ public class CuartelManager : MonoBehaviour
             characterManager.GetComponent<CHARACTER_MNG>().coins -= knightPrice;
             knightCounter++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee++;
+            characterManager.GetComponent<CHARACTER_MNG>().numberOfAllies++;
         }
 
     }
@@ -55,6 +56,7 @@ public class CuartelManager : MonoBehaviour
             characterManager.GetComponent<CHARACTER_MNG>().coins -= archerPrice;
             ArcherCounter++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfRanged++;
+            characterManager.GetComponent<CHARACTER_MNG>().numberOfAllies++;
         }
     }
     public void BuyHealer()
@@ -64,6 +66,7 @@ public class CuartelManager : MonoBehaviour
             characterManager.GetComponent<CHARACTER_MNG>().coins -= archerPrice;
             ArcherCounter++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfHealer++;
+            characterManager.GetComponent<CHARACTER_MNG>().numberOfAllies++;
         }
     }
  

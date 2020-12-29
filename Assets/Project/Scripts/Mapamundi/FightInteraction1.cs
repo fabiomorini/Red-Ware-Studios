@@ -11,18 +11,24 @@ public class FightInteraction1 : MonoBehaviour
 
     private Text pressEText;
     private bool pressedCombatButton;
+    private GameObject CombatHandler;
 
     // Use this for initialization
     private void Start()
     {
+        CombatHandler = GameObject.FindWithTag("characterManager");
         pressEText.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (pressedCombatButton && Input.GetKeyDown(KeyCode.E))
+        if (pressedCombatButton && Input.GetKeyDown(KeyCode.E) && CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
             Combat();
+        else if(CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies == 0)
+        {
+            Debug.Log("No tienes soldados");
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
