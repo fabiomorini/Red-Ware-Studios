@@ -9,8 +9,10 @@ public class GridCombatSystem : MonoBehaviour {
     public List<UnitGridCombat> unitGridCombatArray;
     private State state;
     private UnitGridCombat unitGridCombat;
-    private List<UnitGridCombat> blueTeamList;
-    private List<UnitGridCombat> redTeamList;
+    [HideInInspector]
+    public List<UnitGridCombat> blueTeamList;
+    [HideInInspector]
+    public List<UnitGridCombat> redTeamList;
     private int blueTeamActiveUnitIndex;
     private int redTeamActiveUnitIndex;
     private bool canMoveThisTurn;
@@ -42,6 +44,11 @@ public class GridCombatSystem : MonoBehaviour {
     private int maxL4 = 5;
     private int maxL5 = 6;
     private int maxL6 = 7;
+    /////////////////////////////////////////////////////////////////
+    /// IA
+    [HideInInspector]
+    private bool canAttackIA = true;
+    public IA_enemies iA_Enemies;
     /////////////////////////////////////////////////////////////////
 
     private bool isBlueTurn = true;
@@ -266,87 +273,105 @@ public class GridCombatSystem : MonoBehaviour {
         }
     }
 
-    private void Update() {
-        if(GameOver == false){
+    private void Update() { 
+        if(GameOver == false)
+        {
+            Debug.Log(isBlueTurn);
             CheckNumberPlayers();
-            switch (state) {
-                case State.Normal:
-                    if (Input.GetMouseButtonDown(0)) {
-                        Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
-                        GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
+            if(unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue) // turno de aliados
+            {
+                switch (state) {
+                    case State.Normal:
+                        if (Input.GetMouseButtonDown(0)) {
+                            Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+                            GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
 
-                        // Check if clicking on a unit position
-                        if (gridObject.GetUnitGridCombat() != null) {
-                            // Clicked on top of a Unit
-                            if (unitGridCombat.IsEnemy(gridObject.GetUnitGridCombat())) {
-                                // Clicked on an Enemy of the current unit
-                                if (unitGridCombat.CanAttackUnit(gridObject.GetUnitGridCombat())) {
-                                    // Can Attack Enemy
-                                    if (canAttackThisTurn) {
-                                        canAttackThisTurn = false;
-                                        // Attack Enemy
-                                        state = State.Waiting;
-                                        unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
-                                        state = State.Normal;
-                                        TestTurnOver();
+                            // Check if clicking on a unit position
+                            if (gridObject.GetUnitGridCombat() != null) {
+                                // Clicked on top of a Unit
+                                if (unitGridCombat.IsEnemy(gridObject.GetUnitGridCombat())) {
+                                    // Clicked on an Enemy of the current unit
+                                    if (unitGridCombat.CanAttackUnit(gridObject.GetUnitGridCombat())) {
+                                        // Can Attack Enemy
+                                        if (canAttackThisTurn) {
+                                            canAttackThisTurn = false;
+                                            // Attack Enemy
+                                            state = State.Waiting;
+                                            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                                            state = State.Normal;
+                                            TestTurnOver();
+                                        }
+                                    } else {
+                                        // Cannot attack enemy
                                     }
+                                    break;
                                 } else {
-                                    // Cannot attack enemy
-                                }
-                                break;
-                            } else {
-                                if (unitGridCombat.CanHealUnit(gridObject.GetUnitGridCombat()) && unitGridCombat.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.healer)
+                                    if (unitGridCombat.CanHealUnit(gridObject.GetUnitGridCombat()) && unitGridCombat.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.healer)
                                     // si eres un healer
-                                {
-                                    if (canAttackThisTurn)
                                     {
-                                        canAttackThisTurn = false;
-                                        state = State.Waiting;
-                                        unitGridCombat.HealAlly(gridObject.GetUnitGridCombat());
-                                        state = State.Normal;
-                                        TestTurnOver();
+                                        if (canAttackThisTurn)
+                                        {
+                                            canAttackThisTurn = false;
+                                            state = State.Waiting;
+                                            unitGridCombat.HealAlly(gridObject.GetUnitGridCombat());
+                                            state = State.Normal;
+                                            TestTurnOver();
+                                        }
                                     }
+                                    break;
                                 }
-                                break;
+                            } else {
+                                // No unit here
                             }
-                        } else {
-                            // No unit here
-                        }
-                        
-                        if (gridObject.GetIsValidMovePosition()) {
-                            // Valid Move Position
 
-                            if (canMoveThisTurn) {
-                                canMoveThisTurn = false;
+                            if (gridObject.GetIsValidMovePosition()) {
+                                // Valid Move Position
 
-                                state = State.Waiting;
+                                if (canMoveThisTurn) {
+                                    canMoveThisTurn = false;
 
-                                // Set entire Tilemap to Invisible
-                                GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
-                                    MovementTilemap.TilemapObject.TilemapSprite.None
-                                );
+                                    state = State.Waiting;
 
-                                // Remove Unit from current Grid Object
-                                grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
-                                // Set Unit on target Grid Object
-                                gridObject.SetUnitGridCombat(unitGridCombat);
+                                    // Set entire Tilemap to Invisible
+                                    GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
+                                        MovementTilemap.TilemapObject.TilemapSprite.None
+                                    );
 
-                                unitGridCombat.MoveTo(GetMouseWorldPosition(), () => {
-                                    state = State.Normal;
-                                    UpdateValidMovePositions();
-                                    TestTurnOver();
-                                });
+                                    // Remove Unit from current Grid Object
+                                    grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
+                                    // Set Unit on target Grid Object
+                                    gridObject.SetUnitGridCombat(unitGridCombat);
+
+                                    unitGridCombat.MoveTo(GetMouseWorldPosition(), () => {
+                                        state = State.Normal;
+                                        UpdateValidMovePositions();
+                                        TestTurnOver();
+                                    });
+                                }
                             }
                         }
-                    }
 
-                    if (Input.GetKeyDown(KeyCode.Space)) {
-                        ForceTurnOver();
-                    }
-                    break;
-                case State.Waiting:
-                    break;
+                        if (Input.GetKeyDown(KeyCode.Space)) {
+                            ForceTurnOver();
+                        }
+                        break;
+                    case State.Waiting:
+                        break;
                 }
+            }
+            else // turno de enemigos
+            {
+                if (canAttackThisTurn)
+                {
+                    canAttackThisTurn = false;
+                    canMoveThisTurn = false;
+                    // Attack Enemy
+                    state = State.Waiting;
+                    unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
+                    state = State.Normal;
+                    TestTurnOver();
+                }
+            }
         }
     }
     
