@@ -9,12 +9,25 @@ public class GridCombatSystem : MonoBehaviour {
     public List<UnitGridCombat> unitGridCombatArray;
     private State state;
     private UnitGridCombat unitGridCombat;
+    /////////////////////////////////////////////////////////////////
+    ///listas de personajes de cada equipo
     [HideInInspector]
     public List<UnitGridCombat> blueTeamList;
     [HideInInspector]
+    public List<UnitGridCombat> blueTeamKO;
+    [HideInInspector]
+    public List<UnitGridCombat> newBlueTeamList;
+    [HideInInspector]
     public List<UnitGridCombat> redTeamList;
-    private int blueTeamActiveUnitIndex;
-    private int redTeamActiveUnitIndex;
+    [HideInInspector]
+    public List<UnitGridCombat> redTeamKO;
+    [HideInInspector]
+    public List<UnitGridCombat> newRedTeamList;
+    /////////////////////////////////////////////////////////////////
+    [HideInInspector]
+    public int blueTeamActiveUnitIndex;
+    [HideInInspector]
+    public int redTeamActiveUnitIndex;
     private bool canMoveThisTurn;
     private bool canAttackThisTurn;
 
@@ -386,14 +399,6 @@ public class GridCombatSystem : MonoBehaviour {
     private void ForceTurnOver() {
         SelectNextActiveUnit();
         UpdateValidMovePositions();
-    }
-
-
-    public void deleteCharacterWhenDead(UnitGridCombat unitGridCombat)
-    {
-        Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
-        GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
-        grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
     }
 
     public class GridObject {
