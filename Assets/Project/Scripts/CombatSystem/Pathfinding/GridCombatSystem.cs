@@ -62,6 +62,7 @@ public class GridCombatSystem : MonoBehaviour {
     [HideInInspector]
     private bool canAttackIA = true;
     public IA_enemies iA_Enemies;
+    private float attackRangeMelee = 17; //para mirar si hay una ud. a una casilla
     /////////////////////////////////////////////////////////////////
 
     private bool isBlueTurn = true;
@@ -204,20 +205,27 @@ public class GridCombatSystem : MonoBehaviour {
 
     public UnitGridCombat GetNextActiveUnit(UnitGridCombat.Team team) {
         //Comprobamos si no hay más jugadores de cada equipo
-        if (team == UnitGridCombat.Team.Blue) {
+        if (team == UnitGridCombat.Team.Blue && blueTeamActiveUnitIndex < blueTeamList.Count) 
+        {
             blueTeamActiveUnitIndex = (blueTeamActiveUnitIndex + 1) % blueTeamList.Count;
-            if (blueTeamList[blueTeamActiveUnitIndex] == null ) {
+            if (blueTeamList[blueTeamActiveUnitIndex].GetComponent<UnitGridCombat>().imDead) 
+            {
                 // Unit is Dead, get next one
                 return GetNextActiveUnit(team);
-            } else {
+            } else 
+            {
                 return blueTeamList[blueTeamActiveUnitIndex];
             }
-        } else {
+        } 
+        else
+        {
             redTeamActiveUnitIndex = (redTeamActiveUnitIndex + 1) % redTeamList.Count;
-            if (redTeamList[redTeamActiveUnitIndex] == null ) {
+            if (redTeamList[redTeamActiveUnitIndex].GetComponent<UnitGridCombat>().imDead) 
+            {
                 // Unit is Dead, get next one
                 return GetNextActiveUnit(team);
-            } else {
+            } else 
+            {
                 return redTeamList[redTeamActiveUnitIndex];
             }
         }
@@ -377,21 +385,47 @@ public class GridCombatSystem : MonoBehaviour {
                 if (canAttackThisTurn)
                 {
                     canAttackThisTurn = false;
-                    canMoveThisTurn = false;
+                    canMoveThisTurn = false; // temporal
                     // Attack Enemy
                     state = State.Waiting;
-                    unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
+                    if (lookForEnemiesClose(unitGridCombat))
+                    {
+                        unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
+                    }
                     state = State.Normal;
                     TestTurnOver();
                 }
+                else
+                {
+                    ForceTurnOver();
+                }
             }
         }
+    }
+
+    private bool lookForEnemiesClose(UnitGridCombat thisUnit) //mira si hay un enemigo a una casilla
+    {
+        int enemiesCount = blueTeamList.Count;
+        Vector3 myPosition = thisUnit.GetPosition();
+        for (int i = 0; i < enemiesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
+        {
+            if (!blueTeamList[i].GetComponent<UnitGridCombat>().imDead)
+            {
+                float distance = Vector3.Distance(myPosition, blueTeamList[i].GetPosition());
+                if (distance <= attackRangeMelee)
+                {
+                    return true;
+                }
+            }
+
+        }
+        return false;
     }
     
 
     private void TestTurnOver() {
         if (!canMoveThisTurn && !canAttackThisTurn) {
-            // Cannot move or attack, turn over
+            // Si la ud. no puede atacar ni mover, pasará el turno a la siguiente
             ForceTurnOver();
         }
     }

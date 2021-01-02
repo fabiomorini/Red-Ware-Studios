@@ -38,6 +38,7 @@ public class IA_enemies : MonoBehaviour
     private float rangeHealer = 34; // curar
     private GameObject gridCombatSystem;
     private int enemiesCount;
+    private bool isClose; // para ver si hay un enemigo a una casilla
 
     private enum State
     {
@@ -85,22 +86,25 @@ public class IA_enemies : MonoBehaviour
         Vector3 myPosition = thisUnit.GetPosition();
         for (int i = 0; i <= enemiesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
         {
-            float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i].GetPosition());
-            if (distance <= attackRangeMelee)
+            if (!gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i].GetComponent<UnitGridCombat>().imDead)
             {
-                return gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i];
+                float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i].GetPosition());
+                if (distance <= attackRangeMelee)
+                {
+                    return gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i];
+                }
             }
+
         }
         return null;
     }
-
 
     public UnitGridCombat lookForEnemiesDist(UnitGridCombat thisUnit) // lookForEnemies de más distancia
     {
         float minDist = 9999.0f; // para encontrar el enemigo más cerca
         Vector3 myPosition = thisUnit.GetPosition();
         UnitGridCombat nearestEnemy = null;
-        for (int i = 0; i <= enemiesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
+        for (int i = 0; i < enemiesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
         {
             float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i].GetPosition());
             if (distance < minDist)
