@@ -208,7 +208,7 @@ public class GridCombatSystem : MonoBehaviour {
         if (team == UnitGridCombat.Team.Blue && blueTeamActiveUnitIndex < blueTeamList.Count) 
         {
             blueTeamActiveUnitIndex = (blueTeamActiveUnitIndex + 1) % blueTeamList.Count;
-            if (blueTeamList[blueTeamActiveUnitIndex].GetComponent<UnitGridCombat>().imDead) 
+            if (blueTeamList[blueTeamActiveUnitIndex] == null || blueTeamList[blueTeamActiveUnitIndex].IsDead()) 
             {
                 // Unit is Dead, get next one
                 return GetNextActiveUnit(team);
@@ -220,7 +220,7 @@ public class GridCombatSystem : MonoBehaviour {
         else
         {
             redTeamActiveUnitIndex = (redTeamActiveUnitIndex + 1) % redTeamList.Count;
-            if (redTeamList[redTeamActiveUnitIndex].GetComponent<UnitGridCombat>().imDead) 
+            if (redTeamList[redTeamActiveUnitIndex] == null || redTeamList[redTeamActiveUnitIndex].IsDead()) 
             {
                 // Unit is Dead, get next one
                 return GetNextActiveUnit(team);
@@ -421,8 +421,6 @@ public class GridCombatSystem : MonoBehaviour {
         }
         return false;
     }
-    
-
     private void TestTurnOver() {
         if (!canMoveThisTurn && !canAttackThisTurn) {
             // Si la ud. no puede atacar ni mover, pasará el turno a la siguiente

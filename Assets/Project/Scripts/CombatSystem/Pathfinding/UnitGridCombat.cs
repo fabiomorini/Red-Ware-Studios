@@ -165,6 +165,11 @@ public class UnitGridCombat : MonoBehaviour {
         return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= rangeHealer;
     }
 
+    public bool IsDead()
+    {
+        return healthSystem.IsDead();
+    }
+
     // Temporal
     private void healthUIShow(){
         for(int i = 0; i <= 2; i++){
