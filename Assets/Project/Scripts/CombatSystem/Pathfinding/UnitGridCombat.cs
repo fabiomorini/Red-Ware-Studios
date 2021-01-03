@@ -48,8 +48,8 @@ public class UnitGridCombat : MonoBehaviour {
         movePosition = GetComponent<MovePositionPathfinding>();
         state = State.Normal;
         healthSystem = new HealthSystem(3.0f);
-        gridCombatSystem = GameObject.Find("CombatHandler");
-        sceneCombatSystem = gridCombatSystem.GetComponent<GridCombatSystem>();
+        gridCombatSystem = GameObject.FindWithTag("CombatHandler");
+        sceneCombatSystem = GameObject.FindWithTag("CombatHandler").GetComponent<GridCombatSystem>();
         characterManager = GameObject.FindWithTag("characterManager");
     }
 
@@ -101,35 +101,42 @@ public class UnitGridCombat : MonoBehaviour {
         if(healthSystem.IsDead()){
             if(Attacker.GetTeam() == Team.Blue) 
             {
+                sceneCombatSystem.CurrentAliveRed-= 1;
+                sceneCombatSystem.RedIndex -= 1;
                 imDead = true;
-                sceneCombatSystem.CurrentAliveRed -= 1;
                 sceneCombatSystem.redTeamKO.Insert(0, unitGridCombat);
+                int aux = 0;
                 for(int i = 0; i < sceneCombatSystem.redTeamList.Count; i++)
                 {
-                    if(!sceneCombatSystem.redTeamList[i].imDead)
-                        sceneCombatSystem.newRedTeamList.Add(sceneCombatSystem.redTeamList[i]);
+                    if (!sceneCombatSystem.redTeamList[i].imDead)
+                    {
+                        sceneCombatSystem.newRedTeamList.Insert(aux, sceneCombatSystem.redTeamList[i]);
+                        aux++;
+                    }
+
                 }
                 sceneCombatSystem.redTeamList.Clear();
                 sceneCombatSystem.redTeamList = new List<UnitGridCombat>(sceneCombatSystem.newRedTeamList);
                 sceneCombatSystem.redTeamKO.Clear();
-                this.gameObject.SetActive(false);
             }
-            if(Attacker.GetTeam() == Team.Red)
+            else if(Attacker.GetTeam() == Team.Red)
             {
-                gridCombatSystem.GetComponent<GridCombatSystem>().CurrentAliveBlue -= 1;
+                sceneCombatSystem.CurrentAliveBlue -= 1;
+                sceneCombatSystem.BlueIndex -= 1;
                 imDead = true;
-                characterManager.GetComponent<CHARACTER_MNG>().checkIfDead();
-                gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamKO.Insert(0, unitGridCombat);
+                sceneCombatSystem.blueTeamKO.Insert(0, unitGridCombat);
+                int aux = 0;
                 for (int i = 0; i < sceneCombatSystem.blueTeamList.Count; i++)
                 {
                     if (!sceneCombatSystem.blueTeamList[i].imDead)
-                        sceneCombatSystem.newBlueTeamList.Add(sceneCombatSystem.blueTeamList[i]);
+                        sceneCombatSystem.newBlueTeamList.Insert(aux, sceneCombatSystem.blueTeamList[i]);
+                    aux++;
                 }
                 sceneCombatSystem.blueTeamList.Clear();
                 sceneCombatSystem.blueTeamList = new List<UnitGridCombat>(sceneCombatSystem.newBlueTeamList);
                 sceneCombatSystem.blueTeamKO.Clear();
-                this.gameObject.SetActive(false);
             }
+            Destroy(gameObject);
         }
     }
 

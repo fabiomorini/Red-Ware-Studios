@@ -68,7 +68,8 @@ public class GridCombatSystem : MonoBehaviour {
     private bool isBlueTurn = true;
     [HideInInspector]
     public int BlueIndex = 0;
-    private int RedIndex = 0;
+    [HideInInspector]
+    public int RedIndex = 0;
     public int CurrentAliveBlue;
     public int CurrentAliveRed;
     public GameObject BlueTurn;
@@ -164,32 +165,14 @@ public class GridCombatSystem : MonoBehaviour {
             numberOfAllies = maxOfCharacters;
         }
     }
-    public void SelectNextActiveUnit(){
-        if(unitGridCombat == null || isBlueTurn){
-            if(TextShow){
-                StartCoroutine(TurnSwap());
-                TextShow = false;               
-            }
-            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Blue);
-            if(blueTeamActiveUnitIndex == BlueIndex -1){
-                isBlueTurn = false;
-                TextShow = true;
-            }
+
+    private void TextShowUI()// para mostrar la UI de cambio de turno
+    {
+        if (TextShow) 
+        {
+            StartCoroutine(TurnSwap());
+            TextShow = false;
         }
-        else{
-            if(TextShow){
-                StartCoroutine(TurnSwap());
-                TextShow = false;
-            }
-         unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
-         if(redTeamActiveUnitIndex == RedIndex -1){
-                isBlueTurn = true;
-                TextShow = true;
-            }
-        }
-        GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
-        canMoveThisTurn = true;
-        canAttackThisTurn = true;
     }
 
     public IEnumerator TurnSwap(){
@@ -201,34 +184,6 @@ public class GridCombatSystem : MonoBehaviour {
         yield return new WaitForSeconds(SecondsWaitingUI);
         RedTurn.SetActive(false);
         BlueTurn.SetActive(false);
-    }
-
-    public UnitGridCombat GetNextActiveUnit(UnitGridCombat.Team team) {
-        //Comprobamos si no hay más jugadores de cada equipo
-        if (team == UnitGridCombat.Team.Blue && blueTeamActiveUnitIndex < blueTeamList.Count) 
-        {
-            blueTeamActiveUnitIndex = (blueTeamActiveUnitIndex + 1) % blueTeamList.Count;
-            if (blueTeamList[blueTeamActiveUnitIndex] == null || blueTeamList[blueTeamActiveUnitIndex].IsDead()) 
-            {
-                // Unit is Dead, get next one
-                return GetNextActiveUnit(team);
-            } else 
-            {
-                return blueTeamList[blueTeamActiveUnitIndex];
-            }
-        } 
-        else
-        {
-            redTeamActiveUnitIndex = (redTeamActiveUnitIndex + 1) % redTeamList.Count;
-            if (redTeamList[redTeamActiveUnitIndex] == null || redTeamList[redTeamActiveUnitIndex].IsDead()) 
-            {
-                // Unit is Dead, get next one
-                return GetNextActiveUnit(team);
-            } else 
-            {
-                return redTeamList[redTeamActiveUnitIndex];
-            }
-        }
     }
 
     private void RestartGame(){
@@ -294,11 +249,10 @@ public class GridCombatSystem : MonoBehaviour {
         }
     }
 
-    private void Update() { 
-        if(GameOver == false)
+    private void Update() {
+        CheckNumberPlayers();
+        if (!GameOver)
         {
-            Debug.Log(isBlueTurn);
-            CheckNumberPlayers();
             if(unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue) // turno de aliados
             {
                 switch (state) {
@@ -395,10 +349,6 @@ public class GridCombatSystem : MonoBehaviour {
                     state = State.Normal;
                     TestTurnOver();
                 }
-                else
-                {
-                    ForceTurnOver();
-                }
             }
         }
     }
@@ -409,7 +359,7 @@ public class GridCombatSystem : MonoBehaviour {
         Vector3 myPosition = thisUnit.GetPosition();
         for (int i = 0; i < enemiesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
         {
-            if (!blueTeamList[i].GetComponent<UnitGridCombat>().imDead)
+            if(blueTeamList[i] != null)
             {
                 float distance = Vector3.Distance(myPosition, blueTeamList[i].GetPosition());
                 if (distance <= attackRangeMelee)
@@ -421,6 +371,7 @@ public class GridCombatSystem : MonoBehaviour {
         }
         return false;
     }
+
     private void TestTurnOver() {
         if (!canMoveThisTurn && !canAttackThisTurn) {
             // Si la ud. no puede atacar ni mover, pasará el turno a la siguiente
@@ -429,10 +380,48 @@ public class GridCombatSystem : MonoBehaviour {
     }
 
     private void ForceTurnOver() {
+        if (blueTeamActiveUnitIndex == BlueIndex - 1)
+        {
+            isBlueTurn = false;
+        }
+        if (redTeamActiveUnitIndex == RedIndex - 1)
+        {
+            isBlueTurn = true;
+            TextShow = true;
+        }
         SelectNextActiveUnit();
         UpdateValidMovePositions();
     }
+    public void SelectNextActiveUnit()
+    {
 
+        if (unitGridCombat == null || isBlueTurn)
+        {
+            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Blue);
+        }
+        else
+        {
+            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
+        }
+        canMoveThisTurn = true;
+        canAttackThisTurn = true;
+    }
+    public UnitGridCombat GetNextActiveUnit(UnitGridCombat.Team team)
+    {
+        //Comprobamos si no hay más jugadores de cada equipo
+        if (team == UnitGridCombat.Team.Blue && blueTeamActiveUnitIndex < BlueIndex)
+        {
+            blueTeamActiveUnitIndex = (blueTeamActiveUnitIndex + 1) % blueTeamList.Count;
+            return blueTeamList[blueTeamActiveUnitIndex];
+
+        }
+        else if (team == UnitGridCombat.Team.Red && redTeamActiveUnitIndex < RedIndex)
+        {
+            redTeamActiveUnitIndex = (redTeamActiveUnitIndex + 1) % redTeamList.Count;
+            return redTeamList[redTeamActiveUnitIndex];
+        }
+        return null;
+    }
     public class GridObject {
 
         private Grid<GridObject> grid;

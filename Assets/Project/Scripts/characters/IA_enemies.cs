@@ -86,7 +86,7 @@ public class IA_enemies : MonoBehaviour
         Vector3 myPosition = thisUnit.GetPosition();
         for (int i = 0; i <= enemiesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
         {
-            if (!gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i].GetComponent<UnitGridCombat>().imDead)
+            if (gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i] != null)
             {
                 float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i].GetPosition());
                 if (distance <= attackRangeMelee)
