@@ -864,6 +864,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1494335550}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1691193510 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1309426658874661522, guid: aec1a247704cb1243a336ecda54c6752,
+    type: 3}
+  m_PrefabInstance: {fileID: 5646396133989919218}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1700152752 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6660966282786564731, guid: 6d105480b075f374d9a9ce34ba5d0c3f,
@@ -1274,7 +1280,7 @@ PrefabInstance:
     - target: {fileID: 67663191561236215, guid: 310b799589951b04895472ee71f94471,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 243
+      value: 242.3
       objectReference: {fileID: 0}
     - target: {fileID: 67663191561236215, guid: 310b799589951b04895472ee71f94471,
         type: 3}
@@ -1411,6 +1417,16 @@ PrefabInstance:
       propertyPath: iA_Enemies
       value: 
       objectReference: {fileID: 1965436100}
+    - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
+        type: 3}
+      propertyPath: WinUI
+      value: 
+      objectReference: {fileID: 394450441}
+    - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
+        type: 3}
+      propertyPath: LostUI
+      value: 
+      objectReference: {fileID: 1691193510}
     - target: {fileID: 1017251613281193755, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1584,6 +1600,51 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1309426658874661522, guid: aec1a247704cb1243a336ecda54c6752,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5590566089651623547, guid: aec1a247704cb1243a336ecda54c6752,
+        type: 3}
+      propertyPath: m_text
+      value: You Lost!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5590566089651623547, guid: aec1a247704cb1243a336ecda54c6752,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4282402496
+      objectReference: {fileID: 0}
+    - target: {fileID: 5590566089651623547, guid: aec1a247704cb1243a336ecda54c6752,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 0.7529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 5590566089651623547, guid: aec1a247704cb1243a336ecda54c6752,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.27529177
+      objectReference: {fileID: 0}
+    - target: {fileID: 5590566089651623547, guid: aec1a247704cb1243a336ecda54c6752,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.25098044
+      objectReference: {fileID: 0}
+    - target: {fileID: 5646396133729730553, guid: aec1a247704cb1243a336ecda54c6752,
+        type: 3}
+      propertyPath: m_text
+      value: You Won!
+      objectReference: {fileID: 0}
+    - target: {fileID: 5646396133729730555, guid: aec1a247704cb1243a336ecda54c6752,
+        type: 3}
+      propertyPath: m_Name
+      value: WinUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5646396133729730555, guid: aec1a247704cb1243a336ecda54c6752,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5646396135170451728, guid: aec1a247704cb1243a336ecda54c6752,
         type: 3}
       propertyPath: m_Name

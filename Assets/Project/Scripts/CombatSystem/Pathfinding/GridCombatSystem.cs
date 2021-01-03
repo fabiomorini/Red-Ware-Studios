@@ -73,8 +73,8 @@ public class GridCombatSystem : MonoBehaviour {
     public int CurrentAliveBlue;
     public int CurrentAliveRed;
     public GameObject BlueTurn;
-    public GameObject RedTurn;
-    public GameObject GameOverUI;
+    public GameObject LostUI;
+    public GameObject WinUI;
     private bool TextShow;
     private bool GameOver;
     private float SecondsWaitingUI = 1.0f;
@@ -179,16 +179,8 @@ public class GridCombatSystem : MonoBehaviour {
         if(isBlueTurn){
             BlueTurn.SetActive(true);
         }
-        else RedTurn.SetActive(true);
-
         yield return new WaitForSeconds(SecondsWaitingUI);
-        RedTurn.SetActive(false);
         BlueTurn.SetActive(false);
-    }
-
-    private void RestartGame(){
-        GameOverUI.SetActive(true);
-        Time.timeScale = 0;
     }
 
     public void UpdateValidMovePositions() {
@@ -237,20 +229,19 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
     }
-
-    private void CheckNumberPlayers(){
+    private void CheckIfGameIsOver(){
         if(CurrentAliveRed == 0){
-            GameOver = true;  
-            RestartGame();
+            GameOver = true;
+            WinUI.SetActive(true);
         }
         if(CurrentAliveBlue == 0){
             GameOver = true;
-            RestartGame();
+            LostUI.SetActive(true);
         }
     }
 
     private void Update() {
-        CheckNumberPlayers();
+        CheckIfGameIsOver();
         if (!GameOver)
         {
             if(unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue) // turno de aliados
@@ -378,49 +369,22 @@ public class GridCombatSystem : MonoBehaviour {
             ForceTurnOver();
         }
     }
-    /*
-    private void ForceTurnOver() {
-        if (blueTeamActiveUnitIndex == BlueIndex - 1)
-        {
-            isBlueTurn = false;
-        }
-        if (redTeamActiveUnitIndex == RedIndex - 1)
-        {
-            isBlueTurn = true;
-            TextShow = true;
-        }
-        SelectNextActiveUnit();
-        UpdateValidMovePositions();
-    }
-    public void SelectNextActiveUnit()
-    {
-
-        if (unitGridCombat == null || isBlueTurn)
-        {
-            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Blue);
-        }
-        else
-        {
-            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
-        }
-        canMoveThisTurn = true;
-        canAttackThisTurn = true;
-    }*/
-
     private void SelectNextActiveUnit()
     {
-        if (unitGridCombat == null || unitGridCombat.GetTeam() == UnitGridCombat.Team.Red)
-        {
-            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Blue);
+        if(CurrentAliveRed != 0 && CurrentAliveBlue != 0)
+        { 
+            if (unitGridCombat == null || unitGridCombat.GetTeam() == UnitGridCombat.Team.Red)
+            {
+                unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Blue);
+            }
+            else
+            {
+                unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
+            }
+            GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
+            canMoveThisTurn = true;
+            canAttackThisTurn = true;
         }
-        else
-        {
-            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
-        }
-
-        GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
-        canMoveThisTurn = true;
-        canAttackThisTurn = true;
     }
 
     private void ForceTurnOver()
