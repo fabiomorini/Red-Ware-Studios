@@ -103,6 +103,7 @@ public class UnitGridCombat : MonoBehaviour {
             {
                 sceneCombatSystem.CurrentAliveRed-= 1;
                 sceneCombatSystem.RedIndex -= 1;
+                //sceneCombatSystem.redTeamActiveUnitIndex -= 1;
                 imDead = true;
                 sceneCombatSystem.redTeamKO.Insert(0, unitGridCombat);
                 for(int i = 0; i < sceneCombatSystem.redTeamList.Count; i++)
@@ -112,12 +113,14 @@ public class UnitGridCombat : MonoBehaviour {
                 }
                 sceneCombatSystem.redTeamList.Clear();
                 sceneCombatSystem.redTeamList = new List<UnitGridCombat>(sceneCombatSystem.newRedTeamList);
+                sceneCombatSystem.newRedTeamList.Clear();
                 sceneCombatSystem.redTeamKO.Clear();
             }
             else if(Attacker.GetTeam() == Team.Red)
             {
                 sceneCombatSystem.CurrentAliveBlue -= 1;
                 sceneCombatSystem.BlueIndex -= 1;
+                //sceneCombatSystem.blueTeamActiveUnitIndex -= 1;
                 imDead = true;
                 sceneCombatSystem.blueTeamKO.Insert(0, unitGridCombat);
                 for (int i = 0; i < sceneCombatSystem.blueTeamList.Count; i++)
@@ -127,6 +130,7 @@ public class UnitGridCombat : MonoBehaviour {
                 }
                 sceneCombatSystem.blueTeamList.Clear();
                 sceneCombatSystem.blueTeamList = new List<UnitGridCombat>(sceneCombatSystem.newBlueTeamList);
+                sceneCombatSystem.newBlueTeamList.Clear();
                 sceneCombatSystem.blueTeamKO.Clear();
             }
             Destroy(gameObject);
