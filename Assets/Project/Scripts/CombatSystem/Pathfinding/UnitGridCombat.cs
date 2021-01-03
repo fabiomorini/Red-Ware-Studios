@@ -105,15 +105,10 @@ public class UnitGridCombat : MonoBehaviour {
                 sceneCombatSystem.RedIndex -= 1;
                 imDead = true;
                 sceneCombatSystem.redTeamKO.Insert(0, unitGridCombat);
-                int aux = 0;
                 for(int i = 0; i < sceneCombatSystem.redTeamList.Count; i++)
                 {
-                    if (!sceneCombatSystem.redTeamList[i].imDead)
-                    {
-                        sceneCombatSystem.newRedTeamList.Insert(aux, sceneCombatSystem.redTeamList[i]);
-                        aux++;
-                    }
-
+                    if(!sceneCombatSystem.redTeamList[i].imDead)
+                        sceneCombatSystem.newRedTeamList.Add(sceneCombatSystem.redTeamList[i]);
                 }
                 sceneCombatSystem.redTeamList.Clear();
                 sceneCombatSystem.redTeamList = new List<UnitGridCombat>(sceneCombatSystem.newRedTeamList);
@@ -125,12 +120,10 @@ public class UnitGridCombat : MonoBehaviour {
                 sceneCombatSystem.BlueIndex -= 1;
                 imDead = true;
                 sceneCombatSystem.blueTeamKO.Insert(0, unitGridCombat);
-                int aux = 0;
                 for (int i = 0; i < sceneCombatSystem.blueTeamList.Count; i++)
                 {
                     if (!sceneCombatSystem.blueTeamList[i].imDead)
-                        sceneCombatSystem.newBlueTeamList.Insert(aux, sceneCombatSystem.blueTeamList[i]);
-                    aux++;
+                        sceneCombatSystem.newBlueTeamList.Add(sceneCombatSystem.blueTeamList[i]);
                 }
                 sceneCombatSystem.blueTeamList.Clear();
                 sceneCombatSystem.blueTeamList = new List<UnitGridCombat>(sceneCombatSystem.newBlueTeamList);
