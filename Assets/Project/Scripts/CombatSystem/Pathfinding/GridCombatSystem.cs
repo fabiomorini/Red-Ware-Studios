@@ -378,7 +378,7 @@ public class GridCombatSystem : MonoBehaviour {
             ForceTurnOver();
         }
     }
-
+    /*
     private void ForceTurnOver() {
         if (blueTeamActiveUnitIndex == BlueIndex - 1)
         {
@@ -405,7 +405,30 @@ public class GridCombatSystem : MonoBehaviour {
         }
         canMoveThisTurn = true;
         canAttackThisTurn = true;
+    }*/
+
+    private void SelectNextActiveUnit()
+    {
+        if (unitGridCombat == null || unitGridCombat.GetTeam() == UnitGridCombat.Team.Red)
+        {
+            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Blue);
+        }
+        else
+        {
+            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
+        }
+
+        GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
+        canMoveThisTurn = true;
+        canAttackThisTurn = true;
     }
+
+    private void ForceTurnOver()
+    {
+        SelectNextActiveUnit();
+        UpdateValidMovePositions();
+    }
+
     public UnitGridCombat GetNextActiveUnit(UnitGridCombat.Team team)
     {
         //Comprobamos si no hay más jugadores de cada equipo
