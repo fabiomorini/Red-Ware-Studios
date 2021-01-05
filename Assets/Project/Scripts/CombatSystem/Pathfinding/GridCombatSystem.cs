@@ -68,7 +68,6 @@ public class GridCombatSystem : MonoBehaviour {
     ///-------- IA------------
     public IA_enemies iA_Enemies;
     [HideInInspector]
-    private bool canAttackIA = true;
     private bool isAllyTurn = true;
     [HideInInspector]
     public int BlueIndex = 0;
@@ -79,11 +78,20 @@ public class GridCombatSystem : MonoBehaviour {
     public GameObject allyTurn;
     public GameObject lostUI;
     public GameObject winUI;
-    private bool showText;
     private bool gameOver;
     //tiempo de espera antes de que se vaya la ui de cambio de turno
     private float SecondsWaitingUI = 1.0f;
     public int maxMoveDistance = 5;
+
+    // minimenu in-game
+    public GameObject Minimenu;
+    [HideInInspector]
+    public bool moving;
+    private bool isMoving;
+    [HideInInspector]
+    public bool attacking;
+    [HideInInspector]
+    public bool healing;
 
     private enum State {
         Normal,
@@ -127,18 +135,37 @@ public class GridCombatSystem : MonoBehaviour {
         CurrentAliveBlue = BlueIndex;
         CurrentAliveRed = RedIndex;
 
-
         SelectNextActiveUnit();
-        UpdateValidMovePositions();
-        StartCoroutine(TurnSwap());
+        StartCoroutine(YourTurnUI());
     }
     private void Update()
     {
         CheckIfGameIsOver();
-        if (!gameOver)
+        if (moving)
         {
-            if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue) // turno de aliados
+
+            if (!isMoving)
             {
+                isMoving = true;
+                UpdateValidMovePositions();
+            }
+            MoveAllyVisual();
+        }
+        if (gameOver)
+        {
+            // TURNO DE ALIADOS
+            if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue) 
+            {
+
+                Minimenu.SetActive(true);
+                //MOVER
+
+                //ATACAR
+                if (attacking)
+                {
+                    AttackAllyVisual();
+                }
+
                 switch (state)
                 {
                     case State.Normal:
@@ -164,7 +191,7 @@ public class GridCombatSystem : MonoBehaviour {
                                             state = State.Waiting;
                                             unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
                                             state = State.Normal;
-                                            TestTurnOver();
+                                            CheckTurnOver();
                                         }
                                     }
                                     else
@@ -175,53 +202,14 @@ public class GridCombatSystem : MonoBehaviour {
                                 }
                                 else
                                 {
-                                    if (unitGridCombat.CanHealUnit(gridObject.GetUnitGridCombat()) && unitGridCombat.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.HEALER)
-                                    // si eres un healer
-                                    {
-                                        if (canAttackThisTurn)
-                                        {
-                                            canAttackThisTurn = false;
-                                            state = State.Waiting;
-                                            unitGridCombat.HealAlly(gridObject.GetUnitGridCombat());
-                                            state = State.Normal;
-                                            TestTurnOver();
-                                        }
-                                    }
-                                    break;
+                                    // no es un enemigo
                                 }
                             }
                             else
                             {
                                 // No unit here
                             }
-
-                            if (gridObject.GetIsValidMovePosition())
-                            {
-                                // Valid Move Position
-
-                                if (canMoveThisTurn)
-                                {
-                                    canMoveThisTurn = false;
-
-                                    state = State.Waiting;
-
-                                    // Set entire Tilemap to Invisible
-                                    GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
-                                        MovementTilemap.TilemapObject.TilemapSprite.None
-                                    );
-
-                                    // Remove Unit from current Grid Object
-                                    grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
-                                    // Set Unit on target Grid Object
-                                    gridObject.SetUnitGridCombat(unitGridCombat);
-
-                                    unitGridCombat.MoveTo(GetMouseWorldPosition(), () => {
-                                        state = State.Normal;
-                                        UpdateValidMovePositions();
-                                        TestTurnOver();
-                                    });
-                                }
-                            }
+                            Minimenu.SetActive(false);
                         }
 
                         if (Input.GetKeyDown(KeyCode.Space))
@@ -233,7 +221,8 @@ public class GridCombatSystem : MonoBehaviour {
                         break;
                 }
             }
-            else // turno de enemigos
+            // TURNO DE ENEMIGOS
+            else 
             {
                 if (canAttackThisTurn)
                 {
@@ -241,12 +230,12 @@ public class GridCombatSystem : MonoBehaviour {
                     canMoveThisTurn = false; // temporal
                     // Attack Enemy
                     state = State.Waiting;
-                    if (lookForEnemiesClose(unitGridCombat))
+                    if (SeekEnemiesIA(unitGridCombat))
                     {
                         unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
                     }
                     state = State.Normal;
-                    TestTurnOver();
+                    CheckTurnOver();
                 }
             }
         }
@@ -295,19 +284,8 @@ public class GridCombatSystem : MonoBehaviour {
             numberOfAllies = maxOfCharacters;
     }
 
-    private void TextShowUI()// para mostrar la UI de cambio de turno
-    {
-        if (showText) 
-        {
-            StartCoroutine(TurnSwap());
-            showText = false;
-        }
-    }
-
-    public IEnumerator TurnSwap(){
-        if(isAllyTurn){
-            allyTurn.SetActive(true);
-        }
+    public IEnumerator YourTurnUI(){
+        if(isAllyTurn) allyTurn.SetActive(true);
         yield return new WaitForSeconds(SecondsWaitingUI);
         allyTurn.SetActive(false);
     }
@@ -369,55 +347,43 @@ public class GridCombatSystem : MonoBehaviour {
         }
     }
 
-    private bool lookForEnemiesClose(UnitGridCombat thisUnit) //mira si hay un enemigo a una casilla
+    private bool SeekEnemiesIA(UnitGridCombat thisUnit) //mira si hay un enemigo a una casilla
     {
-        int enemiesCount = alliesTeamList.Count;
         Vector3 myPosition = thisUnit.GetPosition();
-        for (int i = 0; i < enemiesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
+        for (int i = 0; i < alliesTeamList.Count; i++)
         {
-            if(alliesTeamList[i] != null)
-            {
-                float distance = Vector3.Distance(myPosition, alliesTeamList[i].GetPosition());
-                if (distance <= unitGridCombat.attackRangeMelee)
-                {
-                    return true;
-                }
-            }
-
+            float distance = Vector3.Distance(myPosition, alliesTeamList[i].GetPosition());
+            if (distance <= unitGridCombat.attackRangeMelee)
+                return true;
         }
         return false;
     }
 
-    private void TestTurnOver() {
+    private void CheckTurnOver() {
         if (!canMoveThisTurn && !canAttackThisTurn) {
-            // Si la ud. no puede atacar ni mover, pasará el turno a la siguiente
+            // Si la unidad no puede atacar ni mover, pasará el turno a la siguiente
             ForceTurnOver();
         }
+    }
+    private void ForceTurnOver()
+    {
+        SelectNextActiveUnit();
+        UpdateValidMovePositions();
     }
     private void SelectNextActiveUnit()
     {
         if(CurrentAliveRed != 0 && CurrentAliveBlue != 0)
         { 
             if (unitGridCombat == null || unitGridCombat.GetTeam() == UnitGridCombat.Team.Red)
-            {
                 unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Blue);
-            }
             else
-            {
                 unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
-            }
+
             GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
             canMoveThisTurn = true;
             canAttackThisTurn = true;
         }
     }
-
-    private void ForceTurnOver()
-    {
-        SelectNextActiveUnit();
-        UpdateValidMovePositions();
-    }
-
     public UnitGridCombat GetNextActiveUnit(UnitGridCombat.Team team)
     {
         //Comprobamos si no hay más jugadores de cada equipo
@@ -433,6 +399,89 @@ public class GridCombatSystem : MonoBehaviour {
             return enemiesTeamList[redTeamActiveUnitIndex];
         }
         return null;
+    }
+
+    private void MoveAllyVisual()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+            GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
+
+            // Check if clicking on a unit position
+            if (gridObject.GetUnitGridCombat() == null)
+            {
+                if (gridObject.GetIsValidMovePosition())
+                {
+                    // Valid Move Position
+                    if (canMoveThisTurn)
+                    {
+                        canMoveThisTurn = false;
+                        // Set entire Tilemap to Invisible
+                        GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
+                            MovementTilemap.TilemapObject.TilemapSprite.None
+                        );
+
+                        // Remove Unit from current Grid Object
+                        grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
+                        // Set Unit on target Grid Object
+                        gridObject.SetUnitGridCombat(unitGridCombat);
+
+                        unitGridCombat.MoveTo(GetMouseWorldPosition(), () =>
+                        {
+                            moving = false;
+                            isMoving = false;
+                            UpdateValidMovePositions();
+                            CheckTurnOver();
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    public void SetMovingTrue()
+    {
+        moving = true; 
+    }
+
+    public void AttackAllyVisual()
+    {
+
+        attacking = false;
+    }
+    public void SetAttackingTrue()
+    {
+        attacking = true;
+    }
+    public void HealAllyVisual()
+    {
+
+    }
+    public void SetHealingTrue()
+    {
+        healing = true;
+    }
+
+    // El eje Z siempre tiene que ser 0
+    public static Vector3 GetMouseWorldPosition()
+    {
+        Vector3 vec = GetMouseWorldPositionWithZ(Input.mousePosition, Camera.main);
+        vec.z = 0f;
+        return vec;
+    }
+    public static Vector3 GetMouseWorldPositionWithZ()
+    {
+        return GetMouseWorldPositionWithZ(Input.mousePosition, Camera.main);
+    }
+    public static Vector3 GetMouseWorldPositionWithZ(Camera worldCamera)
+    {
+        return GetMouseWorldPositionWithZ(Input.mousePosition, worldCamera);
+    }
+    public static Vector3 GetMouseWorldPositionWithZ(Vector3 screenPosition, Camera worldCamera)
+    {
+        Vector3 worldPosition = worldCamera.ScreenToWorldPoint(screenPosition);
+        return worldPosition;
     }
     public class GridObject {
 
@@ -469,21 +518,4 @@ public class GridCombatSystem : MonoBehaviour {
         }
 
     }
-
-    // Get Mouse Position in World with Z = 0f
-        public static Vector3 GetMouseWorldPosition() {
-            Vector3 vec = GetMouseWorldPositionWithZ(Input.mousePosition, Camera.main);
-            vec.z = 0f;
-            return vec;
-        }
-        public static Vector3 GetMouseWorldPositionWithZ() {
-            return GetMouseWorldPositionWithZ(Input.mousePosition, Camera.main);
-        }
-        public static Vector3 GetMouseWorldPositionWithZ(Camera worldCamera) {
-            return GetMouseWorldPositionWithZ(Input.mousePosition, worldCamera);
-        }
-        public static Vector3 GetMouseWorldPositionWithZ(Vector3 screenPosition, Camera worldCamera) {
-            Vector3 worldPosition = worldCamera.ScreenToWorldPoint(screenPosition);
-            return worldPosition;
-        }
 }

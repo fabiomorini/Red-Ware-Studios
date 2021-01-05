@@ -43,9 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cbd2df3c513d1d4fabbea61393b2c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridCombatSystem: {fileID: 0}
-  Ally: {fileID: 0}
+  numberOfAllies: 0
   numberOfMelee: 0
   numberOfRanged: 0
   numberOfHealer: 0
+  coins: 0
   characterPrefs: []
