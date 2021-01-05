@@ -12,14 +12,14 @@ public class CHARACTER_PREFS : MonoBehaviour {
      arma
     */
 
-    [SerializeField]
-    private Tipo tipo;
+    [HideInInspector]
+    public Tipo tipo;
 
     public enum Tipo
     {
-        melee,
-        ranged, 
-        healer
+        MELEE,
+        RANGED, 
+        HEALER
     }
 
     public Vector3 GetPosition() {

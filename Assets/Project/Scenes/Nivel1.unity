@@ -665,12 +665,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1228517606 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5646396135181523220, guid: aec1a247704cb1243a336ecda54c6752,
-    type: 3}
-  m_PrefabInstance: {fileID: 5646396133989919218}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1281949035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1400,7 +1394,7 @@ PrefabInstance:
         type: 3}
       propertyPath: RedTurn
       value: 
-      objectReference: {fileID: 1228517606}
+      objectReference: {fileID: 0}
     - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
       propertyPath: GameOverUI
@@ -1425,6 +1419,39 @@ PrefabInstance:
     - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
       propertyPath: LostUI
+      value: 
+      objectReference: {fileID: 1691193510}
+    - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
+        type: 3}
+      propertyPath: allyMelee
+      value: 
+      objectReference: {fileID: 3300769062914515420, guid: 8a2310e5bd9b4c84194148a23ca9bbfd,
+        type: 3}
+    - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
+        type: 3}
+      propertyPath: allyRanged
+      value: 
+      objectReference: {fileID: 3300769062914515420, guid: 8a2310e5bd9b4c84194148a23ca9bbfd,
+        type: 3}
+    - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
+        type: 3}
+      propertyPath: allyHealer
+      value: 
+      objectReference: {fileID: 3300769062914515420, guid: 8a2310e5bd9b4c84194148a23ca9bbfd,
+        type: 3}
+    - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
+        type: 3}
+      propertyPath: allyTurn
+      value: 
+      objectReference: {fileID: 501039633}
+    - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
+        type: 3}
+      propertyPath: winUI
+      value: 
+      objectReference: {fileID: 394450441}
+    - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
+        type: 3}
+      propertyPath: lostUI
       value: 
       objectReference: {fileID: 1691193510}
     - target: {fileID: 1017251613281193755, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,

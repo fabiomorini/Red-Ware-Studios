@@ -34,20 +34,17 @@ public class GridCombatSystem : MonoBehaviour {
     private bool canAttackThisTurn;
 
     ///Sistema de spawning de tropas según cuantas tienes compradas en el cuartel
-    private GameObject hola; // deep lore, se usa solo para que no de error, no sirve para nada más
+    private GameObject Ally; // deep lore, se usa solo para que no de error, no sirve para nada más
 
     public GameObject allyMelee;
     public GameObject allyRanged;
     public GameObject allyHealer;
 
-    public GameObject enemyMelee;
-    public GameObject enemyRanged;
-    public GameObject enemyHealer;
-
     //CHARACTER_MNG
     private int numberOfMelee;
     private int numberOfRanged;
     private int numberOfHealer;
+    private int numberOfAllies;
     // lista paralela a unitGridCombatArray donde comprobamos las características de cada aliado (CHARACTER_MNG)
     private List<CHARACTER_PREFS> characterPrefs; 
 
@@ -102,6 +99,7 @@ public class GridCombatSystem : MonoBehaviour {
         numberOfMelee = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().numberOfMelee;
         numberOfRanged = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().numberOfRanged;
         numberOfHealer = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().numberOfHealer;
+        numberOfAllies = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().numberOfAllies;
         characterPrefs = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().characterPrefs;
         spawnCharacters();
 
@@ -177,7 +175,7 @@ public class GridCombatSystem : MonoBehaviour {
                                 }
                                 else
                                 {
-                                    if (unitGridCombat.CanHealUnit(gridObject.GetUnitGridCombat()) && unitGridCombat.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.healer)
+                                    if (unitGridCombat.CanHealUnit(gridObject.GetUnitGridCombat()) && unitGridCombat.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.HEALER)
                                     // si eres un healer
                                     {
                                         if (canAttackThisTurn)
@@ -256,47 +254,45 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void spawnCharacters()
     {
-        for (int i = 0; i < numberOfAllies; i++)
-        {
-            // leer de la lista los playerprefs y añadirlos a los characters
-            hola = Instantiate(Ally, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
-            Ally.name = "Ally" + i;
-            unitGridCombatArray.Add(hola.GetComponent<UnitGridCombat>());
-            characterPrefs.Add(hola.GetComponent<CHARACTER_PREFS>());
+        checkMaxCharacters();
+        for (int i = 0; i < numberOfAllies; i++) {
+            switch (unitGridCombatArray[i].GetComponent<CHARACTER_PREFS>().getType())
+            {
+                case CHARACTER_PREFS.Tipo.MELEE:
+                    Ally = Instantiate(allyMelee, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
+                    allyMelee.name = "Melee" + i;
+                    break;
+                case CHARACTER_PREFS.Tipo.RANGED:
+                    Ally = Instantiate(allyRanged, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
+                    allyRanged.name = "Ranged" + i;
+                    break;
+                case CHARACTER_PREFS.Tipo.HEALER:
+                    Ally = Instantiate(allyHealer, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
+                    allyHealer.name = "Healer"+ i;
+                    break;
+            }
+            unitGridCombatArray.Add(Ally.GetComponent<UnitGridCombat>());
+            characterPrefs.Add(Ally.GetComponent<CHARACTER_PREFS>());
         }
     }
 
     private void checkMaxCharacters()
     {
         if (SceneManager.GetActiveScene().buildIndex == IndexL1)
-        {
             maxOfCharacters = maxL1;
-        }
         else if (SceneManager.GetActiveScene().buildIndex == IndexL2)
-        {
             maxOfCharacters = maxL2;
-        }
         else if (SceneManager.GetActiveScene().buildIndex == IndexL3)
-        {
             maxOfCharacters = maxL3;
-        }
         else if (SceneManager.GetActiveScene().buildIndex == IndexL4)
-        {
             maxOfCharacters = maxL4;
-        }
         else if (SceneManager.GetActiveScene().buildIndex == IndexL5)
-        {
             maxOfCharacters = maxL5;
-        }
         else if (SceneManager.GetActiveScene().buildIndex == IndexL6)
-        {
             maxOfCharacters = maxL6;
-        }
 
         if (numberOfAllies > maxOfCharacters)
-        {
             numberOfAllies = maxOfCharacters;
-        }
     }
 
     private void TextShowUI()// para mostrar la UI de cambio de turno
