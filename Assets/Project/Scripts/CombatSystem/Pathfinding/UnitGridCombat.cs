@@ -11,6 +11,7 @@ public class UnitGridCombat : MonoBehaviour {
     private GameObject characterManager;
     private GameObject selectedGameObject;
     private GameObject gridCombatSystem;
+    private GridCombatSystem sceneCombatSystem;
     private MovePositionPathfinding movePosition;
     private State state;
     public float damageAmount = 1.0f;
@@ -47,7 +48,8 @@ public class UnitGridCombat : MonoBehaviour {
         movePosition = GetComponent<MovePositionPathfinding>();
         state = State.Normal;
         healthSystem = new HealthSystem(3.0f);
-        gridCombatSystem = GameObject.Find("CombatHandler");
+        gridCombatSystem = GameObject.FindWithTag("CombatHandler");
+        sceneCombatSystem = GameObject.FindWithTag("CombatHandler").GetComponent<GridCombatSystem>();
         characterManager = GameObject.FindWithTag("characterManager");
     }
 
@@ -99,18 +101,37 @@ public class UnitGridCombat : MonoBehaviour {
         if(healthSystem.IsDead()){
             if(Attacker.GetTeam() == Team.Blue) 
             {
-                gridCombatSystem.GetComponent<GridCombatSystem>().CurrentAliveRed -= 1;
-                //gridCombatSystem.GetComponent<GridCombatSystem>().deleteCharacterWhenDead(this.gameObject.GetComponent<UnitGridCombat>());
-                Destroy(gameObject);
+                sceneCombatSystem.CurrentAliveRed-= 1;
+                sceneCombatSystem.RedIndex -= 1;
+                imDead = true;
+                sceneCombatSystem.redTeamKO.Insert(0, unitGridCombat);
+                for(int i = 0; i < sceneCombatSystem.redTeamList.Count; i++)
+                {
+                    if(!sceneCombatSystem.redTeamList[i].imDead)
+                        sceneCombatSystem.newRedTeamList.Add(sceneCombatSystem.redTeamList[i]);
+                }
+                sceneCombatSystem.redTeamList.Clear();
+                sceneCombatSystem.redTeamList = new List<UnitGridCombat>(sceneCombatSystem.newRedTeamList);
+                sceneCombatSystem.newRedTeamList.Clear();
+                sceneCombatSystem.redTeamKO.Clear();
             }
-            if(Attacker.GetTeam() == Team.Red)
+            else if(Attacker.GetTeam() == Team.Red)
             {
-                gridCombatSystem.GetComponent<GridCombatSystem>().CurrentAliveBlue -= 1;
-                gameObject.GetComponent<UnitGridCombat>().imDead = true;
-                characterManager.GetComponent<CHARACTER_MNG>().checkIfDead();
-                //gridCombatSystem.GetComponent<GridCombatSystem>().deleteCharacterWhenDead(this.gameObject.GetComponent<UnitGridCombat>());
-                Destroy(gameObject);
+                sceneCombatSystem.CurrentAliveBlue -= 1;
+                sceneCombatSystem.BlueIndex -= 1;
+                imDead = true;
+                sceneCombatSystem.blueTeamKO.Insert(0, unitGridCombat);
+                for (int i = 0; i < sceneCombatSystem.blueTeamList.Count; i++)
+                {
+                    if (!sceneCombatSystem.blueTeamList[i].imDead)
+                        sceneCombatSystem.newBlueTeamList.Add(sceneCombatSystem.blueTeamList[i]);
+                }
+                sceneCombatSystem.blueTeamList.Clear();
+                sceneCombatSystem.blueTeamList = new List<UnitGridCombat>(sceneCombatSystem.newBlueTeamList);
+                sceneCombatSystem.newBlueTeamList.Clear();
+                sceneCombatSystem.blueTeamKO.Clear();
             }
+            Destroy(gameObject);
         }
     }
 
@@ -144,6 +165,11 @@ public class UnitGridCombat : MonoBehaviour {
     public bool CanHealUnit(UnitGridCombat unitGridCombat)
     {
         return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= rangeHealer;
+    }
+
+    public bool IsDead()
+    {
+        return healthSystem.IsDead();
     }
 
     // Temporal
