@@ -22,20 +22,35 @@ public class CHARACTER_MNG : MonoBehaviour
         // se las añadimos por cada index
         DontDestroyOnLoad(this.gameObject);
     }
-
-    public int numAllies()
+    public int NumMelee()
     {
-        return numberOfAllies = numberOfHealer + numberOfRanged + numberOfMelee;
+        return numberOfMelee;
+    }
+    public int NumRanged()
+    {
+        return numberOfRanged;
+    }
+    public int NumHealers()
+    {
+        return numberOfHealer;
     }
 
-    public void checkIfDead()
+    public int NumOfAllies()
     {
-        for (int i = 0; i < numberOfAllies; i++)
+        return numberOfAllies = numberOfMelee 
+                              + numberOfRanged 
+                              + numberOfHealer;
+    }
+
+    public void CheckIfDead()
+    {
+        for (int i = 0; i < NumOfAllies(); i++)
         {
             if (characterPrefs[i].GetComponent<UnitGridCombat>().imDead)
             {
                 characterPrefs.RemoveAt(i);
                 numberOfAllies--;
+
             }
         }
     }
