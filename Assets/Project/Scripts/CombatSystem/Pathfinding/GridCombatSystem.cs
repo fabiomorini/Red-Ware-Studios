@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GridPathfindingSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GridCombatSystem : MonoBehaviour {
 
@@ -81,6 +82,7 @@ public class GridCombatSystem : MonoBehaviour {
     private bool gameOver;
     //tiempo de espera antes de que se vaya la ui de cambio de turno
     private float SecondsWaitingUI = 1.0f;
+    [HideInInspector]
     public int maxMoveDistance = 5;
 
     // minimenu in-game
@@ -92,6 +94,11 @@ public class GridCombatSystem : MonoBehaviour {
     public bool attacking;
     [HideInInspector]
     public bool healing;
+
+    public Button attackButton;
+    public Button moveButton;
+
+    private bool showMenu;
 
     private enum State {
         Normal,
@@ -140,24 +147,60 @@ public class GridCombatSystem : MonoBehaviour {
     }
     private void Update()
     {
-        CheckIfGameIsOver();
-        if (moving)
+        if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
         {
-
-            if (!isMoving)
+            Minimenu.SetActive(true);
+            CheckIfGameIsOver();
+            if (moving)
             {
-                isMoving = true;
+                if (Input.GetKeyDown(KeyCode.M))
+                {
+                    showMenu = !showMenu;
+                }
+                if (!showMenu)
+                {
+                    Minimenu.SetActive(false);
+                }
+                maxMoveDistance = 5;
                 UpdateValidMovePositions();
+                MoveAllyVisual();
             }
-            MoveAllyVisual();
+            if (attacking)
+            {
+                maxMoveDistance = 2;
+                UpdateValidMovePositions();
+                AttackAllyVisual();
+            }
+
+            CheckTurnOver();
+
         }
+        else
+        {
+            if (canAttackThisTurn)
+            {
+                canAttackThisTurn = false;
+                canMoveThisTurn = false; // temporal
+                                         // Attack Enemy
+                state = State.Waiting;
+                if (SeekEnemiesIA(unitGridCombat))
+                {
+                    unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
+                }
+                state = State.Normal;
+                CheckTurnOver();
+            }
+        }
+
+
+        /*
         if (gameOver)
         {
             // TURNO DE ALIADOS
             if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue) 
             {
 
-                Minimenu.SetActive(true);
+                
                 //MOVER
 
                 //ATACAR
@@ -209,7 +252,7 @@ public class GridCombatSystem : MonoBehaviour {
                             {
                                 // No unit here
                             }
-                            Minimenu.SetActive(false);
+                            
                         }
 
                         if (Input.GetKeyDown(KeyCode.Space))
@@ -238,7 +281,7 @@ public class GridCombatSystem : MonoBehaviour {
                     CheckTurnOver();
                 }
             }
-        }
+        }*/
     }
 
     public void spawnCharacters()
@@ -369,6 +412,10 @@ public class GridCombatSystem : MonoBehaviour {
     {
         SelectNextActiveUnit();
         UpdateValidMovePositions();
+        moveButton.interactable = true;
+        attackButton.interactable = true;
+        GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
+        MovementTilemap.TilemapObject.TilemapSprite.None);
     }
     private void SelectNextActiveUnit()
     {
@@ -416,6 +463,8 @@ public class GridCombatSystem : MonoBehaviour {
                     // Valid Move Position
                     if (canMoveThisTurn)
                     {
+                        moveButton.interactable = false;
+                        moving = false;
                         canMoveThisTurn = false;
                         // Set entire Tilemap to Invisible
                         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
@@ -429,9 +478,7 @@ public class GridCombatSystem : MonoBehaviour {
 
                         unitGridCombat.MoveTo(GetMouseWorldPosition(), () =>
                         {
-                            moving = false;
-                            isMoving = false;
-                            UpdateValidMovePositions();
+                            Minimenu.SetActive(true);
                             CheckTurnOver();
                         });
                     }
@@ -442,17 +489,45 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void SetMovingTrue()
     {
-        moving = true; 
+            moving = true;
+            attacking = false;
     }
 
     public void AttackAllyVisual()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+            GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
 
-        attacking = false;
+            // Check if clicking on a unit position
+            if (gridObject.GetUnitGridCombat() != null)
+            {
+                if (unitGridCombat.IsEnemy(gridObject.GetUnitGridCombat()))
+                {
+                    // Clicked on an Enemy of the current unit
+                    if (unitGridCombat.CanAttackUnit(gridObject.GetUnitGridCombat()))
+                    {
+                        // Can Attack Enemy
+                        if (canAttackThisTurn)
+                        {
+                            canAttackThisTurn = false;
+                            // Attack Enemy
+                            state = State.Waiting;
+                            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                            state = State.Normal;
+                            attacking = false;
+                            attackButton.interactable = false;
+                        }
+                    }
+                }
+            }
+        }
     }
     public void SetAttackingTrue()
     {
-        attacking = true;
+            attacking = true;
+            moving = false;
     }
     public void HealAllyVisual()
     {
