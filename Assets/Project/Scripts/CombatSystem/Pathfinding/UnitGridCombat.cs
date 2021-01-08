@@ -20,10 +20,14 @@ public class UnitGridCombat : MonoBehaviour {
     // 17 = 1 casilla, 34 = 2, en diagonal no es exacto;
     [HideInInspector]
     public bool imDead = false;
-    public float attackRangeMelee = 17;
-    public float attackRangeRanged = 34;
+    [HideInInspector]
+    public float attackRangeMelee = 15;
+    [HideInInspector]
+    public float attackRangeRanged = 30;
+    [HideInInspector]
     public float attackRangeHealer = 0;
-    public float rangeHealer = 34; // curar
+    [HideInInspector]
+    public float rangeHealer = 30; // curar
 
 
     //Temporal para el prototipo
@@ -104,32 +108,32 @@ public class UnitGridCombat : MonoBehaviour {
                 sceneCombatSystem.CurrentAliveRed-= 1;
                 sceneCombatSystem.RedIndex -= 1;
                 imDead = true;
-                sceneCombatSystem.redTeamKO.Insert(0, unitGridCombat);
-                for(int i = 0; i < sceneCombatSystem.redTeamList.Count; i++)
+                sceneCombatSystem.enemiesTeamKo.Insert(0, unitGridCombat);
+                for(int i = 0; i < sceneCombatSystem.enemiesTeamList.Count; i++)
                 {
-                    if(!sceneCombatSystem.redTeamList[i].imDead)
-                        sceneCombatSystem.newRedTeamList.Add(sceneCombatSystem.redTeamList[i]);
+                    if(!sceneCombatSystem.enemiesTeamList[i].imDead)
+                        sceneCombatSystem.newEnemiesTeamList.Add(sceneCombatSystem.enemiesTeamList[i]);
                 }
-                sceneCombatSystem.redTeamList.Clear();
-                sceneCombatSystem.redTeamList = new List<UnitGridCombat>(sceneCombatSystem.newRedTeamList);
-                sceneCombatSystem.newRedTeamList.Clear();
-                sceneCombatSystem.redTeamKO.Clear();
+                sceneCombatSystem.enemiesTeamList.Clear();
+                sceneCombatSystem.enemiesTeamList = new List<UnitGridCombat>(sceneCombatSystem.newEnemiesTeamList);
+                sceneCombatSystem.newEnemiesTeamList.Clear();
+                sceneCombatSystem.enemiesTeamKo.Clear();
             }
             else if(Attacker.GetTeam() == Team.Red)
             {
                 sceneCombatSystem.CurrentAliveBlue -= 1;
                 sceneCombatSystem.BlueIndex -= 1;
                 imDead = true;
-                sceneCombatSystem.blueTeamKO.Insert(0, unitGridCombat);
-                for (int i = 0; i < sceneCombatSystem.blueTeamList.Count; i++)
+                sceneCombatSystem.alliesTeamKO.Insert(0, unitGridCombat);
+                for (int i = 0; i < sceneCombatSystem.alliesTeamList.Count; i++)
                 {
-                    if (!sceneCombatSystem.blueTeamList[i].imDead)
-                        sceneCombatSystem.newBlueTeamList.Add(sceneCombatSystem.blueTeamList[i]);
+                    if (!sceneCombatSystem.alliesTeamList[i].imDead)
+                        sceneCombatSystem.newAlliesTeamList.Add(sceneCombatSystem.alliesTeamList[i]);
                 }
-                sceneCombatSystem.blueTeamList.Clear();
-                sceneCombatSystem.blueTeamList = new List<UnitGridCombat>(sceneCombatSystem.newBlueTeamList);
-                sceneCombatSystem.newBlueTeamList.Clear();
-                sceneCombatSystem.blueTeamKO.Clear();
+                sceneCombatSystem.alliesTeamList.Clear();
+                sceneCombatSystem.alliesTeamList = new List<UnitGridCombat>(sceneCombatSystem.newAlliesTeamList);
+                sceneCombatSystem.newAlliesTeamList.Clear();
+                sceneCombatSystem.alliesTeamKO.Clear();
             }
             Destroy(gameObject);
         }
@@ -149,11 +153,11 @@ public class UnitGridCombat : MonoBehaviour {
     }
 
     public bool CanAttackUnit(UnitGridCombat unitGridCombat) {
-        if(gameObject.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.melee)
+        if(gameObject.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.MELEE)
         {
             return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeMelee;
         }
-        else if (gameObject.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.ranged)
+        else if (gameObject.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.RANGED)
         {
             return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeRanged;
         }

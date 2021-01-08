@@ -27,7 +27,7 @@ public class FightInteraction1 : MonoBehaviour
             Combat();
         else if(CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies == 0)
         {
-            Debug.Log("No tienes soldados");
+            // UI de no tienes soldados
         }
     }
 

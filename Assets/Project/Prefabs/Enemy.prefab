@@ -192,8 +192,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4191156406738038816}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 215, y: 85, z: 0}
-  m_LocalScale: {x: 7, y: 7, z: 1}
+  m_LocalPosition: {x: 215.06, y: 85.109, z: 0}
+  m_LocalScale: {x: 6.58, y: 6.58, z: 0.94}
   m_Children:
   - {fileID: 4191156405576926982}
   - {fileID: 2602682712234623110}
@@ -235,6 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
+  tipo: 0
 --- !u!114 &4191156406738038819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,8 +274,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 1
-  gridCombatSystem: {fileID: 0}
   damageAmount: 1
+  imDead: 0
+  attackRangeMelee: 17
+  attackRangeRanged: 34
+  attackRangeHealer: 0
+  rangeHealer: 34
   healthUI1: {fileID: 4156344309774548567}
   healthUI2: {fileID: 9051372509222723278}
   healthUI3: {fileID: 8891117343358378538}

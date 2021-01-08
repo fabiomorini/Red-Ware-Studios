@@ -82,16 +82,16 @@ public class IA_enemies : MonoBehaviour
 
     public UnitGridCombat lookForEnemies(UnitGridCombat thisUnit) // lookForEnemies a una casilla
     {
-        enemiesCount = gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList.Count;
+        enemiesCount = gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList.Count;
         Vector3 myPosition = thisUnit.GetPosition();
         for (int i = 0; i <= enemiesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
         {
-            if (gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i] != null)
+            if (gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i] != null)
             {
-                float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i].GetPosition());
+                float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i].GetPosition());
                 if (distance <= attackRangeMelee)
                 {
-                    return gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i];
+                    return gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i];
                 }
             }
 
@@ -106,11 +106,11 @@ public class IA_enemies : MonoBehaviour
         UnitGridCombat nearestEnemy = null;
         for (int i = 0; i < enemiesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
         {
-            float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i].GetPosition());
+            float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i].GetPosition());
             if (distance < minDist)
             {
                 minDist = distance;
-                nearestEnemy = gridCombatSystem.GetComponent<GridCombatSystem>().blueTeamList[i];
+                nearestEnemy = gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i];
             }
         }
         return nearestEnemy;
