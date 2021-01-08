@@ -21,7 +21,7 @@ public class UnitGridCombat : MonoBehaviour {
     [HideInInspector]
     public bool imDead = false;
     [HideInInspector]
-    public float attackRangeMelee = 15;
+    public float attackRangeMelee = 5;
     [HideInInspector]
     public float attackRangeRanged = 30;
     [HideInInspector]

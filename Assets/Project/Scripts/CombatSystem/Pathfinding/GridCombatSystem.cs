@@ -149,6 +149,7 @@ public class GridCombatSystem : MonoBehaviour {
     {
         if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
         {
+            SelectedVisualAlly(true);
             Minimenu.SetActive(true);
             CheckIfGameIsOver();
             if (moving)
@@ -183,9 +184,14 @@ public class GridCombatSystem : MonoBehaviour {
                 canMoveThisTurn = false; // temporal
                                          // Attack Enemy
                 state = State.Waiting;
-                if (SeekEnemiesIA(unitGridCombat))
+                if (SeekEnemiesIA(unitGridCombat) == true)
                 {
                     unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
+                }
+                else
+                {
+                    iA_Enemies.lookForEnemiesDist(unitGridCombat);
+                    UpdateValidMovePositions();
                 }
                 state = State.Normal;
                 CheckTurnOver();
@@ -308,6 +314,11 @@ public class GridCombatSystem : MonoBehaviour {
         }
     }
 
+    private void SelectedVisualAlly(bool selected)
+    {
+        unitGridCombat.SetSelectedVisible(selected);
+    }
+
     private void checkMaxCharacters()
     {
         if (SceneManager.GetActiveScene().buildIndex == IndexL1)
@@ -390,7 +401,7 @@ public class GridCombatSystem : MonoBehaviour {
         }
     }
 
-    private bool SeekEnemiesIA(UnitGridCombat thisUnit) //mira si hay un enemigo a una casilla
+    public bool SeekEnemiesIA(UnitGridCombat thisUnit) //mira si hay un enemigo a una casilla
     {
         Vector3 myPosition = thisUnit.GetPosition();
         for (int i = 0; i < alliesTeamList.Count; i++)
@@ -410,6 +421,7 @@ public class GridCombatSystem : MonoBehaviour {
     }
     private void ForceTurnOver()
     {
+        SelectedVisualAlly(false);
         SelectNextActiveUnit();
         UpdateValidMovePositions();
         moveButton.interactable = true;
