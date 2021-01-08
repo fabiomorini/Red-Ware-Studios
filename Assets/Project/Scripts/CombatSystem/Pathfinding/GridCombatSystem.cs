@@ -538,6 +538,13 @@ public class GridCombatSystem : MonoBehaviour {
         healing = true;
     }
 
+    public void SkipTurn()
+    {
+        attacking = false;
+        moving = false;
+        ForceTurnOver();
+    }
+
     // El eje Z siempre tiene que ser 0
     public static Vector3 GetMouseWorldPosition()
     {

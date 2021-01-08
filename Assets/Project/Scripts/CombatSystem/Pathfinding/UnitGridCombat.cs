@@ -20,10 +20,14 @@ public class UnitGridCombat : MonoBehaviour {
     // 17 = 1 casilla, 34 = 2, en diagonal no es exacto;
     [HideInInspector]
     public bool imDead = false;
-    public float attackRangeMelee = 17;
-    public float attackRangeRanged = 34;
+    [HideInInspector]
+    public float attackRangeMelee = 15;
+    [HideInInspector]
+    public float attackRangeRanged = 30;
+    [HideInInspector]
     public float attackRangeHealer = 0;
-    public float rangeHealer = 34; // curar
+    [HideInInspector]
+    public float rangeHealer = 30; // curar
 
 
     //Temporal para el prototipo
