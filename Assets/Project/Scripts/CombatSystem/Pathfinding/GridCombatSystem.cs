@@ -248,6 +248,7 @@ public class GridCombatSystem : MonoBehaviour {
             {
                 switch (state) {
                     case State.Normal:
+                        unitGridCombat.SetSelectedVisible(true);
                         if (Input.GetMouseButtonDown(0)) {
                             Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
                             GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
@@ -389,6 +390,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void ForceTurnOver()
     {
+        unitGridCombat.SetSelectedVisible(false);
         SelectNextActiveUnit();
         UpdateValidMovePositions();
     }
