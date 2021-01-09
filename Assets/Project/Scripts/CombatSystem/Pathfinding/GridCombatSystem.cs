@@ -74,7 +74,9 @@ public class GridCombatSystem : MonoBehaviour {
     public int BlueIndex = 0;
     [HideInInspector]
     public int RedIndex = 0;
+    [HideInInspector]
     public int CurrentAliveBlue;
+    [HideInInspector]
     public int CurrentAliveRed;
     public GameObject allyTurn;
     public GameObject lostUI;
@@ -87,6 +89,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     // minimenu in-game
     public GameObject Minimenu;
+    private bool isMenuVisible;
     [HideInInspector]
     public bool moving;
     private bool isMoving;
@@ -97,8 +100,6 @@ public class GridCombatSystem : MonoBehaviour {
 
     public Button attackButton;
     public Button moveButton;
-
-    private bool showMenu;
 
     private enum State {
         Normal,
@@ -145,23 +146,16 @@ public class GridCombatSystem : MonoBehaviour {
         SelectNextActiveUnit();
         StartCoroutine(YourTurnUI());
     }
+
     private void Update()
     {
+        CheckIfGameIsOver();
         if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
         {
             SelectedVisualAlly(true);
-            Minimenu.SetActive(true);
-            CheckIfGameIsOver();
+            setMenuVisible();
             if (moving)
             {
-                if (Input.GetKeyDown(KeyCode.M))
-                {
-                    showMenu = !showMenu;
-                }
-                if (!showMenu)
-                {
-                    Minimenu.SetActive(false);
-                }
                 maxMoveDistance = 5;
                 UpdateValidMovePositions();
                 MoveAllyVisual();
@@ -428,6 +422,7 @@ public class GridCombatSystem : MonoBehaviour {
         attackButton.interactable = true;
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
+        isMenuVisible = true;
     }
     private void SelectNextActiveUnit()
     {
@@ -501,8 +496,9 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void SetMovingTrue()
     {
-            moving = true;
-            attacking = false;
+        moving = true;
+        attacking = false;
+        Minimenu.SetActive(false);
     }
 
     public void AttackAllyVisual()
@@ -538,8 +534,9 @@ public class GridCombatSystem : MonoBehaviour {
     }
     public void SetAttackingTrue()
     {
-            attacking = true;
-            moving = false;
+        attacking = true;
+        moving = false;
+        Minimenu.SetActive(false);
     }
     public void HealAllyVisual()
     {
@@ -548,6 +545,7 @@ public class GridCombatSystem : MonoBehaviour {
     public void SetHealingTrue()
     {
         healing = true;
+        Minimenu.SetActive(false);
     }
 
     public void SkipTurn()
@@ -555,6 +553,22 @@ public class GridCombatSystem : MonoBehaviour {
         attacking = false;
         moving = false;
         ForceTurnOver();
+    }
+    private void setMenuVisible()
+    {
+        if (isMenuVisible)
+        {
+            Minimenu.SetActive(true);
+            isMenuVisible = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if (Minimenu.activeInHierarchy)
+                Minimenu.SetActive(false);
+            else
+                Minimenu.SetActive(true);
+        }
     }
 
     // El eje Z siempre tiene que ser 0
