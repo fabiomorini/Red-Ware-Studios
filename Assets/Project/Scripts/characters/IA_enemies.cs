@@ -111,8 +111,9 @@ public class IA_enemies : MonoBehaviour
 
         GridCombatSystem.GridObject gridObject = grid.GetGridObject(target);
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4 * gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList.Count; i++)
         {
+            CheckCollisions(nearestEnemy);
             if (gridObject.GetUnitGridCombat() == null)
             {
                 grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
@@ -120,12 +121,17 @@ public class IA_enemies : MonoBehaviour
 
                 thisUnit.MoveTo(target, () =>
                 {
-                    gridCombatSystem.GetComponent<GridCombatSystem>().UpdateValidMovePositions();
+                    //Atack
                 });
+                Debug.Log("Der" + alreadyEnteredLeft + "Izq" + alreadyEnteredRight + "Abj" + alreadyEnteredTop + "Arb" + alreadyEnteredBot);
                 break;
             }
             else
             {
+                if (alreadyEnteredTop && alreadyEnteredBot && alreadyEnteredLeft && alreadyEnteredRight)
+                {
+                    nearestEnemy = FindNewEnemy(myPosition, nearestEnemy);
+                }
                 relativePoint = CheckForNewSpots(relativePoint);
                 target = LookForMovePosition(relativePoint, target, nearestEnemy.GetPosition(), myPosition);
                 gridObject = grid.GetGridObject(target);
@@ -135,7 +141,6 @@ public class IA_enemies : MonoBehaviour
 
     private Vector3 LookForMovePosition(Vector3 relativePoint, Vector3 target, Vector3 enemyPosition, Vector3 myPosition)
     {
-        Debug.Log(relativePoint);
         if (relativePoint.x < 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredRight)    // X < 0, X > Y
         {
             //Derecha
@@ -152,7 +157,7 @@ public class IA_enemies : MonoBehaviour
             alreadyEnteredLeft = true;
             return target;
         }
-        if (relativePoint.y > 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredBot)
+        if (relativePoint.y > 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredBot)      // Y > 0, Y > X
         {
             //Abajo
             target.x = enemyPosition.x;
@@ -160,7 +165,7 @@ public class IA_enemies : MonoBehaviour
             alreadyEnteredBot = true;
             return target;
         }
-        if (relativePoint.y < 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredTop)
+        if (relativePoint.y < 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredTop)      // Y < 0, Y > X
         {
             //Encima
             target.x = enemyPosition.x;
@@ -208,6 +213,46 @@ public class IA_enemies : MonoBehaviour
             return new Vector3(0, 0, 0);
         }
     }
+
+    private UnitGridCombat FindNewEnemy(Vector3 myPosition, UnitGridCombat nearestEnemy)
+    { 
+            UnitGridCombat newNearestEnemy = null;
+            float minDist = 9999.0f; // para encontrar el enemigo más cerca
+            for (int i = 0; i < enemiesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
+            {
+                float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i].GetPosition());
+                if (distance < minDist && gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i] != nearestEnemy)
+                {
+                    minDist = distance;
+                    newNearestEnemy = gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i];
+                }
+            }
+        return newNearestEnemy;
+    }
+
+    private void CheckCollisions(UnitGridCombat enemyPosition)
+    {
+        Grid<GridCombatSystem.GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+        grid.GetXY(enemyPosition.GetPosition(), out int unitX, out int unitY);
+
+        if (!GridPathfinding.instance.IsWalkable(unitX - 1, unitY))
+        {
+            alreadyEnteredRight = true;
+        }
+        if (!GridPathfinding.instance.IsWalkable(unitX + 1, unitY))
+        {
+            alreadyEnteredLeft = true;
+        }
+        if (!GridPathfinding.instance.IsWalkable(unitX, unitY - 1))
+        {
+            alreadyEnteredTop = true;
+        }
+        if (!GridPathfinding.instance.IsWalkable(unitX, unitY + 1))
+        {
+            alreadyEnteredBot = true;
+        }
+    }
+
 
     public void ResetPositions()
     {
