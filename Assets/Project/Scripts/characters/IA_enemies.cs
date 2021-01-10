@@ -25,12 +25,15 @@ public class IA_enemies : MonoBehaviour
     private GameObject gridCombatSystem;
     private int enemiesCount;
     private int maxMoveDistance = 5;
-    private int maxMoveDistanceInt = 50;
+    private int maxMoveDistanceInt = 20;
+
 
     bool alreadyEnteredRight = false;
     bool alreadyEnteredLeft = false;
     bool alreadyEnteredTop = false;
     bool alreadyEnteredBot = false;
+
+    bool hayEnemigo;
 
     private bool canMove = false;
     GridCombatSystem.GridObject gridObject;
@@ -118,7 +121,8 @@ public class IA_enemies : MonoBehaviour
 
         if(!canMove)
         {
-            SelectNewMovePosition(myPosition, nearestEnemy.GetPosition());
+            SelectNewMovePosition(myPosition);
+            gridObject = grid.GetGridObject(target);
             //calcular new target y asignarlo a gridobject
         }
 
@@ -259,6 +263,18 @@ public class IA_enemies : MonoBehaviour
         }
     }
 
+    private void CheckCollisionsTarget(Vector3 target)
+    {
+        Grid<GridCombatSystem.GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+        grid.GetXY(target, out int unitX, out int unitY);
+
+        if (!GridPathfinding.instance.IsWalkable(unitX, unitY))
+        {
+            hayEnemigo = true;
+        }
+        
+    }
+
     private bool CheckMoveRange(Vector3 target, Vector3 myPosition)
     {
         Debug.Log(target + "Casilla a la que me quiero mover");
@@ -267,10 +283,11 @@ public class IA_enemies : MonoBehaviour
         return Mathf.Abs(Vector3.Distance(myPosition, target)) <= maxMoveDistanceInt;
     }
 
-    private void SelectNewMovePosition(Vector3 myPosition, Vector3 enemyPostion)
+    private void SelectNewMovePosition(Vector3 myPosition)
     {
-        float angleToTarget = Vector3.Angle(myPosition, enemyPostion);
-        Debug.Log(angleToTarget);
+        Vector3 directionOfTravel = target - myPosition;
+        Vector3 finalDirection = directionOfTravel.normalized * maxMoveDistanceInt;
+        target = myPosition + finalDirection;
     }
 
     public void ResetPositions()
