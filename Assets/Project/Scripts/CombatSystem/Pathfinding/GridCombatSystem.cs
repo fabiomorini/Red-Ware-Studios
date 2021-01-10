@@ -413,7 +413,7 @@ public class GridCombatSystem : MonoBehaviour {
             ForceTurnOver();
         }
     }
-    private void ForceTurnOver()
+    public void ForceTurnOver()
     {
         iA_Enemies.ResetPositions();
         SelectedVisualAlly(false);

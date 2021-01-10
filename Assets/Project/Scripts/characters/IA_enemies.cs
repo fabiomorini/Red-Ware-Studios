@@ -41,11 +41,16 @@ public class IA_enemies : MonoBehaviour
     private int enemiesCount;
     private bool isClose; // para ver si hay un enemigo a una casilla
     private int maxMoveDistance = 5;
+    private int maxMoveDistanceInt = 50;
 
     bool alreadyEnteredRight = false;
     bool alreadyEnteredLeft = false;
     bool alreadyEnteredTop = false;
     bool alreadyEnteredBot = false;
+
+    private bool canMove = false;
+    GridCombatSystem.GridObject gridObject;
+    Vector3 target = new Vector3(0, 0, 0);
 
     private enum State
     {
@@ -102,80 +107,108 @@ public class IA_enemies : MonoBehaviour
     {
         Grid<GridCombatSystem.GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
         GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
-
-        Vector3 target = new Vector3(0, 0, 0);
+        
         Vector3 myPosition = thisUnit.GetPosition();
         Vector3 relativePoint;
+        
+        CheckCollisions(nearestEnemy);
         relativePoint = transform.InverseTransformPoint(nearestEnemy.GetPosition());
-        target = LookForMovePosition(relativePoint, target, nearestEnemy.GetPosition(), myPosition);
 
-        GridCombatSystem.GridObject gridObject = grid.GetGridObject(target);
+        LookForMovePosition(relativePoint, nearestEnemy.GetPosition(), myPosition);
+        gridObject = grid.GetGridObject(target);
 
         for (int i = 0; i < 4 * gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList.Count; i++)
         {
             CheckCollisions(nearestEnemy);
             if (gridObject.GetUnitGridCombat() == null)
             {
-                grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
-                gridObject.SetUnitGridCombat(thisUnit);
+                canMove = CheckMoveRange(target, myPosition);
 
-                thisUnit.MoveTo(target, () =>
+                if (canMove)
                 {
-                    //Atack
-                });
-                Debug.Log("Der" + alreadyEnteredLeft + "Izq" + alreadyEnteredRight + "Abj" + alreadyEnteredTop + "Arb" + alreadyEnteredBot);
-                break;
+                    grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
+                    gridObject.SetUnitGridCombat(thisUnit);
+                    thisUnit.MoveTo(target, () =>
+                    {
+                        if (gridCombatSystem.GetComponent<GridCombatSystem>().SeekEnemiesIA(thisUnit) == true)
+                        {
+                            thisUnit.AttackUnit(lookForEnemies(thisUnit));
+                        }
+                    });
+                    //Debug.Log("Derecha = " + alreadyEnteredLeft + " / Izquierda = " + alreadyEnteredRight + " / Arriba = " + alreadyEnteredTop + " / Abajo = " + alreadyEnteredBot);
+                    break;
+                }
+                else
+                {
+                    //No estoy a Rango
+                    //Elegir un nuevo target
+                    SelectNewMovePosition(myPosition, nearestEnemy.GetPosition());
+                    //En este nuevo target hay colision
+                    gridObject = grid.GetGridObject(target);
+                    thisUnit.MoveTo(target, () =>
+                    {
+
+                    });
+                    //Debug.Log("Derecha = " + alreadyEnteredLeft + " / Izquierda = " + alreadyEnteredRight + " / Arriba = " + alreadyEnteredTop + " / Abajo = " + alreadyEnteredBot);
+                    break;
+                }
             }
             else
             {
                 if (alreadyEnteredTop && alreadyEnteredBot && alreadyEnteredLeft && alreadyEnteredRight)
                 {
                     nearestEnemy = FindNewEnemy(myPosition, nearestEnemy);
+                    if (nearestEnemy != null)
+                    {
+                        //Comprobar si el newEnemy esta a rango de movimiento para hacer update de target
+                        ResetPositions();
+                    }
+                    else
+                    {
+                        Debug.Log("No hay enemigos a los que pueda acercarme");
+                        break;
+                    }
                 }
                 relativePoint = CheckForNewSpots(relativePoint);
-                target = LookForMovePosition(relativePoint, target, nearestEnemy.GetPosition(), myPosition);
+                LookForMovePosition(relativePoint, nearestEnemy.GetPosition(), myPosition);
                 gridObject = grid.GetGridObject(target);
             }
         }
     }
 
-    private Vector3 LookForMovePosition(Vector3 relativePoint, Vector3 target, Vector3 enemyPosition, Vector3 myPosition)
+    private void LookForMovePosition(Vector3 relativePoint, Vector3 enemyPosition, Vector3 myPosition)
     {
         if (relativePoint.x < 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredRight)    // X < 0, X > Y
         {
             //Derecha
+            Debug.Log("1");
             target.x = enemyPosition.x - 10;
             target.y = enemyPosition.y;
             alreadyEnteredRight = true;
-            return target;
         }
         if (relativePoint.x > 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredLeft)     // X > 0, X > Y
         {
             //Izquierda
+            Debug.Log("2");
             target.x = enemyPosition.x + 10;
             target.y = enemyPosition.y;
             alreadyEnteredLeft = true;
-            return target;
         }
         if (relativePoint.y > 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredBot)      // Y > 0, Y > X
         {
             //Abajo
+            Debug.Log("3");
             target.x = enemyPosition.x;
             target.y = enemyPosition.y - 10;
             alreadyEnteredBot = true;
-            return target;
         }
         if (relativePoint.y < 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredTop)      // Y < 0, Y > X
         {
             //Encima
+            Debug.Log("4");
             target.x = enemyPosition.x;
             target.y = enemyPosition.y + 10;
             alreadyEnteredTop = true;
-            return target;
-        }
-        else
-        {
-            return new Vector3(myPosition.x, myPosition.y, 0);
         }
     }
 
@@ -253,6 +286,19 @@ public class IA_enemies : MonoBehaviour
         }
     }
 
+    private bool CheckMoveRange(Vector3 target, Vector3 myPosition)
+    {
+        Debug.Log(target + "Casilla a la que me quiero mover");
+        Debug.Log(myPosition + "Mi posicion");
+        Debug.Log(Vector3.Distance(myPosition, target));
+        return Mathf.Abs(Vector3.Distance(myPosition, target)) <= maxMoveDistanceInt;
+    }
+
+    private void SelectNewMovePosition(Vector3 myPosition, Vector3 enemyPostion)
+    {
+        float angleToTarget = Vector3.Angle(myPosition, enemyPostion);
+        //Debug.Log(angleToTarget);
+    }
 
     public void ResetPositions()
     {

@@ -1262,6 +1262,7 @@ Transform:
   - {fileID: 167617675}
   - {fileID: 1779163826}
   - {fileID: 307938653}
+  - {fileID: 1783979270}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1820,6 +1821,93 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a8b3a268b1cdb4083d5c656d938d8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &1783979268
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1071034179}
+    m_Modifications:
+    - target: {fileID: 4191156406738038816, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 305
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 41e2e604321763e419f1720138918f59, type: 3}
+--- !u!114 &1783979269 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4191156406738038817, guid: 41e2e604321763e419f1720138918f59,
+    type: 3}
+  m_PrefabInstance: {fileID: 1783979268}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54a8b3a268b1cdb4083d5c656d938d8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1783979270 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
+    type: 3}
+  m_PrefabInstance: {fileID: 1783979268}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1819373063
 GameObject:
   m_ObjectHideFlags: 0
@@ -2416,7 +2504,7 @@ PrefabInstance:
     - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
       propertyPath: unitGridCombatArray.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
@@ -2437,7 +2525,7 @@ PrefabInstance:
         type: 3}
       propertyPath: unitGridCombatArray.Array.data[3]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1783979269}
     - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
       propertyPath: unitGridCombatArray.Array.data[4]
