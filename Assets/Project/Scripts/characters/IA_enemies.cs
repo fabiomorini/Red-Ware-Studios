@@ -16,30 +16,14 @@ public class IA_enemies : MonoBehaviour
      
      HEALER
      -
-
-
-    UPDATE{
-    
-    //inputs
-    //ataques
-    //movimientos
-    
-    
-    }
-
-
-
      */
 
-    private UnitGridCombat unitGridCombat;
-    private State state;
     private float attackRangeMelee = 15;
     private float attackRangeRanged = 30;
     private float attackRangeHealer = 0;
     private float rangeHealer = 34; // curar
     private GameObject gridCombatSystem;
     private int enemiesCount;
-    private bool isClose; // para ver si hay un enemigo a una casilla
     private int maxMoveDistance = 5;
     private int maxMoveDistanceInt = 50;
 
@@ -52,15 +36,8 @@ public class IA_enemies : MonoBehaviour
     GridCombatSystem.GridObject gridObject;
     Vector3 target = new Vector3(0, 0, 0);
 
-    private enum State
-    {
-        Normal,
-        Waiting
-    }
-
     private void Awake()
     {
-        state = State.Normal;
         gridCombatSystem = GameObject.FindGameObjectWithTag("CombatHandler");
     }
 
@@ -101,7 +78,21 @@ public class IA_enemies : MonoBehaviour
         WalkToEnemy(nearestEnemy, thisUnit);
         return nearestEnemy;
     }
-
+    private UnitGridCombat FindNewEnemy(Vector3 myPosition, UnitGridCombat nearestEnemy)
+    {
+        UnitGridCombat newNearestEnemy = null;
+        float minDist = 9999.0f; // para encontrar el enemigo más cerca
+        for (int i = 0; i < enemiesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
+        {
+            float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i].GetPosition());
+            if (distance < minDist && gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i] != nearestEnemy)
+            {
+                minDist = distance;
+                newNearestEnemy = gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i];
+            }
+        }
+        return newNearestEnemy;
+    }
 
     public void WalkToEnemy(UnitGridCombat nearestEnemy, UnitGridCombat thisUnit)
     {
@@ -115,6 +106,7 @@ public class IA_enemies : MonoBehaviour
         relativePoint = transform.InverseTransformPoint(nearestEnemy.GetPosition());
         LookForMovePosition(relativePoint, nearestEnemy.GetPosition(), myPosition);
         gridObject = grid.GetGridObject(target);
+
         if (target == new Vector3(0, 0, 0))
         {
             relativePoint = CheckForNewSpots(relativePoint);
@@ -242,22 +234,6 @@ public class IA_enemies : MonoBehaviour
             //No me puedo mover a ningun aliado
             return new Vector3(0, 0, 0);
         }
-    }
-
-    private UnitGridCombat FindNewEnemy(Vector3 myPosition, UnitGridCombat nearestEnemy)
-    { 
-            UnitGridCombat newNearestEnemy = null;
-            float minDist = 9999.0f; // para encontrar el enemigo más cerca
-            for (int i = 0; i < enemiesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
-            {
-                float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i].GetPosition());
-                if (distance < minDist && gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i] != nearestEnemy)
-                {
-                    minDist = distance;
-                    newNearestEnemy = gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i];
-                }
-            }
-        return newNearestEnemy;
     }
 
     private void CheckCollisions(UnitGridCombat enemyPosition)
