@@ -33,6 +33,8 @@ public class IA_enemies : MonoBehaviour
     bool alreadyEnteredTop = false;
     bool alreadyEnteredBot = false;
 
+    bool endTurn = false;
+
     private bool canMove = false;
     GridCombatSystem.GridObject gridObject;
     Vector3 target = new Vector3(0, 0, 0);
@@ -102,16 +104,17 @@ public class IA_enemies : MonoBehaviour
         
         Vector3 myPosition = thisUnit.GetPosition();
         Vector3 relativePoint;
-        
+        Vector3 relativePointTarget;
+
         CheckCollisions(nearestEnemy);
         relativePoint = transform.InverseTransformPoint(nearestEnemy.GetPosition());
-        LookForMovePosition(relativePoint, nearestEnemy.GetPosition(), myPosition);
+        LookForMovePosition(relativePoint, nearestEnemy.GetPosition());
         gridObject = grid.GetGridObject(target);
 
         if (target == new Vector3(0, 0, 0))
         {
             relativePoint = CheckForNewSpots(relativePoint);
-            LookForMovePosition(relativePoint, nearestEnemy.GetPosition(), myPosition);
+            LookForMovePosition(relativePoint, nearestEnemy.GetPosition());
             gridObject = grid.GetGridObject(target);
         }
 
@@ -120,12 +123,33 @@ public class IA_enemies : MonoBehaviour
         if(!canMove)
         {
             SelectNewMovePosition(myPosition);
-            if (!CheckCollisionsTarget())
-            {
-                
-            }
             gridObject = grid.GetGridObject(target);
-            //calcular new target y asignarlo a gridobject
+            relativePointTarget = transform.InverseTransformPoint(target);
+            for (int i = 0; i < 5; i++)
+            {
+                if (!CheckCollisionsTarget() || gridObject.GetUnitGridCombat() != null)
+                {
+                    //Hay colision o hay alguien
+                    //Busco nueva posicion cerca
+                    if (alreadyEnteredTop && alreadyEnteredBot && alreadyEnteredLeft && alreadyEnteredRight)
+                    {
+                        //No te mueves
+                        gridCombatSystem.GetComponent<GridCombatSystem>().ForceTurnOver();
+                        break;
+                    }
+                    else
+                    {
+                        //No reescribir target //Arreglar
+                        CheckForNewSpots(relativePointTarget);
+                        LookForMovePositionInRange(relativePointTarget);
+                        gridObject = grid.GetGridObject(target);
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
 
         for (int i = 0; i < 4 * gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList.Count; i++)
@@ -162,13 +186,43 @@ public class IA_enemies : MonoBehaviour
                     }
                 }
                 relativePoint = CheckForNewSpots(relativePoint);
-                LookForMovePosition(relativePoint, nearestEnemy.GetPosition(), myPosition);
+                LookForMovePosition(relativePoint, nearestEnemy.GetPosition());
                 gridObject = grid.GetGridObject(target);
             }
         }
     }
 
-    private void LookForMovePosition(Vector3 relativePoint, Vector3 enemyPosition, Vector3 myPosition)
+    private void LookForMovePositionInRange(Vector3 relativePoint)
+    {
+        if (relativePoint.x < 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredRight)    // X < 0, X > Y
+        {
+            //Derecha
+            target.x = target.x - 10;
+            alreadyEnteredRight = true;
+        }
+        if (relativePoint.x > 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredLeft)     // X > 0, X > Y
+        {
+            //Izquierda
+            target.x = target.x + 10;
+            alreadyEnteredLeft = true;
+        }
+
+        if (relativePoint.y > 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredBot)      // Y > 0, Y > X
+        {
+            //Abajo
+            target.y = target.y - 10;
+            alreadyEnteredBot = true;
+        }
+
+        if (relativePoint.y < 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredTop)      // Y < 0, Y > X
+        {
+            //Encima
+            target.y = target.y + 10;
+            alreadyEnteredTop = true;
+        }
+    }
+
+    private void LookForMovePosition(Vector3 relativePoint, Vector3 enemyPosition)
     {
         if (relativePoint.x < 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredRight)    // X < 0, X > Y
         {
