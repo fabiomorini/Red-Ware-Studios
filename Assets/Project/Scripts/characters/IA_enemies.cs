@@ -33,8 +33,6 @@ public class IA_enemies : MonoBehaviour
     bool alreadyEnteredTop = false;
     bool alreadyEnteredBot = false;
 
-    bool hayEnemigo;
-
     private bool canMove = false;
     GridCombatSystem.GridObject gridObject;
     Vector3 target = new Vector3(0, 0, 0);
@@ -122,6 +120,10 @@ public class IA_enemies : MonoBehaviour
         if(!canMove)
         {
             SelectNewMovePosition(myPosition);
+            if (!CheckCollisionsTarget())
+            {
+                
+            }
             gridObject = grid.GetGridObject(target);
             //calcular new target y asignarlo a gridobject
         }
@@ -263,16 +265,12 @@ public class IA_enemies : MonoBehaviour
         }
     }
 
-    private void CheckCollisionsTarget(Vector3 target)
+    private bool CheckCollisionsTarget()
     {
         Grid<GridCombatSystem.GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
         grid.GetXY(target, out int unitX, out int unitY);
-
-        if (!GridPathfinding.instance.IsWalkable(unitX, unitY))
-        {
-            hayEnemigo = true;
-        }
         
+        return GridPathfinding.instance.IsWalkable(unitX, unitY);    
     }
 
     private bool CheckMoveRange(Vector3 target, Vector3 myPosition)
