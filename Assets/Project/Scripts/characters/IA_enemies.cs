@@ -113,45 +113,39 @@ public class IA_enemies : MonoBehaviour
         
         CheckCollisions(nearestEnemy);
         relativePoint = transform.InverseTransformPoint(nearestEnemy.GetPosition());
-
         LookForMovePosition(relativePoint, nearestEnemy.GetPosition(), myPosition);
         gridObject = grid.GetGridObject(target);
+        if (target == new Vector3(0, 0, 0))
+        {
+            relativePoint = CheckForNewSpots(relativePoint);
+            LookForMovePosition(relativePoint, nearestEnemy.GetPosition(), myPosition);
+            gridObject = grid.GetGridObject(target);
+        }
+
+        canMove = CheckMoveRange(target, myPosition);
+
+        if(!canMove)
+        {
+            SelectNewMovePosition(myPosition, nearestEnemy.GetPosition());
+            //calcular new target y asignarlo a gridobject
+        }
 
         for (int i = 0; i < 4 * gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList.Count; i++)
         {
             CheckCollisions(nearestEnemy);
             if (gridObject.GetUnitGridCombat() == null)
             {
-                canMove = CheckMoveRange(target, myPosition);
-
-                if (canMove)
+                grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
+                gridObject.SetUnitGridCombat(thisUnit);
+                thisUnit.MoveTo(target, () =>
                 {
-                    grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
-                    gridObject.SetUnitGridCombat(thisUnit);
-                    thisUnit.MoveTo(target, () =>
+                    if (gridCombatSystem.GetComponent<GridCombatSystem>().SeekEnemiesIA(thisUnit) == true)
                     {
-                        if (gridCombatSystem.GetComponent<GridCombatSystem>().SeekEnemiesIA(thisUnit) == true)
-                        {
-                            thisUnit.AttackUnit(lookForEnemies(thisUnit));
-                        }
-                    });
-                    //Debug.Log("Derecha = " + alreadyEnteredLeft + " / Izquierda = " + alreadyEnteredRight + " / Arriba = " + alreadyEnteredTop + " / Abajo = " + alreadyEnteredBot);
-                    break;
-                }
-                else
-                {
-                    //No estoy a Rango
-                    //Elegir un nuevo target
-                    SelectNewMovePosition(myPosition, nearestEnemy.GetPosition());
-                    //En este nuevo target hay colision
-                    gridObject = grid.GetGridObject(target);
-                    thisUnit.MoveTo(target, () =>
-                    {
-
-                    });
-                    //Debug.Log("Derecha = " + alreadyEnteredLeft + " / Izquierda = " + alreadyEnteredRight + " / Arriba = " + alreadyEnteredTop + " / Abajo = " + alreadyEnteredBot);
-                    break;
-                }
+                        thisUnit.AttackUnit(lookForEnemies(thisUnit));
+                    }
+                });
+                //Debug.Log("Derecha = " + alreadyEnteredLeft + " / Izquierda = " + alreadyEnteredRight + " / Arriba = " + alreadyEnteredTop + " / Abajo = " + alreadyEnteredBot);
+                break;
             }
             else
             {
@@ -186,6 +180,7 @@ public class IA_enemies : MonoBehaviour
             target.y = enemyPosition.y;
             alreadyEnteredRight = true;
         }
+
         if (relativePoint.x > 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredLeft)     // X > 0, X > Y
         {
             //Izquierda
@@ -194,6 +189,7 @@ public class IA_enemies : MonoBehaviour
             target.y = enemyPosition.y;
             alreadyEnteredLeft = true;
         }
+
         if (relativePoint.y > 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredBot)      // Y > 0, Y > X
         {
             //Abajo
@@ -202,6 +198,7 @@ public class IA_enemies : MonoBehaviour
             target.y = enemyPosition.y - 10;
             alreadyEnteredBot = true;
         }
+
         if (relativePoint.y < 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredTop)      // Y < 0, Y > X
         {
             //Encima
@@ -297,7 +294,7 @@ public class IA_enemies : MonoBehaviour
     private void SelectNewMovePosition(Vector3 myPosition, Vector3 enemyPostion)
     {
         float angleToTarget = Vector3.Angle(myPosition, enemyPostion);
-        //Debug.Log(angleToTarget);
+        Debug.Log(angleToTarget);
     }
 
     public void ResetPositions()
