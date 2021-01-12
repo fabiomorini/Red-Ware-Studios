@@ -69,10 +69,6 @@ public class UnitGridCombat : MonoBehaviour {
         }
     }
 
-    public void SetSelectedVisible(bool visible) {
-        selectedGameObject.SetActive(visible);
-    }
-
     public void MoveTo(Vector3 targetPosition, Action onReachedPosition) {
         state = State.Moving;
         movePosition.SetMovePosition(targetPosition + new Vector3(1, 1), () => {

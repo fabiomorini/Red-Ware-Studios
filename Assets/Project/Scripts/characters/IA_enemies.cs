@@ -181,7 +181,7 @@ public class IA_enemies : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("No hay enemigos a los que pueda acercarme");
+                        //Debug.Log("No hay enemigos a los que pueda acercarme");
                         break;
                     }
                 }
@@ -227,7 +227,7 @@ public class IA_enemies : MonoBehaviour
         if (relativePoint.x < 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredRight)    // X < 0, X > Y
         {
             //Derecha
-            Debug.Log("1");
+            //Debug.Log("1");
             target.x = enemyPosition.x - 10;
             target.y = enemyPosition.y;
             alreadyEnteredRight = true;
@@ -236,7 +236,7 @@ public class IA_enemies : MonoBehaviour
         if (relativePoint.x > 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredLeft)     // X > 0, X > Y
         {
             //Izquierda
-            Debug.Log("2");
+            //Debug.Log("2");
             target.x = enemyPosition.x + 10;
             target.y = enemyPosition.y;
             alreadyEnteredLeft = true;
@@ -245,7 +245,7 @@ public class IA_enemies : MonoBehaviour
         if (relativePoint.y > 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredBot)      // Y > 0, Y > X
         {
             //Abajo
-            Debug.Log("3");
+            //Debug.Log("3");
             target.x = enemyPosition.x;
             target.y = enemyPosition.y - 10;
             alreadyEnteredBot = true;
@@ -254,7 +254,7 @@ public class IA_enemies : MonoBehaviour
         if (relativePoint.y < 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredTop)      // Y < 0, Y > X
         {
             //Encima
-            Debug.Log("4");
+            //Debug.Log("4");
             target.x = enemyPosition.x;
             target.y = enemyPosition.y + 10;
             alreadyEnteredTop = true;
@@ -329,9 +329,9 @@ public class IA_enemies : MonoBehaviour
 
     private bool CheckMoveRange(Vector3 target, Vector3 myPosition)
     {
-        Debug.Log(target + "Casilla a la que me quiero mover");
-        Debug.Log(myPosition + "Mi posicion");
-        Debug.Log(Vector3.Distance(myPosition, target));
+        //Debug.Log(target + "Casilla a la que me quiero mover");
+        //Debug.Log(myPosition + "Mi posicion");
+        //Debug.Log(Vector3.Distance(myPosition, target));
         return Mathf.Abs(Vector3.Distance(myPosition, target)) <= maxMoveDistanceInt;
     }
 

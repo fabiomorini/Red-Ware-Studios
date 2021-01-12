@@ -93,6 +93,8 @@ public class GridCombatSystem : MonoBehaviour {
     public Button attackButton;
     public Button moveButton;
 
+    public bool isWaiting = true;
+
     private enum State {
         Normal,
         Waiting
@@ -138,7 +140,6 @@ public class GridCombatSystem : MonoBehaviour {
         CheckIfGameIsOver();
         if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
         {
-            SelectedVisualAlly(true);
             setMenuVisible();
             if (moving)
             {
@@ -160,23 +161,37 @@ public class GridCombatSystem : MonoBehaviour {
         {
             if (canAttackThisTurn)
             {
-                canAttackThisTurn = false;
-                canMoveThisTurn = false; // temporal
-                                         // Attack Enemy
-                state = State.Waiting;
-                if (SeekEnemiesIA(unitGridCombat) == true)
+                //Esperar 1 seg
+                if (isWaiting)
                 {
-                    unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
+                    StartCoroutine(WaitForSecondsEnemyTurn());
+                    isWaiting = false;
                 }
-                else
-                {
-                    iA_Enemies.lookForEnemiesDist(unitGridCombat);
-                    UpdateValidMovePositions();
-                }
-                state = State.Normal;
-                CheckTurnOver();
             }
         }
+    }
+
+    IEnumerator WaitForSecondsEnemyTurn()
+    {
+        yield return new WaitForSeconds(1);
+        canAttackThisTurn = false;
+        canMoveThisTurn = false; // temporal
+                                 // Attack Enemy
+        state = State.Waiting;
+        if (SeekEnemiesIA(unitGridCombat) == true)
+        {
+            unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
+        }
+        else
+        {
+            iA_Enemies.lookForEnemiesDist(unitGridCombat);
+            UpdateValidMovePositions();
+        }
+        state = State.Normal;
+        GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
+        MovementTilemap.TilemapObject.TilemapSprite.None);
+        yield return new WaitForSeconds(1);
+        CheckTurnOver();
     }
 
     public void spawnCharacters()
@@ -201,11 +216,6 @@ public class GridCombatSystem : MonoBehaviour {
             unitGridCombatArray.Add(Ally.GetComponent<UnitGridCombat>());
             characterPrefs.Add(Ally.GetComponent<CHARACTER_PREFS>());
         }
-    }
-
-    private void SelectedVisualAlly(bool selected)
-    {
-        unitGridCombat.SetSelectedVisible(selected);
     }
 
     private void checkMaxCharacters()
@@ -283,10 +293,12 @@ public class GridCombatSystem : MonoBehaviour {
         if(enemiesTeamList.Count == 0){
             gameOver = true;
             winUI.SetActive(true);
+            Time.timeScale = 0;
         }
         if(alliesTeamList.Count == 0){
             gameOver = true;
             lostUI.SetActive(true);
+            Time.timeScale = 0;
         }
     }
 
@@ -311,7 +323,6 @@ public class GridCombatSystem : MonoBehaviour {
     public void ForceTurnOver()
     {
         iA_Enemies.ResetPositions();
-        SelectedVisualAlly(false);
         SelectNextActiveUnit();
         UpdateValidMovePositions();
         moveButton.interactable = true;
@@ -319,26 +330,30 @@ public class GridCombatSystem : MonoBehaviour {
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
         isMenuVisible = true;
+        isWaiting = true;
     }
     private void SelectNextActiveUnit()
     {
-        if(enemiesTeamList.Count != 0 && alliesTeamList.Count != 0)
-        {
-            if (unitGridCombat == null || unitGridCombat.GetTeam() == UnitGridCombat.Team.Red)
-            {
-                isAllyTurn = true;
-                unitGridCombat = GetNextActiveUnit();
-            }
-            else
-            {
-                isAllyTurn = false;
-                unitGridCombat = GetNextActiveUnit();
-            }
+        Debug.Log(allyTeamActiveUnitIndex + 1 + " TeamActiveUnit Ally");
+        Debug.Log(alliesTeamList.Count + " Count Ally");
+        Debug.Log(enemiesTeamActiveUnitIndex + 1 + " TeamActiveUnit Enemy");
+        Debug.Log(enemiesTeamList.Count + " Count Enemy");
 
-            GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
-            canMoveThisTurn = true;
-            canAttackThisTurn = true;
+        if (allyTeamActiveUnitIndex + 1 == alliesTeamList.Count && isAllyTurn)
+        {
+            isAllyTurn = false;
+            allyTeamActiveUnitIndex = -1;
         }
+        if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
+        {
+            isAllyTurn = true;
+            enemiesTeamActiveUnitIndex = -1;
+        }
+
+        unitGridCombat = GetNextActiveUnit();
+        GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
+        canMoveThisTurn = true;
+        canAttackThisTurn = true;
     }
     public UnitGridCombat GetNextActiveUnit()
     {
