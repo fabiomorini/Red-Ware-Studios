@@ -105,8 +105,6 @@ public class UnitGridCombat : MonoBehaviour {
         if(healthSystem.IsDead()){
             if(Attacker.GetTeam() == Team.Blue) 
             {
-                sceneCombatSystem.CurrentAliveRed-= 1;
-                sceneCombatSystem.RedIndex -= 1;
                 imDead = true;
                 sceneCombatSystem.enemiesTeamKo.Insert(0, unitGridCombat);
                 for(int i = 0; i < sceneCombatSystem.enemiesTeamList.Count; i++)
@@ -121,8 +119,6 @@ public class UnitGridCombat : MonoBehaviour {
             }
             else if(Attacker.GetTeam() == Team.Red)
             {
-                sceneCombatSystem.CurrentAliveBlue -= 1;
-                sceneCombatSystem.BlueIndex -= 1;
                 imDead = true;
                 sceneCombatSystem.alliesTeamKO.Insert(0, unitGridCombat);
                 for (int i = 0; i < sceneCombatSystem.alliesTeamList.Count; i++)
