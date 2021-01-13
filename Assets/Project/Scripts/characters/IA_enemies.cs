@@ -5,23 +5,11 @@ using GridPathfindingSystem;
 
 public class IA_enemies : MonoBehaviour
 {
-    /*
-     MELEE: 
-     -tiene que ir por el enemigo más cerca
-     -atacar si está a rango
-     -si está bajo de vida se retira hacia atrás 
-
-     RANGED:
-     -moverse hasta rango de ataque 
-     
-     HEALER
-     -
-     */
 
     private float attackRangeMelee = 15;
     private float attackRangeRanged = 30;
     private float attackRangeHealer = 0;
-    private float rangeHealer = 34; // curar
+    private float rangeHealer = 30; // curar
     private GameObject gridCombatSystem;
     private int enemiesCount;
     private int maxMoveDistance = 5;
@@ -329,9 +317,6 @@ public class IA_enemies : MonoBehaviour
 
     private bool CheckMoveRange(Vector3 target, Vector3 myPosition)
     {
-        //Debug.Log(target + "Casilla a la que me quiero mover");
-        //Debug.Log(myPosition + "Mi posicion");
-        //Debug.Log(Vector3.Distance(myPosition, target));
         return Mathf.Abs(Vector3.Distance(myPosition, target)) <= maxMoveDistanceInt;
     }
 

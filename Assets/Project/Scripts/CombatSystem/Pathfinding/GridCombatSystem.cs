@@ -23,7 +23,6 @@ public class GridCombatSystem : MonoBehaviour {
     public List<UnitGridCombat> enemiesTeamKo;
     [HideInInspector]
     public List<UnitGridCombat> newEnemiesTeamList;
-    private State state; //estado del personaje
 
     [HideInInspector] //personaje activo del array actual
     public int allyTeamActiveUnitIndex;
@@ -94,15 +93,6 @@ public class GridCombatSystem : MonoBehaviour {
     public Button moveButton;
 
     public bool isWaiting = true;
-
-    private enum State {
-        Normal,
-        Waiting
-    }
-
-    private void Awake() {
-        state = State.Normal;
-    }
 
     private void Start() {
 
@@ -177,7 +167,6 @@ public class GridCombatSystem : MonoBehaviour {
         canAttackThisTurn = false;
         canMoveThisTurn = false; // temporal
                                  // Attack Enemy
-        state = State.Waiting;
         if (SeekEnemiesIA(unitGridCombat) == true)
         {
             unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
@@ -187,7 +176,6 @@ public class GridCombatSystem : MonoBehaviour {
             iA_Enemies.lookForEnemiesDist(unitGridCombat);
             UpdateValidMovePositions();
         }
-        state = State.Normal;
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
         yield return new WaitForSeconds(1);
@@ -334,11 +322,6 @@ public class GridCombatSystem : MonoBehaviour {
     }
     private void SelectNextActiveUnit()
     {
-        Debug.Log(allyTeamActiveUnitIndex + 1 + " TeamActiveUnit Ally");
-        Debug.Log(alliesTeamList.Count + " Count Ally");
-        Debug.Log(enemiesTeamActiveUnitIndex + 1 + " TeamActiveUnit Enemy");
-        Debug.Log(enemiesTeamList.Count + " Count Enemy");
-
         if (allyTeamActiveUnitIndex + 1 == alliesTeamList.Count && isAllyTurn)
         {
             isAllyTurn = false;
@@ -434,11 +417,10 @@ public class GridCombatSystem : MonoBehaviour {
                         // Can Attack Enemy
                         if (canAttackThisTurn)
                         {
+                            Minimenu.SetActive(true);
                             canAttackThisTurn = false;
                             // Attack Enemy
-                            state = State.Waiting;
                             unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
-                            state = State.Normal;
                             attacking = false;
                             attackButton.interactable = false;
                         }

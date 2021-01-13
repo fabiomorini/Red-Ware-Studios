@@ -13,7 +13,6 @@ public class UnitGridCombat : MonoBehaviour {
     private GameObject gridCombatSystem;
     private GridCombatSystem sceneCombatSystem;
     private MovePositionPathfinding movePosition;
-    private State state;
     public float damageAmount = 1.0f;
     private HealthSystem healthSystem;
     private UnitGridCombat unitGridCombat;
@@ -40,39 +39,23 @@ public class UnitGridCombat : MonoBehaviour {
         Red
     }
 
-    private enum State {
-        Normal,
-        Moving,
-        Attacking
-    }
-
     private void Awake() {
         characterPrefs = GetComponent<CHARACTER_PREFS>();
         selectedGameObject = transform.Find("Selected").gameObject;
         movePosition = GetComponent<MovePositionPathfinding>();
-        state = State.Normal;
         healthSystem = new HealthSystem(3.0f);
         gridCombatSystem = GameObject.FindWithTag("CombatHandler");
         sceneCombatSystem = GameObject.FindWithTag("CombatHandler").GetComponent<GridCombatSystem>();
         characterManager = GameObject.FindWithTag("characterManager");
     }
 
+    //temporal
     private void Update() {
         healthUIShow();
-        switch (state) {
-            case State.Normal:
-                break;
-            case State.Moving:
-                break;
-            case State.Attacking:
-                break;
-        }
     }
 
     public void MoveTo(Vector3 targetPosition, Action onReachedPosition) {
-        state = State.Moving;
         movePosition.SetMovePosition(targetPosition + new Vector3(1, 1), () => {
-            state = State.Normal;
             onReachedPosition();
         });
     }
@@ -91,7 +74,6 @@ public class UnitGridCombat : MonoBehaviour {
 
     public void AttackUnit(UnitGridCombat unitGridCombat){
         GetComponent<IMoveVelocity>().Disable();
-        state = State.Attacking;
         unitGridCombat.Damage(this, damageAmount);
         GetComponent<IMoveVelocity>().Enable();
     }
@@ -134,7 +116,6 @@ public class UnitGridCombat : MonoBehaviour {
     public void HealAlly(UnitGridCombat unitGridCombat)
     {
         GetComponent<IMoveVelocity>().Disable();
-        state = State.Attacking;
         unitGridCombat.Heal(this, damageAmount);
         GetComponent<IMoveVelocity>().Enable();
     }
