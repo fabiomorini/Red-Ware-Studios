@@ -48,12 +48,12 @@ public class UnitGridCombat : MonoBehaviour {
         sceneCombatSystem = GameObject.FindWithTag("CombatHandler").GetComponent<GridCombatSystem>();
         characterManager = GameObject.FindWithTag("characterManager");
     }
-
+    /*
     //temporal
     private void Update() {
         healthUIShow();
     }
-
+    */
     public void MoveTo(Vector3 targetPosition, Action onReachedPosition) {
         movePosition.SetMovePosition(targetPosition + new Vector3(1, 1), () => {
             onReachedPosition();
@@ -150,7 +150,7 @@ public class UnitGridCombat : MonoBehaviour {
     }
 
     // Temporal
-    private void healthUIShow(){
+    /*private void healthUIShow(){
         for(int i = 0; i <= 2; i++){
             healthUI1.SetActive(false);
             healthUI2.SetActive(false);
@@ -168,5 +168,5 @@ public class UnitGridCombat : MonoBehaviour {
         {
             healthUI1.SetActive(true);
         }
-    }
+    }*/
 }

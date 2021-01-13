@@ -12,6 +12,8 @@ public class HealthSystem : MonoBehaviour
     public float MaxHealth;
     public float CurrentHealth;
     public bool isDead;
+    HealthBar healthBar;
+
 
     public HealthSystem(float MaxHealth) {
         this.MaxHealth = MaxHealth;

@@ -439,6 +439,7 @@ public class GridCombatSystem : MonoBehaviour {
     {
 
     }
+
     public void SetHealingTrue()
     {
         healing = true;
