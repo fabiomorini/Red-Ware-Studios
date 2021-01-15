@@ -8,13 +8,19 @@ public class UnitGridCombat : MonoBehaviour {
     [SerializeField] private Team team;
     private Team enemyTeam;
     private CHARACTER_PREFS characterPrefs;
+    [HideInInspector]
+    public int level = 1;
     private GameObject characterManager;
     private GameObject selectedGameObject;
     private GameObject gridCombatSystem;
     private GridCombatSystem sceneCombatSystem;
     private MovePositionPathfinding movePosition;
-    public float damageAmount = 1.0f;
+    public int damageAmount = 1;
     private HealthSystem healthSystem;
+    [HideInInspector]
+    public int maxHealth;
+    [HideInInspector]
+    public int curHealth;
     private UnitGridCombat unitGridCombat;
     // 17 = 1 casilla, 34 = 2, en diagonal no es exacto;
     [HideInInspector]
@@ -28,12 +34,6 @@ public class UnitGridCombat : MonoBehaviour {
     [HideInInspector]
     public float rangeHealer = 30; // curar
 
-
-    //Temporal para el prototipo
-    public GameObject healthUI1;
-    public GameObject healthUI2;
-    public GameObject healthUI3;
-
     public enum Team {
         Blue,
         Red
@@ -41,17 +41,18 @@ public class UnitGridCombat : MonoBehaviour {
 
     private void Awake() {
         characterPrefs = GetComponent<CHARACTER_PREFS>();
-        selectedGameObject = transform.Find("Selected").gameObject;
+        selectedGameObject = transform.Find("SelectedArrow").gameObject;
         movePosition = GetComponent<MovePositionPathfinding>();
-        healthSystem = new HealthSystem(3.0f);
+        healthSystem = new HealthSystem(3);
         gridCombatSystem = GameObject.FindWithTag("CombatHandler");
         sceneCombatSystem = GameObject.FindWithTag("CombatHandler").GetComponent<GridCombatSystem>();
         characterManager = GameObject.FindWithTag("characterManager");
     }
 
-    //temporal
-    private void Update() {
-        healthUIShow();
+    private void Update()
+    {
+        maxHealth = healthSystem.MaxHealth;
+        curHealth = healthSystem.CurrentHealth;
     }
 
     public void MoveTo(Vector3 targetPosition, Action onReachedPosition) {
@@ -120,7 +121,7 @@ public class UnitGridCombat : MonoBehaviour {
         GetComponent<IMoveVelocity>().Enable();
     }
 
-    public void Heal(UnitGridCombat Attacker, float damage)
+    public void Heal(UnitGridCombat Attacker, int damage)
     {
         healthSystem.Heal(damageAmount);
     }
@@ -149,8 +150,18 @@ public class UnitGridCombat : MonoBehaviour {
         return healthSystem.IsDead();
     }
 
+    public void setSelectedActive()
+    {
+        selectedGameObject.SetActive(true);
+    }
+
+    public void setSelectedFalse()
+    {
+        selectedGameObject.SetActive(false);
+    }
+
     // Temporal
-    private void healthUIShow(){
+    /*private void healthUIShow(){
         for(int i = 0; i <= 2; i++){
             healthUI1.SetActive(false);
             healthUI2.SetActive(false);
@@ -168,5 +179,5 @@ public class UnitGridCombat : MonoBehaviour {
         {
             healthUI1.SetActive(true);
         }
-    }
+    }*/
 }

@@ -88,6 +88,7 @@ public class GridCombatSystem : MonoBehaviour {
     public bool attacking;
     [HideInInspector]
     public bool healing;
+    public HealthBar healthBar;
 
     public Button attackButton;
     public Button moveButton;
@@ -130,6 +131,8 @@ public class GridCombatSystem : MonoBehaviour {
         CheckIfGameIsOver();
         if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
         {
+            healthBar.UpdateHealth(unitGridCombat); //update del menu de estadísticas
+            unitGridCombat.setSelectedActive();
             setMenuVisible();
             if (moving)
             {
@@ -151,6 +154,7 @@ public class GridCombatSystem : MonoBehaviour {
         {
             if (canAttackThisTurn)
             {
+                unitGridCombat.setSelectedActive();
                 //Esperar 1 seg
                 if (isWaiting)
                 {
@@ -310,6 +314,7 @@ public class GridCombatSystem : MonoBehaviour {
     }
     public void ForceTurnOver()
     {
+        unitGridCombat.setSelectedFalse();
         iA_Enemies.ResetPositions();
         SelectNextActiveUnit();
         UpdateValidMovePositions();
@@ -439,6 +444,7 @@ public class GridCombatSystem : MonoBehaviour {
     {
 
     }
+
     public void SetHealingTrue()
     {
         healing = true;
