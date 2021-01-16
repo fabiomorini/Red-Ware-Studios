@@ -11,12 +11,11 @@ public class HealthBar : MonoBehaviour
     public TMP_Text currHealthText;
     public TMP_Text miniCurrHealth;
     public TMP_Text levelText;
-    private UnitGridCombat unitGridCombat;
-
+    public UnitGridCombat unitGridCombat;
 
     private void Start()
     {
-        unitGridCombat = gameObject.GetComponentInParent<UnitGridCombat>();
+        levelText.SetText("Nv. " + unitGridCombat.level);
     }
 
     private void Update()
@@ -25,7 +24,7 @@ public class HealthBar : MonoBehaviour
         SetHealth(unitGridCombat.curHealth);
         SetHealthNumber();
     }
-    public void SetHealthNumber()
+    public void SetHealthNumber() //mini ui
     {
         miniCurrHealth.SetText(""+ unitGridCombat.curHealth);
     }
@@ -33,8 +32,7 @@ public class HealthBar : MonoBehaviour
     public void UpdateHealth(UnitGridCombat unitGridCombat)
     {
         SetMaxHealth(unitGridCombat.maxHealth);
-        currHealthText.SetText("Health:  " + unitGridCombat.curHealth +"/" + unitGridCombat.maxHealth);
-        levelText.SetText("Nv. " + unitGridCombat.level);
+        currHealthText.SetText("HP:  " + unitGridCombat.curHealth +" / " + unitGridCombat.maxHealth);
         SetHealth(unitGridCombat.curHealth);
     }
 

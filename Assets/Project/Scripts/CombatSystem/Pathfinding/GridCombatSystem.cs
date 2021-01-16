@@ -318,13 +318,28 @@ public class GridCombatSystem : MonoBehaviour {
         iA_Enemies.ResetPositions();
         SelectNextActiveUnit();
         UpdateValidMovePositions();
-        moveButton.interactable = true;
-        attackButton.interactable = true;
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
-        isMenuVisible = true;
+        CheckMinimenuAlly();
         isWaiting = true;
     }
+
+    private void CheckMinimenuAlly() 
+    {
+        //función para esconder el minimenu si les toca a la IA
+        if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
+        {
+            moveButton.interactable = true;
+            attackButton.interactable = true;
+            isMenuVisible = true;
+        }
+        else
+        {
+            Minimenu.SetActive(false);
+            isMenuVisible = false;
+        }
+    }
+
     private void SelectNextActiveUnit()
     {
         if (allyTeamActiveUnitIndex + 1 == alliesTeamList.Count && isAllyTurn)
@@ -459,6 +474,8 @@ public class GridCombatSystem : MonoBehaviour {
     }
     private void setMenuVisible()
     {
+        //función para mostrar el minimenu si 
+        //le das a la tecla "M"
         if (isMenuVisible)
         {
             Minimenu.SetActive(true);
