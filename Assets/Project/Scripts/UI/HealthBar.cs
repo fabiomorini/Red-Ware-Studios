@@ -16,7 +16,7 @@ public class HealthBar : MonoBehaviour
 
     private void Start()
     {
-        unitGridCombat = gameObject.GetComponentInParent<UnitGridCombat>();
+        unitGridCombat = this.gameObject.GetComponentInParent<UnitGridCombat>();
     }
 
     private void Update()

@@ -318,13 +318,26 @@ public class GridCombatSystem : MonoBehaviour {
         iA_Enemies.ResetPositions();
         SelectNextActiveUnit();
         UpdateValidMovePositions();
-        moveButton.interactable = true;
-        attackButton.interactable = true;
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
-        isMenuVisible = true;
+        CheckMinimenuAlly();
         isWaiting = true;
     }
+    private void CheckMinimenuAlly()
+    {
+        if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
+        {
+            moveButton.interactable = true;
+            attackButton.interactable = true;
+            isMenuVisible = true;
+        }
+        else
+        {
+            Minimenu.SetActive(false);
+            isMenuVisible = false;
+        }
+    }
+
     private void SelectNextActiveUnit()
     {
         if (allyTeamActiveUnitIndex + 1 == alliesTeamList.Count && isAllyTurn)
