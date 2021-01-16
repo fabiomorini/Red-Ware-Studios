@@ -702,6 +702,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5494821525249835825, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5494821525249835825, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5967320989669666916, guid: 41e2e604321763e419f1720138918f59,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -1165,8 +1175,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2c077880a81cf29468b74e6abdf92a0c, type: 2}
-  m_sharedMaterial: {fileID: 2691118237745086368, guid: 2c077880a81cf29468b74e6abdf92a0c,
+  m_fontAsset: {fileID: 11400000, guid: 53a2a525a4643f948b876381acc9b11f, type: 2}
+  m_sharedMaterial: {fileID: 3350998237439478946, guid: 53a2a525a4643f948b876381acc9b11f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1175,7 +1185,7 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 1
+  m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
     topLeft: {r: 0.9528302, g: 0.7972082, b: 0.28315237, a: 1}
@@ -1317,8 +1327,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Knight
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2c077880a81cf29468b74e6abdf92a0c, type: 2}
-  m_sharedMaterial: {fileID: 2691118237745086368, guid: 2c077880a81cf29468b74e6abdf92a0c,
+  m_fontAsset: {fileID: 11400000, guid: 53a2a525a4643f948b876381acc9b11f, type: 2}
+  m_sharedMaterial: {fileID: 3350998237439478946, guid: 53a2a525a4643f948b876381acc9b11f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1327,7 +1337,7 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 1
+  m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
     topLeft: {r: 0.9528302, g: 0.7972082, b: 0.28315237, a: 1}
@@ -1614,8 +1624,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Knight
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2c077880a81cf29468b74e6abdf92a0c, type: 2}
-  m_sharedMaterial: {fileID: 2691118237745086368, guid: 2c077880a81cf29468b74e6abdf92a0c,
+  m_fontAsset: {fileID: 11400000, guid: 53a2a525a4643f948b876381acc9b11f, type: 2}
+  m_sharedMaterial: {fileID: 3350998237439478946, guid: 53a2a525a4643f948b876381acc9b11f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1624,7 +1634,7 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 1
+  m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
     topLeft: {r: 0.9528302, g: 0.7972082, b: 0.28315237, a: 1}
@@ -1960,8 +1970,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2c077880a81cf29468b74e6abdf92a0c, type: 2}
-  m_sharedMaterial: {fileID: 2691118237745086368, guid: 2c077880a81cf29468b74e6abdf92a0c,
+  m_fontAsset: {fileID: 11400000, guid: 53a2a525a4643f948b876381acc9b11f, type: 2}
+  m_sharedMaterial: {fileID: 3350998237439478946, guid: 53a2a525a4643f948b876381acc9b11f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1970,7 +1980,7 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 1
+  m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
     topLeft: {r: 0.9528302, g: 0.7972082, b: 0.28315237, a: 1}
@@ -2446,8 +2456,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2c077880a81cf29468b74e6abdf92a0c, type: 2}
-  m_sharedMaterial: {fileID: 2691118237745086368, guid: 2c077880a81cf29468b74e6abdf92a0c,
+  m_fontAsset: {fileID: 11400000, guid: 53a2a525a4643f948b876381acc9b11f, type: 2}
+  m_sharedMaterial: {fileID: 3350998237439478946, guid: 53a2a525a4643f948b876381acc9b11f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2456,7 +2466,7 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 1
+  m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
     topLeft: {r: 0.9528302, g: 0.7972082, b: 0.28315237, a: 1}
@@ -3277,8 +3287,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2c077880a81cf29468b74e6abdf92a0c, type: 2}
-  m_sharedMaterial: {fileID: 2691118237745086368, guid: 2c077880a81cf29468b74e6abdf92a0c,
+  m_fontAsset: {fileID: 11400000, guid: 53a2a525a4643f948b876381acc9b11f, type: 2}
+  m_sharedMaterial: {fileID: 3350998237439478946, guid: 53a2a525a4643f948b876381acc9b11f,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3287,7 +3297,7 @@ MonoBehaviour:
     serializedVersion: 2
     rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 1
+  m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
     topLeft: {r: 0.9528302, g: 0.7972082, b: 0.28315237, a: 1}
@@ -3420,6 +3430,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5494821525249835825, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5494821525249835825, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5967320989669666916, guid: 41e2e604321763e419f1720138918f59,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -3515,6 +3535,16 @@ PrefabInstance:
     - target: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5494821525249835825, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5494821525249835825, guid: 41e2e604321763e419f1720138918f59,
+        type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5967320989669666916, guid: 41e2e604321763e419f1720138918f59,
