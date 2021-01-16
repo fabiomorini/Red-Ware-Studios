@@ -323,8 +323,10 @@ public class GridCombatSystem : MonoBehaviour {
         CheckMinimenuAlly();
         isWaiting = true;
     }
-    private void CheckMinimenuAlly()
+
+    private void CheckMinimenuAlly() 
     {
+        //función para esconder el minimenu si les toca a la IA
         if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
         {
             moveButton.interactable = true;
@@ -472,6 +474,8 @@ public class GridCombatSystem : MonoBehaviour {
     }
     private void setMenuVisible()
     {
+        //función para mostrar el minimenu si 
+        //le das a la tecla "M"
         if (isMenuVisible)
         {
             Minimenu.SetActive(true);

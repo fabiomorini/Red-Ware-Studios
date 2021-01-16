@@ -306,15 +306,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  level: 1
-  damageAmount: 1
   maxHealth: 0
   curHealth: 0
   imDead: 0
+  damageAmount: 1
+  level: 1
   attackRangeMelee: 17
   attackRangeRanged: 34
   attackRangeHealer: 34
-  rangeHealer: 34
+  rangeHeal: 30
 --- !u!1 &4931848432227509528
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,14 +441,14 @@ RectTransform:
   m_GameObject: {fileID: 4977559052829600062}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.34413743, y: 2.8415534, z: 0}
+  m_LocalScale: {x: 1.2324, y: 1.2324, z: 0}
   m_Children: []
   m_Father: {fileID: 5777918690944553119}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -81.84, y: -33}
+  m_AnchoredPosition: {x: -396, y: 28}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5797240024362849791
@@ -488,15 +488,15 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280357332
-  m_fontColor: {r: 0.8313726, g: 0.06666667, b: 0.12941177, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topLeft: {r: 1, g: 0.73212314, b: 0.1745283, a: 1}
     topRight: {r: 1, g: 1, b: 1, a: 1}
     bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 0.8679245, g: 0, b: 0, a: 1}
   m_fontColorGradientPreset: {fileID: 0}
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
@@ -506,8 +506,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 90
-  m_fontSizeBase: 90
+  m_fontSize: 200
+  m_fontSizeBase: 200
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -542,7 +542,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -55.98536, y: 0.830687, z: -26.559145, w: 22.765331}
+  m_margin: {x: -139.61351, y: -33.454395, z: -26.559145, w: -63.898556}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -575,14 +575,14 @@ RectTransform:
   m_GameObject: {fileID: 5777918690766024206}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0051316, y: 1.0499855, z: 1}
+  m_LocalScale: {x: 6.7482023, y: 1.0499855, z: 1}
   m_Children: []
   m_Father: {fileID: 5777918690944553119}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -11.33, y: -12.7}
+  m_AnchoredPosition: {x: -56.25655, y: -9.399704}
   m_SizeDelta: {x: -22.823303, y: -28.453331}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5777918690766024205
@@ -649,7 +649,7 @@ RectTransform:
   m_GameObject: {fileID: 5777918690944553118}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.330852, y: 0.05091174, z: 0}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0}
   m_Children:
   - {fileID: 3130499682535941767}
   - {fileID: 5777918691185265477}
@@ -659,7 +659,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.6532, y: -3.1012}
+  m_AnchoredPosition: {x: 6.28, y: -3.1012}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5777918690944553116
@@ -728,6 +728,7 @@ MonoBehaviour:
   currHealthText: {fileID: 0}
   miniCurrHealth: {fileID: 7827413250976362220}
   levelText: {fileID: 0}
+  unitGridCombat: {fileID: 3300769062914515232}
 --- !u!1 &5777918691185265476
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,14 +756,14 @@ RectTransform:
   m_GameObject: {fileID: 5777918691185265476}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9875, y: 0.9875, z: 1}
+  m_LocalScale: {x: 6.6298285, y: 0.9875, z: 1}
   m_Children: []
   m_Father: {fileID: 5777918690944553119}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -11.44, y: -14.3}
+  m_AnchoredPosition: {x: -57, y: -11}
   m_SizeDelta: {x: -22.823303, y: -28.453331}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5777918691185265475
