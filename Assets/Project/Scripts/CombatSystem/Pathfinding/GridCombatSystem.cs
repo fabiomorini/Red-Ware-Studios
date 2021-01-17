@@ -88,6 +88,7 @@ public class GridCombatSystem : MonoBehaviour {
     public bool attacking;
     [HideInInspector]
     public bool healing;
+    public HealthBar healthBar;
 
     public Button attackButton;
     public Button moveButton;
@@ -130,6 +131,8 @@ public class GridCombatSystem : MonoBehaviour {
         CheckIfGameIsOver();
         if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
         {
+            healthBar.UpdateHealth(unitGridCombat); //update del menu de estadísticas
+            unitGridCombat.setSelectedActive();
             setMenuVisible();
             if (moving)
             {
@@ -151,6 +154,7 @@ public class GridCombatSystem : MonoBehaviour {
         {
             if (canAttackThisTurn)
             {
+                unitGridCombat.setSelectedActive();
                 //Esperar 1 seg
                 if (isWaiting)
                 {
@@ -310,16 +314,32 @@ public class GridCombatSystem : MonoBehaviour {
     }
     public void ForceTurnOver()
     {
+        unitGridCombat.setSelectedFalse();
         iA_Enemies.ResetPositions();
         SelectNextActiveUnit();
         UpdateValidMovePositions();
-        moveButton.interactable = true;
-        attackButton.interactable = true;
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
-        isMenuVisible = true;
+        CheckMinimenuAlly();
         isWaiting = true;
     }
+
+    private void CheckMinimenuAlly() 
+    {
+        //función para esconder el minimenu si les toca a la IA
+        if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
+        {
+            moveButton.interactable = true;
+            attackButton.interactable = true;
+            isMenuVisible = true;
+        }
+        else
+        {
+            Minimenu.SetActive(false);
+            isMenuVisible = false;
+        }
+    }
+
     private void SelectNextActiveUnit()
     {
         if (allyTeamActiveUnitIndex + 1 == alliesTeamList.Count && isAllyTurn)
@@ -439,6 +459,7 @@ public class GridCombatSystem : MonoBehaviour {
     {
 
     }
+
     public void SetHealingTrue()
     {
         healing = true;
@@ -453,6 +474,8 @@ public class GridCombatSystem : MonoBehaviour {
     }
     private void setMenuVisible()
     {
+        //función para mostrar el minimenu si 
+        //le das a la tecla "M"
         if (isMenuVisible)
         {
             Minimenu.SetActive(true);
