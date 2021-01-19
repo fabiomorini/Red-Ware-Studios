@@ -541,7 +541,7 @@ MonoBehaviour:
   attackDeathSound: {fileID: 8300000, guid: bdf60e3bcdbba3949a78945bce77c551, type: 3}
   walkingBattleSound: {fileID: 8300000, guid: 4029068ac4c4e8e46815e79f91514d85, type: 3}
   turnSwapSound: {fileID: 8300000, guid: 451ba2c5dfa330946aeeef2616a62e9a, type: 3}
-  victorySound: {fileID: 0}
+  victorySound: {fileID: 8300000, guid: f95a5582aac39cf43ab5e901e898b3a9, type: 3}
   lostSound: {fileID: 0}
 --- !u!4 &143993850
 Transform:
