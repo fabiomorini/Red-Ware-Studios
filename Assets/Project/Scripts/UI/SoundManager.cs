@@ -5,7 +5,7 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     //MENU
-    public AudioClip hoverMenuSound, clickMenuSound;
+    public AudioClip hoverMenuSound, clickMenuSound, returnSound, playSound;
     //MINIMAPA
     public AudioClip ambientSound, walkingSound, openCuartelSound, closeCuartelSound, buyAllySound, zeroMoneySound, levelSoundSound, playLevelSound;
     //NIVEL
@@ -22,6 +22,8 @@ public class SoundManager : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
 
+        playSound = Resources.Load<AudioClip>("play");
+        returnSound = Resources.Load<AudioClip>("return");
         hoverMenuSound = Resources.Load<AudioClip>("hoverMenu");
         clickMenuSound = Resources.Load<AudioClip>("clickMenu");
         ambientSound = Resources.Load<AudioClip>("ambient");
@@ -54,6 +56,12 @@ public class SoundManager : MonoBehaviour
     {
         switch (clip)
         {
+            case "play":
+                audioSrc.PlayOneShot(playSound);
+                break;
+            case "return":
+                audioSrc.PlayOneShot(returnSound);
+                break;
             case "hoverMenu":
                 audioSrc.PlayOneShot(hoverMenuSound);
                 break;
