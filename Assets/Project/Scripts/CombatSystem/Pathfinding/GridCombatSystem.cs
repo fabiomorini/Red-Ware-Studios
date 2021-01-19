@@ -167,7 +167,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     IEnumerator WaitForSecondsEnemyTurn()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.0f);
         canAttackThisTurn = false;
         canMoveThisTurn = false; // temporal
                                  // Attack Enemy
@@ -314,14 +314,14 @@ public class GridCombatSystem : MonoBehaviour {
     }
     public void ForceTurnOver()
     {
-        unitGridCombat.setSelectedFalse();
-        iA_Enemies.ResetPositions();
-        SelectNextActiveUnit();
-        UpdateValidMovePositions();
-        GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
-        MovementTilemap.TilemapObject.TilemapSprite.None);
-        CheckMinimenuAlly();
-        isWaiting = true;
+            unitGridCombat.setSelectedFalse();
+            iA_Enemies.ResetPositions();
+            SelectNextActiveUnit();
+            UpdateValidMovePositions();
+            GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
+            MovementTilemap.TilemapObject.TilemapSprite.None);
+            CheckMinimenuAlly();
+            isWaiting = true;
     }
 
     private void CheckMinimenuAlly() 
