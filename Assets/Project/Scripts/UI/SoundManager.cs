@@ -5,44 +5,44 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     //MENU
-    public AudioClip hoverMenuSound, clickMenuSound, returnSound, playSound;
+    public static AudioClip hoverMenuSound, clickMenuSound, returnSound, playSound;
     //MINIMAPA
-    public AudioClip ambientSound, walkingSound, openCuartelSound, closeCuartelSound, buyAllySound, zeroMoneySound, levelSoundSound, playLevelSound;
+    public static AudioClip ambientSound, walkingSound, openCuartelSound, closeCuartelSound, buyAllySound, zeroMoneySound, levelSoundSound, playLevelSound;
     //NIVEL
     //  -MINIMENU
-    public AudioClip hoverButtonSound, clickButtonSound, openMenuSound, closeMenuSound;
+    public static AudioClip hoverButtonSound, clickButtonSound, openMenuSound, closeMenuSound;
     //  -BATALLA
-    public AudioClip attackSound, attackDeathSound, walkingBattleSound, turnSwapSound;
+    public static AudioClip attackSound, attackDeathSound, walkingBattleSound, turnSwapSound;
     //  -ENDMENU
-    public AudioClip victorySound, lostSound;
+    public static AudioClip victorySound, lostSound;
 
     static AudioSource audioSrc;
 
-    private void Start()
+    public void Start()
     {
         DontDestroyOnLoad(this.gameObject);
 
-        playSound = Resources.Load<AudioClip>("play");
-        returnSound = Resources.Load<AudioClip>("return");
-        hoverMenuSound = Resources.Load<AudioClip>("hoverMenu");
-        clickMenuSound = Resources.Load<AudioClip>("clickMenu");
-        ambientSound = Resources.Load<AudioClip>("ambient");
-        walkingSound = Resources.Load<AudioClip>("walking");
-        openCuartelSound = Resources.Load<AudioClip>("openCuartel");
-        closeCuartelSound = Resources.Load<AudioClip>("closeCuartel");
-        buyAllySound = Resources.Load<AudioClip>("buyAlly");
-        levelSoundSound = Resources.Load<AudioClip>("levelSound");
-        playLevelSound = Resources.Load<AudioClip>("playLevel");
-        hoverButtonSound = Resources.Load<AudioClip>("hoverButton");
-        clickButtonSound = Resources.Load<AudioClip>("clickButton");
-        openMenuSound = Resources.Load<AudioClip>("openMenu");
-        closeMenuSound = Resources.Load<AudioClip>("closeMenu");
-        attackSound = Resources.Load<AudioClip>("attack");
-        attackDeathSound = Resources.Load<AudioClip>("attackDeath");
-        walkingBattleSound = Resources.Load<AudioClip>("walkingBattle");
-        turnSwapSound = Resources.Load<AudioClip>("turnSwap");
-        victorySound = Resources.Load<AudioClip>("victory");
-        lostSound = Resources.Load<AudioClip>("lost");
+        playSound = Resources.Load<AudioClip>("Play");
+        returnSound = Resources.Load<AudioClip>("Return");
+        hoverMenuSound = Resources.Load<AudioClip>("HoverMenu");
+        clickMenuSound = Resources.Load<AudioClip>("ClickMenu");
+        ambientSound = Resources.Load<AudioClip>("Ambient");
+        walkingSound = Resources.Load<AudioClip>("Walking");
+        openCuartelSound = Resources.Load<AudioClip>("OpenCuartel");
+        closeCuartelSound = Resources.Load<AudioClip>("CloseCuartel");
+        buyAllySound = Resources.Load<AudioClip>("BuyAlly");
+        levelSoundSound = Resources.Load<AudioClip>("LevelSound");
+        playLevelSound = Resources.Load<AudioClip>("PlayLevel");
+        hoverButtonSound = Resources.Load<AudioClip>("HoverButton");
+        clickButtonSound = Resources.Load<AudioClip>("ClickButton");
+        openMenuSound = Resources.Load<AudioClip>("OpenMenu");
+        closeMenuSound = Resources.Load<AudioClip>("CloseMenu");
+        attackSound = Resources.Load<AudioClip>("Attack");
+        attackDeathSound = Resources.Load<AudioClip>("AttackDeath");
+        walkingBattleSound = Resources.Load<AudioClip>("WalkingBattle");
+        turnSwapSound = Resources.Load<AudioClip>("TurnSwap");
+        victorySound = Resources.Load<AudioClip>("Victory");
+        lostSound = Resources.Load<AudioClip>("Lost");
 
         audioSrc = GetComponent<AudioSource>();
     }
@@ -52,11 +52,11 @@ public class SoundManager : MonoBehaviour
         
     }
 
-    public void PlaySound (string clip)
+    public static void PlaySound (string clip)
     {
         switch (clip)
         {
-            case "play":
+            case "Play":
                 audioSrc.PlayOneShot(playSound);
                 break;
             case "return":
