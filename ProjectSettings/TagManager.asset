@@ -8,6 +8,7 @@ TagManager:
   - Active
   - CombatHandler
   - characterManager
+  - SoundManager
   layers:
   - Default
   - TransparentFX
