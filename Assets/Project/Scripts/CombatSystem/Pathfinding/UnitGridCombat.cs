@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class UnitGridCombat : MonoBehaviour {
 
@@ -16,7 +17,14 @@ public class UnitGridCombat : MonoBehaviour {
     [HideInInspector] public float attackRangeMelee = 5;
     [HideInInspector] public float attackRangeRanged = 30;
     [HideInInspector] public float attackRangeHealer = 0;
-    [HideInInspector] public float rangeHeal = 30; 
+    [HideInInspector] public float rangeHeal = 30;
+
+    // Feedback
+    public GameObject slashAnim;
+    public SpriteRenderer playerSprite;
+    public AudioClip swordSlash;
+    public AudioClip swordSlashDeath;
+    [HideInInspector] public bool animEnded = true;
 
     private GameObject selectedGameObject;
     private GridCombatSystem sceneCombatSystem;
@@ -45,6 +53,7 @@ public class UnitGridCombat : MonoBehaviour {
     {
         maxHealth = healthSystem.MaxHealth;
         curHealth = healthSystem.CurrentHealth;
+        animEnded = true;
     }
 
     public void MoveTo(Vector3 targetPosition, Action onReachedPosition) {
@@ -73,7 +82,7 @@ public class UnitGridCombat : MonoBehaviour {
 
     public void Damage(UnitGridCombat Attacker,float damage){
         healthSystem.Damage(damageAmount);
-        if(healthSystem.IsDead()){
+        if (healthSystem.IsDead()){
             if(Attacker.GetTeam() == Team.Blue) 
             {
                 imDead = true;
@@ -96,8 +105,22 @@ public class UnitGridCombat : MonoBehaviour {
                 }
                 CleanListAlly();
             }
-            Destroy(gameObject); //no tenemos que hacer destroy
         }
+        StartCoroutine(FeedbackAttack());
+    }
+
+    private IEnumerator FeedbackAttack()
+    {
+        animEnded = false;
+        slashAnim.SetActive(true);
+        yield return new WaitForSeconds(0.4f);
+        slashAnim.SetActive(false);
+        playerSprite.color = Color.red;
+        yield return new WaitForSeconds(0.3f);
+        playerSprite.color = Color.white;
+        if(imDead) 
+            Destroy(gameObject); //no tenemos que hacer destroy
+        animEnded = true;
     }
 
     private void CleanListIA()
