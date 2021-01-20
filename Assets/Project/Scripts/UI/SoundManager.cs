@@ -101,10 +101,10 @@ public class SoundManager : MonoBehaviour
             case "closeMenu":
                 audioSrc.PlayOneShot(closeMenuSound);
                 break;
-            case "attack":
+            case "Attack":
                 audioSrc.PlayOneShot(attackSound);
                 break;
-            case "attackDeath":
+            case "AttackDeath":
                 audioSrc.PlayOneShot(attackDeathSound);
                 break;
             case "walkingBattle":

@@ -117,14 +117,15 @@ public class UnitGridCombat : MonoBehaviour {
         playerSprite.color = Color.red;
         yield return new WaitForSeconds(0.3f);
         playerSprite.color = Color.white;
-        if(imDead) 
-            Destroy(gameObject); //no tenemos que hacer destroy
         animEnded = true;
+        if (imDead) 
+            Destroy(gameObject); //no tenemos que hacer destroy
+
     }
 
     private void PlaySoundAttack()
     {
-        if (curHealth == 0)
+        if (imDead)
             SoundManager.PlaySound("AtackDeath");
         else
             SoundManager.PlaySound("Attack");
