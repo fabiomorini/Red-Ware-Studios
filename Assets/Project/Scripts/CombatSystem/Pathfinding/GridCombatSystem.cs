@@ -289,6 +289,7 @@ public class GridCombatSystem : MonoBehaviour {
             Time.timeScale = 0;
         }
         if(alliesTeamList.Count == 0){
+            SoundManager.PlaySound("Victory");
             gameOver = true;
             lostUI.SetActive(true);
             Time.timeScale = 0;
@@ -351,6 +352,7 @@ public class GridCombatSystem : MonoBehaviour {
         }
         if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
         {
+            YourTurnUI();
             isAllyTurn = true;
             enemiesTeamActiveUnitIndex = -1;
         }

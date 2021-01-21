@@ -33,7 +33,7 @@ public class SoundManager : MonoBehaviour
         buyAllySound = Resources.Load<AudioClip>("BuyAlly");
         levelSoundSound = Resources.Load<AudioClip>("LevelSound");
         playLevelSound = Resources.Load<AudioClip>("PlayLevel");
-        hoverButtonSound = Resources.Load<AudioClip>("HoverButton");
+        hoverButtonSound = Resources.Load<AudioClip>("HoverMainMenu");
         clickButtonSound = Resources.Load<AudioClip>("ClickButton");
         openMenuSound = Resources.Load<AudioClip>("OpenMenu");
         closeMenuSound = Resources.Load<AudioClip>("CloseMenu");
@@ -89,7 +89,7 @@ public class SoundManager : MonoBehaviour
             case "playLevel":
                 audioSrc.PlayOneShot(playLevelSound);
                 break;
-            case "hoverButton":
+            case "HoverMainMenu":
                 audioSrc.PlayOneShot(hoverButtonSound);
                 break;
             case "clickButton":
