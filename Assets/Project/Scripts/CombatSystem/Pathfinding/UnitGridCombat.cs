@@ -22,8 +22,6 @@ public class UnitGridCombat : MonoBehaviour {
     // Feedback
     public GameObject slashAnim;
     public SpriteRenderer playerSprite;
-    public AudioClip swordSlash;
-    public AudioClip swordSlashDeath;
     [HideInInspector] public bool animEnded = true;
 
     private GameObject selectedGameObject;
@@ -113,14 +111,15 @@ public class UnitGridCombat : MonoBehaviour {
     {
         animEnded = false;
         slashAnim.SetActive(true);
-        yield return new WaitForSeconds(0.4f);
+        SoundManager.PlaySound("Attack");
+        yield return new WaitForSeconds(0.5f);
         slashAnim.SetActive(false);
         playerSprite.color = Color.red;
         yield return new WaitForSeconds(0.3f);
         playerSprite.color = Color.white;
-        if(imDead) 
-            Destroy(gameObject); //no tenemos que hacer destroy
         animEnded = true;
+        if (imDead) 
+            Destroy(gameObject); //no tenemos que hacer destroy
     }
 
     private void CleanListIA()
