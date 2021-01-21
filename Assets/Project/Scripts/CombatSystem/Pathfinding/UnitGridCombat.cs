@@ -111,7 +111,7 @@ public class UnitGridCombat : MonoBehaviour {
     {
         animEnded = false;
         slashAnim.SetActive(true);
-        PlaySoundAttack();
+        SoundManager.PlaySound("Attack");
         yield return new WaitForSeconds(0.5f);
         slashAnim.SetActive(false);
         playerSprite.color = Color.red;
@@ -120,15 +120,6 @@ public class UnitGridCombat : MonoBehaviour {
         animEnded = true;
         if (imDead) 
             Destroy(gameObject); //no tenemos que hacer destroy
-
-    }
-
-    private void PlaySoundAttack()
-    {
-        if (imDead)
-            SoundManager.PlaySound("AtackDeath");
-        else
-            SoundManager.PlaySound("Attack");
     }
 
     private void CleanListIA()

@@ -7,34 +7,28 @@ using UnityEngine.UI;
 
 public class GridCombatSystem : MonoBehaviour {
 
-
-    private UnitGridCombat unitGridCombat; //personaje
-    public List<UnitGridCombat> unitGridCombatArray; //lista general de personajes
-    ///listas de personajes de cada equipo
-    [HideInInspector]
-    public List<UnitGridCombat> alliesTeamList; 
-    [HideInInspector]
-    public List<UnitGridCombat> alliesTeamKO;
-    [HideInInspector]
-    public List<UnitGridCombat> newAlliesTeamList;
-    [HideInInspector]
-    public List<UnitGridCombat> enemiesTeamList;
-    [HideInInspector]
-    public List<UnitGridCombat> enemiesTeamKo;
-    [HideInInspector]
-    public List<UnitGridCombat> newEnemiesTeamList;
-
-    [HideInInspector] //personaje activo del array actual
-    public int allyTeamActiveUnitIndex;
-    [HideInInspector]
-    public int enemiesTeamActiveUnitIndex;
+    //personaje
+    private UnitGridCombat unitGridCombat; 
+    //lista general de personajes
+    public List<UnitGridCombat> unitGridCombatArray; 
+    //listas de personajes de cada equipo
+    [HideInInspector] public List<UnitGridCombat> alliesTeamList; 
+    [HideInInspector] public List<UnitGridCombat> alliesTeamKO;
+    [HideInInspector] public List<UnitGridCombat> newAlliesTeamList;
+    [HideInInspector] public List<UnitGridCombat> enemiesTeamList;
+    [HideInInspector] public List<UnitGridCombat> enemiesTeamKo;
+    [HideInInspector] public List<UnitGridCombat> newEnemiesTeamList;
+    //personaje activo del array actual
+    [HideInInspector] public int allyTeamActiveUnitIndex;
+    [HideInInspector] public int enemiesTeamActiveUnitIndex;
 
     //booleanos de atacar y mover
     private bool canMoveThisTurn;
     private bool canAttackThisTurn;
 
-    ///Sistema de spawning de tropas según cuantas tienes compradas en el cuartel
-    private GameObject Ally; // deep lore, se usa solo para que no de error, no sirve para nada más
+    //Sistema de spawning de tropas según cuantas tienes compradas en el cuartel
+    //deep lore, se usa solo para que no de error, no sirve para nada más
+    private GameObject Ally; 
 
     public GameObject allyMelee;
     public GameObject allyRanged;
@@ -48,7 +42,7 @@ public class GridCombatSystem : MonoBehaviour {
     // lista paralela a unitGridCombatArray donde comprobamos las características de cada aliado (CHARACTER_MNG)
     private List<CHARACTER_PREFS> characterPrefs; 
 
-    /// Sistema de limitación de spawning de tropas por escenas 
+    // Sistema de limitación de spawning de tropas por escenas 
     private int maxOfCharacters; 
     //Escenas de Unity por buildIndex
     private int IndexL1 = 2;
@@ -65,35 +59,31 @@ public class GridCombatSystem : MonoBehaviour {
     private int maxL5 = 6;
     private int maxL6 = 7;
 
-    ///-------- IA------------
+    //-------- IA------------
     public IA_enemies iA_Enemies;
-    [HideInInspector]
-    private bool isAllyTurn = true;
+    [HideInInspector] private bool isAllyTurn = true;
     public GameObject allyTurn;
     public GameObject lostUI;
     public GameObject winUI;
     private bool gameOver;
     //tiempo de espera antes de que se vaya la ui de cambio de turno
     private float SecondsWaitingUI = 1.0f;
-    [HideInInspector]
-    public int maxMoveDistance = 5;
+    [HideInInspector] public int maxMoveDistance = 5;
 
-    // minimenu in-game
+    //minimenu in-game
     public GameObject Minimenu;
     private bool isMenuVisible;
     [HideInInspector]
     public bool moving;
     private bool isMoving;
-    [HideInInspector]
-    public bool attacking;
-    [HideInInspector]
-    public bool healing;
+    [HideInInspector] public bool attacking;
+    [HideInInspector] public bool healing;
+    [HideInInspector] public bool isWaiting = true;
     public HealthBar healthBar;
-
     public Button attackButton;
     public Button moveButton;
 
-    public bool isWaiting = true;
+
 
     private void Start() {
 
@@ -131,7 +121,8 @@ public class GridCombatSystem : MonoBehaviour {
         CheckIfGameIsOver();
         if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
         {
-            healthBar.UpdateHealth(unitGridCombat); //update del menu de estadísticas
+            //update del menu de estadísticas
+            healthBar.UpdateHealth(unitGridCombat); 
             unitGridCombat.setSelectedActive();
             setMenuVisible();
             if (moving)
@@ -147,7 +138,11 @@ public class GridCombatSystem : MonoBehaviour {
                 AttackAllyVisual();
             }
 
-            CheckTurnOver();
+            if (!canAttackThisTurn)
+            {
+                StartCoroutine(WaitAttack());
+            }
+
 
         }
         else
@@ -163,6 +158,12 @@ public class GridCombatSystem : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private IEnumerator WaitAttack()
+    {
+        yield return new WaitForSeconds(0.8f);
+        CheckTurnOver();
     }
 
     IEnumerator WaitForSecondsEnemyTurn()
@@ -294,7 +295,8 @@ public class GridCombatSystem : MonoBehaviour {
         }
     }
 
-    public bool SeekEnemiesIA(UnitGridCombat thisUnit) //mira si hay un enemigo a una casilla
+    //mira si hay un enemigo a una casilla
+    public bool SeekEnemiesIA(UnitGridCombat thisUnit) 
     {
         Vector3 myPosition = thisUnit.GetPosition();
         for (int i = 0; i < alliesTeamList.Count; i++)
