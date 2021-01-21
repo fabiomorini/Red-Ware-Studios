@@ -5,25 +5,30 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public Animation fadeIn;
-
-    public void PlayLevel() 
-    {
-        StartCoroutine(PlayGame());
-    }
-
-    public IEnumerator PlayGame()
-    {
-        SoundManager.PlaySound("Play");
-        yield return new WaitForSeconds(0.5f);
-        //fadeIn.Play();
-        yield return new WaitForSeconds(1.0f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
     public void Exit()
     {
-        Debug.Log("QUIT");
+        StartCoroutine(QuitGame());
+    }
+
+    public void Options()
+    {
+        SoundManager.PlaySound("ClickMenu");
+    }
+
+    public IEnumerator QuitGame()
+    {
+        SoundManager.PlaySound("Return");
+        yield return new WaitForSeconds(1.0f);
         Application.Quit();
+    }
+
+    public void ExitOptionsMenu()
+    {
+        SoundManager.PlaySound("Return");
+    }
+
+    public void HoverSound()
+    {
+        SoundManager.PlaySound("HoverMenu");
     }
 }

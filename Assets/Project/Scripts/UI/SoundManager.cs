@@ -59,13 +59,13 @@ public class SoundManager : MonoBehaviour
             case "Play":
                 audioSrc.PlayOneShot(playSound);
                 break;
-            case "return":
+            case "Return":
                 audioSrc.PlayOneShot(returnSound);
                 break;
-            case "hoverMenu":
+            case "HoverMenu":
                 audioSrc.PlayOneShot(hoverMenuSound);
                 break;
-            case "clickMenu":
+            case "ClickMenu":
                 audioSrc.PlayOneShot(clickMenuSound);
                 break;
             case "ambient":
