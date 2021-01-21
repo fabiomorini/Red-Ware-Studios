@@ -4,6 +4,7 @@ using UnityEngine;
 using GridPathfindingSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class GridCombatSystem : MonoBehaviour {
 
@@ -21,6 +22,9 @@ public class GridCombatSystem : MonoBehaviour {
     //personaje activo del array actual
     [HideInInspector] public int allyTeamActiveUnitIndex;
     [HideInInspector] public int enemiesTeamActiveUnitIndex;
+
+    public GameHandler_GridCombatSystem gameHandler;
+    private CHARACTER_MNG characterManager;
 
     //booleanos de atacar y mover
     private bool canMoveThisTurn;
@@ -63,8 +67,6 @@ public class GridCombatSystem : MonoBehaviour {
     public IA_enemies iA_Enemies;
     [HideInInspector] private bool isAllyTurn = true;
     public GameObject allyTurn;
-    public GameObject lostUI;
-    public GameObject winUI;
     private bool gameOver;
     //tiempo de espera antes de que se vaya la ui de cambio de turno
     private float SecondsWaitingUI = 1.0f;
@@ -73,9 +75,8 @@ public class GridCombatSystem : MonoBehaviour {
     //minimenu in-game
     public GameObject Minimenu;
     private bool isMenuVisible;
-    [HideInInspector]
-    public bool moving;
     private bool isMoving;
+    [HideInInspector] public bool moving;
     [HideInInspector] public bool attacking;
     [HideInInspector] public bool healing;
     [HideInInspector] public bool isWaiting = true;
@@ -83,15 +84,23 @@ public class GridCombatSystem : MonoBehaviour {
     public Button attackButton;
     public Button moveButton;
 
+    //EndMenu UI
+    public TMP_Text alliesLeftText;
+    public TMP_Text coinsRewardText;
+    public TMP_Text victory;
+    public TMP_Text defeat;
+    public GameObject allyUI;
+    public GameObject enemyUI;
+    public GameObject endGameUI;
 
 
     private void Start() {
-
-        numberOfMelee = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().numberOfMelee;
-        numberOfRanged = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().numberOfRanged;
-        numberOfHealer = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().numberOfHealer;
-        numberOfAllies = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().numberOfAllies;
-        characterPrefs = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>().characterPrefs;
+        characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
+        numberOfMelee = characterManager.numberOfMelee;
+        numberOfRanged = characterManager.numberOfRanged;
+        numberOfHealer = characterManager.numberOfHealer;
+        numberOfAllies = characterManager.numberOfAllies;
+        characterPrefs = characterManager.characterPrefs;
         spawnCharacters();
 
         alliesTeamList = new List<UnitGridCombat>();
@@ -118,43 +127,44 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void Update()
     {
-        CheckIfGameIsOver();
-        if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
+        if (!gameOver)
         {
-            //update del menu de estadísticas
-            healthBar.UpdateHealth(unitGridCombat); 
-            unitGridCombat.setSelectedActive();
-            setMenuVisible();
-            if (moving)
+            gameHandler.HandleCameraMovement();
+            if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
             {
-                maxMoveDistance = 5;
-                UpdateValidMovePositions();
-                MoveAllyVisual();
-            }
-            if (attacking)
-            {
-                maxMoveDistance = 2;
-                UpdateValidMovePositions();
-                AttackAllyVisual();
-            }
-
-            if (!canAttackThisTurn)
-            {
-                StartCoroutine(WaitAttack());
-            }
-
-
-        }
-        else
-        {
-            if (canAttackThisTurn)
-            {
+                //update del menu de estadísticas
+                healthBar.UpdateHealth(unitGridCombat);
                 unitGridCombat.setSelectedActive();
-                //Esperar 1 seg
-                if (isWaiting)
+                setMenuVisible();
+                if (moving)
                 {
-                    StartCoroutine(WaitForSecondsEnemyTurn());
-                    isWaiting = false;
+                    maxMoveDistance = 5;
+                    UpdateValidMovePositions();
+                    MoveAllyVisual();
+                }
+                if (attacking)
+                {
+                    maxMoveDistance = 2;
+                    UpdateValidMovePositions();
+                    AttackAllyVisual();
+                }
+
+                if (!canAttackThisTurn)
+                {
+                    StartCoroutine(WaitAttack());
+                }
+            }
+            else
+            {
+                if (canAttackThisTurn)
+                {
+                    unitGridCombat.setSelectedActive();
+                    //Esperar 1 seg
+                    if (isWaiting)
+                    {
+                        StartCoroutine(WaitForSecondsEnemyTurn());
+                        isWaiting = false;
+                    }
                 }
             }
         }
@@ -282,19 +292,48 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
     }
-    private void CheckIfGameIsOver(){
+    public void CheckIfGameIsOver(){
         if(enemiesTeamList.Count == 0){
             gameOver = true;
-            winUI.SetActive(true);
-            Time.timeScale = 0;
+            ShowVictoryUI();
+            DontShowUI();
         }
         if(alliesTeamList.Count == 0){
             SoundManager.PlaySound("Victory");
             gameOver = true;
-            lostUI.SetActive(true);
-            Time.timeScale = 0;
+            ShowDefeatUI();
+            DontShowUI();
         }
     }
+
+    private void ShowEndGameUI()
+    {
+        alliesLeftText.SetText("Allies left: " + (numberOfAllies - (numberOfAllies - alliesTeamList.Count)));
+        coinsRewardText.SetText("Reward: "+  + "coins");
+        endGameUI.SetActive(true);
+    }
+
+    private void ShowVictoryUI()
+    {
+        victory.gameObject.SetActive(false);
+    }
+    private void ShowDefeatUI()
+    { 
+        defeat.gameObject.SetActive(false);
+    }
+
+    private void DontShowUI()
+    {
+        Minimenu.SetActive(false);
+        allyUI.SetActive(false);
+        enemyUI.SetActive(false);
+    }
+
+    public void ExitFromBattle()
+    {
+        SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
+    }
+
 
     //mira si hay un enemigo a una casilla
     public bool SeekEnemiesIA(UnitGridCombat thisUnit) 

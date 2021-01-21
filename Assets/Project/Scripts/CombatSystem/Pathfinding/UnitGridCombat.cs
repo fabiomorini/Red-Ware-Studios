@@ -120,6 +120,7 @@ public class UnitGridCombat : MonoBehaviour {
         animEnded = true;
         if (imDead) 
             Destroy(gameObject); //no tenemos que hacer destroy
+        sceneCombatSystem.CheckIfGameIsOver();
     }
 
     private void CleanListIA()

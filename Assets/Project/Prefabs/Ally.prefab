@@ -318,8 +318,6 @@ MonoBehaviour:
   rangeHeal: 30
   slashAnim: {fileID: 8288384011522629396}
   playerSprite: {fileID: 8519992233551733056}
-  swordSlash: {fileID: 0}
-  swordSlashDeath: {fileID: 0}
   animEnded: 1
 --- !u!1 &4931848432227509528
 GameObject:
