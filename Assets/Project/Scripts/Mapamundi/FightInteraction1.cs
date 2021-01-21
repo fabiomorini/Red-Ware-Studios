@@ -24,7 +24,8 @@ public class FightInteraction1 : MonoBehaviour
     private void Update()
     {
         if (pressedCombatButton && Input.GetKeyDown(KeyCode.E) && CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
-            Combat();
+            StartCoroutine(PlayGame());
+        //Combat();
         else if(CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies == 0)
         {
             // UI de no tienes soldados
@@ -51,6 +52,15 @@ public class FightInteraction1 : MonoBehaviour
 
     private void Combat()
     {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public IEnumerator PlayGame()
+    {
+        SoundManager.PlaySound("playLevel");
+        yield return new WaitForSeconds(0.5f);
+        //fadeIn.Play();
+        yield return new WaitForSeconds(1.0f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

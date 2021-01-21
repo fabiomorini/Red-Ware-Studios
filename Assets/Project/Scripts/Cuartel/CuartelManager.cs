@@ -25,11 +25,13 @@ public class CuartelManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q) && !isActive)
         {
+            SoundManager.PlaySound("openCuartel");
             cuartel.SetActive(true);
             isActive = true;
         }
-        if(Input.GetKey("escape") && isActive)
+        if (Input.GetKey("escape") && isActive)
         {
+            SoundManager.PlaySound("closeCuartel");
             cuartel.SetActive(false);
             isActive = false;
         }
@@ -40,8 +42,9 @@ public class CuartelManager : MonoBehaviour
 
     public void BuyKnight()
     {
-        if(characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
+        if (characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
         {
+            SoundManager.PlaySound("buyAlly");
             characterManager.GetComponent<CHARACTER_MNG>().coins -= knightPrice;
             knightCounter++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee++;
@@ -53,6 +56,7 @@ public class CuartelManager : MonoBehaviour
     {
         if (characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
         {
+            SoundManager.PlaySound("buyAlly");
             characterManager.GetComponent<CHARACTER_MNG>().coins -= archerPrice;
             ArcherCounter++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfRanged++;
@@ -69,5 +73,5 @@ public class CuartelManager : MonoBehaviour
             characterManager.GetComponent<CHARACTER_MNG>().numberOfAllies++;
         }
     }
- 
+
 }

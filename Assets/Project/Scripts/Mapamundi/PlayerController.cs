@@ -14,13 +14,15 @@ public class PlayerController : MonoBehaviour
 		rb = GetComponent<Rigidbody2D>();
 	}
 
-	private void FixedUpdate () {
-
+	private void FixedUpdate ()
+	{
 		force = new Vector2(Input.GetAxisRaw("Horizontal")*speed, Input.GetAxisRaw("Vertical")*speed).normalized;
 		rb.MovePosition(rb.position + force * speed * Time.fixedDeltaTime);
-		}
+	}
 
-	private void Update() {
+	private void Update() 
+	{
+		//SoundManager.PlaySound("walking");
 		anim.SetFloat("Mov_X", force.x);
 		anim.SetFloat("Mov_Y", force.y);
 	}
