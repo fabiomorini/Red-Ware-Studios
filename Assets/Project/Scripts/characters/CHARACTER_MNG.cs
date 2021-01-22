@@ -51,7 +51,7 @@ public class CHARACTER_MNG : MonoBehaviour
     public int GetLevelIndex()
     {
         int reward = 0;
-        /*switch (SceneManager.GetActiveScene())
+        switch (SceneManager.GetActiveScene().buildIndex)
         {
             case 2:
                 reward = RewardL1;
@@ -68,7 +68,7 @@ public class CHARACTER_MNG : MonoBehaviour
             case 6:
                 reward = RewardL5;
                 break;
-        }*/
+        }
         return reward;
     }
 
@@ -80,7 +80,6 @@ public class CHARACTER_MNG : MonoBehaviour
             {
                 characterPrefs.RemoveAt(i);
                 numberOfAllies--;
-
             }
         }
     }

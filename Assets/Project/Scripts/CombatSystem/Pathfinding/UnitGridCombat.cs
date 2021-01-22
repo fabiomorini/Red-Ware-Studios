@@ -84,7 +84,7 @@ public class UnitGridCombat : MonoBehaviour {
             if(Attacker.GetTeam() == Team.Blue) 
             {
                 imDead = true;
-                sceneCombatSystem.enemiesTeamKo.Insert(0, unitGridCombat);
+                //sceneCombatSystem.enemiesTeamKo.Add(unitGridCombat);
                 for(int i = 0; i < sceneCombatSystem.enemiesTeamList.Count; i++)
                 {
                     if(!sceneCombatSystem.enemiesTeamList[i].imDead)
@@ -95,7 +95,8 @@ public class UnitGridCombat : MonoBehaviour {
             else if(Attacker.GetTeam() == Team.Red)
             {
                 imDead = true;
-                sceneCombatSystem.alliesTeamKO.Insert(0, unitGridCombat);
+                sceneCombatSystem.allydeads += 1;
+                //sceneCombatSystem.alliesTeamKO.Add(unitGridCombat);
                 for (int i = 0; i < sceneCombatSystem.alliesTeamList.Count; i++)
                 {
                     if (!sceneCombatSystem.alliesTeamList[i].imDead)
@@ -118,7 +119,7 @@ public class UnitGridCombat : MonoBehaviour {
         yield return new WaitForSeconds(0.3f);
         playerSprite.color = Color.white;
         animEnded = true;
-        if (imDead) 
+        if (imDead)
             Destroy(gameObject); //no tenemos que hacer destroy
         sceneCombatSystem.CheckIfGameIsOver();
     }
@@ -128,7 +129,6 @@ public class UnitGridCombat : MonoBehaviour {
         sceneCombatSystem.enemiesTeamList.Clear();
         sceneCombatSystem.enemiesTeamList = new List<UnitGridCombat>(sceneCombatSystem.newEnemiesTeamList);
         sceneCombatSystem.newEnemiesTeamList.Clear();
-        sceneCombatSystem.enemiesTeamKo.Clear();
     }
 
     private void CleanListAlly()
@@ -136,7 +136,6 @@ public class UnitGridCombat : MonoBehaviour {
         sceneCombatSystem.alliesTeamList.Clear();
         sceneCombatSystem.alliesTeamList = new List<UnitGridCombat>(sceneCombatSystem.newAlliesTeamList);
         sceneCombatSystem.newAlliesTeamList.Clear();
-        sceneCombatSystem.alliesTeamKO.Clear();
     }
 
     public void HealAlly(UnitGridCombat unitGridCombat)

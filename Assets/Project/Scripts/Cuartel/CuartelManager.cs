@@ -18,6 +18,17 @@ public class CuartelManager : MonoBehaviour
     public GameObject characterManager;
     private bool isActive;
 
+    private void Start()
+    {
+        if (GameObject.FindWithTag("characterManager") == null)
+        {
+            Instantiate(characterManager);
+        }
+        characterManager = GameObject.FindWithTag("characterManager");
+        knightCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee;
+        ArcherCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfRanged;
+        //ArcherCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee;
+    }
 
     private void Update()
     {
@@ -70,6 +81,11 @@ public class CuartelManager : MonoBehaviour
             characterManager.GetComponent<CHARACTER_MNG>().numberOfHealer++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfAllies++;
         }
+    }
+
+    public void CheatButton()
+    {
+        characterManager.GetComponent<CHARACTER_MNG>().coins += 200;
     }
 
 }

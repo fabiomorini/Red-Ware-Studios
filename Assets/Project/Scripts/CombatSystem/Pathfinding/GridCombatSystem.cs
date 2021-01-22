@@ -15,6 +15,7 @@ public class GridCombatSystem : MonoBehaviour {
     //listas de personajes de cada equipo
     [HideInInspector] public List<UnitGridCombat> alliesTeamList; 
     [HideInInspector] public List<UnitGridCombat> alliesTeamKO;
+    [HideInInspector] public int allydeads = 0;
     [HideInInspector] public List<UnitGridCombat> newAlliesTeamList;
     [HideInInspector] public List<UnitGridCombat> enemiesTeamList;
     [HideInInspector] public List<UnitGridCombat> enemiesTeamKo;
@@ -308,19 +309,25 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void ShowEndGameUI()
     {
-        alliesLeftText.SetText("Allies left: " + (numberOfAllies - (numberOfAllies - alliesTeamList.Count)));
-        coinsRewardText.SetText("Reward: " + 300 + " coins");
+        alliesLeftText.SetText("Allies left: " + (numberOfAllies - allydeads));
         endGameUI.SetActive(true);
+        //temporal para la pre-alpha 
+        characterManager.numberOfAllies = (numberOfAllies - allydeads);
+        characterManager.numberOfMelee = (numberOfAllies - allydeads);
     }
 
     private void ShowVictoryUI()
     {
         ShowEndGameUI();
+        coinsRewardText.SetText("Reward: " + characterManager.GetLevelIndex() + " coins");
+        characterManager.coins += characterManager.GetLevelIndex();
         defeat.gameObject.SetActive(false);
     }
     private void ShowDefeatUI()
     {
         ShowEndGameUI();
+        coinsRewardText.SetText("Reward: " + (int)characterManager.GetLevelIndex()/2 + " coins");
+        characterManager.coins += (int)characterManager.GetLevelIndex()/2;
         victory.gameObject.SetActive(false);
     }
 
@@ -451,9 +458,11 @@ public class GridCombatSystem : MonoBehaviour {
 
                         unitGridCombat.MoveTo(GetMouseWorldPosition(), () =>
                         {
+                            GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
                             Minimenu.SetActive(true);
                             CheckTurnOver();
                         });
+
                     }
                 }
             }
