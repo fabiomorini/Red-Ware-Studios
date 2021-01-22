@@ -782,6 +782,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 689811375}
     m_Modifications:
+    - target: {fileID: 5997409503840916946, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.54509807
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409503840916946, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.3679245
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409503840916946, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.3679245
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409503840916946, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.3679245
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409503887032456, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_fontColor.a
+      value: 0.42745098
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409503887032456, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 1830295576
+      objectReference: {fileID: 0}
     - target: {fileID: 5997409503923032796, guid: 2f2579a4d92ab884b9f1707643056465,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -807,6 +837,11 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: BuyKnight
       objectReference: {fileID: 0}
+    - target: {fileID: 5997409504192778110, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_EffectColor.a
+      value: 0.09411765
+      objectReference: {fileID: 0}
     - target: {fileID: 5997409504286091866, guid: 2f2579a4d92ab884b9f1707643056465,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -831,6 +866,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: BuyArcher
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409504286091866, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409504286091866, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409504286091866, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409504286091866, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409504286091866, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.b
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5997409504316035548, guid: 2f2579a4d92ab884b9f1707643056465,
         type: 3}
@@ -961,6 +1021,46 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409504428959630, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_fontColor.a
+      value: 0.30588236
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409504428959630, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 1309718767
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409504625156526, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.4627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409504625156526, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.2924528
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409504625156526, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.2924528
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409504625156526, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.2924528
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409505520755315, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_fontColor.a
+      value: 0.36862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 5997409505520755315, guid: 2f2579a4d92ab884b9f1707643056465,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 1578637336
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f2579a4d92ab884b9f1707643056465, type: 3}
@@ -2954,7 +3054,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2105779968}
-  m_LocalRotation: {x: 0, y: 0, z: -3.5260584e-18, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -3.5058127e-18, w: 1}
   m_LocalPosition: {x: -14.3, y: 0.74, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

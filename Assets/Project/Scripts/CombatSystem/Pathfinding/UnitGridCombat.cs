@@ -24,7 +24,7 @@ public class UnitGridCombat : MonoBehaviour {
     public SpriteRenderer playerSprite;
     [HideInInspector] public bool animEnded = true;
 
-    private GameObject selectedGameObject;
+    [HideInInspector] public GameObject selectedGameObject;
     private GridCombatSystem sceneCombatSystem;
     private MovePositionPathfinding movePosition;
     private HealthSystem healthSystem;

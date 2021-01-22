@@ -7,10 +7,8 @@ public class CuartelManager : MonoBehaviour
 {
     private int knightCounter = 0;
     private int ArcherCounter = 0;
-    [SerializeField]
-    private int knightPrice = 100;
-    [SerializeField]
-    private int archerPrice = 120;
+    [SerializeField] private int knightPrice = 100;
+    [SerializeField] private int archerPrice = 120;
 
     public TMP_Text coinsText;
     public TMP_Text ArcherText;

@@ -309,17 +309,19 @@ public class GridCombatSystem : MonoBehaviour {
     private void ShowEndGameUI()
     {
         alliesLeftText.SetText("Allies left: " + (numberOfAllies - (numberOfAllies - alliesTeamList.Count)));
-        coinsRewardText.SetText("Reward: "+  + "coins");
+        coinsRewardText.SetText("Reward: " + 300 + " coins");
         endGameUI.SetActive(true);
     }
 
     private void ShowVictoryUI()
     {
-        victory.gameObject.SetActive(false);
+        ShowEndGameUI();
+        defeat.gameObject.SetActive(false);
     }
     private void ShowDefeatUI()
-    { 
-        defeat.gameObject.SetActive(false);
+    {
+        ShowEndGameUI();
+        victory.gameObject.SetActive(false);
     }
 
     private void DontShowUI()
@@ -327,11 +329,14 @@ public class GridCombatSystem : MonoBehaviour {
         Minimenu.SetActive(false);
         allyUI.SetActive(false);
         enemyUI.SetActive(false);
+        unitGridCombat.selectedGameObject.SetActive(false);
+        GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
+        MovementTilemap.TilemapObject.TilemapSprite.None);
     }
 
     public void ExitFromBattle()
     {
-        SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
+        SceneManager.LoadScene("Mapamundi");
     }
 
 

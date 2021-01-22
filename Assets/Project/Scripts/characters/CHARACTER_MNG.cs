@@ -53,7 +53,7 @@ public class CHARACTER_MNG : MonoBehaviour
         int reward = 0;
         /*switch (SceneManager.GetActiveScene())
         {
-            case SceneManager.:
+            case 2:
                 reward = RewardL1;
                 break;
             case 3:
