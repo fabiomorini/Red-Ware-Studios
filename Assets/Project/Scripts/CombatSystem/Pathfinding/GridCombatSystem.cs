@@ -462,7 +462,6 @@ public class GridCombatSystem : MonoBehaviour {
                             Minimenu.SetActive(true);
                             CheckTurnOver();
                         });
-
                     }
                 }
             }
