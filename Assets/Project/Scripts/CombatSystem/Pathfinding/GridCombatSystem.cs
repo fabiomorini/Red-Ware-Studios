@@ -34,9 +34,6 @@ public class GridCombatSystem : MonoBehaviour {
     //Sistema de spawning de tropas según cuantas tienes compradas en el cuartel
     //deep lore, se usa solo para que no de error, no sirve para nada más
     private GameObject Ally; 
-    private GameObject meleePrefab;
-    private GameObject rangedPrefab;
-    private GameObject healerPrefab;
 
     public GameObject MeleePrefab;
     public GameObject RangedPrefab;
@@ -204,25 +201,28 @@ public class GridCombatSystem : MonoBehaviour {
     public void spawnCharacters()
     {
         checkMaxCharacters();
+
         for (int i = 0; i < numberOfAllies; i++) {
-            switch (unitGridCombatArray[i].GetComponent<CHARACTER_PREFS>().getType())
+            //temporal, este metodo siempre da la preferencia a los melees
+            if(numberOfMelee >= 1)
             {
-                case CHARACTER_PREFS.Tipo.MELEE:
-                    meleePrefab = Instantiate(MeleePrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
-                    MeleePrefab.name = "Melee" + i;
-                    unitGridCombatArray.Add(meleePrefab.GetComponent<UnitGridCombat>());
-                    break;
-                case CHARACTER_PREFS.Tipo.RANGED:
-                    rangedPrefab = Instantiate(RangedPrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
-                    RangedPrefab.name = "Ranged" + i;
-                    unitGridCombatArray.Add(rangedPrefab.GetComponent<UnitGridCombat>());
-                    break;
-                case CHARACTER_PREFS.Tipo.HEALER:
-                    healerPrefab = Instantiate(HealerPrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
-                    HealerPrefab.name = "Healer"+ i;
-                    unitGridCombatArray.Add(healerPrefab.GetComponent<UnitGridCombat>());
-                    break;
+                Ally = Instantiate(MeleePrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
+                MeleePrefab.name = "Melee" + i;
+                numberOfMelee--;
             }
+            else if( numberOfRanged >= 1)
+            {
+                Ally = Instantiate(RangedPrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
+                RangedPrefab.name = "Ranged" + i;
+                numberOfRanged--;
+            }
+            else if(numberOfHealer >= 1)
+            {
+                Ally = Instantiate(HealerPrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
+                HealerPrefab.name = "Healer" + i;
+                numberOfHealer--;
+            }
+            unitGridCombatArray.Add(Ally.GetComponent<UnitGridCombat>());
         }
     }
 

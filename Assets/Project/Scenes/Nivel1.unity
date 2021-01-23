@@ -6297,7 +6297,7 @@ PrefabInstance:
         type: 3}
       propertyPath: HealerPrefab
       value: 
-      objectReference: {fileID: 7077238207010594598, guid: 7ff8da29febf1734f82aebd230a5f27a,
+      objectReference: {fileID: 7484753011676683329, guid: 7ff8da29febf1734f82aebd230a5f27a,
         type: 3}
     - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
