@@ -5,15 +5,12 @@ public class CHARACTER_PREFS : MonoBehaviour {
 
     [HideInInspector]
     public int level;
-
+    public Tipo tipo;
     /*
      nivel
      armadura
      arma
     */
-
-    [HideInInspector]
-    public Tipo tipo;
 
     public enum Tipo
     {

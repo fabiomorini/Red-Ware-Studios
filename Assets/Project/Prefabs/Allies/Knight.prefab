@@ -922,10 +922,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 268721879641932263}
+  knightSprite: {fileID: 0}
+  archerSprite: {fileID: 0}
+  healerSprite: {fileID: 0}
   currHealthText: {fileID: 0}
-  miniCurrHealth: {fileID: 2010758093149958072}
   levelText: {fileID: 0}
-  unitGridCombat: {fileID: 3300769062914515232}
 --- !u!1 &8288384011522629396
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,10 +8,13 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     public Slider slider;
+    public GameObject knightSprite;
+    public GameObject archerSprite;
+    public GameObject healerSprite;
     public TMP_Text currHealthText;
-    public TMP_Text miniCurrHealth;
+    private TMP_Text miniCurrHealth;
     public TMP_Text levelText;
-    public UnitGridCombat unitGridCombat;
+    private UnitGridCombat unitGridCombat;
 
     private void Start()
     {
@@ -23,6 +26,7 @@ public class HealthBar : MonoBehaviour
         SetMaxHealth(unitGridCombat.maxHealth);
         SetHealth(unitGridCombat.curHealth);
         SetHealthNumber();
+        UpdateSprite(unitGridCombat);
     }
     public void SetHealthNumber() //mini ui
     {
@@ -34,6 +38,28 @@ public class HealthBar : MonoBehaviour
         SetMaxHealth(unitGridCombat.maxHealth);
         currHealthText.SetText("HP:  " + unitGridCombat.curHealth +" / " + unitGridCombat.maxHealth);
         SetHealth(unitGridCombat.curHealth);
+    }
+
+    public void UpdateSprite(UnitGridCombat unitGridCombat)
+    {
+        if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
+        {
+            knightSprite.SetActive(true);
+            archerSprite.SetActive(false);
+            healerSprite.SetActive(false);
+        }
+        else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
+        {
+            knightSprite.SetActive(false);
+            archerSprite.SetActive(true);
+            healerSprite.SetActive(false);
+        }
+        else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
+        {
+            knightSprite.SetActive(false);
+            archerSprite.SetActive(false);
+            healerSprite.SetActive(true);
+        }
     }
 
     public void SetMaxHealth(float health)

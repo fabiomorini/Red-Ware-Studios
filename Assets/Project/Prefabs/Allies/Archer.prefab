@@ -483,7 +483,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
-  tipo: 0
+  tipo: 1
 --- !u!114 &5524218965338882929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -889,10 +889,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 8782056684815575454}
+  knightSprite: {fileID: 0}
+  archerSprite: {fileID: 0}
+  healerSprite: {fileID: 0}
   currHealthText: {fileID: 0}
-  miniCurrHealth: {fileID: 3221006544921061500}
   levelText: {fileID: 0}
-  unitGridCombat: {fileID: 0}
 --- !u!1 &9130299008390386827
 GameObject:
   m_ObjectHideFlags: 0
