@@ -20,8 +20,6 @@ public class SoundManager : MonoBehaviour
 
     public void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
-
         playSound = Resources.Load<AudioClip>("Play");
         returnSound = Resources.Load<AudioClip>("Return");
         hoverMenuSound = Resources.Load<AudioClip>("HoverMenu");
@@ -33,7 +31,7 @@ public class SoundManager : MonoBehaviour
         buyAllySound = Resources.Load<AudioClip>("BuyAlly");
         levelSoundSound = Resources.Load<AudioClip>("LevelSound");
         playLevelSound = Resources.Load<AudioClip>("PlayLevel");
-        hoverButtonSound = Resources.Load<AudioClip>("HoverButton");
+        hoverButtonSound = Resources.Load<AudioClip>("HoverMainMenu");
         clickButtonSound = Resources.Load<AudioClip>("ClickButton");
         openMenuSound = Resources.Load<AudioClip>("OpenMenu");
         closeMenuSound = Resources.Load<AudioClip>("CloseMenu");
@@ -47,11 +45,6 @@ public class SoundManager : MonoBehaviour
         audioSrc = GetComponent<AudioSource>();
     }
 
-    private void Update()
-    {
-        
-    }
-
     public static void PlaySound (string clip)
     {
         switch (clip)
@@ -59,13 +52,13 @@ public class SoundManager : MonoBehaviour
             case "Play":
                 audioSrc.PlayOneShot(playSound);
                 break;
-            case "return":
+            case "Return":
                 audioSrc.PlayOneShot(returnSound);
                 break;
-            case "hoverMenu":
+            case "HoverMenu":
                 audioSrc.PlayOneShot(hoverMenuSound);
                 break;
-            case "clickMenu":
+            case "ClickMenu":
                 audioSrc.PlayOneShot(clickMenuSound);
                 break;
             case "ambient":
@@ -89,7 +82,7 @@ public class SoundManager : MonoBehaviour
             case "playLevel":
                 audioSrc.PlayOneShot(playLevelSound);
                 break;
-            case "hoverButton":
+            case "HoverMainMenu":
                 audioSrc.PlayOneShot(hoverButtonSound);
                 break;
             case "clickButton":
@@ -101,10 +94,10 @@ public class SoundManager : MonoBehaviour
             case "closeMenu":
                 audioSrc.PlayOneShot(closeMenuSound);
                 break;
-            case "attack":
+            case "Attack":
                 audioSrc.PlayOneShot(attackSound);
                 break;
-            case "attackDeath":
+            case "AttackDeath":
                 audioSrc.PlayOneShot(attackDeathSound);
                 break;
             case "walkingBattle":

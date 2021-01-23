@@ -35,11 +35,7 @@ public class GameHandler_GridCombatSystem : MonoBehaviour {
         movementTilemap.SetTilemapVisual(movementTilemapVisual);
     }
 
-    private void Update() {
-        HandleCameraMovement();
-    }
-
-    private void HandleCameraMovement() {
+    public void HandleCameraMovement() {
         Vector3 moveDir = new Vector3(0, 0);
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) {
             moveDir.y = +1;

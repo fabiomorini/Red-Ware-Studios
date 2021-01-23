@@ -7,10 +7,8 @@ public class CuartelManager : MonoBehaviour
 {
     private int knightCounter = 0;
     private int ArcherCounter = 0;
-    [SerializeField]
-    private int knightPrice = 100;
-    [SerializeField]
-    private int archerPrice = 120;
+    [SerializeField] private int knightPrice = 100;
+    [SerializeField] private int archerPrice = 120;
 
     public TMP_Text coinsText;
     public TMP_Text ArcherText;
@@ -20,16 +18,29 @@ public class CuartelManager : MonoBehaviour
     public GameObject characterManager;
     private bool isActive;
 
+    private void Start()
+    {
+        if (GameObject.FindWithTag("characterManager") == null)
+        {
+            Instantiate(characterManager);
+        }
+        characterManager = GameObject.FindWithTag("characterManager");
+        knightCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee;
+        ArcherCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfRanged;
+        //ArcherCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee;
+    }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q) && !isActive)
         {
+            SoundManager.PlaySound("openCuartel");
             cuartel.SetActive(true);
             isActive = true;
         }
-        if(Input.GetKey("escape") && isActive)
+        if (Input.GetKey("escape") && isActive)
         {
+            SoundManager.PlaySound("closeCuartel");
             cuartel.SetActive(false);
             isActive = false;
         }
@@ -40,8 +51,9 @@ public class CuartelManager : MonoBehaviour
 
     public void BuyKnight()
     {
-        if(characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
+        if (characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
         {
+            SoundManager.PlaySound("buyAlly");
             characterManager.GetComponent<CHARACTER_MNG>().coins -= knightPrice;
             knightCounter++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee++;
@@ -53,6 +65,7 @@ public class CuartelManager : MonoBehaviour
     {
         if (characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
         {
+            SoundManager.PlaySound("buyAlly");
             characterManager.GetComponent<CHARACTER_MNG>().coins -= archerPrice;
             ArcherCounter++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfRanged++;
@@ -69,5 +82,10 @@ public class CuartelManager : MonoBehaviour
             characterManager.GetComponent<CHARACTER_MNG>().numberOfAllies++;
         }
     }
- 
+
+    public void CheatButton()
+    {
+        characterManager.GetComponent<CHARACTER_MNG>().coins += 200;
+    }
+
 }
