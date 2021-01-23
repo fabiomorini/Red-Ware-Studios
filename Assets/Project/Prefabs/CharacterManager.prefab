@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3466135334562308359}
   m_Layer: 0
   m_Name: CharacterManager
-  m_TagString: Untagged
+  m_TagString: characterManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -47,5 +47,12 @@ MonoBehaviour:
   numberOfMelee: 0
   numberOfRanged: 0
   numberOfHealer: 0
-  coins: 0
+  coins: 500
+  RewardL1: 300
+  RewardL2: 350
+  RewardL3: 400
+  RewardL4: 450
+  RewardL5: 500
+  RewardL6: 550
+  RewardL7: 600
   characterPrefs: []

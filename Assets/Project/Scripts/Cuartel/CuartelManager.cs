@@ -7,10 +7,8 @@ public class CuartelManager : MonoBehaviour
 {
     private int knightCounter = 0;
     private int ArcherCounter = 0;
-    [SerializeField]
-    private int knightPrice = 100;
-    [SerializeField]
-    private int archerPrice = 120;
+    [SerializeField] private int knightPrice = 100;
+    [SerializeField] private int archerPrice = 120;
 
     public TMP_Text coinsText;
     public TMP_Text ArcherText;
@@ -20,6 +18,17 @@ public class CuartelManager : MonoBehaviour
     public GameObject characterManager;
     private bool isActive;
 
+    private void Start()
+    {
+        if (GameObject.FindWithTag("characterManager") == null)
+        {
+            Instantiate(characterManager);
+        }
+        characterManager = GameObject.FindWithTag("characterManager");
+        knightCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee;
+        ArcherCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfRanged;
+        //ArcherCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee;
+    }
 
     private void Update()
     {
@@ -72,6 +81,11 @@ public class CuartelManager : MonoBehaviour
             characterManager.GetComponent<CHARACTER_MNG>().numberOfHealer++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfAllies++;
         }
+    }
+
+    public void CheatButton()
+    {
+        characterManager.GetComponent<CHARACTER_MNG>().coins += 200;
     }
 
 }

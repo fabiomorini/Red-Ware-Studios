@@ -20,8 +20,6 @@ public class SoundManager : MonoBehaviour
 
     public void Start()
     {
-        DontDestroyOnLoad(this.gameObject);
-
         playSound = Resources.Load<AudioClip>("Play");
         returnSound = Resources.Load<AudioClip>("Return");
         hoverMenuSound = Resources.Load<AudioClip>("HoverMenu");
@@ -45,11 +43,6 @@ public class SoundManager : MonoBehaviour
         lostSound = Resources.Load<AudioClip>("Lost");
 
         audioSrc = GetComponent<AudioSource>();
-    }
-
-    private void Update()
-    {
-        
     }
 
     public static void PlaySound (string clip)
