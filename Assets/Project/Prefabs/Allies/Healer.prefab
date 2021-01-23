@@ -208,11 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1043289304855132180}
-  knightSprite: {fileID: 0}
-  archerSprite: {fileID: 0}
-  healerSprite: {fileID: 0}
-  currHealthText: {fileID: 0}
-  levelText: {fileID: 0}
+  CurrHealth: {fileID: 4063720119655024407}
 --- !u!1 &3198047898257597219
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,6 +845,7 @@ MonoBehaviour:
   attackRangeRanged: 34
   attackRangeHealer: 34
   rangeHeal: 30
+  healAmount: 20
   slashAnim: {fileID: 7521122801981848761}
   playerSprite: {fileID: 5451920597673780541}
   animEnded: 1

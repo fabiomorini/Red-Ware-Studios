@@ -19,7 +19,8 @@ public class CHARACTER_PREFS : MonoBehaviour {
         HEALER
     }
 
-    public Vector3 GetPosition() {
+    public Vector3 GetPosition() 
+    {
         return transform.position;
     }
 

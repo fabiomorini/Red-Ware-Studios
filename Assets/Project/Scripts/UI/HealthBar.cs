@@ -8,61 +8,26 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     public Slider slider;
-    public GameObject knightSprite;
-    public GameObject archerSprite;
-    public GameObject healerSprite;
-    public TMP_Text currHealthText;
-    private TMP_Text miniCurrHealth;
-    public TMP_Text levelText;
+    public TMP_Text CurrHealth;
     private UnitGridCombat unitGridCombat;
 
     private void Start()
     {
-        levelText.SetText("Nv. " + unitGridCombat.level);
+        unitGridCombat = GetComponentInParent<UnitGridCombat>();
+        SetMaxHealth(unitGridCombat.maxHealth);
     }
 
     private void Update()
     {
-        SetMaxHealth(unitGridCombat.maxHealth);
         SetHealth(unitGridCombat.curHealth);
         SetHealthNumber();
-        UpdateSprite(unitGridCombat);
-    }
-    public void SetHealthNumber() //mini ui
-    {
-        miniCurrHealth.SetText(""+ unitGridCombat.curHealth);
     }
 
-    public void UpdateHealth(UnitGridCombat unitGridCombat)
+    public void SetHealthNumber()
     {
-        SetMaxHealth(unitGridCombat.maxHealth);
-        currHealthText.SetText("HP:  " + unitGridCombat.curHealth +" / " + unitGridCombat.maxHealth);
-        SetHealth(unitGridCombat.curHealth);
+        CurrHealth.SetText(""+ unitGridCombat.curHealth);
     }
-
-    public void UpdateSprite(UnitGridCombat unitGridCombat)
-    {
-        if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
-        {
-            knightSprite.SetActive(true);
-            archerSprite.SetActive(false);
-            healerSprite.SetActive(false);
-        }
-        else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
-        {
-            knightSprite.SetActive(false);
-            archerSprite.SetActive(true);
-            healerSprite.SetActive(false);
-        }
-        else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
-        {
-            knightSprite.SetActive(false);
-            archerSprite.SetActive(false);
-            healerSprite.SetActive(true);
-        }
-    }
-
-    public void SetMaxHealth(float health)
+    public void SetMaxHealth(int health)
     {
         slider.maxValue = health;
         slider.value = health;
@@ -72,4 +37,5 @@ public class HealthBar : MonoBehaviour
     {
         slider.value = health;
     }
+
 }

@@ -433,6 +433,7 @@ MonoBehaviour:
   attackRangeRanged: 34
   attackRangeHealer: 0
   rangeHeal: 30
+  healAmount: 0
   slashAnim: {fileID: 3601668868446820591}
   playerSprite: {fileID: 4849241890087592382}
   animEnded: 1
@@ -688,10 +689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 2275362450451639726}
-  currHealthText: {fileID: 0}
-  miniCurrHealth: {fileID: 8495639095077560701}
-  levelText: {fileID: 0}
-  unitGridCombat: {fileID: 4539957916773627844}
+  CurrHealth: {fileID: 8495639095077560701}
 --- !u!1 &6280796974852244222
 GameObject:
   m_ObjectHideFlags: 0

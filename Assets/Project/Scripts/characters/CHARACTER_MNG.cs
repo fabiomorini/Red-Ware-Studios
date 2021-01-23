@@ -70,16 +70,4 @@ public class CHARACTER_MNG : MonoBehaviour
         }
         return reward;
     }
-
-    public void CheckIfDead()
-    {
-        for (int i = 0; i < NumOfAllies(); i++)
-        {
-            if (characterPrefs[i].GetComponent<UnitGridCombat>().imDead)
-            {
-                characterPrefs.RemoveAt(i);
-                numberOfAllies--;
-            }
-        }
-    }
 }

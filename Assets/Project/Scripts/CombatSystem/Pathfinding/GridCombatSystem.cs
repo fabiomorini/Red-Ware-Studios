@@ -9,7 +9,7 @@ using TMPro;
 public class GridCombatSystem : MonoBehaviour {
 
     //personaje
-    private UnitGridCombat unitGridCombat; 
+    [HideInInspector] public UnitGridCombat unitGridCombat; 
     //lista general de personajes
     public List<UnitGridCombat> unitGridCombatArray; 
     //listas de personajes de cada equipo
@@ -81,9 +81,11 @@ public class GridCombatSystem : MonoBehaviour {
     [HideInInspector] public bool attacking;
     [HideInInspector] public bool healing;
     [HideInInspector] public bool isWaiting = true;
-    public HealthBar healthBar;
+    public StatisticMenu statisticMenu;
     public Button attackButton;
     public Button moveButton;
+
+    public GameObject healthMenu;
 
     //EndMenu UI
     public TMP_Text alliesLeftText;
@@ -93,6 +95,7 @@ public class GridCombatSystem : MonoBehaviour {
     public GameObject allyUI;
     public GameObject enemyUI;
     public GameObject endGameUI;
+    private bool surrender;
 
 
     private void Start() {
@@ -133,8 +136,9 @@ public class GridCombatSystem : MonoBehaviour {
             gameHandler.HandleCameraMovement();
             if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
             {
+                healthMenu.SetActive(true);
                 //update del menu de estadísticas
-                healthBar.UpdateHealth(unitGridCombat);
+                UpdateStatisticMenu();
                 unitGridCombat.setSelectedActive();
                 setMenuVisible();
                 if (moving)
@@ -157,6 +161,7 @@ public class GridCombatSystem : MonoBehaviour {
             }
             else
             {
+                healthMenu.SetActive(false);
                 if (canAttackThisTurn)
                 {
                     unitGridCombat.setSelectedActive();
@@ -169,6 +174,12 @@ public class GridCombatSystem : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private void UpdateStatisticMenu()
+    {
+        statisticMenu.UpdateHealth(unitGridCombat);
+        statisticMenu.UpdateSprite(unitGridCombat);
     }
 
     private IEnumerator WaitAttack()
@@ -223,6 +234,37 @@ public class GridCombatSystem : MonoBehaviour {
                 numberOfHealer--;
             }
             unitGridCombatArray.Add(Ally.GetComponent<UnitGridCombat>());
+        }
+    }
+    public void CheckIfDead()
+    {
+        for (int i = 0; i < numberOfAllies; i++)
+        {
+            if (alliesTeamList[i].GetComponent<UnitGridCombat>().imDead)
+            {
+                if (alliesTeamList[i].GetComponent<UnitGridCombat>().GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
+                {
+                    characterManager.numberOfMelee--;
+                    characterManager.numberOfAllies--;
+                    numberOfMelee--;
+                    numberOfAllies--;
+                }
+                else if (alliesTeamList[i].GetComponent<UnitGridCombat>().GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
+                {
+                    characterManager.numberOfRanged--;
+                    characterManager.numberOfAllies--;
+                    numberOfRanged--;
+                    numberOfAllies--;
+                }
+                else if (alliesTeamList[i].GetComponent<UnitGridCombat>().GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
+                {
+                    characterManager.numberOfHealer--;
+                    characterManager.numberOfAllies--;
+                    numberOfHealer--;
+                    numberOfAllies--;
+                }
+
+            }
         }
     }
 
@@ -299,12 +341,12 @@ public class GridCombatSystem : MonoBehaviour {
     }
     public void CheckIfGameIsOver(){
         if(enemiesTeamList.Count == 0){
+            SoundManager.PlaySound("Victory");
             gameOver = true;
             ShowVictoryUI();
             DontShowUI();
         }
-        if(alliesTeamList.Count == 0){
-            SoundManager.PlaySound("Victory");
+        if(alliesTeamList.Count == 0 || surrender){
             gameOver = true;
             ShowDefeatUI();
             DontShowUI();
@@ -315,9 +357,6 @@ public class GridCombatSystem : MonoBehaviour {
     {
         alliesLeftText.SetText("Allies left: " + (numberOfAllies - allydeads));
         endGameUI.SetActive(true);
-        //temporal para la pre-alpha 
-        characterManager.numberOfAllies = (numberOfAllies - allydeads);
-        characterManager.numberOfMelee = (numberOfAllies - allydeads);
     }
 
     private void ShowVictoryUI()
@@ -329,10 +368,19 @@ public class GridCombatSystem : MonoBehaviour {
     }
     private void ShowDefeatUI()
     {
-        ShowEndGameUI();
-        coinsRewardText.SetText("Reward: " + (int)characterManager.GetLevelIndex()/2 + " coins");
-        characterManager.coins += (int)characterManager.GetLevelIndex()/2;
-        victory.gameObject.SetActive(false);
+        if (surrender)
+        {
+            ShowEndGameUI();
+            coinsRewardText.SetText("Reward: 0 coins");
+            victory.gameObject.SetActive(false);
+        }
+        else
+        {
+            ShowEndGameUI();
+            coinsRewardText.SetText("Reward: " + (int)characterManager.GetLevelIndex() / 2 + " coins");
+            characterManager.coins += (int)characterManager.GetLevelIndex() / 2;
+            victory.gameObject.SetActive(false);
+        }
     }
 
     private void DontShowUI()
@@ -349,7 +397,6 @@ public class GridCombatSystem : MonoBehaviour {
     {
         SceneManager.LoadScene("Mapamundi");
     }
-
 
     //mira si hay un enemigo a una casilla
     public bool SeekEnemiesIA(UnitGridCombat thisUnit) 
@@ -532,6 +579,13 @@ public class GridCombatSystem : MonoBehaviour {
         moving = false;
         ForceTurnOver();
     }
+
+    public void Surrender()
+    {
+        surrender = true;
+        CheckIfGameIsOver();
+    }
+
     private void setMenuVisible()
     {
         //función para mostrar el minimenu si 
