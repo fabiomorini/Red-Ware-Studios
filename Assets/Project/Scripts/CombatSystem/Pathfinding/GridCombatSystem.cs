@@ -149,7 +149,19 @@ public class GridCombatSystem : MonoBehaviour {
                 }
                 if (attacking)
                 {
-                    maxMoveDistance = 2;
+                    if(unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
+                    {
+                        maxMoveDistance = 2;
+                    }
+                    else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
+                    {
+                        maxMoveDistance = 4;
+                    }
+                    else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
+                    {
+                        maxMoveDistance = 4;
+                    }
+
                     UpdateValidMovePositions();
                     AttackAllyVisual();
                 }
