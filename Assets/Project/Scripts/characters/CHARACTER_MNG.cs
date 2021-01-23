@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class CHARACTER_MNG : MonoBehaviour
 {
-    [HideInInspector]
-    public int numberOfAllies;
+
+    public int coins;
     public int numberOfMelee;
     public int numberOfRanged;
     public int numberOfHealer;
-    public int coins;
+    [HideInInspector] public int numberOfAllies;
     [HideInInspector] public int RewardL1 = 300;
     [HideInInspector] public int RewardL2 = 350;
     [HideInInspector] public int RewardL3 = 400;
@@ -18,7 +18,6 @@ public class CHARACTER_MNG : MonoBehaviour
     [HideInInspector] public int RewardL5 = 500;
     [HideInInspector] public int RewardL6 = 550;
     [HideInInspector] public int RewardL7 = 600;
-
     [HideInInspector] public List<CHARACTER_PREFS> characterPrefs;
 
     private void Start()
@@ -70,17 +69,5 @@ public class CHARACTER_MNG : MonoBehaviour
                 break;
         }
         return reward;
-    }
-
-    public void CheckIfDead()
-    {
-        for (int i = 0; i < NumOfAllies(); i++)
-        {
-            if (characterPrefs[i].GetComponent<UnitGridCombat>().imDead)
-            {
-                characterPrefs.RemoveAt(i);
-                numberOfAllies--;
-            }
-        }
     }
 }

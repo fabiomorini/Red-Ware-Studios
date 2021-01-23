@@ -8,35 +8,26 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     public Slider slider;
-    public TMP_Text currHealthText;
-    public TMP_Text miniCurrHealth;
-    public TMP_Text levelText;
-    public UnitGridCombat unitGridCombat;
+    public TMP_Text CurrHealth;
+    private UnitGridCombat unitGridCombat;
 
     private void Start()
     {
-        levelText.SetText("Nv. " + unitGridCombat.level);
+        unitGridCombat = GetComponentInParent<UnitGridCombat>();
+        SetMaxHealth(unitGridCombat.maxHealth);
     }
 
     private void Update()
     {
-        SetMaxHealth(unitGridCombat.maxHealth);
         SetHealth(unitGridCombat.curHealth);
         SetHealthNumber();
     }
-    public void SetHealthNumber() //mini ui
-    {
-        miniCurrHealth.SetText(""+ unitGridCombat.curHealth);
-    }
 
-    public void UpdateHealth(UnitGridCombat unitGridCombat)
+    public void SetHealthNumber()
     {
-        SetMaxHealth(unitGridCombat.maxHealth);
-        currHealthText.SetText("HP:  " + unitGridCombat.curHealth +" / " + unitGridCombat.maxHealth);
-        SetHealth(unitGridCombat.curHealth);
+        CurrHealth.SetText(""+ unitGridCombat.curHealth);
     }
-
-    public void SetMaxHealth(float health)
+    public void SetMaxHealth(int health)
     {
         slider.maxValue = health;
         slider.value = health;
@@ -46,4 +37,5 @@ public class HealthBar : MonoBehaviour
     {
         slider.value = health;
     }
+
 }

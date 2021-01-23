@@ -5,15 +5,12 @@ public class CHARACTER_PREFS : MonoBehaviour {
 
     [HideInInspector]
     public int level;
-
+    public Tipo tipo;
     /*
      nivel
      armadura
      arma
     */
-
-    [HideInInspector]
-    public Tipo tipo;
 
     public enum Tipo
     {
@@ -22,7 +19,8 @@ public class CHARACTER_PREFS : MonoBehaviour {
         HEALER
     }
 
-    public Vector3 GetPosition() {
+    public Vector3 GetPosition() 
+    {
         return transform.position;
     }
 

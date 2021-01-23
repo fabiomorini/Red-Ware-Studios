@@ -7,12 +7,15 @@ public class CuartelManager : MonoBehaviour
 {
     private int knightCounter = 0;
     private int ArcherCounter = 0;
+    private int HealerCounter = 0;
     [SerializeField] private int knightPrice = 100;
-    [SerializeField] private int archerPrice = 120;
+    [SerializeField] private int archerPrice = 130;
+    [SerializeField] private int healerPrice = 160;
 
     public TMP_Text coinsText;
     public TMP_Text ArcherText;
     public TMP_Text KnightText;
+    public TMP_Text HealerText;
     public GameObject cuartel;
 
     public GameObject characterManager;
@@ -27,7 +30,7 @@ public class CuartelManager : MonoBehaviour
         characterManager = GameObject.FindWithTag("characterManager");
         knightCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee;
         ArcherCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfRanged;
-        //ArcherCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee;
+        HealerCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfHealer;
     }
 
     private void Update()
@@ -47,6 +50,7 @@ public class CuartelManager : MonoBehaviour
         coinsText.SetText("¥ " + characterManager.GetComponent<CHARACTER_MNG>().coins);
         ArcherText.SetText("x " + ArcherCounter);
         KnightText.SetText("x " + knightCounter);
+        HealerText.SetText("x " + HealerCounter);
     }
 
     public void BuyKnight()
@@ -63,7 +67,7 @@ public class CuartelManager : MonoBehaviour
     }
     public void BuyArcher()
     {
-        if (characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
+        if (characterManager.GetComponent<CHARACTER_MNG>().coins >= archerPrice)
         {
             SoundManager.PlaySound("buyAlly");
             characterManager.GetComponent<CHARACTER_MNG>().coins -= archerPrice;
@@ -74,10 +78,11 @@ public class CuartelManager : MonoBehaviour
     }
     public void BuyHealer()
     {
-        if (characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
+        if (characterManager.GetComponent<CHARACTER_MNG>().coins >= healerPrice)
         {
-            characterManager.GetComponent<CHARACTER_MNG>().coins -= archerPrice;
-            ArcherCounter++;
+            SoundManager.PlaySound("buyAlly");
+            characterManager.GetComponent<CHARACTER_MNG>().coins -= healerPrice;
+            HealerCounter++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfHealer++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfAllies++;
         }
