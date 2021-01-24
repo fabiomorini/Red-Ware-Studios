@@ -14,10 +14,11 @@ public class UnitGridCombat : MonoBehaviour {
     [HideInInspector] public bool imDead = false;
     [HideInInspector] public int damageAmount;
     [HideInInspector] public int level = 1; //temporal
-    [HideInInspector] public float attackRangeMelee = 5;
-    [HideInInspector] public float attackRangeRanged = 30;
-    [HideInInspector] public float attackRangeHealer = 0;
-    [HideInInspector] public float rangeHeal = 30;
+    [HideInInspector] public int attackRangeMelee = 5;
+    [HideInInspector] public int attackRangeRanged = 30;
+    [HideInInspector] public int attackRangeHealer = 30;
+    [HideInInspector] public int rangeHeal = 30;
+    [HideInInspector] public int healAmount;
 
     // Feedback
     public GameObject slashAnim;
@@ -28,7 +29,6 @@ public class UnitGridCombat : MonoBehaviour {
     private GridCombatSystem sceneCombatSystem;
     private MovePositionPathfinding movePosition;
     private HealthSystem healthSystem;
-    private UnitGridCombat unitGridCombat;
 
     public enum Team {
         Blue,
@@ -40,10 +40,8 @@ public class UnitGridCombat : MonoBehaviour {
         selectedGameObject = transform.Find("SelectedArrow").gameObject;
         movePosition = GetComponent<MovePositionPathfinding>();
 
-        maxHealth = 90;
-        damageAmount = 30;
+        SetHealth();
         healthSystem = new HealthSystem(maxHealth);
-
         sceneCombatSystem = GameObject.FindWithTag("CombatHandler").GetComponent<GridCombatSystem>();
     }
 
@@ -53,6 +51,24 @@ public class UnitGridCombat : MonoBehaviour {
         curHealth = healthSystem.CurrentHealth;
         animEnded = true;
     }
+
+    private void SetHealth()
+    {
+        if(characterPrefs.getType() == CHARACTER_PREFS.Tipo.MELEE)
+        {
+            maxHealth = 90;
+        }
+        else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.RANGED)
+        {
+            maxHealth = 70;
+        }
+        else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.HEALER)
+        {
+            maxHealth = 60;
+            healAmount = 20;
+        }
+    }
+
 
     public void MoveTo(Vector3 targetPosition, Action onReachedPosition) {
         movePosition.SetMovePosition(targetPosition + new Vector3(1, 1), () => {
@@ -78,8 +94,24 @@ public class UnitGridCombat : MonoBehaviour {
         GetComponent<IMoveVelocity>().Enable();
     }
 
-    public void Damage(UnitGridCombat Attacker,float damage){
-        healthSystem.Damage(damageAmount);
+    public void Damage(UnitGridCombat Attacker,int damage){
+        //Temporal
+        if(Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
+        {
+            damageAmount = 30;
+            healthSystem.Damage(damageAmount);
+        }
+        else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
+        {
+            damageAmount = 25;
+            healthSystem.Damage(damageAmount);
+        }
+        else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
+        {
+            damageAmount = 10;
+            healthSystem.Damage(damageAmount);
+        }
+
         if (healthSystem.IsDead()){
             if(Attacker.GetTeam() == Team.Blue) 
             {
@@ -151,11 +183,11 @@ public class UnitGridCombat : MonoBehaviour {
     }
 
     public bool CanAttackUnit(UnitGridCombat unitGridCombat) {
-        if(gameObject.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.MELEE)
+        if(gameObject.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
         {
             return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeMelee;
         }
-        else if (gameObject.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.RANGED)
+        else if (gameObject.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
             return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeRanged;
         }
