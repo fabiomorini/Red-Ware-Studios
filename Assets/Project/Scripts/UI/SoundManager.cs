@@ -12,7 +12,7 @@ public class SoundManager : MonoBehaviour
     //  -MINIMENU
     public static AudioClip hoverButtonSound, clickButtonSound, openMenuSound, closeMenuSound;
     //  -BATALLA
-    public static AudioClip attackSound, attackDeathSound, walkingBattleSound, turnSwapSound;
+    public static AudioClip attackSound, attackDeathSound, walkingBattleSound, turnSwapSound, healingSound;
     //  -ENDMENU
     public static AudioClip victorySound, lostSound;
 
@@ -41,6 +41,7 @@ public class SoundManager : MonoBehaviour
         turnSwapSound = Resources.Load<AudioClip>("TurnSwap");
         victorySound = Resources.Load<AudioClip>("Victory");
         lostSound = Resources.Load<AudioClip>("Lost");
+        healingSound = Resources.Load<AudioClip>("Healing");
 
         audioSrc = GetComponent<AudioSource>();
     }
@@ -111,6 +112,9 @@ public class SoundManager : MonoBehaviour
                 break;
             case "lost":
                 audioSrc.PlayOneShot(lostSound);
+                break;
+            case "Healing":
+                audioSrc.PlayOneShot(healingSound);
                 break;
         }
     }

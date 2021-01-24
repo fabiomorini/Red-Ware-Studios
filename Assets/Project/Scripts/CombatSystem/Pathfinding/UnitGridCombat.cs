@@ -22,6 +22,7 @@ public class UnitGridCombat : MonoBehaviour {
 
     // Feedback
     public GameObject slashAnim;
+    public GameObject healAnim;
     public SpriteRenderer playerSprite;
     [HideInInspector] public bool animEnded = true;
 
@@ -163,6 +164,20 @@ public class UnitGridCombat : MonoBehaviour {
         sceneCombatSystem.CheckIfGameIsOver();
     }
 
+    private IEnumerator FeedbackHealing(int healAmount)
+    {
+        animEnded = false;
+        healAnim.SetActive(true);
+        SoundManager.PlaySound("Healing");
+        yield return new WaitForSeconds(1.1f);
+        healAnim.SetActive(false);
+        playerSprite.color = Color.green;
+        healthSystem.Heal(healAmount);
+        yield return new WaitForSeconds(0.3f);
+        playerSprite.color = Color.white;
+        animEnded = true;
+    }
+
     private void CleanListIA()
     {
         sceneCombatSystem.enemiesTeamList.Clear();
@@ -184,7 +199,7 @@ public class UnitGridCombat : MonoBehaviour {
 
     public void Heal(UnitGridCombat Attacker, int healAmount)
     {
-        healthSystem.Heal(healAmount);
+        StartCoroutine(FeedbackHealing(healAmount));
     }
 
     public bool CanAttackUnit(UnitGridCombat unitGridCombat) {
