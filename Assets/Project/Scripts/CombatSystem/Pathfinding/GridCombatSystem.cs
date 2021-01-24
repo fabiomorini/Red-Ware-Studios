@@ -362,8 +362,7 @@ public class GridCombatSystem : MonoBehaviour {
     }
 
     private void ShowEndGameUI()
-    {
-        characterManager.CheckLevelNumber();
+    { 
         alliesLeftText.SetText("Allies left: " + (numberOfAllies - allydeads));
         totalAlliesLeftText.SetText("Total allies left: " + (characterManager.numberOfAllies - allydeads));
         endGameUI.SetActive(true);
@@ -371,7 +370,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void ShowVictoryUI()
     {
-
+        characterManager.CheckLevelNumber();
         ShowEndGameUI();
         coinsRewardText.SetText("Reward: " + characterManager.GetLevelIndex() + " coins");
         characterManager.coins += characterManager.GetLevelIndex();
