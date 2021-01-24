@@ -363,7 +363,6 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void ShowEndGameUI()
     {
-        characterManager.CheckLevelNumber();
         alliesLeftText.SetText("Allies left: " + (numberOfAllies - allydeads));
         totalAlliesLeftText.SetText("Total allies left: " + (characterManager.numberOfAllies - allydeads));
         endGameUI.SetActive(true);
@@ -586,11 +585,6 @@ public class GridCombatSystem : MonoBehaviour {
         moving = false;
         Minimenu.SetActive(false);
     }
-    public void HealAllyVisual()
-    {
-
-    }
-
     public void SetHealingTrue()
     {
         healing = true;
