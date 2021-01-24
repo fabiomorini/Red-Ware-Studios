@@ -5,7 +5,6 @@ using System;
 public class HealthSystem : MonoBehaviour
 {
     public event EventHandler OnHealthChanged;
-    public event EventHandler OnHealthMaxChanged;
     public event EventHandler OnDamaged;
     public event EventHandler OnHealed;
     public event EventHandler OnDead;

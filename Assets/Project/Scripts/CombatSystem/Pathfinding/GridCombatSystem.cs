@@ -250,30 +250,24 @@ public class GridCombatSystem : MonoBehaviour {
     }
     public void CheckIfDead()
     {
-        for (int i = 0; i < numberOfAllies; i++)
+        for (int i = 0; i < alliesTeamList.Count; i++)
         {
             if (alliesTeamList[i].GetComponent<UnitGridCombat>().imDead)
             {
-                if (alliesTeamList[i].GetComponent<UnitGridCombat>().GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
+                if (alliesTeamList[i].GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
                 {
                     characterManager.numberOfMelee--;
-                    characterManager.numberOfAllies--;
                     numberOfMelee--;
-                    numberOfAllies--;
                 }
-                else if (alliesTeamList[i].GetComponent<UnitGridCombat>().GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
+                else if (alliesTeamList[i].GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
                 {
                     characterManager.numberOfRanged--;
-                    characterManager.numberOfAllies--;
                     numberOfRanged--;
-                    numberOfAllies--;
                 }
-                else if (alliesTeamList[i].GetComponent<UnitGridCombat>().GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
+                else if (alliesTeamList[i].GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
                 {
                     characterManager.numberOfHealer--;
-                    characterManager.numberOfAllies--;
                     numberOfHealer--;
-                    numberOfAllies--;
                 }
 
             }
@@ -352,7 +346,7 @@ public class GridCombatSystem : MonoBehaviour {
         }
     }
     public void CheckIfGameIsOver(){
-        if(enemiesTeamList.Count == 0){
+        if (enemiesTeamList.Count == 0){
             SoundManager.PlaySound("Victory");
             gameOver = true;
             ShowVictoryUI();
@@ -367,12 +361,14 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void ShowEndGameUI()
     {
+        characterManager.CheckLevelNumber();
         alliesLeftText.SetText("Allies left: " + (numberOfAllies - allydeads));
         endGameUI.SetActive(true);
     }
 
     private void ShowVictoryUI()
     {
+
         ShowEndGameUI();
         coinsRewardText.SetText("Reward: " + characterManager.GetLevelIndex() + " coins");
         characterManager.coins += characterManager.GetLevelIndex();

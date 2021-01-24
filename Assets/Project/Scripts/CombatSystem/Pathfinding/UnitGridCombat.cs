@@ -29,6 +29,7 @@ public class UnitGridCombat : MonoBehaviour {
     private GridCombatSystem sceneCombatSystem;
     private MovePositionPathfinding movePosition;
     private HealthSystem healthSystem;
+    private HealthBar healthBar;
 
     public enum Team {
         Blue,
@@ -36,19 +37,25 @@ public class UnitGridCombat : MonoBehaviour {
     }
 
     private void Awake() {
+        healthBar = GetComponentInChildren<HealthBar>();
         characterPrefs = GetComponent<CHARACTER_PREFS>();
         selectedGameObject = transform.Find("SelectedArrow").gameObject;
-        movePosition = GetComponent<MovePositionPathfinding>();
 
         SetHealth();
         healthSystem = new HealthSystem(maxHealth);
+        curHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+        healthBar.SetHealth(curHealth);
+        healthBar.SetHealthNumber(curHealth);
+        movePosition = GetComponent<MovePositionPathfinding>();
         sceneCombatSystem = GameObject.FindWithTag("CombatHandler").GetComponent<GridCombatSystem>();
     }
 
     private void Update()
     {
-        maxHealth = healthSystem.MaxHealth;
         curHealth = healthSystem.CurrentHealth;
+        healthBar.SetHealth(curHealth);
+        healthBar.SetHealthNumber(curHealth);
         animEnded = true;
     }
 
@@ -116,7 +123,7 @@ public class UnitGridCombat : MonoBehaviour {
             if(Attacker.GetTeam() == Team.Blue) 
             {
                 imDead = true;
-                //sceneCombatSystem.enemiesTeamKo.Add(unitGridCombat);
+                sceneCombatSystem.CheckIfDead();
                 for(int i = 0; i < sceneCombatSystem.enemiesTeamList.Count; i++)
                 {
                     if(!sceneCombatSystem.enemiesTeamList[i].imDead)
@@ -127,8 +134,8 @@ public class UnitGridCombat : MonoBehaviour {
             else if(Attacker.GetTeam() == Team.Red)
             {
                 imDead = true;
+                sceneCombatSystem.CheckIfDead();
                 sceneCombatSystem.allydeads += 1;
-                //sceneCombatSystem.alliesTeamKO.Add(unitGridCombat);
                 for (int i = 0; i < sceneCombatSystem.alliesTeamList.Count; i++)
                 {
                     if (!sceneCombatSystem.alliesTeamList[i].imDead)
@@ -152,7 +159,7 @@ public class UnitGridCombat : MonoBehaviour {
         playerSprite.color = Color.white;
         animEnded = true;
         if (imDead)
-            Destroy(gameObject); //no tenemos que hacer destroy
+            Destroy(gameObject);
         sceneCombatSystem.CheckIfGameIsOver();
     }
 

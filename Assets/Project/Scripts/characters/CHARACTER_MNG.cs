@@ -20,6 +20,12 @@ public class CHARACTER_MNG : MonoBehaviour
     [HideInInspector] public int RewardL7 = 600;
     [HideInInspector] public List<CHARACTER_PREFS> characterPrefs;
 
+    [HideInInspector] public bool VictoryL1 = false;
+    [HideInInspector] public bool VictoryL2 = false;
+    [HideInInspector] public bool VictoryL3 = false;
+    private MinimapManager minimapManager;
+
+
     private void Start()
     {
         characterPrefs = new List<CHARACTER_PREFS>();
@@ -27,6 +33,37 @@ public class CHARACTER_MNG : MonoBehaviour
         // se las añadimos por cada index
         DontDestroyOnLoad(this.gameObject);
     }
+
+    public void CheckLevelNumber()
+    {
+        if(SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            VictoryL1True();
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 3)
+        {
+            VictoryL2True();
+        }
+        else if (SceneManager.GetActiveScene().buildIndex == 4)
+        {
+            VictoryL3True();
+        }
+    }
+
+    private void VictoryL1True()
+    {
+        VictoryL1 = true;
+    }
+    private void VictoryL2True()
+    {
+        VictoryL2 = true;
+    }
+    private void VictoryL3True()
+    {
+        VictoryL3 = true;
+    }
+
+
     public int NumMelee()
     {
         return numberOfMelee;

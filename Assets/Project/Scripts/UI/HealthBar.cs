@@ -9,23 +9,10 @@ public class HealthBar : MonoBehaviour
 {
     public Slider slider;
     public TMP_Text CurrHealth;
-    private UnitGridCombat unitGridCombat;
 
-    private void Start()
+    public void SetHealthNumber(int curHealth)
     {
-        unitGridCombat = GetComponentInParent<UnitGridCombat>();
-        SetMaxHealth(unitGridCombat.maxHealth);
-    }
-
-    private void Update()
-    {
-        SetHealth(unitGridCombat.curHealth);
-        SetHealthNumber();
-    }
-
-    public void SetHealthNumber()
-    {
-        CurrHealth.SetText(""+ unitGridCombat.curHealth);
+        CurrHealth.SetText(""+ curHealth);
     }
     public void SetMaxHealth(int health)
     {

@@ -7,22 +7,13 @@ using UnityEngine.SceneManagement;
 
 public class FightInteraction1 : MonoBehaviour
 {
-    [SerializeField]
-
-    private Text pressEText;
-    private bool pressedCombatButton;
+    public GameObject pressEText;
+    private bool pressedCombatButton = false;
     private GameObject CombatHandler;
 
-    // Use this for initialization
-    private void Start()
-    {
+    private void Update(){
         CombatHandler = GameObject.FindWithTag("characterManager");
-        pressEText.gameObject.SetActive(false);
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
+        CombatHandler.GetComponent<CHARACTER_MNG>().NumOfAllies();
         if (pressedCombatButton && Input.GetKeyDown(KeyCode.E) && CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
             StartCoroutine(PlayGame());
     }
@@ -31,7 +22,7 @@ public class FightInteraction1 : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            pressEText.gameObject.SetActive(true);
+            pressEText.SetActive(true);
             pressedCombatButton = true;
         }
     }
@@ -40,14 +31,9 @@ public class FightInteraction1 : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            pressEText.gameObject.SetActive(false);
+            pressEText.SetActive(false);
             pressedCombatButton = false;
         }
-    }
-
-    private void Combat()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public IEnumerator PlayGame()

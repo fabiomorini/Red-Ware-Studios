@@ -9,6 +9,8 @@ TagManager:
   - CombatHandler
   - characterManager
   - SoundManager
+  - MinimapManager
+  - Cuartel
   layers:
   - Default
   - TransparentFX
