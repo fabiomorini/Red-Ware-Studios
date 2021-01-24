@@ -89,6 +89,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     //EndMenu UI
     public TMP_Text alliesLeftText;
+    public TMP_Text totalAlliesLeftText;
     public TMP_Text coinsRewardText;
     public TMP_Text victory;
     public TMP_Text defeat;
@@ -364,6 +365,7 @@ public class GridCombatSystem : MonoBehaviour {
     {
         characterManager.CheckLevelNumber();
         alliesLeftText.SetText("Allies left: " + (numberOfAllies - allydeads));
+        totalAlliesLeftText.SetText("Total allies left: " + (characterManager.numberOfAllies - allydeads));
         endGameUI.SetActive(true);
     }
 
