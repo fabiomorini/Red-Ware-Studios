@@ -362,7 +362,8 @@ public class GridCombatSystem : MonoBehaviour {
     }
 
     private void ShowEndGameUI()
-    { 
+    {
+        characterManager.CheckLevelNumber();
         alliesLeftText.SetText("Allies left: " + (numberOfAllies - allydeads));
         totalAlliesLeftText.SetText("Total allies left: " + (characterManager.numberOfAllies - allydeads));
         endGameUI.SetActive(true);

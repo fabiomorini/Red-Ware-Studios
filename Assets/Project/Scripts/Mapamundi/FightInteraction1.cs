@@ -10,17 +10,21 @@ public class FightInteraction1 : MonoBehaviour
     public GameObject UI;
     private int maxL1 = 3;
     private int maxL2 = 4;
-    private int maxL3 = 4;
+    private int maxL3 = 5;
     private int maxL4 = 5;
     private int maxL5 = 6;
     private int maxL6 = 7;
 
+    private int level = 1;
+
     public GameObject pressEText;
     private bool pressedCombatButton = false;
     private GameObject CombatHandler;
+    private MinimapManager minimapManager;
 
     private void Update(){
         CombatHandler = GameObject.FindWithTag("characterManager");
+        minimapManager = GameObject.FindWithTag("MinimapManager").GetComponent<MinimapManager>();
         CombatHandler.GetComponent<CHARACTER_MNG>().NumOfAllies();
         if (pressedCombatButton && Input.GetKeyDown(KeyCode.E) && CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
         {
@@ -44,8 +48,36 @@ public class FightInteraction1 : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
+            minimapManager.L1 = true;
+            minimapManager.L2 = false;
+            minimapManager.L3 = false;
             pressEText.SetActive(true);
             pressedCombatButton = true;
+        }
+    }
+
+    private void CheckLevel()
+    {
+        if(this.gameObject.CompareTag("L1"))
+        {
+            level = 1;
+            minimapManager.L1 = true;
+            minimapManager.L2 = false;
+            minimapManager.L3 = false;
+        }
+        else if (this.gameObject.CompareTag("L2"))
+        {
+            level = 2;
+            minimapManager.L1 = false;
+            minimapManager.L2 = true;
+            minimapManager.L3 = false;
+        }
+        else if (this.gameObject.CompareTag("L3"))
+        {
+            level = 3;
+            minimapManager.L1 = false;
+            minimapManager.L2 = false;
+            minimapManager.L3 = true;
         }
     }
 
@@ -60,11 +92,11 @@ public class FightInteraction1 : MonoBehaviour
 
     public IEnumerator PlayGame()
     {
-        CombatHandler.GetComponent<CHARACTER_MNG>().KeepPlayerPosition();
-        //Debug.Log(CombatHandler.GetComponent<CHARACTER_MNG>().playerPosition.x);
-        //Debug.Log(CombatHandler.GetComponent<CHARACTER_MNG>().playerPosition.y);
+        //GetComponent<CHARACTER_MNG>().KeepPlayerPosition();
+
         SoundManager.PlaySound("playLevel");
         yield return new WaitForSeconds(1.0f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("Nivel1");
     }
+
 }

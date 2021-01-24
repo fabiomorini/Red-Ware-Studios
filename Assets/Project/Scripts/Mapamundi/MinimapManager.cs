@@ -7,19 +7,23 @@ public class MinimapManager : MonoBehaviour
     public GameObject boundaryL1;
     public GameObject boundaryL2;
     public GameObject boundaryL3;
-    public GameObject player;
-    bool hasSpawned = false;
-    public Transform CinemachineFollow;
+    [HideInInspector] public bool L1;
+    [HideInInspector] public bool L2;
+    [HideInInspector] public bool L3;
+    //public GameObject player;
+    //bool hasSpawned = false;
+    //public GameObject CinemachineFollow;
     private CHARACTER_MNG characterManager;
 
     private void Update()
     {
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
-        SpawnPlayer();
+        //SpawnPlayer();
         SetBoundariesFalse();
-        CinemachineFollow.position = new Vector3(player.transform.position.x, player.transform.position.y, 0);
-        Debug.Log(CinemachineFollow.position);
+        //CinemachineFollow.transform.position = player.transform.position;
+        //Debug.Log(CinemachineFollow.transform.position);
     }
+
     private void SetBoundariesFalse()
     {
         if (characterManager.VictoryL1)
@@ -36,13 +40,17 @@ public class MinimapManager : MonoBehaviour
         }
     }
 
-    private void SpawnPlayer()
+    /*private void SpawnPlayer()
     {
+        
         if (!hasSpawned)
         {
-            Instantiate(player);
-            player.transform.position = characterManager.GetComponent<CHARACTER_MNG>().playerPosition;
+            CinemachineFollow.transform.position = new Vector3(characterManager.GetComponent<CHARACTER_MNG>().playerPosition.position.x, 
+                                                               characterManager.GetComponent<CHARACTER_MNG>().playerPosition.position.y, 0);
+            Instantiate(player, new Vector3(CinemachineFollow.transform.position.x, CinemachineFollow.transform.position.y, 0),
+                                            Quaternion.identity);
+
             hasSpawned = true;
         }
-    }
+    }*/
 }

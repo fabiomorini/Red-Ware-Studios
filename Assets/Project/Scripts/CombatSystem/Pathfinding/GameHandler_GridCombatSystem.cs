@@ -19,8 +19,8 @@ public class GameHandler_GridCombatSystem : MonoBehaviour {
     private void Awake() {
         Instance = this;
 
-        int mapWidth = 40;
-        int mapHeight = 25;
+        int mapWidth = 60;
+        int mapHeight = 60;
         float cellSize = 10f;
         Vector3 origin = new Vector3(0, 0);
 

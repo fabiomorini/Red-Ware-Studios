@@ -10,10 +10,11 @@ public class SelectUnit : MonoBehaviour
 
     private int maxL1 = 3;
     private int maxL2 = 4;
-    private int maxL3 = 4;
+    private int maxL3 = 5;
     private int maxL4 = 5;
     private int maxL5 = 6;
     private int maxL6 = 7;
+    private int maxLevel;
 
     private int knightCounter = 0;
     private int ArcherCounter = 0;
@@ -35,11 +36,14 @@ public class SelectUnit : MonoBehaviour
     public TMP_Text healersToFightText;
 
     private GameObject characterManager;
+    private MinimapManager minimapManager;
 
     private void Update()
     {
         characterManager = GameObject.FindWithTag("characterManager");
-        explainText.SetText("You can only bring " + maxL1 + " soldiers to the fight");
+        minimapManager = GameObject.FindWithTag("MinimapManager").GetComponent<MinimapManager>();
+        CheckLevelMax();
+        explainText.SetText("You can only bring " + maxLevel + " soldiers to the fight");
 
         knightCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee;
         ArcherCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfRanged;
@@ -55,9 +59,25 @@ public class SelectUnit : MonoBehaviour
         healersToFightText.SetText("x " + healersToFight);
     }
 
+    private void CheckLevelMax()
+    {
+        if (minimapManager.L1)
+        {
+            maxLevel = maxL1;
+        }
+        if (minimapManager.L2)
+        {
+            maxLevel = maxL2;
+        }
+        if (minimapManager.L3)
+        {
+            maxLevel = maxL3;
+        }
+    }
+
     public void AddKnight()
     {
-        if (totalCounter < maxL1 && knightsToFight < knightCounter)
+        if (totalCounter < maxLevel && knightsToFight < knightCounter)
         {
             totalCounter++;
             knightsToFight++;
@@ -66,7 +86,7 @@ public class SelectUnit : MonoBehaviour
 
     public void AddArcher()
     {
-        if (totalCounter < maxL1 && archersToFight < ArcherCounter)
+        if (totalCounter < maxLevel && archersToFight < ArcherCounter)
         {
             totalCounter++;
             archersToFight++;
@@ -75,7 +95,7 @@ public class SelectUnit : MonoBehaviour
 
     public void AddHealer()
     {
-        if(totalCounter < maxL1 && healersToFight < HealerCounter)
+        if(totalCounter < maxLevel && healersToFight < HealerCounter)
         {
             totalCounter++;
             healersToFight++;
@@ -120,8 +140,24 @@ public class SelectUnit : MonoBehaviour
 
     public IEnumerator PlayGame()
     {
-        SoundManager.PlaySound("playLevel");
-        yield return new WaitForSeconds(1.0f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if (minimapManager.L1)
+        {
+            SoundManager.PlaySound("playLevel");
+            yield return new WaitForSeconds(1.0f);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        if (minimapManager.L2)
+        {
+            SoundManager.PlaySound("playLevel");
+            yield return new WaitForSeconds(1.0f);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+        }
+        if (minimapManager.L3)
+        {
+            SoundManager.PlaySound("playLevel");
+            yield return new WaitForSeconds(1.0f);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 3);
+        }
+
     }
 }
