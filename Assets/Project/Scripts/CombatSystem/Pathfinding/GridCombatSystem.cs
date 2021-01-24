@@ -502,6 +502,7 @@ public class GridCombatSystem : MonoBehaviour {
                         }
                     }
                 }
+                //Heal
             }
         }
     }
