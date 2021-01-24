@@ -96,6 +96,7 @@ public class GridCombatSystem : MonoBehaviour {
     public GameObject enemyUI;
     public GameObject endGameUI;
     private bool surrender;
+    public GameObject SurrenderUI;
 
 
     private void Start() {
@@ -590,8 +591,18 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void Surrender()
     {
+        SurrenderUI.SetActive(true);
+    }
+
+    public void YesSurrender()
+    {
+        SurrenderUI.SetActive(false);
         surrender = true;
         CheckIfGameIsOver();
+    }
+    public void NoSurrender()
+    {
+        SurrenderUI.SetActive(false);
     }
 
     private void setMenuVisible()
