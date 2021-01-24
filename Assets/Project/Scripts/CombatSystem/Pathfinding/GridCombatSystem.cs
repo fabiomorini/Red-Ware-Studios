@@ -59,7 +59,7 @@ public class GridCombatSystem : MonoBehaviour {
     //MAX personajes por nivel
     private int maxL1 = 3;
     private int maxL2 = 4;
-    private int maxL3 = 4;
+    private int maxL3 = 5;
     private int maxL4 = 5;
     private int maxL5 = 6;
     private int maxL6 = 7;
@@ -89,6 +89,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     //EndMenu UI
     public TMP_Text alliesLeftText;
+    public TMP_Text totalAlliesLeftText;
     public TMP_Text coinsRewardText;
     public TMP_Text victory;
     public TMP_Text defeat;
@@ -96,14 +97,15 @@ public class GridCombatSystem : MonoBehaviour {
     public GameObject enemyUI;
     public GameObject endGameUI;
     private bool surrender;
+    public GameObject SurrenderUI;
 
 
     private void Start() {
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
-        numberOfMelee = characterManager.numberOfMelee;
-        numberOfRanged = characterManager.numberOfRanged;
-        numberOfHealer = characterManager.numberOfHealer;
-        numberOfAllies = characterManager.numberOfAllies;
+        numberOfMelee = characterManager.numberOfMeleeFight;
+        numberOfRanged = characterManager.numberOfArcherFight;
+        numberOfHealer = characterManager.numberOfHealerFight;
+        numberOfAllies = numberOfMelee + numberOfRanged + numberOfHealer;
         characterPrefs = characterManager.characterPrefs;
         spawnCharacters();
 
@@ -250,30 +252,24 @@ public class GridCombatSystem : MonoBehaviour {
     }
     public void CheckIfDead()
     {
-        for (int i = 0; i < numberOfAllies; i++)
+        for (int i = 0; i < alliesTeamList.Count; i++)
         {
             if (alliesTeamList[i].GetComponent<UnitGridCombat>().imDead)
             {
-                if (alliesTeamList[i].GetComponent<UnitGridCombat>().GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
+                if (alliesTeamList[i].GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
                 {
                     characterManager.numberOfMelee--;
-                    characterManager.numberOfAllies--;
                     numberOfMelee--;
-                    numberOfAllies--;
                 }
-                else if (alliesTeamList[i].GetComponent<UnitGridCombat>().GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
+                else if (alliesTeamList[i].GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
                 {
                     characterManager.numberOfRanged--;
-                    characterManager.numberOfAllies--;
                     numberOfRanged--;
-                    numberOfAllies--;
                 }
-                else if (alliesTeamList[i].GetComponent<UnitGridCombat>().GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
+                else if (alliesTeamList[i].GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
                 {
                     characterManager.numberOfHealer--;
-                    characterManager.numberOfAllies--;
                     numberOfHealer--;
-                    numberOfAllies--;
                 }
 
             }
@@ -352,7 +348,7 @@ public class GridCombatSystem : MonoBehaviour {
         }
     }
     public void CheckIfGameIsOver(){
-        if(enemiesTeamList.Count == 0){
+        if (enemiesTeamList.Count == 0){
             SoundManager.PlaySound("Victory");
             gameOver = true;
             ShowVictoryUI();
@@ -368,11 +364,13 @@ public class GridCombatSystem : MonoBehaviour {
     private void ShowEndGameUI()
     {
         alliesLeftText.SetText("Allies left: " + (numberOfAllies - allydeads));
+        totalAlliesLeftText.SetText("Total allies left: " + (characterManager.numberOfAllies - allydeads));
         endGameUI.SetActive(true);
     }
 
     private void ShowVictoryUI()
     {
+        characterManager.CheckLevelNumber();
         ShowEndGameUI();
         coinsRewardText.SetText("Reward: " + characterManager.GetLevelIndex() + " coins");
         characterManager.coins += characterManager.GetLevelIndex();
@@ -565,6 +563,19 @@ public class GridCombatSystem : MonoBehaviour {
                         }
                     }
                 }
+                //healer
+                if (unitGridCombat.CanHealUnit(gridObject.GetUnitGridCombat()) && unitGridCombat.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.HEALER)
+                {
+                    if(canAttackThisTurn)
+                    {
+                        Minimenu.SetActive(true);
+                        canAttackThisTurn = false;
+                        unitGridCombat.HealAlly(gridObject.GetUnitGridCombat());
+                        attacking = false;
+                        attackButton.interactable = false;
+                        //CheckTurnOver();
+                    }
+                }
             }
         }
     }
@@ -574,11 +585,6 @@ public class GridCombatSystem : MonoBehaviour {
         moving = false;
         Minimenu.SetActive(false);
     }
-    public void HealAllyVisual()
-    {
-
-    }
-
     public void SetHealingTrue()
     {
         healing = true;
@@ -594,8 +600,18 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void Surrender()
     {
+        SurrenderUI.SetActive(true);
+    }
+
+    public void YesSurrender()
+    {
+        SurrenderUI.SetActive(false);
         surrender = true;
         CheckIfGameIsOver();
+    }
+    public void NoSurrender()
+    {
+        SurrenderUI.SetActive(false);
     }
 
     private void setMenuVisible()

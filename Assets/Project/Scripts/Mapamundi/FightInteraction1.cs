@@ -7,32 +7,77 @@ using UnityEngine.SceneManagement;
 
 public class FightInteraction1 : MonoBehaviour
 {
-    [SerializeField]
+    public GameObject UI;
+    private int maxL1 = 3;
+    private int maxL2 = 4;
+    private int maxL3 = 5;
+    private int maxL4 = 5;
+    private int maxL5 = 6;
+    private int maxL6 = 7;
 
-    private Text pressEText;
-    private bool pressedCombatButton;
+    private int level = 1;
+
+    public GameObject pressEText;
+    private bool pressedCombatButton = false;
     private GameObject CombatHandler;
+    private MinimapManager minimapManager;
 
-    // Use this for initialization
-    private void Start()
-    {
+    private void Update(){
         CombatHandler = GameObject.FindWithTag("characterManager");
-        pressEText.gameObject.SetActive(false);
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
+        minimapManager = GameObject.FindWithTag("MinimapManager").GetComponent<MinimapManager>();
+        CombatHandler.GetComponent<CHARACTER_MNG>().NumOfAllies();
         if (pressedCombatButton && Input.GetKeyDown(KeyCode.E) && CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
-            StartCoroutine(PlayGame());
+        {
+            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL1)
+            {
+                //Menu de Seleccion de Personaje
+                UI.SetActive(true);
+            }
+            else
+            {
+                CombatHandler.GetComponent<CHARACTER_MNG>().numberOfMeleeFight = CombatHandler.GetComponent<CHARACTER_MNG>().numberOfMelee;
+                CombatHandler.GetComponent<CHARACTER_MNG>().numberOfArcherFight = CombatHandler.GetComponent<CHARACTER_MNG>().numberOfRanged;
+                CombatHandler.GetComponent<CHARACTER_MNG>().numberOfHealerFight = CombatHandler.GetComponent<CHARACTER_MNG>().numberOfHealer;
+                StartCoroutine(PlayGame());
+            }
+            
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
-            pressEText.gameObject.SetActive(true);
+            minimapManager.L1 = true;
+            minimapManager.L2 = false;
+            minimapManager.L3 = false;
+            pressEText.SetActive(true);
             pressedCombatButton = true;
+        }
+    }
+
+    private void CheckLevel()
+    {
+        if(this.gameObject.CompareTag("L1"))
+        {
+            level = 1;
+            minimapManager.L1 = true;
+            minimapManager.L2 = false;
+            minimapManager.L3 = false;
+        }
+        else if (this.gameObject.CompareTag("L2"))
+        {
+            level = 2;
+            minimapManager.L1 = false;
+            minimapManager.L2 = true;
+            minimapManager.L3 = false;
+        }
+        else if (this.gameObject.CompareTag("L3"))
+        {
+            level = 3;
+            minimapManager.L1 = false;
+            minimapManager.L2 = false;
+            minimapManager.L3 = true;
         }
     }
 
@@ -40,20 +85,18 @@ public class FightInteraction1 : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            pressEText.gameObject.SetActive(false);
+            pressEText.SetActive(false);
             pressedCombatButton = false;
         }
     }
 
-    private void Combat()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
     public IEnumerator PlayGame()
     {
+        //GetComponent<CHARACTER_MNG>().KeepPlayerPosition();
+
         SoundManager.PlaySound("playLevel");
         yield return new WaitForSeconds(1.0f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("Nivel1");
     }
+
 }

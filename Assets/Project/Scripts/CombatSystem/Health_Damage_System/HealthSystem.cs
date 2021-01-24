@@ -5,7 +5,6 @@ using System;
 public class HealthSystem : MonoBehaviour
 {
     public event EventHandler OnHealthChanged;
-    public event EventHandler OnHealthMaxChanged;
     public event EventHandler OnDamaged;
     public event EventHandler OnHealed;
     public event EventHandler OnDead;
@@ -32,9 +31,9 @@ public class HealthSystem : MonoBehaviour
     public void Heal(int HealAmount)
     {
         CurrentHealth += HealAmount;
-        if (CurrentHealth > 3)
+        if (CurrentHealth > MaxHealth)
         {
-            CurrentHealth = 3;
+            CurrentHealth = MaxHealth;
         }
         OnHealthChanged?.Invoke(this, EventArgs.Empty);
         OnHealed?.Invoke(this, EventArgs.Empty);

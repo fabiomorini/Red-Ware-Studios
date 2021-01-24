@@ -9,6 +9,11 @@ TagManager:
   - CombatHandler
   - characterManager
   - SoundManager
+  - MinimapManager
+  - Cuartel
+  - L1
+  - L2
+  - L3
   layers:
   - Default
   - TransparentFX

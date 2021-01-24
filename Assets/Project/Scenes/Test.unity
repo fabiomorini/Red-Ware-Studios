@@ -443,24 +443,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a4f80bfddcb96ea49be05282708b176d, type: 3}
---- !u!114 &796439285 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4191156406738038817, guid: 41e2e604321763e419f1720138918f59,
-    type: 3}
-  m_PrefabInstance: {fileID: 4191156407359341268}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54a8b3a268b1cdb4083d5c656d938d8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &796439291 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4191156406738038831, guid: 41e2e604321763e419f1720138918f59,
-    type: 3}
-  m_PrefabInstance: {fileID: 4191156407359341268}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &851800098
 GameObject:
   m_ObjectHideFlags: 0
@@ -752,16 +734,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 796439291}
+  - {fileID: 4191156407359341269}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1228517606 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5646396135181523220, guid: aec1a247704cb1243a336ecda54c6752,
-    type: 3}
-  m_PrefabInstance: {fileID: 5646396133989919218}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1281949035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1171,27 +1147,27 @@ PrefabInstance:
         type: 3}
       propertyPath: unitGridCombatArray.Array.data[0]
       value: 
-      objectReference: {fileID: 796439285}
+      objectReference: {fileID: 0}
     - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
       propertyPath: unitGridCombatArray.Array.data[1]
       value: 
-      objectReference: {fileID: 796439285}
+      objectReference: {fileID: 0}
     - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
       propertyPath: unitGridCombatArray.Array.data[2]
       value: 
-      objectReference: {fileID: 796439285}
+      objectReference: {fileID: 0}
     - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
       propertyPath: unitGridCombatArray.Array.data[3]
       value: 
-      objectReference: {fileID: 796439285}
+      objectReference: {fileID: 0}
     - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
       propertyPath: unitGridCombatArray.Array.data[4]
       value: 
-      objectReference: {fileID: 796439285}
+      objectReference: {fileID: 0}
     - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
       propertyPath: unitGridCombatArray.Array.data[5]
@@ -1206,7 +1182,7 @@ PrefabInstance:
         type: 3}
       propertyPath: RedTurn
       value: 
-      objectReference: {fileID: 1228517606}
+      objectReference: {fileID: 0}
     - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
       propertyPath: GameOverUI
@@ -1455,6 +1431,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 41e2e604321763e419f1720138918f59, type: 3}
+--- !u!4 &4191156407359341269 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4539957916773627850, guid: 41e2e604321763e419f1720138918f59,
+    type: 3}
+  m_PrefabInstance: {fileID: 4191156407359341268}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5646396133989919218
 PrefabInstance:
   m_ObjectHideFlags: 0
