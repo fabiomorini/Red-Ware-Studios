@@ -60,13 +60,11 @@ public class FightInteraction1 : MonoBehaviour
 
     public IEnumerator PlayGame()
     {
+        CombatHandler.GetComponent<CHARACTER_MNG>().KeepPlayerPosition();
+        //Debug.Log(CombatHandler.GetComponent<CHARACTER_MNG>().playerPosition.x);
+        //Debug.Log(CombatHandler.GetComponent<CHARACTER_MNG>().playerPosition.y);
         SoundManager.PlaySound("playLevel");
         yield return new WaitForSeconds(1.0f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
-    private void SelectUnit()
-    {
-
     }
 }

@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class CHARACTER_MNG : MonoBehaviour
 {
+    private GameObject player;
+    [HideInInspector] public Vector3 playerPosition;
 
     public int coins;
     public int numberOfMelee;
@@ -31,10 +33,16 @@ public class CHARACTER_MNG : MonoBehaviour
 
     private void Start()
     {
+        playerPosition = new Vector3(-30f, -2.5f, 0f);
         characterPrefs = new List<CHARACTER_PREFS>();
         // leer todas las player prefs de cada personaje
         // se las añadimos por cada index
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void Update()
+    {
+        player = GameObject.FindWithTag("Player");
     }
 
     public void CheckLevelNumber()
@@ -66,6 +74,10 @@ public class CHARACTER_MNG : MonoBehaviour
         VictoryL3 = true;
     }
 
+    public void KeepPlayerPosition()
+    {
+        playerPosition = new Vector3(player.transform.position.x, player.transform.position.y, 0);
+    }
 
     public int NumMelee()
     {
