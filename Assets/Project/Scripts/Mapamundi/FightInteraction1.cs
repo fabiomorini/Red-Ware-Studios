@@ -7,6 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class FightInteraction1 : MonoBehaviour
 {
+    public GameObject UI;
+    private int maxL1 = 3;
+    private int maxL2 = 4;
+    private int maxL3 = 4;
+    private int maxL4 = 5;
+    private int maxL5 = 6;
+    private int maxL6 = 7;
+
     public GameObject pressEText;
     private bool pressedCombatButton = false;
     private GameObject CombatHandler;
@@ -15,7 +23,21 @@ public class FightInteraction1 : MonoBehaviour
         CombatHandler = GameObject.FindWithTag("characterManager");
         CombatHandler.GetComponent<CHARACTER_MNG>().NumOfAllies();
         if (pressedCombatButton && Input.GetKeyDown(KeyCode.E) && CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
-            StartCoroutine(PlayGame());
+        {
+            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL1)
+            {
+                //Menu de Seleccion de Personaje
+                UI.SetActive(true);
+            }
+            else
+            {
+                CombatHandler.GetComponent<CHARACTER_MNG>().numberOfMeleeFight = CombatHandler.GetComponent<CHARACTER_MNG>().numberOfMelee;
+                CombatHandler.GetComponent<CHARACTER_MNG>().numberOfArcherFight = CombatHandler.GetComponent<CHARACTER_MNG>().numberOfRanged;
+                CombatHandler.GetComponent<CHARACTER_MNG>().numberOfHealerFight = CombatHandler.GetComponent<CHARACTER_MNG>().numberOfHealer;
+                StartCoroutine(PlayGame());
+            }
+            
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,5 +63,10 @@ public class FightInteraction1 : MonoBehaviour
         SoundManager.PlaySound("playLevel");
         yield return new WaitForSeconds(1.0f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    private void SelectUnit()
+    {
+
     }
 }

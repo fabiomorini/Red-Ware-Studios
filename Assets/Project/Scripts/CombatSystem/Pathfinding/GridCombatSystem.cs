@@ -101,10 +101,10 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void Start() {
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
-        numberOfMelee = characterManager.numberOfMelee;
-        numberOfRanged = characterManager.numberOfRanged;
-        numberOfHealer = characterManager.numberOfHealer;
-        numberOfAllies = characterManager.numberOfAllies;
+        numberOfMelee = characterManager.numberOfMeleeFight;
+        numberOfRanged = characterManager.numberOfArcherFight;
+        numberOfHealer = characterManager.numberOfHealerFight;
+        numberOfAllies = numberOfMelee + numberOfRanged + numberOfHealer;
         characterPrefs = characterManager.characterPrefs;
         spawnCharacters();
 
@@ -560,6 +560,19 @@ public class GridCombatSystem : MonoBehaviour {
                             attacking = false;
                             attackButton.interactable = false;
                         }
+                    }
+                }
+                //healer
+                if (unitGridCombat.CanHealUnit(gridObject.GetUnitGridCombat()) && unitGridCombat.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.HEALER)
+                {
+                    if(canAttackThisTurn)
+                    {
+                        Minimenu.SetActive(true);
+                        canAttackThisTurn = false;
+                        unitGridCombat.HealAlly(gridObject.GetUnitGridCombat());
+                        attacking = false;
+                        attackButton.interactable = false;
+                        //CheckTurnOver();
                     }
                 }
             }

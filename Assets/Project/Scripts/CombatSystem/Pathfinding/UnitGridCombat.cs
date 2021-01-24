@@ -18,7 +18,7 @@ public class UnitGridCombat : MonoBehaviour {
     [HideInInspector] public int attackRangeRanged = 30;
     [HideInInspector] public int attackRangeHealer = 30;
     [HideInInspector] public int rangeHeal = 30;
-    [HideInInspector] public int healAmount;
+    [HideInInspector] public int healAmount = 20;
 
     // Feedback
     public GameObject slashAnim;
@@ -179,14 +179,12 @@ public class UnitGridCombat : MonoBehaviour {
 
     public void HealAlly(UnitGridCombat unitGridCombat)
     {
-        GetComponent<IMoveVelocity>().Disable();
-        unitGridCombat.Heal(this, damageAmount);
-        GetComponent<IMoveVelocity>().Enable();
+        unitGridCombat.Heal(this, healAmount);
     }
 
-    public void Heal(UnitGridCombat Attacker, int damage)
+    public void Heal(UnitGridCombat Attacker, int healAmount)
     {
-        healthSystem.Heal(damageAmount);
+        healthSystem.Heal(healAmount);
     }
 
     public bool CanAttackUnit(UnitGridCombat unitGridCombat) {

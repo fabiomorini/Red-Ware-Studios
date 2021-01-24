@@ -10,6 +10,9 @@ public class CHARACTER_MNG : MonoBehaviour
     public int numberOfMelee;
     public int numberOfRanged;
     public int numberOfHealer;
+    public int numberOfMeleeFight;
+    public int numberOfArcherFight;
+    public int numberOfHealerFight;
     [HideInInspector] public int numberOfAllies;
     [HideInInspector] public int RewardL1 = 300;
     [HideInInspector] public int RewardL2 = 350;

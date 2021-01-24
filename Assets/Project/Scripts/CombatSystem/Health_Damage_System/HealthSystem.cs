@@ -31,9 +31,9 @@ public class HealthSystem : MonoBehaviour
     public void Heal(int HealAmount)
     {
         CurrentHealth += HealAmount;
-        if (CurrentHealth > 3)
+        if (CurrentHealth > MaxHealth)
         {
-            CurrentHealth = 3;
+            CurrentHealth = MaxHealth;
         }
         OnHealthChanged?.Invoke(this, EventArgs.Empty);
         OnHealed?.Invoke(this, EventArgs.Empty);
