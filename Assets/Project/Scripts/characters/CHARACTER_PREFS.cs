@@ -16,7 +16,9 @@ public class CHARACTER_PREFS : MonoBehaviour {
     {
         MELEE,
         RANGED, 
-        HEALER
+        HEALER,
+        TANK,
+        MAGE
     }
 
     public Vector3 GetPosition() 
