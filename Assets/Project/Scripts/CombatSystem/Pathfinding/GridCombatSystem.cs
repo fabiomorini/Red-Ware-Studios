@@ -30,6 +30,8 @@ public class GridCombatSystem : MonoBehaviour {
     //booleanos de atacar y mover
     private bool canMoveThisTurn;
     private bool canAttackThisTurn;
+    private bool hasUpdatedPositionMove = false;
+    private bool hasUpdatedPositionAttack = false;
 
     //Sistema de spawning de tropas según cuantas tienes compradas en el cuartel
     //deep lore, se usa solo para que no de error, no sirve para nada más
@@ -156,7 +158,11 @@ public class GridCombatSystem : MonoBehaviour {
                 if (moving)
                 {
                     maxMoveDistance = 5;
-                    UpdateValidMovePositions();
+                    if (!hasUpdatedPositionMove)
+                    {
+                        UpdateValidMovePositions();
+                        hasUpdatedPositionMove = true;
+                    }
                     MoveAllyVisual();
                 }
                 if (attacking)
@@ -182,7 +188,11 @@ public class GridCombatSystem : MonoBehaviour {
                         maxMoveDistance = 4;
                     }
 
-                    UpdateValidMovePositions();
+                    if (!hasUpdatedPositionAttack)
+                    {
+                        UpdateValidMovePositions();
+                        hasUpdatedPositionAttack = true;
+                    }
                     AttackAllyVisual();
                 }
 
@@ -476,6 +486,8 @@ public class GridCombatSystem : MonoBehaviour {
             MovementTilemap.TilemapObject.TilemapSprite.None);
             CheckMinimenuAlly();
             isWaiting = true;
+            hasUpdatedPositionMove = false;
+            hasUpdatedPositionAttack = false;
     }
 
     private void CheckMinimenuAlly() 
