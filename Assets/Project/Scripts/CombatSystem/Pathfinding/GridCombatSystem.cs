@@ -38,11 +38,15 @@ public class GridCombatSystem : MonoBehaviour {
     public GameObject MeleePrefab;
     public GameObject RangedPrefab;
     public GameObject HealerPrefab;
+    public GameObject TankPrefab;
+    public GameObject MagePrefab;
 
     //CHARACTER_MNG
     private int numberOfMelee;
     private int numberOfRanged;
     private int numberOfHealer;
+    private int numberOfTank;
+    private int numberOfMage;
     private int numberOfAllies;
     // lista paralela a unitGridCombatArray donde comprobamos las características de cada aliado (CHARACTER_MNG)
     private List<CHARACTER_PREFS> characterPrefs; 
@@ -105,7 +109,9 @@ public class GridCombatSystem : MonoBehaviour {
         numberOfMelee = characterManager.numberOfMeleeFight;
         numberOfRanged = characterManager.numberOfArcherFight;
         numberOfHealer = characterManager.numberOfHealerFight;
-        numberOfAllies = numberOfMelee + numberOfRanged + numberOfHealer;
+        numberOfTank = characterManager.numberOfTankFight;
+        numberOfMage = characterManager.numberOfMageFight;
+        numberOfAllies = numberOfMelee + numberOfRanged + numberOfHealer + numberOfTank + numberOfMage;
         characterPrefs = characterManager.characterPrefs;
         spawnCharacters();
 
@@ -157,9 +163,17 @@ public class GridCombatSystem : MonoBehaviour {
                     }
                     else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
                     {
-                        maxMoveDistance = 4;
+                        maxMoveDistance = 5;
                     }
                     else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
+                    {
+                        maxMoveDistance = 4;
+                    }
+                    else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
+                    {
+                        maxMoveDistance = 2;
+                    }
+                    else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
                     {
                         maxMoveDistance = 4;
                     }
@@ -247,6 +261,18 @@ public class GridCombatSystem : MonoBehaviour {
                 HealerPrefab.name = "Healer" + i;
                 numberOfHealer--;
             }
+            else if (numberOfTank >= 1)
+            {
+                Ally = Instantiate(TankPrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
+                TankPrefab.name = "Tank" + i;
+                numberOfTank--;
+            }
+            else if (numberOfMage >= 1)
+            {
+                Ally = Instantiate(MagePrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
+                MagePrefab.name = "Mage" + i;
+                numberOfMage--;
+            }
             unitGridCombatArray.Add(Ally.GetComponent<UnitGridCombat>());
         }
     }
@@ -271,7 +297,16 @@ public class GridCombatSystem : MonoBehaviour {
                     characterManager.numberOfHealer--;
                     numberOfHealer--;
                 }
-
+                else if (alliesTeamList[i].GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
+                {
+                    characterManager.numberOfTank--;
+                    numberOfTank--;
+                }
+                else if (alliesTeamList[i].GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
+                {
+                    characterManager.numberOfMage--;
+                    numberOfMage--;
+                }
             }
         }
     }

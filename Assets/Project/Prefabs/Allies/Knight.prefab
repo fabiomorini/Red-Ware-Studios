@@ -390,6 +390,8 @@ MonoBehaviour:
   attackRangeMelee: 17
   attackRangeRanged: 34
   attackRangeHealer: 34
+  attackRangeTank: 5
+  attackRangeMage: 30
   rangeHeal: 30
   healAmount: 20
   slashAnim: {fileID: 8288384011522629396}
@@ -722,7 +724,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -465.58823, y: 56.064705}
+  m_AnchoredPosition: {x: -932, y: 56.064705}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3266021240380118277
@@ -816,7 +818,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -139.61351, y: -33.454395, z: -26.559145, w: -63.898556}
+  m_margin: {x: -139.61351, y: -33.454395, z: -278.75363, w: -63.898556}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

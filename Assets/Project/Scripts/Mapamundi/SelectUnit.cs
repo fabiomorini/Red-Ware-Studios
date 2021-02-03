@@ -19,10 +19,14 @@ public class SelectUnit : MonoBehaviour
     private int knightCounter = 0;
     private int ArcherCounter = 0;
     private int HealerCounter = 0;
+    private int TankCounter = 0;
+    private int MageCounter = 0;
     private int totalCounter = 0;
     private int knightsToFight = 0;
     private int archersToFight = 0;
     private int healersToFight = 0;
+    private int tanksToFight = 0;
+    private int magesToFight = 0;
 
     public TMP_Text explainText;
     public TMP_Text totalText;
@@ -30,10 +34,14 @@ public class SelectUnit : MonoBehaviour
     public TMP_Text ArcherText;
     public TMP_Text KnightText;
     public TMP_Text HealerText;
+    public TMP_Text TankText;
+    public TMP_Text MageText;
 
     public TMP_Text knightsToFightText;
     public TMP_Text archersToFightText;
     public TMP_Text healersToFightText;
+    public TMP_Text tanksToFightText;
+    public TMP_Text magesToFightText;
 
     private GameObject characterManager;
     private MinimapManager minimapManager;
@@ -48,15 +56,21 @@ public class SelectUnit : MonoBehaviour
         knightCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee;
         ArcherCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfRanged;
         HealerCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfHealer;
+        TankCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfTank;
+        MageCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMage;
 
         KnightText.SetText("x " + knightCounter);
         ArcherText.SetText("x " + ArcherCounter);
         HealerText.SetText("x " + HealerCounter);
+        TankText.SetText("x " + TankCounter);
+        MageText.SetText("x " + MageCounter);
         totalText.SetText("Total Soldiers: " + totalCounter);
 
         knightsToFightText.SetText("x " + knightsToFight);
         archersToFightText.SetText("x " + archersToFight);
         healersToFightText.SetText("x " + healersToFight);
+        tanksToFightText.SetText("x " + tanksToFight);
+        magesToFightText.SetText("x " + magesToFight);
     }
 
     private void CheckLevelMax()
@@ -100,7 +114,24 @@ public class SelectUnit : MonoBehaviour
             totalCounter++;
             healersToFight++;
         }
+    }
 
+    public void AddTank()
+    {
+        if (totalCounter < maxLevel && tanksToFight < TankCounter)
+        {
+            totalCounter++;
+            tanksToFight++;
+        }
+    }
+
+    public void AddMage()
+    {
+        if (totalCounter < maxLevel && magesToFight < MageCounter)
+        {
+            totalCounter++;
+            magesToFight++;
+        }
     }
 
     public void RemoveKnight()
@@ -130,11 +161,31 @@ public class SelectUnit : MonoBehaviour
         }
     }
 
+    public void RemoveTank()
+    {
+        if (totalCounter > 0 && tanksToFight > 0)
+        {
+            totalCounter--;
+            tanksToFight--;
+        }
+    }
+
+    public void RemoveMage()
+    {
+        if (totalCounter > 0 && magesToFight > 0)
+        {
+            totalCounter--;
+            magesToFight--;
+        }
+    }
+
     public void StartBattle()
     {
         characterManager.GetComponent<CHARACTER_MNG>().numberOfMeleeFight = knightsToFight;
         characterManager.GetComponent<CHARACTER_MNG>().numberOfArcherFight = archersToFight;
         characterManager.GetComponent<CHARACTER_MNG>().numberOfHealerFight = healersToFight;
+        characterManager.GetComponent<CHARACTER_MNG>().numberOfTankFight = tanksToFight;
+        characterManager.GetComponent<CHARACTER_MNG>().numberOfMageFight = magesToFight;
         StartCoroutine(PlayGame());
     }
 

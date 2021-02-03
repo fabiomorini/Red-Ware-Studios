@@ -650,6 +650,8 @@ MonoBehaviour:
   attackRangeMelee: 17
   attackRangeRanged: 34
   attackRangeHealer: 34
+  attackRangeTank: 5
+  attackRangeMage: 30
   rangeHeal: 30
   healAmount: 20
   slashAnim: {fileID: 8767967885425950126}
