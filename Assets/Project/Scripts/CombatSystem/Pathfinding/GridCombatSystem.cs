@@ -584,6 +584,7 @@ public class GridCombatSystem : MonoBehaviour {
     {
         moving = true;
         attacking = false;
+        hasUpdatedPositionMove = false;
         Minimenu.SetActive(false);
     }
 
@@ -634,6 +635,7 @@ public class GridCombatSystem : MonoBehaviour {
     {
         attacking = true;
         moving = false;
+        hasUpdatedPositionAttack = false;
         Minimenu.SetActive(false);
     }
     public void SetHealingTrue()
