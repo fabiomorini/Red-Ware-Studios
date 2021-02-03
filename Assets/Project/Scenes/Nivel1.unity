@@ -179,8 +179,8 @@ MonoBehaviour:
   knightSprite: {fileID: 1727048729}
   archerSprite: {fileID: 282365501}
   healerSprite: {fileID: 314137575}
-  tankSprite: {fileID: 0}
-  mageSprite: {fileID: 0}
+  tankSprite: {fileID: 1330804718}
+  mageSprite: {fileID: 1094901122}
   slider: {fileID: 813085218}
   currHealthText: {fileID: 1266460005}
   levelText: {fileID: 895399269}
@@ -7741,6 +7741,18 @@ PrefabInstance:
       propertyPath: totalAlliesLeftText
       value: 
       objectReference: {fileID: 790866644}
+    - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
+        type: 3}
+      propertyPath: TankPrefab
+      value: 
+      objectReference: {fileID: 3300769062914515420, guid: fe1d8e8ad3790834984cce13c0062d1c,
+        type: 3}
+    - target: {fileID: 1017251613281193754, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
+        type: 3}
+      propertyPath: MagePrefab
+      value: 
+      objectReference: {fileID: 6408216605119919340, guid: f201543495238d342adf3b420fe69765,
+        type: 3}
     - target: {fileID: 1017251613281193755, guid: 521d00d0f0d95eb4bbf8ddbb81dda176,
         type: 3}
       propertyPath: m_LocalPosition.x

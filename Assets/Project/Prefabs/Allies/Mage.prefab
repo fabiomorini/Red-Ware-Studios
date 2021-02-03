@@ -603,7 +603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: 0
-  tipo: 1
+  tipo: 4
 --- !u!114 &5524218965338882929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -650,6 +650,8 @@ MonoBehaviour:
   attackRangeMelee: 17
   attackRangeRanged: 34
   attackRangeHealer: 34
+  attackRangeTank: 5
+  attackRangeMage: 30
   rangeHeal: 30
   healAmount: 20
   slashAnim: {fileID: 8767967885425950126}
