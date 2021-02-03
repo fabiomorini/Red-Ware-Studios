@@ -111,7 +111,11 @@ public class GridCombatSystem : MonoBehaviour {
         numberOfHealer = characterManager.numberOfHealerFight;
         numberOfTank = characterManager.numberOfTankFight;
         numberOfMage = characterManager.numberOfMageFight;
-        numberOfAllies = numberOfMelee + numberOfRanged + numberOfHealer + numberOfTank + numberOfMage;
+        numberOfAllies = numberOfMelee 
+                       + numberOfRanged 
+                       + numberOfHealer 
+                       + numberOfTank 
+                       + numberOfMage;
         characterPrefs = characterManager.characterPrefs;
         spawnCharacters();
 
