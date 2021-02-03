@@ -256,7 +256,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3445192277078243112}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.26, y: 8.59, z: -4.280923}
+  m_LocalPosition: {x: -1.26, y: 8.29, z: -4.280923}
   m_LocalScale: {x: 6, y: 6, z: 1}
   m_Children: []
   m_Father: {fileID: 4463992025083117555}
@@ -647,13 +647,6 @@ MonoBehaviour:
   imDead: 0
   damageAmount: 1
   level: 1
-  attackRangeMelee: 17
-  attackRangeRanged: 34
-  attackRangeHealer: 34
-  attackRangeTank: 5
-  attackRangeMage: 30
-  rangeHeal: 30
-  healAmount: 20
   slashAnim: {fileID: 8767967885425950126}
   healAnim: {fileID: 8993102180584529665}
   playerSprite: {fileID: 6917315024235975099}

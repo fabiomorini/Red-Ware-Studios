@@ -870,7 +870,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7484753011676683329}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.7185698, y: -0.4158762, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 6, y: 6, z: 1}
   m_Children:
   - {fileID: 4539654041320135018}
@@ -963,6 +963,8 @@ MonoBehaviour:
   attackRangeMelee: 17
   attackRangeRanged: 34
   attackRangeHealer: 34
+  attackRangeTank: 5
+  attackRangeMage: 30
   rangeHeal: 30
   healAmount: 20
   slashAnim: {fileID: 7521122801981848761}

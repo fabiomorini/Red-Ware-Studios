@@ -454,7 +454,7 @@ public class GridCombatSystem : MonoBehaviour {
         for (int i = 0; i < alliesTeamList.Count; i++)
         {
             float distance = Vector3.Distance(myPosition, alliesTeamList[i].GetPosition());
-            if (distance <= unitGridCombat.attackRangeMelee)
+            if (distance <= 10)
                 return true;
         }
         return false;

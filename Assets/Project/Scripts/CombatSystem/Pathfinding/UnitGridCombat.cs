@@ -14,13 +14,15 @@ public class UnitGridCombat : MonoBehaviour {
     [HideInInspector] public bool imDead = false;
     [HideInInspector] public int damageAmount;
     [HideInInspector] public int level = 1; //temporal
-    [HideInInspector] public int attackRangeMelee = 5;
-    [HideInInspector] public int attackRangeRanged = 40;
-    [HideInInspector] public int attackRangeHealer = 30;
-    [HideInInspector] public int attackRangeTank = 5;
-    [HideInInspector] public int attackRangeMage = 30;
-    [HideInInspector] public int rangeHeal = 30;
-    [HideInInspector] public int healAmount = 20;
+
+    private int attackRangeMelee = 10;
+    private int attackRangeRanged = 40;
+    private int attackRangeHealer = 30;
+    private int attackRangeTank = 10;
+    private int attackRangeMage = 30;
+
+    private int rangeHeal = 30;
+    private int healAmount = 20;
 
     // Feedback
     public GameObject slashAnim;
@@ -235,13 +237,13 @@ public class UnitGridCombat : MonoBehaviour {
         {
             return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeHealer;
         }
-        else if (gameObject.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
-        {
-            return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeTank;
-        }
-        else // Mage
+        else if (gameObject.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {
             return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeMage;
+        }
+        else // Tank
+        {
+            return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeTank;
         }
     }
     public bool CanHealUnit(UnitGridCombat unitGridCombat)
