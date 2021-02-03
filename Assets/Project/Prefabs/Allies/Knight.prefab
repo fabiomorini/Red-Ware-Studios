@@ -387,13 +387,6 @@ MonoBehaviour:
   imDead: 0
   damageAmount: 1
   level: 1
-  attackRangeMelee: 17
-  attackRangeRanged: 34
-  attackRangeHealer: 34
-  attackRangeTank: 5
-  attackRangeMage: 30
-  rangeHeal: 30
-  healAmount: 20
   slashAnim: {fileID: 8288384011522629396}
   healAnim: {fileID: 5465518042890320815}
   playerSprite: {fileID: 8519992233551733056}

@@ -181,12 +181,15 @@ public class SelectUnit : MonoBehaviour
 
     public void StartBattle()
     {
-        characterManager.GetComponent<CHARACTER_MNG>().numberOfMeleeFight = knightsToFight;
-        characterManager.GetComponent<CHARACTER_MNG>().numberOfArcherFight = archersToFight;
-        characterManager.GetComponent<CHARACTER_MNG>().numberOfHealerFight = healersToFight;
-        characterManager.GetComponent<CHARACTER_MNG>().numberOfTankFight = tanksToFight;
-        characterManager.GetComponent<CHARACTER_MNG>().numberOfMageFight = magesToFight;
-        StartCoroutine(PlayGame());
+        if ((knightsToFight + archersToFight + healersToFight + tanksToFight + magesToFight) > 0) 
+        {
+            characterManager.GetComponent<CHARACTER_MNG>().numberOfMeleeFight = knightsToFight;
+            characterManager.GetComponent<CHARACTER_MNG>().numberOfArcherFight = archersToFight;
+            characterManager.GetComponent<CHARACTER_MNG>().numberOfHealerFight = healersToFight;
+            characterManager.GetComponent<CHARACTER_MNG>().numberOfTankFight = tanksToFight;
+            characterManager.GetComponent<CHARACTER_MNG>().numberOfMageFight = magesToFight;
+            StartCoroutine(PlayGame());
+        }
     }
 
     public IEnumerator PlayGame()
