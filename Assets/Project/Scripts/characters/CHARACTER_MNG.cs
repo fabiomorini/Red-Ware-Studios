@@ -9,9 +9,13 @@ public class CHARACTER_MNG : MonoBehaviour
     public int numberOfMelee;
     public int numberOfRanged;
     public int numberOfHealer;
+    public int numberOfTank;
+    public int numberOfMage;
     public int numberOfMeleeFight;
     public int numberOfArcherFight;
     public int numberOfHealerFight;
+    public int numberOfTankFight;
+    public int numberOfMageFight;
     [HideInInspector] public int numberOfAllies;
     [HideInInspector] public int RewardL1 = 300;
     [HideInInspector] public int RewardL2 = 350;
@@ -80,12 +84,22 @@ public class CHARACTER_MNG : MonoBehaviour
     {
         return numberOfHealer;
     }
+    public int NumTanks()
+    {
+        return numberOfTank;
+    }
+    public int NumMages()
+    {
+        return numberOfMage;
+    }
 
     public int NumOfAllies()
     {
         return numberOfAllies = numberOfMelee 
                               + numberOfRanged 
-                              + numberOfHealer;
+                              + numberOfHealer
+                              + numberOfTank
+                              + numberOfMage;
     }
 
     public int GetLevelIndex()
