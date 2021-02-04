@@ -114,46 +114,58 @@ public class IA_enemies : MonoBehaviour
             SelectNewMovePosition(myPosition);
             gridObject = grid.GetGridObject(target);
             relativePointTarget = transform.InverseTransformPoint(target);
-            bool canMoveAgain = true;
-            for (int i = 0; i < 5; i++)
+            //bool canMoveAgain = true;
+            for (int i = 0; i < 6; i++)
             {
-                canMoveAgain = CheckMoveRange(target, myPosition);
-                if (!CheckCollisionsTarget() || gridObject.GetUnitGridCombat() != null && !canMoveAgain)
+                if (!CheckCollisionsTarget() || gridObject.GetUnitGridCombat() != null || !CheckMoveRange(target, myPosition))
                 {
-                    //Hay colision o hay alguien
-                    //Busco nueva posicion cerca
-                    if (alreadyEnteredTop && alreadyEnteredBot && alreadyEnteredLeft && alreadyEnteredRight)
+                    Debug.Log("No estoy a Rango de ningun Player y mi posicion intermedia esta ocupada");
+                    //De la nueva posicion dentro de mi rango, hay alguien en la casilla seleccionada (1era iteracion)
+                    if (i == 1)
                     {
-                        //No te mueves
-                        gridCombatSystem.GetComponent<GridCombatSystem>().ForceTurnOver();
-                        break;
+                        target.x = target.x - 10;
                     }
-                    else
+                    if (i == 2)
                     {
-                        //No reescribir target //Arreglar
-                        CheckForNewSpots(relativePointTarget);
-                        LookForMovePositionInRange(relativePointTarget);
-                        gridObject = grid.GetGridObject(target);
-                        canMoveAgain = CheckMoveRange(target, myPosition);
+                        target.x = target.x + 10;
+                        target.y = target.y - 10;
+                    }
+                    if (i == 3)
+                    {
+                        target.y = target.y + 10;
+                        target.y = target.y + 10;
+                    }
+                    if (i == 4)
+                    {
+                        target.y = target.y - 10;
+                        target.x = target.x + 10;
+                    }
+                    if (i == 5)
+                    {
+                        target = myPosition;
+                        break;
                     }
                 }
                 else
                 {
-                    //Me puedo mover
+                    //Me muevo
                     break;
                 }
             }
         }
 
+        bool checkRange = true;
+        //Solo entra si esta a rango
         for (int i = 0; i < 4 * gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList.Count; i++)
         {
+            int tries = 0;
             CheckCollisionsIA(nearestEnemy);
-            if (gridObject.GetUnitGridCombat() == null)
+            if (gridObject.GetUnitGridCombat() == null && checkRange)
             {
                 grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
-                gridObject.SetUnitGridCombat(thisUnit);
                 thisUnit.MoveTo(target, () =>
                 {
+                    gridObject.SetUnitGridCombat(thisUnit);
                     if (gridCombatSystem.GetComponent<GridCombatSystem>().SeekEnemiesIA(thisUnit) == true)
                     {
                         thisUnit.AttackUnit(lookForEnemies(thisUnit));
@@ -174,13 +186,28 @@ public class IA_enemies : MonoBehaviour
                     }
                     else
                     {
-                        //Debug.Log("No hay enemigos a los que pueda acercarme");
                         break;
                     }
                 }
-                relativePoint = CheckForNewSpots(relativePoint);
-                LookForMovePosition(relativePoint, nearestEnemy.GetPosition());
-                gridObject = grid.GetGridObject(target);
+
+                if (tries <= 4)
+                {
+                    relativePoint = CheckForNewSpots(relativePoint);
+                    LookForMovePosition(relativePoint, nearestEnemy.GetPosition());
+                    gridObject = grid.GetGridObject(target);
+                    checkRange = CheckMoveRange(target, myPosition);
+                    tries++;
+                }
+                else
+                {
+                    if (!alreadyEnteredTop || !alreadyEnteredBot || !alreadyEnteredLeft || !alreadyEnteredRight)
+                    {
+                        Debug.Log("Estoy a Rango un Player y mi posicion esta ocupada o fuera de rango");
+                        //Opcional cambiar target
+                        SelectNewMovePosition(myPosition);
+                        checkRange = CheckMoveRange(target, myPosition);
+                    }
+                }
             }
         }
     }
