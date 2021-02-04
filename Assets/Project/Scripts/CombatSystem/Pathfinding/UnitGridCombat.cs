@@ -15,11 +15,11 @@ public class UnitGridCombat : MonoBehaviour {
     [HideInInspector] public int damageAmount;
     [HideInInspector] public int level = 1; //temporal
 
-    private int attackRangeMelee = 10;
-    private int attackRangeRanged = 40;
-    private int attackRangeHealer = 30;
-    private int attackRangeTank = 10;
-    private int attackRangeMage = 30;
+    private int attackRangeMelee = 11;
+    private int attackRangeRanged = 41;
+    private int attackRangeHealer = 31;
+    private int attackRangeTank = 11;
+    private int attackRangeMage = 31;
 
     private int rangeHeal = 30;
     private int healAmount = 20;

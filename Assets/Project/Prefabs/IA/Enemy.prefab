@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1155712797135769293}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.023, y: 0.153, z: 0}
+  m_LocalPosition: {x: 0.088, y: 0.26296693, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 968629877834844179}
@@ -56,7 +56,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377176309638734960}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.09, y: 0.177, z: 0}
+  m_LocalPosition: {x: -0.109000005, y: 0.196, z: 0}
   m_LocalScale: {x: 0.7892557, y: 0.7892557, z: 0.7892557}
   m_Children: []
   m_Father: {fileID: 4539957916773627850}
@@ -139,7 +139,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3601668868446820591}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.12, y: 0.5410331, z: 0}
+  m_LocalPosition: {x: -0.139, y: 0.651, z: 0}
   m_LocalScale: {x: 0.15197569, y: 0.15197569, z: 1.0638298}
   m_Children: []
   m_Father: {fileID: 4539957916773627850}
@@ -254,7 +254,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4539957915653406944}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.02, y: -0.43, z: 0}
+  m_LocalPosition: {x: 0.0009999983, y: -0.331, z: 0}
   m_LocalScale: {x: 2.507388, y: 2.9611022, z: 1}
   m_Children: []
   m_Father: {fileID: 4539957916773627850}
@@ -429,12 +429,8 @@ MonoBehaviour:
   imDead: 0
   damageAmount: 1
   level: 1
-  attackRangeMelee: 17
-  attackRangeRanged: 34
-  attackRangeHealer: 0
-  rangeHeal: 30
-  healAmount: 0
   slashAnim: {fileID: 3601668868446820591}
+  healAnim: {fileID: 0}
   playerSprite: {fileID: 4849241890087592382}
   animEnded: 1
   selectedGameObject: {fileID: 0}
@@ -950,7 +946,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8882803617111139739}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.77, z: 0}
+  m_LocalPosition: {x: -0.019000001, y: 1.8799669, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4539957916773627850}

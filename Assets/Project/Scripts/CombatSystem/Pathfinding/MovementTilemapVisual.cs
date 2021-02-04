@@ -60,8 +60,8 @@ public class MovementTilemapVisual : MonoBehaviour {
 
     private void Update()
     {
-        attackingColor = new Color(0.78431f, 0.43922f, 0.49412f, 1);
-        movingColor = new Color(0.35294f, 0.62745f, 0.74902f, 1);
+        attackingColor = new Color32(187, 68, 48, 255);
+        movingColor = new Color32(66, 122, 161, 255);
 
         if (gridCombatSystem.attacking == true)
         {
