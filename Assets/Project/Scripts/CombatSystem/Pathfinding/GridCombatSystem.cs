@@ -30,6 +30,8 @@ public class GridCombatSystem : MonoBehaviour {
     //booleanos de atacar y mover
     private bool canMoveThisTurn;
     private bool canAttackThisTurn;
+    private bool hasUpdatedPositionMove = false;
+    private bool hasUpdatedPositionAttack = false;
 
     //Sistema de spawning de tropas según cuantas tienes compradas en el cuartel
     //deep lore, se usa solo para que no de error, no sirve para nada más
@@ -38,11 +40,15 @@ public class GridCombatSystem : MonoBehaviour {
     public GameObject MeleePrefab;
     public GameObject RangedPrefab;
     public GameObject HealerPrefab;
+    public GameObject TankPrefab;
+    public GameObject MagePrefab;
 
     //CHARACTER_MNG
     private int numberOfMelee;
     private int numberOfRanged;
     private int numberOfHealer;
+    private int numberOfTank;
+    private int numberOfMage;
     private int numberOfAllies;
     // lista paralela a unitGridCombatArray donde comprobamos las características de cada aliado (CHARACTER_MNG)
     private List<CHARACTER_PREFS> characterPrefs; 
@@ -105,7 +111,13 @@ public class GridCombatSystem : MonoBehaviour {
         numberOfMelee = characterManager.numberOfMeleeFight;
         numberOfRanged = characterManager.numberOfArcherFight;
         numberOfHealer = characterManager.numberOfHealerFight;
-        numberOfAllies = numberOfMelee + numberOfRanged + numberOfHealer;
+        numberOfTank = characterManager.numberOfTankFight;
+        numberOfMage = characterManager.numberOfMageFight;
+        numberOfAllies = numberOfMelee 
+                       + numberOfRanged 
+                       + numberOfHealer 
+                       + numberOfTank 
+                       + numberOfMage;
         characterPrefs = characterManager.characterPrefs;
         spawnCharacters();
 
@@ -146,7 +158,11 @@ public class GridCombatSystem : MonoBehaviour {
                 if (moving)
                 {
                     maxMoveDistance = 5;
-                    UpdateValidMovePositions();
+                    if (!hasUpdatedPositionMove)
+                    {
+                        UpdateValidMovePositions();
+                        hasUpdatedPositionMove = true;
+                    }
                     MoveAllyVisual();
                 }
                 if (attacking)
@@ -157,14 +173,26 @@ public class GridCombatSystem : MonoBehaviour {
                     }
                     else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
                     {
-                        maxMoveDistance = 4;
+                        maxMoveDistance = 5;
                     }
                     else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
                     {
                         maxMoveDistance = 4;
                     }
+                    else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
+                    {
+                        maxMoveDistance = 2;
+                    }
+                    else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
+                    {
+                        maxMoveDistance = 4;
+                    }
 
-                    UpdateValidMovePositions();
+                    if (!hasUpdatedPositionAttack)
+                    {
+                        UpdateValidMovePositions();
+                        hasUpdatedPositionAttack = true;
+                    }
                     AttackAllyVisual();
                 }
 
@@ -247,6 +275,18 @@ public class GridCombatSystem : MonoBehaviour {
                 HealerPrefab.name = "Healer" + i;
                 numberOfHealer--;
             }
+            else if (numberOfTank >= 1)
+            {
+                Ally = Instantiate(TankPrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
+                TankPrefab.name = "Tank" + i;
+                numberOfTank--;
+            }
+            else if (numberOfMage >= 1)
+            {
+                Ally = Instantiate(MagePrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
+                MagePrefab.name = "Mage" + i;
+                numberOfMage--;
+            }
             unitGridCombatArray.Add(Ally.GetComponent<UnitGridCombat>());
         }
     }
@@ -271,7 +311,16 @@ public class GridCombatSystem : MonoBehaviour {
                     characterManager.numberOfHealer--;
                     numberOfHealer--;
                 }
-
+                else if (alliesTeamList[i].GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
+                {
+                    characterManager.numberOfTank--;
+                    numberOfTank--;
+                }
+                else if (alliesTeamList[i].GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
+                {
+                    characterManager.numberOfMage--;
+                    numberOfMage--;
+                }
             }
         }
     }
@@ -415,7 +464,7 @@ public class GridCombatSystem : MonoBehaviour {
         for (int i = 0; i < alliesTeamList.Count; i++)
         {
             float distance = Vector3.Distance(myPosition, alliesTeamList[i].GetPosition());
-            if (distance <= unitGridCombat.attackRangeMelee)
+            if (distance <= 11) 
                 return true;
         }
         return false;
@@ -437,6 +486,8 @@ public class GridCombatSystem : MonoBehaviour {
             MovementTilemap.TilemapObject.TilemapSprite.None);
             CheckMinimenuAlly();
             isWaiting = true;
+            hasUpdatedPositionMove = false;
+            hasUpdatedPositionAttack = false;
     }
 
     private void CheckMinimenuAlly() 
@@ -533,6 +584,7 @@ public class GridCombatSystem : MonoBehaviour {
     {
         moving = true;
         attacking = false;
+        hasUpdatedPositionMove = false;
         Minimenu.SetActive(false);
     }
 
@@ -583,6 +635,7 @@ public class GridCombatSystem : MonoBehaviour {
     {
         attacking = true;
         moving = false;
+        hasUpdatedPositionAttack = false;
         Minimenu.SetActive(false);
     }
     public void SetHealingTrue()

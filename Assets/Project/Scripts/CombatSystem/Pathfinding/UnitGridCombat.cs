@@ -14,11 +14,15 @@ public class UnitGridCombat : MonoBehaviour {
     [HideInInspector] public bool imDead = false;
     [HideInInspector] public int damageAmount;
     [HideInInspector] public int level = 1; //temporal
-    [HideInInspector] public int attackRangeMelee = 5;
-    [HideInInspector] public int attackRangeRanged = 30;
-    [HideInInspector] public int attackRangeHealer = 30;
-    [HideInInspector] public int rangeHeal = 30;
-    [HideInInspector] public int healAmount = 20;
+
+    private int attackRangeMelee = 11;
+    private int attackRangeRanged = 41;
+    private int attackRangeHealer = 31;
+    private int attackRangeTank = 11;
+    private int attackRangeMage = 31;
+
+    private int rangeHeal = 30;
+    private int healAmount = 20;
 
     // Feedback
     public GameObject slashAnim;
@@ -64,16 +68,24 @@ public class UnitGridCombat : MonoBehaviour {
     {
         if(characterPrefs.getType() == CHARACTER_PREFS.Tipo.MELEE)
         {
-            maxHealth = 90;
+            maxHealth = 80;
         }
         else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.RANGED)
         {
-            maxHealth = 70;
+            maxHealth = 60;
         }
         else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.HEALER)
         {
-            maxHealth = 60;
+            maxHealth = 50;
             healAmount = 20;
+        }
+        else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.TANK)
+        {
+            maxHealth = 95;
+        }
+        else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.MAGE)
+        {
+            maxHealth = 50;
         }
     }
 
@@ -106,17 +118,27 @@ public class UnitGridCombat : MonoBehaviour {
         //Temporal
         if(Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
         {
-            damageAmount = 30;
+            damageAmount = 25;
             healthSystem.Damage(damageAmount);
         }
         else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
-            damageAmount = 25;
+            damageAmount = 20;
             healthSystem.Damage(damageAmount);
         }
         else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
         {
             damageAmount = 10;
+            healthSystem.Damage(damageAmount);
+        }
+        else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
+        {
+            damageAmount = 15;
+            healthSystem.Damage(damageAmount);
+        }
+        else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
+        {
+            damageAmount = 25;
             healthSystem.Damage(damageAmount);
         }
 
@@ -211,9 +233,17 @@ public class UnitGridCombat : MonoBehaviour {
         {
             return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeRanged;
         }
-        else
+        else if (gameObject.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
         {
             return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeHealer;
+        }
+        else if (gameObject.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
+        {
+            return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeMage;
+        }
+        else // Tank
+        {
+            return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeTank;
         }
     }
     public bool CanHealUnit(UnitGridCombat unitGridCombat)

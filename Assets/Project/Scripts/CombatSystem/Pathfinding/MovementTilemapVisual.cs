@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class MovementTilemapVisual : MonoBehaviour {
 
+    private GridCombatSystem gridCombatSystem;
+    Material mat;
+    Texture texture;
+
     [System.Serializable]
-    
+
     public struct TilemapSpriteUV {
         public MovementTilemap.TilemapObject.TilemapSprite tilemapSprite;
         public Vector2Int uv00Pixels;
@@ -19,15 +23,28 @@ public class MovementTilemapVisual : MonoBehaviour {
 
     [SerializeField] private TilemapSpriteUV[] tilemapSpriteUVArray;
     private Grid<MovementTilemap.TilemapObject> grid;
+
+    private Color attackingColor;
+    private Color movingColor;
+
     private Mesh mesh;
     private bool updateMesh;
+    MeshRenderer meshRenderer;
+    // change color to blue
     private Dictionary<MovementTilemap.TilemapObject.TilemapSprite, UVCoords> uvCoordsDictionary;
 
     private void Awake() {
+
+        meshRenderer = GetComponent<MeshRenderer>();
+
+        gridCombatSystem = GameObject.FindGameObjectWithTag("CombatHandler").GetComponent<GridCombatSystem>();
+
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
 
-        Texture texture = GetComponent<MeshRenderer>().material.mainTexture;
+        mat = GetComponent<MeshRenderer>().material;
+
+        texture = mat.mainTexture;
         float textureWidth = texture.width;
         float textureHeight = texture.height;
 
@@ -39,6 +56,22 @@ public class MovementTilemapVisual : MonoBehaviour {
                 uv11 = new Vector2(tilemapSpriteUV.uv11Pixels.x / textureWidth, tilemapSpriteUV.uv11Pixels.y / textureHeight),
             };
         }
+    }
+
+    private void Update()
+    {
+        attackingColor = new Color32(187, 68, 48, 255);
+        movingColor = new Color32(66, 122, 161, 255);
+
+        if (gridCombatSystem.attacking == true)
+        {
+            meshRenderer.material.color = attackingColor;
+        }
+        else if (gridCombatSystem.moving == true)
+        {
+            meshRenderer.material.color = movingColor;
+        }
+
     }
 
     public void SetGrid(MovementTilemap tilemap, Grid<MovementTilemap.TilemapObject> grid) {
