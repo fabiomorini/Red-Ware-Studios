@@ -107,6 +107,7 @@ public class GridCombatSystem : MonoBehaviour {
 
 
     private void Start() {
+        StartCoroutine(YourTurnUI());
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
         numberOfMelee = characterManager.numberOfMeleeFight;
         numberOfRanged = characterManager.numberOfArcherFight;
@@ -140,7 +141,6 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
         SelectNextActiveUnit();
-        StartCoroutine(YourTurnUI());
     }
 
     private void Update()
@@ -345,7 +345,7 @@ public class GridCombatSystem : MonoBehaviour {
     }
 
     public IEnumerator YourTurnUI(){
-        if(isAllyTurn) allyTurn.SetActive(true);
+        allyTurn.SetActive(true);
         yield return new WaitForSeconds(SecondsWaitingUI);
         allyTurn.SetActive(false);
     }
@@ -488,6 +488,7 @@ public class GridCombatSystem : MonoBehaviour {
             isWaiting = true;
             hasUpdatedPositionMove = false;
             hasUpdatedPositionAttack = false;
+            
     }
 
     private void CheckMinimenuAlly() 
@@ -515,8 +516,8 @@ public class GridCombatSystem : MonoBehaviour {
         }
         if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
         {
-            YourTurnUI();
             isAllyTurn = true;
+            StartCoroutine(YourTurnUI());
             enemiesTeamActiveUnitIndex = -1;
         }
 
