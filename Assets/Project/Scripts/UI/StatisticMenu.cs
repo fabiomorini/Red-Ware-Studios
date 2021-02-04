@@ -9,6 +9,8 @@ public class StatisticMenu : MonoBehaviour
     public GameObject knightSprite;
     public GameObject archerSprite;
     public GameObject healerSprite;
+    public GameObject tankSprite;
+    public GameObject mageSprite;
 
     public Slider slider;
 
@@ -41,8 +43,10 @@ public class StatisticMenu : MonoBehaviour
             knightSprite.SetActive(true);
             archerSprite.SetActive(false);
             healerSprite.SetActive(false);
+            tankSprite.SetActive(false);
+            mageSprite.SetActive(false);
             tipoText.SetText("Knight");
-            atkText.SetText("Atk: 30");
+            atkText.SetText("Atk: 25");
             levelText.SetText("Nv. " + unitGridCombat.level);
         }
         else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
@@ -50,8 +54,10 @@ public class StatisticMenu : MonoBehaviour
             knightSprite.SetActive(false);
             archerSprite.SetActive(true);
             healerSprite.SetActive(false);
+            tankSprite.SetActive(false);
+            mageSprite.SetActive(false);
             tipoText.SetText("Archer");
-            atkText.SetText("Atk: 25");
+            atkText.SetText("Atk: 20");
             levelText.SetText("Nv. " + unitGridCombat.level);
         }
         else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
@@ -59,8 +65,32 @@ public class StatisticMenu : MonoBehaviour
             knightSprite.SetActive(false);
             archerSprite.SetActive(false);
             healerSprite.SetActive(true);
+            tankSprite.SetActive(false);
+            mageSprite.SetActive(false);
             tipoText.SetText("Healer");
             atkText.SetText("Atk: 10");
+            levelText.SetText("Nv. " + unitGridCombat.level);
+        }
+        else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
+        {
+            knightSprite.SetActive(false);
+            archerSprite.SetActive(false);
+            healerSprite.SetActive(false);
+            tankSprite.SetActive(true);
+            mageSprite.SetActive(false);
+            tipoText.SetText("Tank");
+            atkText.SetText("Atk: 15");
+            levelText.SetText("Nv. " + unitGridCombat.level);
+        }
+        else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
+        {
+            knightSprite.SetActive(false);
+            archerSprite.SetActive(false);
+            healerSprite.SetActive(false);
+            tankSprite.SetActive(false);
+            mageSprite.SetActive(true);
+            tipoText.SetText("Mage");
+            atkText.SetText("Atk: 25");
             levelText.SetText("Nv. " + unitGridCombat.level);
         }
     }
