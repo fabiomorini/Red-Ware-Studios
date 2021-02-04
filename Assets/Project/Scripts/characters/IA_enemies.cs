@@ -25,6 +25,8 @@ public class IA_enemies : MonoBehaviour
         gridCombatSystem = GameObject.FindGameObjectWithTag("CombatHandler");
     }
 
+
+    //Ya sabemos que estas a Rango de Ataque y te mueves 
     public UnitGridCombat lookForEnemies(UnitGridCombat thisUnit) // lookForEnemies a una casilla
     {
         enemiesCount = gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList.Count;
@@ -33,6 +35,7 @@ public class IA_enemies : MonoBehaviour
         {
             if (gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i] != null)
             {
+                //El primer Player a rango, lo atacas
                 float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i].GetPosition());
                 if (distance <= 11)
                 {
@@ -43,6 +46,8 @@ public class IA_enemies : MonoBehaviour
         return null;
     }
 
+    //Sabemos que no estas a Rango de Ataque y te mueves
+    //Buscas el Player mas cercano y lo pasas a WalkToEnemy
     public UnitGridCombat lookForEnemiesDist(UnitGridCombat thisUnit) // lookForEnemies de más distancia
     {
         enemiesCount = gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList.Count;
@@ -61,6 +66,8 @@ public class IA_enemies : MonoBehaviour
         WalkToEnemy(nearestEnemy, thisUnit);
         return nearestEnemy;
     }
+
+    //No me puedo mover al Player mas cercano, busco otro Player
     private UnitGridCombat FindNewEnemy(Vector3 myPosition, UnitGridCombat nearestEnemy)
     {
         UnitGridCombat newNearestEnemy = null;
@@ -86,7 +93,8 @@ public class IA_enemies : MonoBehaviour
         Vector3 relativePoint;
         Vector3 relativePointTarget;
 
-        CheckCollisions(nearestEnemy);
+        CheckCollisionsIA(nearestEnemy);
+        //Check Collisions de Players
         relativePoint = transform.InverseTransformPoint(nearestEnemy.GetPosition());
         LookForMovePosition(relativePoint, nearestEnemy.GetPosition());
         gridObject = grid.GetGridObject(target);
@@ -100,14 +108,17 @@ public class IA_enemies : MonoBehaviour
 
         canMove = CheckMoveRange(target, myPosition);
 
+        //Estas a mas 2 casillas de cualquier Player por lo tanto te mueves 2 hacia el target
         if(!canMove)
         {
             SelectNewMovePosition(myPosition);
             gridObject = grid.GetGridObject(target);
             relativePointTarget = transform.InverseTransformPoint(target);
+            bool canMoveAgain = true;
             for (int i = 0; i < 5; i++)
             {
-                if (!CheckCollisionsTarget() || gridObject.GetUnitGridCombat() != null)
+                canMoveAgain = CheckMoveRange(target, myPosition);
+                if (!CheckCollisionsTarget() || gridObject.GetUnitGridCombat() != null && !canMoveAgain)
                 {
                     //Hay colision o hay alguien
                     //Busco nueva posicion cerca
@@ -123,10 +134,12 @@ public class IA_enemies : MonoBehaviour
                         CheckForNewSpots(relativePointTarget);
                         LookForMovePositionInRange(relativePointTarget);
                         gridObject = grid.GetGridObject(target);
+                        canMoveAgain = CheckMoveRange(target, myPosition);
                     }
                 }
                 else
                 {
+                    //Me puedo mover
                     break;
                 }
             }
@@ -134,7 +147,7 @@ public class IA_enemies : MonoBehaviour
 
         for (int i = 0; i < 4 * gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList.Count; i++)
         {
-            CheckCollisions(nearestEnemy);
+            CheckCollisionsIA(nearestEnemy);
             if (gridObject.GetUnitGridCombat() == null)
             {
                 grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
@@ -239,16 +252,11 @@ public class IA_enemies : MonoBehaviour
     {
         int newRelativeMax = 30;
         int newRelativeMin = 15;
+
         if (!alreadyEnteredRight)
         {
             relativePoint.x = -newRelativeMax;
             relativePoint.y = -newRelativeMin;
-            return relativePoint;
-        }
-        if (!alreadyEnteredLeft)
-        {
-            relativePoint.x = newRelativeMax;
-            relativePoint.y = newRelativeMin;
             return relativePoint;
         }
         if (!alreadyEnteredBot)
@@ -263,6 +271,12 @@ public class IA_enemies : MonoBehaviour
             relativePoint.y = -newRelativeMax;
             return relativePoint;
         }
+        if (!alreadyEnteredLeft)
+        {
+            relativePoint.x = newRelativeMax;
+            relativePoint.y = newRelativeMin;
+            return relativePoint;
+        }
         else
         {
             //No me puedo mover a ningun aliado
@@ -270,7 +284,7 @@ public class IA_enemies : MonoBehaviour
         }
     }
 
-    private void CheckCollisions(UnitGridCombat enemyPosition)
+    private void CheckCollisionsIA(UnitGridCombat enemyPosition)
     {
         Grid<GridCombatSystem.GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
         grid.GetXY(enemyPosition.GetPosition(), out int unitX, out int unitY);
@@ -279,10 +293,6 @@ public class IA_enemies : MonoBehaviour
         {
             alreadyEnteredRight = true;
         }
-        if (!GridPathfinding.instance.IsWalkable(unitX + 1, unitY))
-        {
-            alreadyEnteredLeft = true;
-        }
         if (!GridPathfinding.instance.IsWalkable(unitX, unitY - 1))
         {
             alreadyEnteredTop = true;
@@ -290,6 +300,10 @@ public class IA_enemies : MonoBehaviour
         if (!GridPathfinding.instance.IsWalkable(unitX, unitY + 1))
         {
             alreadyEnteredBot = true;
+        }
+        if (!GridPathfinding.instance.IsWalkable(unitX + 1, unitY))
+        {
+            alreadyEnteredLeft = true;
         }
     }
 

@@ -239,10 +239,12 @@ public class GridCombatSystem : MonoBehaviour {
                                  // Attack Enemy
         if (SeekEnemiesIA(unitGridCombat) == true)
         {
+            //Player a Rango
             unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
         }
         else
         {
+            //No Player a Rango
             iA_Enemies.lookForEnemiesDist(unitGridCombat);
             UpdateValidMovePositions();
         }
@@ -357,6 +359,8 @@ public class GridCombatSystem : MonoBehaviour {
 
         // Get Unit Grid Position X, Y
         grid.GetXY(unitGridCombat.GetPosition(), out int unitX, out int unitY);
+
+        //gridPathfinding.RaycastWalkable();
 
         // Set entire Tilemap to Invisible
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
