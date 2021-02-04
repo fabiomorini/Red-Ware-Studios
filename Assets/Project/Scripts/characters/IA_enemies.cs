@@ -5,11 +5,6 @@ using GridPathfindingSystem;
 
 public class IA_enemies : MonoBehaviour
 {
-
-    private float attackRangeMelee = 15;
-    private float attackRangeRanged = 30;
-    private float attackRangeHealer = 0;
-    private float rangeHealer = 30; // curar
     private GameObject gridCombatSystem;
     private int enemiesCount;
     private int maxMoveDistance = 5;
@@ -20,8 +15,6 @@ public class IA_enemies : MonoBehaviour
     bool alreadyEnteredLeft = false;
     bool alreadyEnteredTop = false;
     bool alreadyEnteredBot = false;
-
-    bool endTurn = false;
 
     private bool canMove = false;
     GridCombatSystem.GridObject gridObject;
@@ -41,12 +34,11 @@ public class IA_enemies : MonoBehaviour
             if (gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i] != null)
             {
                 float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i].GetPosition());
-                if (distance <= attackRangeMelee)
+                if (distance <= 11)
                 {
                     return gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i];
                 }
             }
-
         }
         return null;
     }
@@ -184,30 +176,30 @@ public class IA_enemies : MonoBehaviour
     {
         if (relativePoint.x < 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredRight)    // X < 0, X > Y
         {
-            //Derecha
+            //Si tu estás a la Derecha
             target.x = target.x - 10;
             alreadyEnteredRight = true;
         }
+        if (relativePoint.y > 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredBot)      // Y > 0, Y > X
+        {
+            //Si tu estás Abajo
+            target.y = target.y - 10;
+            alreadyEnteredBot = true;
+        }
+        if (relativePoint.y < 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredTop)      // Y < 0, Y > X
+        {
+            //Si tu estás Encima
+            target.y = target.y + 10;
+            alreadyEnteredTop = true;
+        }
         if (relativePoint.x > 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredLeft)     // X > 0, X > Y
         {
-            //Izquierda
+            //Si tu estás a la Izquierda
             target.x = target.x + 10;
             alreadyEnteredLeft = true;
         }
 
-        if (relativePoint.y > 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredBot)      // Y > 0, Y > X
-        {
-            //Abajo
-            target.y = target.y - 10;
-            alreadyEnteredBot = true;
-        }
 
-        if (relativePoint.y < 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredTop)      // Y < 0, Y > X
-        {
-            //Encima
-            target.y = target.y + 10;
-            alreadyEnteredTop = true;
-        }
     }
 
     private void LookForMovePosition(Vector3 relativePoint, Vector3 enemyPosition)
@@ -215,25 +207,13 @@ public class IA_enemies : MonoBehaviour
         if (relativePoint.x < 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredRight)    // X < 0, X > Y
         {
             //Derecha
-            //Debug.Log("1");
             target.x = enemyPosition.x - 10;
             target.y = enemyPosition.y;
             alreadyEnteredRight = true;
         }
-
-        if (relativePoint.x > 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredLeft)     // X > 0, X > Y
-        {
-            //Izquierda
-            //Debug.Log("2");
-            target.x = enemyPosition.x + 10;
-            target.y = enemyPosition.y;
-            alreadyEnteredLeft = true;
-        }
-
         if (relativePoint.y > 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredBot)      // Y > 0, Y > X
         {
             //Abajo
-            //Debug.Log("3");
             target.x = enemyPosition.x;
             target.y = enemyPosition.y - 10;
             alreadyEnteredBot = true;
@@ -242,10 +222,16 @@ public class IA_enemies : MonoBehaviour
         if (relativePoint.y < 0 && Mathf.Abs(relativePoint.x) < Mathf.Abs(relativePoint.y) && !alreadyEnteredTop)      // Y < 0, Y > X
         {
             //Encima
-            //Debug.Log("4");
             target.x = enemyPosition.x;
             target.y = enemyPosition.y + 10;
             alreadyEnteredTop = true;
+        }
+        if (relativePoint.x > 0f && Mathf.Abs(relativePoint.x) > Mathf.Abs(relativePoint.y) && !alreadyEnteredLeft)     // X > 0, X > Y
+        {
+            //Izquierda
+            target.x = enemyPosition.x + 10;
+            target.y = enemyPosition.y;
+            alreadyEnteredLeft = true;
         }
     }
 
