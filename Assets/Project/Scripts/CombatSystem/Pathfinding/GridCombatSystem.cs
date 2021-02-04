@@ -108,6 +108,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void Start() {
         StartCoroutine(YourTurnUI());
+
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
         numberOfMelee = characterManager.numberOfMeleeFight;
         numberOfRanged = characterManager.numberOfArcherFight;
