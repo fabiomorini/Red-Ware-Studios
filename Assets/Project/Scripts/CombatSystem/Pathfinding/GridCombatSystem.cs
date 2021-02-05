@@ -484,7 +484,7 @@ public class GridCombatSystem : MonoBehaviour {
     public void ForceTurnOver()
     {
             unitGridCombat.setSelectedFalse();
-            iA_Enemies.ResetPositions();
+            //iA_Enemies.ResetPositions();
             SelectNextActiveUnit();
             UpdateValidMovePositions();
             GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
