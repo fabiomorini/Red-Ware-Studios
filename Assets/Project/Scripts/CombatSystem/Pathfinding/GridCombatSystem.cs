@@ -246,7 +246,7 @@ public class GridCombatSystem : MonoBehaviour {
         {
             //No Player a Rango
             iA_Enemies.lookForEnemiesDist(unitGridCombat);
-            UpdateValidMovePositions();
+            //UpdateValidMovePositions();
         }
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
@@ -385,7 +385,7 @@ public class GridCombatSystem : MonoBehaviour {
 
                             // Set Tilemap Tile to Move
                             GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetTilemapSprite(
-                                x, y, MovementTilemap.TilemapObject.TilemapSprite.Move
+                               x, y, MovementTilemap.TilemapObject.TilemapSprite.Move
                             );
 
                             grid.GetGridObject(x, y).SetIsValidMovePosition(true);
@@ -486,7 +486,7 @@ public class GridCombatSystem : MonoBehaviour {
             unitGridCombat.setSelectedFalse();
             //iA_Enemies.ResetPositions();
             SelectNextActiveUnit();
-            UpdateValidMovePositions();
+            //UpdateValidMovePositions();
             GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
             MovementTilemap.TilemapObject.TilemapSprite.None);
             CheckMinimenuAlly();
