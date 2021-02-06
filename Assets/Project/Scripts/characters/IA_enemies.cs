@@ -171,28 +171,28 @@ public class IA_enemies : MonoBehaviour
         gridObject = grid.GetGridObject(targetRight);
         if (CheckMoveRange(targetRight, myPosition) && CheckCollisionsTarget() && gridObject.GetUnitGridCombat() == null)
         {
-            Debug.Log("Derecha");
+            //Debug.Log("Derecha");
             enemyOutOfRange = false;
             return targetRight;
         }
         gridObject = grid.GetGridObject(targetLeft);
         if (CheckMoveRange(targetLeft, myPosition) && CheckCollisionsTarget() && gridObject.GetUnitGridCombat() == null)
         {
-            Debug.Log("Izquierda");
+            //Debug.Log("Izquierda");
             enemyOutOfRange = false;
             return targetLeft;
         }
         gridObject = grid.GetGridObject(targetTop);
         if (CheckMoveRange(targetTop, myPosition) && CheckCollisionsTarget() && gridObject.GetUnitGridCombat() == null)
         {
-            Debug.Log("Arriba");
+            //Debug.Log("Arriba");
             enemyOutOfRange = false;
             return targetTop;
         }
         gridObject = grid.GetGridObject(targetBot);
         if (CheckMoveRange(targetBot, myPosition) && CheckCollisionsTarget() && gridObject.GetUnitGridCombat() == null)
         {
-            Debug.Log("Abajo");
+            //Debug.Log("Abajo");
             enemyOutOfRange = false;
             return targetBot;
         }
@@ -209,30 +209,30 @@ public class IA_enemies : MonoBehaviour
 
         if (distTop > distBot && distTop > distRight && distTop > distLeft)
         {
-            Debug.Log("ArribaOut");
+            //Debug.Log("ArribaOut");
             enemyOutOfRange = true;
             return targetTop;
         }
         if (distBot > distTop && distBot > distRight && distBot > distLeft)
         {
-            Debug.Log("AbajoOut");
+            //Debug.Log("AbajoOut");
             enemyOutOfRange = true;
             return targetBot;
         }
         if (distRight > distBot && distRight > distTop && distRight > distLeft)
         {
-            Debug.Log("DerechaOut");
+            //Debug.Log("DerechaOut");
             enemyOutOfRange = true;
             return targetRight;
         }
         if (distLeft > distBot && distLeft > distRight && distLeft > distTop)
         {
-            Debug.Log("IzquierdaOut");
+            //Debug.Log("IzquierdaOut");
             enemyOutOfRange = true;
             return targetLeft;
         }
 
-        Debug.Log("Else");
+        //Debug.Log("Else");
         return new Vector3(0, 0, 0);
 
     }
