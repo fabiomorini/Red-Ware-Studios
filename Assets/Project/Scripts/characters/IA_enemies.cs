@@ -17,6 +17,7 @@ public class IA_enemies : MonoBehaviour
     private bool canMoveLeftIntermedio = false;
     private bool canMoveTopIntermedio = false;
     private bool canMoveBotIntermedio = false;
+
     private GridCombatSystem.GridObject gridObject;
     private Vector3 target = new Vector3(0, 0, 0);
     private Vector3 targetIntermedio = new Vector3(0, 0, 0);
