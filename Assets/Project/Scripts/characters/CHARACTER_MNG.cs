@@ -29,16 +29,80 @@ public class CHARACTER_MNG : MonoBehaviour
     [HideInInspector] public bool VictoryL1 = false;
     [HideInInspector] public bool VictoryL2 = false;
     [HideInInspector] public bool VictoryL3 = false;
-    private MinimapManager minimapManager;
 
+    [HideInInspector] public int meleeLevel = 1;
+    [HideInInspector] public int archerLevel = 1;
+    [HideInInspector] public int healerLevel = 1;
+    [HideInInspector] public int tankLevel = 1;
+    [HideInInspector] public int mageLevel = 1;
+
+    [HideInInspector] public int meleeExp = 0;
+    [HideInInspector] public int archerExp = 0;
+    [HideInInspector] public int healerExp = 0;
+    [HideInInspector] public int tankExp = 0;
+    [HideInInspector] public int mageExp = 0;
+
+    [HideInInspector] public int level2Exp = 90;
+    [HideInInspector] public int level3Exp = 200;
 
     private void Start()
     {
+        meleeLevel = 3;
+        archerLevel = 2;
         characterPrefs = new List<CHARACTER_PREFS>();
         // leer todas las player prefs de cada personaje
         // se las añadimos por cada index
         DontDestroyOnLoad(this.gameObject);
     }
+
+    private void Update()
+    {
+        if (meleeExp >= level3Exp)
+        {
+            meleeLevel = 3;
+        }
+        else if (meleeExp >= level2Exp)
+        {
+            meleeLevel = 2;
+        }
+
+        if (archerExp >= level3Exp)
+        {
+            archerLevel = 3;
+        }
+        else if (archerExp >= level2Exp)
+        {
+            archerLevel = 2;
+        }
+
+        if (healerExp >= level3Exp)
+        {
+            healerLevel = 3;
+        }
+        else if (healerExp >= level2Exp)
+        {
+            healerLevel = 2;
+        }
+
+        if (tankExp >= level3Exp)
+        {
+            tankLevel = 3;
+        }
+        else if (tankExp >= level2Exp)
+        {
+            tankLevel = 2;
+        }
+
+        if (mageExp >= level3Exp)
+        {
+            mageLevel = 3;
+        }
+        else if (mageExp >= level2Exp)
+        {
+            mageLevel = 2;
+        }
+    }
+
     public void CheckLevelNumber()
     {
         if(SceneManager.GetActiveScene().buildIndex == 2)
@@ -58,7 +122,6 @@ public class CHARACTER_MNG : MonoBehaviour
     {
         //playerPosition.position = new Vector3(player.transform.position.x, player.transform.position.y, 0);
     }
-
     private void VictoryL1True()
     {
         VictoryL1 = true;
@@ -71,7 +134,6 @@ public class CHARACTER_MNG : MonoBehaviour
     {
         VictoryL3 = true;
     }
-
     public int NumMelee()
     {
         return numberOfMelee;
@@ -92,7 +154,6 @@ public class CHARACTER_MNG : MonoBehaviour
     {
         return numberOfMage;
     }
-
     public int NumOfAllies()
     {
         return numberOfAllies = numberOfMelee 
@@ -101,7 +162,6 @@ public class CHARACTER_MNG : MonoBehaviour
                               + numberOfTank
                               + numberOfMage;
     }
-
     public int GetLevelIndex()
     {
         int reward = 0;

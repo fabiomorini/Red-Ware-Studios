@@ -50,6 +50,13 @@ public class GridCombatSystem : MonoBehaviour {
     private int numberOfTank;
     private int numberOfMage;
     private int numberOfAllies;
+
+    [HideInInspector] public int numberOfMeleeLeft = 0;
+    [HideInInspector] public int numberOfRangedLeft = 0;
+    [HideInInspector] public int numberOfHealerLeft = 0;
+    [HideInInspector] public int numberOfTankLeft = 0;
+    [HideInInspector] public int numberOfMageLeft = 0;
+
     // lista paralela a unitGridCombatArray donde comprobamos las características de cada aliado (CHARACTER_MNG)
     private List<CHARACTER_PREFS> characterPrefs; 
 
@@ -259,36 +266,105 @@ public class GridCombatSystem : MonoBehaviour {
         checkMaxCharacters();
 
         for (int i = 0; i < numberOfAllies; i++) {
-            //temporal, este metodo siempre da la preferencia a los melees
             if(numberOfMelee >= 1)
             {
                 Ally = Instantiate(MeleePrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
                 MeleePrefab.name = "Melee" + i;
                 numberOfMelee--;
+                numberOfMeleeLeft++;
+
+                if (characterManager.meleeLevel == 1)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL1;
+                }
+                else if (characterManager.meleeLevel == 2)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL2;
+                }
+                else if (characterManager.meleeLevel == 3)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL3;
+                }
             }
             else if( numberOfRanged >= 1)
             {
                 Ally = Instantiate(RangedPrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
                 RangedPrefab.name = "Ranged" + i;
                 numberOfRanged--;
+                numberOfRangedLeft++;
+
+                if (characterManager.archerLevel == 1)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL1;
+                }
+                else if (characterManager.archerLevel == 2)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL2;
+                }
+                else if (characterManager.archerLevel == 3)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL3;
+                }
             }
             else if(numberOfHealer >= 1)
             {
                 Ally = Instantiate(HealerPrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
                 HealerPrefab.name = "Healer" + i;
                 numberOfHealer--;
+                numberOfHealerLeft++;
+
+                if (characterManager.healerLevel == 1)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL1;
+                }
+                else if (characterManager.healerLevel == 2)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL2;
+                }
+                else if (characterManager.healerLevel == 3)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL3;
+                }
             }
             else if (numberOfTank >= 1)
             {
                 Ally = Instantiate(TankPrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
                 TankPrefab.name = "Tank" + i;
                 numberOfTank--;
+                numberOfTankLeft++;
+
+                if (characterManager.tankLevel == 1)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL1;
+                }
+                else if (characterManager.tankLevel == 2)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL2;
+                }
+                else if (characterManager.tankLevel == 3)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL3;
+                }
             }
             else if (numberOfMage >= 1)
             {
                 Ally = Instantiate(MagePrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
                 MagePrefab.name = "Mage" + i;
                 numberOfMage--;
+                numberOfMageLeft++;
+
+                if (characterManager.mageLevel == 1)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL1;
+                }
+                else if (characterManager.mageLevel == 2)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL2;
+                }
+                else if (characterManager.mageLevel == 3)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL3;
+                }
             }
             unitGridCombatArray.Add(Ally.GetComponent<UnitGridCombat>());
         }
@@ -424,6 +500,12 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void ShowVictoryUI()
     {
+        characterManager.meleeExp += 15 * numberOfMeleeLeft;
+        characterManager.archerExp += 15 * numberOfRangedLeft;
+        characterManager.healerExp += 15 * numberOfHealerLeft;
+        characterManager.tankExp += 15 * numberOfTankLeft;
+        characterManager.mageExp += 15 * numberOfMageLeft;
+
         characterManager.CheckLevelNumber();
         ShowEndGameUI();
         coinsRewardText.SetText("Reward: " + characterManager.GetLevelIndex() + " coins");
@@ -481,6 +563,7 @@ public class GridCombatSystem : MonoBehaviour {
             ForceTurnOver();
         }
     }
+
     public void ForceTurnOver()
     {
             unitGridCombat.setSelectedFalse();

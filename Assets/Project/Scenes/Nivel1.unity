@@ -2917,6 +2917,11 @@ MonoBehaviour:
     type: 3}
   MagePrefab: {fileID: 6408216605119919340, guid: f201543495238d342adf3b420fe69765,
     type: 3}
+  numberOfMeleeLeft: 0
+  numberOfRangedLeft: 0
+  numberOfHealerLeft: 0
+  numberOfTankLeft: 0
+  numberOfMageLeft: 0
   iA_Enemies: {fileID: 1965436100}
   allyTurn: {fileID: 501039633}
   maxMoveDistance: 2

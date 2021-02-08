@@ -22,9 +22,13 @@ public class CuartelManager : MonoBehaviour
     public TMP_Text HealerText;
     public TMP_Text TankText;
     public TMP_Text MageText;
+    public TMP_Text ExpText;
+    public TMP_Text LvText;
     public GameObject cuartel;
 
     public GameObject characterManager;
+    public CHARACTER_MNG charManager;
+
     private bool isActive;
 
     private void Start()
@@ -34,11 +38,12 @@ public class CuartelManager : MonoBehaviour
             Instantiate(characterManager);
         }
         characterManager = GameObject.FindWithTag("characterManager");
-        knightCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee;
-        ArcherCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfRanged;
-        HealerCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfHealer;
-        TankCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfTank;
-        MageCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMage;
+        charManager = characterManager.GetComponent<CHARACTER_MNG>();
+        knightCounter = charManager.numberOfMelee;
+        ArcherCounter = charManager.numberOfRanged;
+        HealerCounter = charManager.numberOfHealer;
+        TankCounter = charManager.numberOfTank;
+        MageCounter = charManager.numberOfMage;
     }
 
     private void Update()
@@ -55,12 +60,14 @@ public class CuartelManager : MonoBehaviour
             cuartel.SetActive(false);
             isActive = false;
         }
-        coinsText.SetText("¥ " + characterManager.GetComponent<CHARACTER_MNG>().coins);
+        coinsText.SetText("¥ " + charManager.coins);
         ArcherText.SetText("x " + ArcherCounter);
         KnightText.SetText("x " + knightCounter);
         HealerText.SetText("x " + HealerCounter);
         TankText.SetText("x " + TankCounter);
         MageText.SetText("x " + MageCounter);
+        ExpText.SetText("Melee Exp:" + charManager.meleeExp + "\nRanged Exp:" + charManager.archerExp + "\nHealer Exp:" + charManager.healerExp + "\nTank Exp:" + charManager.tankExp + "\nMage Exp:" + charManager.mageExp);
+        LvText.SetText("Melee Lv:" + charManager.meleeLevel + "\nRanged Lv:" + charManager.archerLevel + "\nHealer Lv:" + charManager.healerLevel + "\nTank Lv:" + charManager.tankLevel + "\nMage Lv:" + charManager.mageLevel);
     }
 
     public void BuyKnight()
