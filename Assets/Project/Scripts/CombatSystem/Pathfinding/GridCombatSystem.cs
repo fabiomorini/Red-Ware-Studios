@@ -84,7 +84,7 @@ public class GridCombatSystem : MonoBehaviour {
     private bool gameOver;
     //tiempo de espera antes de que se vaya la ui de cambio de turno
     private float SecondsWaitingUI = 1.0f;
-    [HideInInspector] public int maxMoveDistance = 5;
+    [HideInInspector] public int maxMoveDistance = 3;
 
     //minimenu in-game
     public GameObject Minimenu;
@@ -184,7 +184,7 @@ public class GridCombatSystem : MonoBehaviour {
                 setMenuVisible();
                 if (moving)
                 {
-                    maxMoveDistance = 5;
+                    maxMoveDistance = 4;
                     if (!hasUpdatedPositionMove)
                     {
                         UpdateValidMovePositions();
