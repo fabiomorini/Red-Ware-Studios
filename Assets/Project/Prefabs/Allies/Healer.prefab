@@ -915,8 +915,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562f14d9e70e511429e847c985c7c2ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
   tipo: 2
+  level: 0
 --- !u!114 &5318220209857468595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -959,7 +959,6 @@ MonoBehaviour:
   curHealth: 0
   imDead: 0
   damageAmount: 1
-  level: 1
   slashAnim: {fileID: 7521122801981848761}
   healAnim: {fileID: 4640376298257353167}
   playerSprite: {fileID: 5451920597673780541}

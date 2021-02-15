@@ -50,6 +50,13 @@ public class GridCombatSystem : MonoBehaviour {
     private int numberOfTank;
     private int numberOfMage;
     private int numberOfAllies;
+
+    [HideInInspector] public int numberOfMeleeLeft = 0;
+    [HideInInspector] public int numberOfRangedLeft = 0;
+    [HideInInspector] public int numberOfHealerLeft = 0;
+    [HideInInspector] public int numberOfTankLeft = 0;
+    [HideInInspector] public int numberOfMageLeft = 0;
+
     // lista paralela a unitGridCombatArray donde comprobamos las características de cada aliado (CHARACTER_MNG)
     private List<CHARACTER_PREFS> characterPrefs; 
 
@@ -82,7 +89,6 @@ public class GridCombatSystem : MonoBehaviour {
     //minimenu in-game
     public GameObject Minimenu;
     private bool isMenuVisible;
-    private bool isMoving;
     [HideInInspector] public bool moving;
     [HideInInspector] public bool attacking;
     [HideInInspector] public bool healing;
@@ -105,9 +111,31 @@ public class GridCombatSystem : MonoBehaviour {
     private bool surrender;
     public GameObject SurrenderUI;
 
+    private int experienceKnight;
+    private int experienceArcher;
+    private int experienceHealer;
+    private int experienceTank;
+    private int experienceMage;
+
+    public TMP_Text experienceKnightTxt;
+    public TMP_Text experienceArcherTxt;
+    public TMP_Text experienceHealerTxt;
+    public TMP_Text experienceTankTxt;
+    public TMP_Text experienceMageTxt;
+
 
     private void Start() {
+        StartCoroutine(YourTurnUI());
+
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
+
+        experienceKnight = characterManager.meleeExp;
+        experienceArcher = characterManager.archerExp;
+        experienceHealer = characterManager.healerExp;
+        experienceTank = characterManager.tankExp;
+        experienceMage = characterManager.mageExp;
+
+
         numberOfMelee = characterManager.numberOfMeleeFight;
         numberOfRanged = characterManager.numberOfArcherFight;
         numberOfHealer = characterManager.numberOfHealerFight;
@@ -140,7 +168,6 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
         SelectNextActiveUnit();
-        StartCoroutine(YourTurnUI());
     }
 
     private void Update()
@@ -238,12 +265,14 @@ public class GridCombatSystem : MonoBehaviour {
                                  // Attack Enemy
         if (SeekEnemiesIA(unitGridCombat) == true)
         {
+            //Player a Rango
             unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
         }
         else
         {
+            //No Player a Rango
             iA_Enemies.lookForEnemiesDist(unitGridCombat);
-            UpdateValidMovePositions();
+            //UpdateValidMovePositions();
         }
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
@@ -256,36 +285,105 @@ public class GridCombatSystem : MonoBehaviour {
         checkMaxCharacters();
 
         for (int i = 0; i < numberOfAllies; i++) {
-            //temporal, este metodo siempre da la preferencia a los melees
             if(numberOfMelee >= 1)
             {
                 Ally = Instantiate(MeleePrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
                 MeleePrefab.name = "Melee" + i;
                 numberOfMelee--;
+                numberOfMeleeLeft++;
+
+                if (characterManager.meleeLevel == 1)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL1;
+                }
+                else if (characterManager.meleeLevel == 2)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL2;
+                }
+                else if (characterManager.meleeLevel == 3)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL3;
+                }
             }
             else if( numberOfRanged >= 1)
             {
                 Ally = Instantiate(RangedPrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
                 RangedPrefab.name = "Ranged" + i;
                 numberOfRanged--;
+                numberOfRangedLeft++;
+
+                if (characterManager.archerLevel == 1)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL1;
+                }
+                else if (characterManager.archerLevel == 2)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL2;
+                }
+                else if (characterManager.archerLevel == 3)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL3;
+                }
             }
             else if(numberOfHealer >= 1)
             {
                 Ally = Instantiate(HealerPrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
                 HealerPrefab.name = "Healer" + i;
                 numberOfHealer--;
+                numberOfHealerLeft++;
+
+                if (characterManager.healerLevel == 1)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL1;
+                }
+                else if (characterManager.healerLevel == 2)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL2;
+                }
+                else if (characterManager.healerLevel == 3)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL3;
+                }
             }
             else if (numberOfTank >= 1)
             {
                 Ally = Instantiate(TankPrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
                 TankPrefab.name = "Tank" + i;
                 numberOfTank--;
+                numberOfTankLeft++;
+
+                if (characterManager.tankLevel == 1)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL1;
+                }
+                else if (characterManager.tankLevel == 2)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL2;
+                }
+                else if (characterManager.tankLevel == 3)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL3;
+                }
             }
             else if (numberOfMage >= 1)
             {
                 Ally = Instantiate(MagePrefab, this.gameObject.transform.GetChild(i).position, Quaternion.identity);
                 MagePrefab.name = "Mage" + i;
                 numberOfMage--;
+                numberOfMageLeft++;
+
+                if (characterManager.mageLevel == 1)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL1;
+                }
+                else if (characterManager.mageLevel == 2)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL2;
+                }
+                else if (characterManager.mageLevel == 3)
+                {
+                    Ally.GetComponent<CHARACTER_PREFS>().level = CHARACTER_PREFS.Level.NIVEL3;
+                }
             }
             unitGridCombatArray.Add(Ally.GetComponent<UnitGridCombat>());
         }
@@ -345,7 +443,7 @@ public class GridCombatSystem : MonoBehaviour {
     }
 
     public IEnumerator YourTurnUI(){
-        if(isAllyTurn) allyTurn.SetActive(true);
+        allyTurn.SetActive(true);
         yield return new WaitForSeconds(SecondsWaitingUI);
         allyTurn.SetActive(false);
     }
@@ -356,6 +454,8 @@ public class GridCombatSystem : MonoBehaviour {
 
         // Get Unit Grid Position X, Y
         grid.GetXY(unitGridCombat.GetPosition(), out int unitX, out int unitY);
+
+        //gridPathfinding.RaycastWalkable();
 
         // Set entire Tilemap to Invisible
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
@@ -380,7 +480,7 @@ public class GridCombatSystem : MonoBehaviour {
 
                             // Set Tilemap Tile to Move
                             GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetTilemapSprite(
-                                x, y, MovementTilemap.TilemapObject.TilemapSprite.Move
+                               x, y, MovementTilemap.TilemapObject.TilemapSprite.Move
                             );
 
                             grid.GetGridObject(x, y).SetIsValidMovePosition(true);
@@ -419,6 +519,18 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void ShowVictoryUI()
     {
+        characterManager.meleeExp += 15 * numberOfMeleeLeft;
+        characterManager.archerExp += 15 * numberOfRangedLeft;
+        characterManager.healerExp += 15 * numberOfHealerLeft;
+        characterManager.tankExp += 15 * numberOfTankLeft;
+        characterManager.mageExp += 15 * numberOfMageLeft;
+
+        experienceKnightTxt.SetText("+ " + (characterManager.meleeExp - experienceKnight) + "Exp");
+        experienceArcherTxt.SetText("+ " + (characterManager.archerExp - experienceArcher) + "Exp");
+        experienceHealerTxt.SetText("+ " + (characterManager.archerExp - experienceHealer) + "Exp");
+        experienceTankTxt.SetText("+ " + (characterManager.tankExp - experienceTank) + "Exp");
+        experienceMageTxt.SetText("+ " + (characterManager.mageExp - experienceMage) + "Exp");
+
         characterManager.CheckLevelNumber();
         ShowEndGameUI();
         coinsRewardText.SetText("Reward: " + characterManager.GetLevelIndex() + " coins");
@@ -440,6 +552,12 @@ public class GridCombatSystem : MonoBehaviour {
             characterManager.coins += (int)characterManager.GetLevelIndex() / 2;
             victory.gameObject.SetActive(false);
         }
+
+        experienceKnightTxt.SetText("+ " + (characterManager.meleeExp - experienceKnight) + "Exp");
+        experienceArcherTxt.SetText("+ " + (characterManager.archerExp - experienceArcher) + "Exp");
+        experienceHealerTxt.SetText("+ " + (characterManager.archerExp - experienceHealer) + "Exp");
+        experienceTankTxt.SetText("+ " + (characterManager.tankExp - experienceTank) + "Exp");
+        experienceMageTxt.SetText("+ " + (characterManager.mageExp - experienceMage) + "Exp");
     }
 
     private void DontShowUI()
@@ -476,18 +594,20 @@ public class GridCombatSystem : MonoBehaviour {
             ForceTurnOver();
         }
     }
+
     public void ForceTurnOver()
     {
             unitGridCombat.setSelectedFalse();
-            iA_Enemies.ResetPositions();
+            //iA_Enemies.ResetPositions();
             SelectNextActiveUnit();
-            UpdateValidMovePositions();
+            //UpdateValidMovePositions();
             GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
             MovementTilemap.TilemapObject.TilemapSprite.None);
             CheckMinimenuAlly();
             isWaiting = true;
             hasUpdatedPositionMove = false;
             hasUpdatedPositionAttack = false;
+            
     }
 
     private void CheckMinimenuAlly() 
@@ -515,8 +635,8 @@ public class GridCombatSystem : MonoBehaviour {
         }
         if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
         {
-            YourTurnUI();
             isAllyTurn = true;
+            StartCoroutine(YourTurnUI());
             enemiesTeamActiveUnitIndex = -1;
         }
 
