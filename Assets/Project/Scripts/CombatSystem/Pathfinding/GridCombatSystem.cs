@@ -552,6 +552,12 @@ public class GridCombatSystem : MonoBehaviour {
             characterManager.coins += (int)characterManager.GetLevelIndex() / 2;
             victory.gameObject.SetActive(false);
         }
+
+        experienceKnightTxt.SetText("+ " + (characterManager.meleeExp - experienceKnight) + "Exp");
+        experienceArcherTxt.SetText("+ " + (characterManager.archerExp - experienceArcher) + "Exp");
+        experienceHealerTxt.SetText("+ " + (characterManager.archerExp - experienceHealer) + "Exp");
+        experienceTankTxt.SetText("+ " + (characterManager.tankExp - experienceTank) + "Exp");
+        experienceMageTxt.SetText("+ " + (characterManager.mageExp - experienceMage) + "Exp");
     }
 
     private void DontShowUI()
