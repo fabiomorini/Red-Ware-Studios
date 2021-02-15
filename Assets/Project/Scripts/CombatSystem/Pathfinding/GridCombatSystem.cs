@@ -89,7 +89,6 @@ public class GridCombatSystem : MonoBehaviour {
     //minimenu in-game
     public GameObject Minimenu;
     private bool isMenuVisible;
-    private bool isMoving;
     [HideInInspector] public bool moving;
     [HideInInspector] public bool attacking;
     [HideInInspector] public bool healing;
@@ -112,11 +111,31 @@ public class GridCombatSystem : MonoBehaviour {
     private bool surrender;
     public GameObject SurrenderUI;
 
+    private int experienceKnight;
+    private int experienceArcher;
+    private int experienceHealer;
+    private int experienceTank;
+    private int experienceMage;
+
+    public TMP_Text experienceKnightTxt;
+    public TMP_Text experienceArcherTxt;
+    public TMP_Text experienceHealerTxt;
+    public TMP_Text experienceTankTxt;
+    public TMP_Text experienceMageTxt;
+
 
     private void Start() {
         StartCoroutine(YourTurnUI());
 
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
+
+        experienceKnight = characterManager.meleeExp;
+        experienceArcher = characterManager.archerExp;
+        experienceHealer = characterManager.healerExp;
+        experienceTank = characterManager.tankExp;
+        experienceMage = characterManager.mageExp;
+
+
         numberOfMelee = characterManager.numberOfMeleeFight;
         numberOfRanged = characterManager.numberOfArcherFight;
         numberOfHealer = characterManager.numberOfHealerFight;
@@ -505,6 +524,12 @@ public class GridCombatSystem : MonoBehaviour {
         characterManager.healerExp += 15 * numberOfHealerLeft;
         characterManager.tankExp += 15 * numberOfTankLeft;
         characterManager.mageExp += 15 * numberOfMageLeft;
+
+        experienceKnightTxt.SetText("+ " + (characterManager.meleeExp - experienceKnight) + "Exp");
+        experienceArcherTxt.SetText("+ " + (characterManager.archerExp - experienceArcher) + "Exp");
+        experienceHealerTxt.SetText("+ " + (characterManager.archerExp - experienceHealer) + "Exp");
+        experienceTankTxt.SetText("+ " + (characterManager.tankExp - experienceTank) + "Exp");
+        experienceMageTxt.SetText("+ " + (characterManager.mageExp - experienceMage) + "Exp");
 
         characterManager.CheckLevelNumber();
         ShowEndGameUI();
