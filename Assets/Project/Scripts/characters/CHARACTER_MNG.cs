@@ -47,8 +47,6 @@ public class CHARACTER_MNG : MonoBehaviour
 
     private void Start()
     {
-        meleeLevel = 3;
-        archerLevel = 2;
         characterPrefs = new List<CHARACTER_PREFS>();
         // leer todas las player prefs de cada personaje
         // se las añadimos por cada index

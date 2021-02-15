@@ -17,14 +17,20 @@ public class CuartelManager : MonoBehaviour
     [SerializeField] private int magePrice = 160;
 
     public TMP_Text coinsText;
-    public TMP_Text ArcherText;
     public TMP_Text KnightText;
+    public TMP_Text ArcherText;
     public TMP_Text HealerText;
     public TMP_Text TankText;
     public TMP_Text MageText;
-    public TMP_Text ExpText;
-    public TMP_Text LvText;
+
+    public TMP_Text KnightTextExp;
+    public TMP_Text ArcherTextExp;
+    public TMP_Text HealerTextExp;
+    public TMP_Text TankTextExp;
+    public TMP_Text MageTextExp;
+
     public GameObject cuartel;
+    public GameObject infoUI;
 
     public GameObject characterManager;
     public CHARACTER_MNG charManager;
@@ -44,6 +50,8 @@ public class CuartelManager : MonoBehaviour
         HealerCounter = charManager.numberOfHealer;
         TankCounter = charManager.numberOfTank;
         MageCounter = charManager.numberOfMage;
+
+        SetExpText();
     }
 
     private void Update()
@@ -52,12 +60,14 @@ public class CuartelManager : MonoBehaviour
         {
             SoundManager.PlaySound("openCuartel");
             cuartel.SetActive(true);
+            infoUI.SetActive(false);
             isActive = true;
         }
         if (Input.GetKey("escape") && isActive)
         {
             SoundManager.PlaySound("closeCuartel");
             cuartel.SetActive(false);
+            infoUI.SetActive(true);
             isActive = false;
         }
         coinsText.SetText("¥ " + charManager.coins);
@@ -66,8 +76,6 @@ public class CuartelManager : MonoBehaviour
         HealerText.SetText("x " + HealerCounter);
         TankText.SetText("x " + TankCounter);
         MageText.SetText("x " + MageCounter);
-        ExpText.SetText("Melee Exp:" + charManager.meleeExp + "\nRanged Exp:" + charManager.archerExp + "\nHealer Exp:" + charManager.healerExp + "\nTank Exp:" + charManager.tankExp + "\nMage Exp:" + charManager.mageExp);
-        LvText.SetText("Melee Lv:" + charManager.meleeLevel + "\nRanged Lv:" + charManager.archerLevel + "\nHealer Lv:" + charManager.healerLevel + "\nTank Lv:" + charManager.tankLevel + "\nMage Lv:" + charManager.mageLevel);
     }
 
     public void BuyKnight()
@@ -132,4 +140,71 @@ public class CuartelManager : MonoBehaviour
         characterManager.GetComponent<CHARACTER_MNG>().coins += 200;
     }
 
+    private void SetExpText()
+    {
+        if (charManager.meleeLevel == 1)
+        {
+            KnightTextExp.SetText("Lvl 1  " + charManager.meleeExp + "/" + charManager.level2Exp);
+        }
+        else if (charManager.meleeLevel == 2)
+        {
+            KnightTextExp.SetText("Lvl 2  " + charManager.meleeExp + "/" + charManager.level3Exp);
+        }
+        else
+        {
+            KnightTextExp.SetText("Lvl 3  MAX / MAX ");
+        }
+        ///
+        if (charManager.archerLevel == 1)
+        {
+            ArcherTextExp.SetText("Lvl 1  " + charManager.archerExp + "/" + charManager.level2Exp);
+        }
+        else if (charManager.archerLevel == 2)
+        {
+            ArcherTextExp.SetText("Lvl 2  " + charManager.archerExp + "/" + charManager.level3Exp);
+        }
+        else
+        {
+            ArcherTextExp.SetText("Lvl 3  MAX / MAX ");
+        }
+        ///
+        if (charManager.healerLevel == 1)
+        {
+            HealerTextExp.SetText("Lvl 1  " + charManager.healerExp + "/" + charManager.level2Exp);
+        }
+        else if (charManager.healerLevel == 2)
+        {
+            HealerTextExp.SetText("Lvl 2  " + charManager.healerExp + "/" + charManager.level3Exp);
+        }
+        else
+        {
+            HealerTextExp.SetText("Lvl 3  MAX / MAX ");
+        }
+        ///
+        if (charManager.tankLevel == 1)
+        {
+            TankTextExp.SetText("Lvl 1  " + charManager.tankExp + "/" + charManager.level2Exp);
+        }
+        else if (charManager.tankLevel == 2)
+        {
+            TankTextExp.SetText("Lvl 2  " + charManager.tankExp + "/" + charManager.level3Exp);
+        }
+        else
+        {
+            TankTextExp.SetText("Lvl 3  MAX / MAX ");
+        }
+        ///
+        if (charManager.mageLevel == 1)
+        {
+            MageTextExp.SetText("Lvl 1  " + charManager.mageExp + "/" + charManager.level2Exp);
+        }
+        else if (charManager.mageLevel == 2)
+        {
+            MageTextExp.SetText("Lvl 2  " + charManager.mageExp + "/" + charManager.level3Exp);
+        }
+        else
+        {
+            MageTextExp.SetText("Lvl 3  MAX / MAX ");
+        }
+    }
 }
