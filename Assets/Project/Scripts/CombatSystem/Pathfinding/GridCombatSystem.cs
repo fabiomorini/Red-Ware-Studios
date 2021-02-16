@@ -99,6 +99,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     public GameObject healthMenu;
     public GameObject inspirationUI;
+    private InspirationUI inspirationManager;
 
     //EndMenu UI
     public TMP_Text alliesLeftText;
@@ -127,7 +128,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void Start() {
         StartCoroutine(YourTurnUI());
-
+        inspirationManager = GameObject.FindGameObjectWithTag("InspirationManager").GetComponent<InspirationUI>();
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
 
         experienceKnight = characterManager.meleeExp;
@@ -678,6 +679,7 @@ public class GridCombatSystem : MonoBehaviour {
                     // Valid Move Position
                     if (canMoveThisTurn)
                     {
+                        inspirationManager.HidePointsAction();
                         moveButton.interactable = false;
                         moving = false;
                         canMoveThisTurn = false;
