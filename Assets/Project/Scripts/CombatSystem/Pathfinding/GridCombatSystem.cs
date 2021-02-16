@@ -30,7 +30,7 @@ public class GridCombatSystem : MonoBehaviour {
     //booleanos de atacar y mover
     private bool canMoveThisTurn;
     private bool canAttackThisTurn;
-    private bool hasUpdatedPositionMove = false;
+    [HideInInspector] public bool hasUpdatedPositionMove = false;
     private bool hasUpdatedPositionAttack = false;
 
     //Sistema de spawning de tropas según cuantas tienes compradas en el cuartel
@@ -85,6 +85,8 @@ public class GridCombatSystem : MonoBehaviour {
     //tiempo de espera antes de que se vaya la ui de cambio de turno
     private float SecondsWaitingUI = 1.0f;
     [HideInInspector] public int maxMoveDistance = 3;
+    [HideInInspector] public bool inspiredAttack = false;
+    [HideInInspector] public bool inspiredMovement = false;
 
     //minimenu in-game
     public GameObject Minimenu;
@@ -124,6 +126,9 @@ public class GridCombatSystem : MonoBehaviour {
     public TMP_Text experienceHealerTxt;
     public TMP_Text experienceTankTxt;
     public TMP_Text experienceMageTxt;
+
+    [HideInInspector] public int inspiration = 0;
+
 
 
     private void Start() {
@@ -186,13 +191,20 @@ public class GridCombatSystem : MonoBehaviour {
                 setMenuVisible();
                 if (moving)
                 {
-                    maxMoveDistance = 4;
+                    MoveAllyVisual();
+                    if (inspiredMovement)
+                    {
+                        maxMoveDistance = 6;
+                    }
+                    else
+                    {
+                        maxMoveDistance = 4;
+                    }
                     if (!hasUpdatedPositionMove)
                     {
                         UpdateValidMovePositions();
                         hasUpdatedPositionMove = true;
                     }
-                    MoveAllyVisual();
                 }
                 if (attacking)
                 {
@@ -232,6 +244,7 @@ public class GridCombatSystem : MonoBehaviour {
             }
             else
             {
+                inspiredAttack = false;
                 healthMenu.SetActive(false);
                 inspirationUI.SetActive(false);
                 if (canAttackThisTurn)
@@ -448,6 +461,10 @@ public class GridCombatSystem : MonoBehaviour {
 
     public IEnumerator YourTurnUI(){
         allyTurn.SetActive(true);
+        if (inspiration <= 4)
+        {
+            inspiration++;
+        }
         yield return new WaitForSeconds(SecondsWaitingUI);
         allyTurn.SetActive(false);
     }
@@ -693,6 +710,11 @@ public class GridCombatSystem : MonoBehaviour {
                         // Set Unit on target Grid Object
                         gridObject.SetUnitGridCombat(unitGridCombat);
 
+                        if (inspirationManager.alreadyRestedInspiration)
+                        {
+                            inspirationManager.alreadyUsedInspiration = true;
+                        }
+
                         unitGridCombat.MoveTo(GetMouseWorldPosition(), () =>
                         {
                             GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
@@ -706,7 +728,12 @@ public class GridCombatSystem : MonoBehaviour {
     }
 
     public void SetMovingTrue()
-    {
+    {/*
+        if (inspirationManager.alreadyRestedInspiration)
+        {
+            inspirationManager.alreadyUsedInspiration = true;
+        }
+        */
         moving = true;
         attacking = false;
         hasUpdatedPositionMove = false;
@@ -733,8 +760,16 @@ public class GridCombatSystem : MonoBehaviour {
                         {
                             Minimenu.SetActive(true);
                             canAttackThisTurn = false;
+                            if (inspirationManager.alreadyRestedInspiration)
+                            {
+                                inspirationManager.alreadyUsedInspiration = true;
+                            }
                             // Attack Enemy
                             unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                            inspiredAttack = false;
+                            inspirationManager.pointAttack = true;
+                            inspirationManager.InspirationAttack();
+                            inspirationManager.HidePointsAction();
                             attacking = false;
                             attackButton.interactable = false;
                         }
@@ -757,14 +792,24 @@ public class GridCombatSystem : MonoBehaviour {
         }
     }
     public void SetAttackingTrue()
-    {
+    {/*
+        if (inspirationManager.alreadyRestedInspiration)
+        {
+            inspirationManager.alreadyUsedInspiration = true;
+        }
+        */
         attacking = true;
         moving = false;
         hasUpdatedPositionAttack = false;
         //Minimenu.SetActive(false);
     }
     public void SetHealingTrue()
-    {
+    {/*
+        if (inspirationManager.alreadyRestedInspiration)
+        {
+            inspirationManager.alreadyUsedInspiration = true;
+        }
+        */
         healing = true;
         Minimenu.SetActive(false);
     }

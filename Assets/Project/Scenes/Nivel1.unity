@@ -652,7 +652,7 @@ GameObject:
   - component: {fileID: 186020700}
   - component: {fileID: 186020699}
   m_Layer: 5
-  m_Name: Point (6)
+  m_Name: Point3Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -674,7 +674,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -464.7, y: 453.8}
+  m_AnchoredPosition: {x: -475, y: 450}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &186020699
@@ -726,7 +726,7 @@ GameObject:
   - component: {fileID: 232068068}
   - component: {fileID: 232068067}
   m_Layer: 5
-  m_Name: Point (1)
+  m_Name: Point2Gris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -748,7 +748,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -538.8, y: 453.8}
+  m_AnchoredPosition: {x: -540, y: 450}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &232068067
@@ -1348,7 +1348,7 @@ GameObject:
   - component: {fileID: 365173336}
   - component: {fileID: 365173335}
   m_Layer: 5
-  m_Name: Point (5)
+  m_Name: Point2Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1370,7 +1370,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -538.8, y: 453.8}
+  m_AnchoredPosition: {x: -540, y: 450}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &365173335
@@ -2054,7 +2054,29 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 467410381}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1273261309}
+        m_MethodName: InspirationAttack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1273261309}
+        m_MethodName: ManageInspiration
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &467410381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2399,7 +2421,7 @@ GameObject:
   - component: {fileID: 572948892}
   - component: {fileID: 572948891}
   m_Layer: 5
-  m_Name: Point (7)
+  m_Name: Point4Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2421,7 +2443,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -392, y: 453.8}
+  m_AnchoredPosition: {x: -410, y: 450}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &572948891
@@ -3055,7 +3077,7 @@ GameObject:
   - component: {fileID: 628138518}
   - component: {fileID: 628138517}
   m_Layer: 5
-  m_Name: Point (2)
+  m_Name: Point3Gris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3077,7 +3099,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -464.7, y: 453.8}
+  m_AnchoredPosition: {x: -475, y: 450}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &628138517
@@ -3800,6 +3822,7 @@ MonoBehaviour:
   allyTeamActiveUnitIndex: 0
   enemiesTeamActiveUnitIndex: 0
   gameHandler: {fileID: 1892862705}
+  hasUpdatedPositionMove: 0
   MeleePrefab: {fileID: 3300769062914515420, guid: 8a2310e5bd9b4c84194148a23ca9bbfd,
     type: 3}
   RangedPrefab: {fileID: 6408216605119919340, guid: f77401767dbd4694f8184a2923b0b36e,
@@ -3818,6 +3841,8 @@ MonoBehaviour:
   iA_Enemies: {fileID: 1965436100}
   allyTurn: {fileID: 501039633}
   maxMoveDistance: 2
+  inspiredAttack: 0
+  inspiredMovement: 0
   Minimenu: {fileID: 1321756828}
   moving: 0
   attacking: 0
@@ -3842,6 +3867,7 @@ MonoBehaviour:
   experienceHealerTxt: {fileID: 1595045972}
   experienceTankTxt: {fileID: 591399095}
   experienceMageTxt: {fileID: 1244227545}
+  inspiration: 0
 --- !u!1 &790866642
 GameObject:
   m_ObjectHideFlags: 0
@@ -4754,7 +4780,7 @@ GameObject:
   - component: {fileID: 1016306741}
   - component: {fileID: 1016306740}
   m_Layer: 5
-  m_Name: Point (3)
+  m_Name: Point4Gris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4776,7 +4802,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -392, y: 453.8}
+  m_AnchoredPosition: {x: -410, y: 450}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1016306740
@@ -5140,6 +5166,7 @@ GameObject:
   - component: {fileID: 1193211615}
   - component: {fileID: 1193211614}
   - component: {fileID: 1193211613}
+  - component: {fileID: 1193211617}
   m_Layer: 5
   m_Name: Canvas Minimenu
   m_TagString: Untagged
@@ -5231,6 +5258,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &1193211617
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193211612}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1204196392
 GameObject:
   m_ObjectHideFlags: 0
@@ -5243,7 +5282,7 @@ GameObject:
   - component: {fileID: 1204196395}
   - component: {fileID: 1204196394}
   m_Layer: 5
-  m_Name: Point
+  m_Name: Point1Gris
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5265,7 +5304,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -607.7, y: 453.8}
+  m_AnchoredPosition: {x: -605, y: 450}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1204196394
@@ -5444,7 +5483,7 @@ GameObject:
   - component: {fileID: 1237794315}
   - component: {fileID: 1237794314}
   m_Layer: 5
-  m_Name: Point (4)
+  m_Name: Point1Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5466,7 +5505,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -607.7, y: 453.8}
+  m_AnchoredPosition: {x: -605, y: 450}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1237794314
@@ -6023,8 +6062,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointMoveUI: {fileID: 353915651}
   pointAttackUI: {fileID: 1119168593}
+  AttackButton: {fileID: 467410381}
+  MoveButton: {fileID: 1284126814}
+  Inspiration1: {fileID: 1237794312}
+  Inspiration2: {fileID: 365173333}
+  Inspiration3: {fileID: 186020697}
+  Inspiration4: {fileID: 572948889}
   pointMove: 0
   pointAttack: 0
+  combatSystem: {fileID: 747323689}
 --- !u!4 &1273261310
 Transform:
   m_ObjectHideFlags: 0
@@ -6100,7 +6146,7 @@ MonoBehaviour:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_SelectedColor: {r: 0.94509804, g: 0.69803923, b: 0.13725491, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -6119,7 +6165,29 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1284126814}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1273261309}
+        m_MethodName: InspirationMove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1273261309}
+        m_MethodName: ManageInspiration
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1284126814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6724,14 +6792,14 @@ RectTransform:
   m_GameObject: {fileID: 1454371096}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9125, y: 0.8625, z: 1}
   m_Children: []
   m_Father: {fileID: 163661248}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -474.7, y: 434}
+  m_AnchoredPosition: {x: -483.3, y: 490.7}
   m_SizeDelta: {x: 287.7877, y: 83.99723}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1454371098
@@ -9006,7 +9074,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 23, y: -19}
+  m_AnchoredPosition: {x: 23, y: 41.70003}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1965436099
