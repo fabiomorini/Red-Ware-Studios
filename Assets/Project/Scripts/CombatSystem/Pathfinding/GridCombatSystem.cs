@@ -98,6 +98,7 @@ public class GridCombatSystem : MonoBehaviour {
     public Button moveButton;
 
     public GameObject healthMenu;
+    public GameObject inspirationUI;
 
     //EndMenu UI
     public TMP_Text alliesLeftText;
@@ -177,7 +178,7 @@ public class GridCombatSystem : MonoBehaviour {
             gameHandler.HandleCameraMovement();
             if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
             {
-                healthMenu.SetActive(true);
+                inspirationUI.SetActive(true);
                 //update del menu de estadísticas
                 UpdateStatisticMenu();
                 unitGridCombat.setSelectedActive();
@@ -231,6 +232,7 @@ public class GridCombatSystem : MonoBehaviour {
             else
             {
                 healthMenu.SetActive(false);
+                inspirationUI.SetActive(false);
                 if (canAttackThisTurn)
                 {
                     unitGridCombat.setSelectedActive();
@@ -247,6 +249,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void UpdateStatisticMenu()
     {
+        healthMenu.SetActive(true);
         statisticMenu.UpdateHealth(unitGridCombat);
         statisticMenu.UpdateSprite(unitGridCombat);
     }
@@ -705,7 +708,7 @@ public class GridCombatSystem : MonoBehaviour {
         moving = true;
         attacking = false;
         hasUpdatedPositionMove = false;
-        Minimenu.SetActive(false);
+        //Minimenu.SetActive(false);
     }
 
     public void AttackAllyVisual()
@@ -756,7 +759,7 @@ public class GridCombatSystem : MonoBehaviour {
         attacking = true;
         moving = false;
         hasUpdatedPositionAttack = false;
-        Minimenu.SetActive(false);
+        //Minimenu.SetActive(false);
     }
     public void SetHealingTrue()
     {
