@@ -30,7 +30,7 @@ public class GridCombatSystem : MonoBehaviour {
     //booleanos de atacar y mover
     private bool canMoveThisTurn;
     private bool canAttackThisTurn;
-    private bool hasUpdatedPositionMove = false;
+    [HideInInspector] public bool hasUpdatedPositionMove = false;
     private bool hasUpdatedPositionAttack = false;
 
     //Sistema de spawning de tropas según cuantas tienes compradas en el cuartel
@@ -85,6 +85,8 @@ public class GridCombatSystem : MonoBehaviour {
     //tiempo de espera antes de que se vaya la ui de cambio de turno
     private float SecondsWaitingUI = 1.0f;
     [HideInInspector] public int maxMoveDistance = 3;
+    [HideInInspector] public bool inspiredAttack = false;
+    [HideInInspector] public bool inspiredMovement = false;
 
     //minimenu in-game
     public GameObject Minimenu;
@@ -98,6 +100,8 @@ public class GridCombatSystem : MonoBehaviour {
     public Button moveButton;
 
     public GameObject healthMenu;
+    public GameObject inspirationUI;
+    private InspirationUI inspirationManager;
 
     //EndMenu UI
     public TMP_Text alliesLeftText;
@@ -123,10 +127,13 @@ public class GridCombatSystem : MonoBehaviour {
     public TMP_Text experienceTankTxt;
     public TMP_Text experienceMageTxt;
 
+    [HideInInspector] public int inspiration;
+
+
 
     private void Start() {
         StartCoroutine(YourTurnUI());
-
+        inspirationManager = GameObject.FindGameObjectWithTag("InspirationManager").GetComponent<InspirationUI>();
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
 
         experienceKnight = characterManager.meleeExp;
@@ -167,7 +174,8 @@ public class GridCombatSystem : MonoBehaviour {
                 enemiesTeamList.Add(unitGridCombat);
             }
         }
-        SelectNextActiveUnit();
+        SelectNextActiveUnit(); 
+        inspiration = 1;
     }
 
     private void Update()
@@ -177,20 +185,27 @@ public class GridCombatSystem : MonoBehaviour {
             gameHandler.HandleCameraMovement();
             if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
             {
-                healthMenu.SetActive(true);
+                inspirationUI.SetActive(true);
                 //update del menu de estadísticas
                 UpdateStatisticMenu();
                 unitGridCombat.setSelectedActive();
                 setMenuVisible();
                 if (moving)
                 {
-                    maxMoveDistance = 4;
+                    MoveAllyVisual();
+                    if (inspiredMovement)
+                    {
+                        maxMoveDistance = 6;
+                    }
+                    else
+                    {
+                        maxMoveDistance = 4;
+                    }
                     if (!hasUpdatedPositionMove)
                     {
                         UpdateValidMovePositions();
                         hasUpdatedPositionMove = true;
                     }
-                    MoveAllyVisual();
                 }
                 if (attacking)
                 {
@@ -230,7 +245,9 @@ public class GridCombatSystem : MonoBehaviour {
             }
             else
             {
+                inspiredAttack = false;
                 healthMenu.SetActive(false);
+                inspirationUI.SetActive(false);
                 if (canAttackThisTurn)
                 {
                     unitGridCombat.setSelectedActive();
@@ -247,6 +264,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void UpdateStatisticMenu()
     {
+        healthMenu.SetActive(true);
         statisticMenu.UpdateHealth(unitGridCombat);
         statisticMenu.UpdateSprite(unitGridCombat);
     }
@@ -628,6 +646,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void SelectNextActiveUnit()
     {
+
         if (allyTeamActiveUnitIndex + 1 == alliesTeamList.Count && isAllyTurn)
         {
             isAllyTurn = false;
@@ -635,6 +654,10 @@ public class GridCombatSystem : MonoBehaviour {
         }
         if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
         {
+            if (inspiration < 4) //sumamos uno de inspiración al comienzo del turno
+            {
+                inspiration++;
+            }
             isAllyTurn = true;
             StartCoroutine(YourTurnUI());
             enemiesTeamActiveUnitIndex = -1;
@@ -649,6 +672,10 @@ public class GridCombatSystem : MonoBehaviour {
     {
         if (isAllyTurn)
         {
+            inspirationManager.alreadyRestedInspiration = false;
+            inspirationManager.alreadyUsedInspiration = false;
+            inspirationManager.inspirationIndexUI = inspiration;
+
             allyTeamActiveUnitIndex = (allyTeamActiveUnitIndex + 1) % alliesTeamList.Count;
             return alliesTeamList[allyTeamActiveUnitIndex];
         }
@@ -675,6 +702,7 @@ public class GridCombatSystem : MonoBehaviour {
                     // Valid Move Position
                     if (canMoveThisTurn)
                     {
+                        inspirationManager.HidePointsAction();
                         moveButton.interactable = false;
                         moving = false;
                         canMoveThisTurn = false;
@@ -687,6 +715,12 @@ public class GridCombatSystem : MonoBehaviour {
                         grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
                         // Set Unit on target Grid Object
                         gridObject.SetUnitGridCombat(unitGridCombat);
+
+                        if (inspirationManager.alreadyRestedInspiration)
+                        {
+                            inspiration--;
+                            inspirationManager.alreadyUsedInspiration = true;
+                        }
 
                         unitGridCombat.MoveTo(GetMouseWorldPosition(), () =>
                         {
@@ -701,11 +735,16 @@ public class GridCombatSystem : MonoBehaviour {
     }
 
     public void SetMovingTrue()
-    {
+    {/*
+        if (inspirationManager.alreadyRestedInspiration)
+        {
+            inspirationManager.alreadyUsedInspiration = true;
+        }
+        */
         moving = true;
         attacking = false;
         hasUpdatedPositionMove = false;
-        Minimenu.SetActive(false);
+        //Minimenu.SetActive(false);
     }
 
     public void AttackAllyVisual()
@@ -728,8 +767,17 @@ public class GridCombatSystem : MonoBehaviour {
                         {
                             Minimenu.SetActive(true);
                             canAttackThisTurn = false;
+                            if (inspirationManager.alreadyRestedInspiration)
+                            {
+                                inspiration--;
+                                inspirationManager.alreadyUsedInspiration = true;
+                            }
                             // Attack Enemy
                             unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                            inspiredAttack = false;
+                            inspirationManager.pointAttack = true;
+                            inspirationManager.InspirationAttack();
+                            inspirationManager.HidePointsAction();
                             attacking = false;
                             attackButton.interactable = false;
                         }
@@ -752,14 +800,24 @@ public class GridCombatSystem : MonoBehaviour {
         }
     }
     public void SetAttackingTrue()
-    {
+    {/*
+        if (inspirationManager.alreadyRestedInspiration)
+        {
+            inspirationManager.alreadyUsedInspiration = true;
+        }
+        */
         attacking = true;
         moving = false;
         hasUpdatedPositionAttack = false;
-        Minimenu.SetActive(false);
+        //Minimenu.SetActive(false);
     }
     public void SetHealingTrue()
-    {
+    {/*
+        if (inspirationManager.alreadyRestedInspiration)
+        {
+            inspirationManager.alreadyUsedInspiration = true;
+        }
+        */
         healing = true;
         Minimenu.SetActive(false);
     }
