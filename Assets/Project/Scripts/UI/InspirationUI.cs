@@ -15,6 +15,7 @@ public class InspirationUI : MonoBehaviour
     public GameObject Inspiration3;
     public GameObject Inspiration4;
 
+    [HideInInspector] public int inspirationIndexUI;
 
     [HideInInspector] public bool pointMove = false;
     [HideInInspector] public bool pointAttack = false;
@@ -23,6 +24,13 @@ public class InspirationUI : MonoBehaviour
 
     public GridCombatSystem combatSystem;
 
+    private void Start()
+    {
+        alreadyRestedInspiration = false;
+        alreadyUsedInspiration = false;
+        inspirationIndexUI = 1;
+    }
+
     private void Update()
     {
         SetInspirationUI();
@@ -30,35 +38,35 @@ public class InspirationUI : MonoBehaviour
 
     private void SetInspirationUI()
     {
-        if (combatSystem.inspiration == 0)
+        if (inspirationIndexUI == 0)
         {
             Inspiration1.SetActive(false);
             Inspiration2.SetActive(false);
             Inspiration3.SetActive(false);
             Inspiration4.SetActive(false);
         }
-        else if (combatSystem.inspiration == 1)
+        else if (inspirationIndexUI == 1)
         {
             Inspiration1.SetActive(true);
             Inspiration2.SetActive(false);
             Inspiration3.SetActive(false);
             Inspiration4.SetActive(false);
         }
-        else if (combatSystem.inspiration == 2)
+        else if (inspirationIndexUI == 2)
         {
             Inspiration1.SetActive(true);
             Inspiration2.SetActive(true);
             Inspiration3.SetActive(false);
             Inspiration4.SetActive(false);
         }
-        else if (combatSystem.inspiration == 3)
+        else if (inspirationIndexUI == 3)
         {
             Inspiration1.SetActive(true);
             Inspiration2.SetActive(true);
             Inspiration3.SetActive(true);
             Inspiration4.SetActive(false);
         }
-        else if (combatSystem.inspiration == 4)
+        else if (inspirationIndexUI == 4)
         {
             Inspiration1.SetActive(true);
             Inspiration2.SetActive(true);
@@ -69,6 +77,9 @@ public class InspirationUI : MonoBehaviour
 
     public void ShowPointMove()
     {
+        Debug.Log(combatSystem.inspiration);
+        Debug.Log(inspirationIndexUI + "index");
+        Debug.Log(alreadyRestedInspiration);
         pointMoveUI.SetActive(true);
         pointAttackUI.SetActive(false);
         pointAttack = true;
@@ -77,7 +88,7 @@ public class InspirationUI : MonoBehaviour
         combatSystem.inspiredMovement = false;
         if (alreadyRestedInspiration && !alreadyUsedInspiration)
         {
-            combatSystem.inspiration++;
+            inspirationIndexUI = combatSystem.inspiration;
             alreadyRestedInspiration = false;
         }
         InspirationMove();
@@ -93,7 +104,7 @@ public class InspirationUI : MonoBehaviour
         combatSystem.inspiredMovement = false;
         if (alreadyRestedInspiration && !alreadyUsedInspiration)
         {
-            combatSystem.inspiration++;
+            inspirationIndexUI = combatSystem.inspiration;
             alreadyRestedInspiration = false;
         }
         InspirationAttack();
@@ -103,7 +114,7 @@ public class InspirationUI : MonoBehaviour
     {
         if (alreadyRestedInspiration && !alreadyUsedInspiration)
         {
-            combatSystem.inspiration++;
+            inspirationIndexUI = combatSystem.inspiration;
             alreadyRestedInspiration = false;
         }
         pointAttackUI.SetActive(false);
@@ -162,18 +173,22 @@ public class InspirationUI : MonoBehaviour
 
     public void ManageInspiration()
     {
-        if (combatSystem.inspiration > 0)
+        if (combatSystem.inspiration > 0 && inspirationIndexUI >= 0)
         {
             if (!alreadyRestedInspiration)
             {
-                combatSystem.inspiration--;
+                inspirationIndexUI--;
                 alreadyRestedInspiration = true;
             }
             else
             {
-                combatSystem.inspiration++;
+                inspirationIndexUI++;
                 alreadyRestedInspiration = false;
             }
         }
+
+
+        //si clickas, resta uno de inspiracion en la UI superior y pone el botón de color amarillo
+        //si vuelves a clickar, suma uno de inspiración 
     }
 }

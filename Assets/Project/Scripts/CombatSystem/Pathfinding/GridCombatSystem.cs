@@ -127,7 +127,7 @@ public class GridCombatSystem : MonoBehaviour {
     public TMP_Text experienceTankTxt;
     public TMP_Text experienceMageTxt;
 
-    [HideInInspector] public int inspiration = 0;
+    [HideInInspector] public int inspiration;
 
 
 
@@ -174,7 +174,8 @@ public class GridCombatSystem : MonoBehaviour {
                 enemiesTeamList.Add(unitGridCombat);
             }
         }
-        SelectNextActiveUnit();
+        SelectNextActiveUnit(); 
+        inspiration = 1;
     }
 
     private void Update()
@@ -461,10 +462,6 @@ public class GridCombatSystem : MonoBehaviour {
 
     public IEnumerator YourTurnUI(){
         allyTurn.SetActive(true);
-        if (inspiration <= 4)
-        {
-            inspiration++;
-        }
         yield return new WaitForSeconds(SecondsWaitingUI);
         allyTurn.SetActive(false);
     }
@@ -649,6 +646,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void SelectNextActiveUnit()
     {
+
         if (allyTeamActiveUnitIndex + 1 == alliesTeamList.Count && isAllyTurn)
         {
             isAllyTurn = false;
@@ -656,6 +654,10 @@ public class GridCombatSystem : MonoBehaviour {
         }
         if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
         {
+            if (inspiration < 4) //sumamos uno de inspiración al comienzo del turno
+            {
+                inspiration++;
+            }
             isAllyTurn = true;
             StartCoroutine(YourTurnUI());
             enemiesTeamActiveUnitIndex = -1;
@@ -670,6 +672,10 @@ public class GridCombatSystem : MonoBehaviour {
     {
         if (isAllyTurn)
         {
+            inspirationManager.alreadyRestedInspiration = false;
+            inspirationManager.alreadyUsedInspiration = false;
+            inspirationManager.inspirationIndexUI = inspiration;
+
             allyTeamActiveUnitIndex = (allyTeamActiveUnitIndex + 1) % alliesTeamList.Count;
             return alliesTeamList[allyTeamActiveUnitIndex];
         }
@@ -712,6 +718,7 @@ public class GridCombatSystem : MonoBehaviour {
 
                         if (inspirationManager.alreadyRestedInspiration)
                         {
+                            inspiration--;
                             inspirationManager.alreadyUsedInspiration = true;
                         }
 
@@ -762,6 +769,7 @@ public class GridCombatSystem : MonoBehaviour {
                             canAttackThisTurn = false;
                             if (inspirationManager.alreadyRestedInspiration)
                             {
+                                inspiration--;
                                 inspirationManager.alreadyUsedInspiration = true;
                             }
                             // Attack Enemy
