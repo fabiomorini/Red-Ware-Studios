@@ -186,9 +186,5 @@ public class InspirationUI : MonoBehaviour
                 alreadyRestedInspiration = false;
             }
         }
-
-
-        //si clickas, resta uno de inspiracion en la UI superior y pone el botón de color amarillo
-        //si vuelves a clickar, suma uno de inspiración 
     }
 }
