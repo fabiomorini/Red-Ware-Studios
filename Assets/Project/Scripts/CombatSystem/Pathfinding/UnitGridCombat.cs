@@ -206,7 +206,7 @@ public class UnitGridCombat : MonoBehaviour {
 
             if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + ((25 / 100) * 55);
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + 20;
                 else damageAmount = 25;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
