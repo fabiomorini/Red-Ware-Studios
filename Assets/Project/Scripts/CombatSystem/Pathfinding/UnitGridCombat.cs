@@ -13,13 +13,18 @@ public class UnitGridCombat : MonoBehaviour {
     [HideInInspector] public int curHealth;
     [HideInInspector] public bool imDead = false;
     [HideInInspector] public int damageAmount;
-    [HideInInspector] public int level = 1; //temporal
 
     private int attackRangeMelee = 11;
     private int attackRangeRanged = 41;
     private int attackRangeHealer = 31;
     private int attackRangeTank = 11;
     private int attackRangeMage = 31;
+
+    private bool attackedByMelee = false;
+    private bool attackedByArcher = false;
+    private bool attackedByHealer = false;
+    private bool attackedByTank = false;
+    private bool attackedByMage = false;
 
     private int rangeHeal = 30;
     private int healAmount = 20;
@@ -35,6 +40,7 @@ public class UnitGridCombat : MonoBehaviour {
     private MovePositionPathfinding movePosition;
     private HealthSystem healthSystem;
     private HealthBar healthBar;
+    private CHARACTER_MNG characterManager;
 
     public enum Team {
         Blue,
@@ -45,6 +51,7 @@ public class UnitGridCombat : MonoBehaviour {
         healthBar = GetComponentInChildren<HealthBar>();
         characterPrefs = GetComponent<CHARACTER_PREFS>();
         selectedGameObject = transform.Find("SelectedArrow").gameObject;
+        characterManager = GameObject.FindGameObjectWithTag("characterManager").GetComponent<CHARACTER_MNG>();
 
         SetHealth();
         healthSystem = new HealthSystem(maxHealth);
@@ -64,28 +71,86 @@ public class UnitGridCombat : MonoBehaviour {
         animEnded = true;
     }
 
-    private void SetHealth()
+    private void SetHealth() // para balancear
     {
         if(characterPrefs.getType() == CHARACTER_PREFS.Tipo.MELEE)
         {
-            maxHealth = 80;
+            if(characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
+            {
+                maxHealth = 80;
+            }
+            else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
+            {
+                maxHealth = 85;
+            }
+            else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
+            {
+                maxHealth = 90;
+            }
         }
         else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.RANGED)
         {
-            maxHealth = 60;
+            if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
+            {
+                maxHealth = 60;
+            }
+            else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
+            {
+                maxHealth = 65;
+            }
+            else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
+            {
+                maxHealth = 70;
+            }
         }
         else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.HEALER)
         {
-            maxHealth = 50;
-            healAmount = 20;
+            if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
+            {
+                maxHealth = 50;
+                healAmount = 20;
+            }
+            else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
+            {
+                maxHealth = 55;
+                healAmount = 25;
+            }
+            else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
+            {
+                maxHealth = 60;
+                healAmount = 30;
+            }
+
         }
         else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.TANK)
         {
-            maxHealth = 95;
+            if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
+            {
+                maxHealth = 85;
+            }
+            else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
+            {
+                maxHealth = 90;
+            }
+            else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
+            {
+                maxHealth = 95;
+            }
         }
         else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.MAGE)
         {
-            maxHealth = 50;
+            if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
+            {
+                maxHealth = 50;
+            }
+            else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
+            {
+                maxHealth = 55;
+            }
+            else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
+            {
+                maxHealth = 60;
+            }
         }
     }
 
@@ -110,41 +175,180 @@ public class UnitGridCombat : MonoBehaviour {
 
     public void AttackUnit(UnitGridCombat unitGridCombat){
         GetComponent<IMoveVelocity>().Disable();
-        unitGridCombat.Damage(this, damageAmount);
+        unitGridCombat.Damage(this);
         GetComponent<IMoveVelocity>().Enable();
     }
 
-    public void Damage(UnitGridCombat Attacker,int damage){
-        //Temporal
+    public void Damage(UnitGridCombat Attacker){
         if(Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
         {
-            damageAmount = 25;
-            healthSystem.Damage(damageAmount);
+            attackedByMelee = true;
+            attackedByArcher = false;
+            attackedByHealer = false;
+            attackedByTank = false;
+            attackedByMage = false;
+
+            if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + 20;
+                else damageAmount = 25;
+            }
+            else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 30 + 20;
+                else damageAmount = 30;
+            }
+            else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 35 + 20;
+                else damageAmount = 35;
+            }
+
         }
         else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
-            damageAmount = 20;
-            healthSystem.Damage(damageAmount);
+            attackedByMelee = false;
+            attackedByArcher = true;
+            attackedByHealer = false;
+            attackedByTank = false;
+            attackedByMage = false;
+            if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 20 + 20;
+                else damageAmount = 20;
+            }
+            else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + 20;
+                else damageAmount = 25;
+            }
+            else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 30 + 20;
+                else damageAmount = 30;
+            }
         }
         else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
         {
-            damageAmount = 10;
-            healthSystem.Damage(damageAmount);
+            attackedByMelee = false;
+            attackedByArcher = false;
+            attackedByHealer = true;
+            attackedByTank = false;
+            attackedByMage = false;
+            if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 10 + 20;
+                else damageAmount = 10;
+            }
+            else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 15 + 20;
+                else damageAmount = 15;
+            }
+            else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 20 + 20;
+                else damageAmount = 20;
+            }
         }
         else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
         {
-            damageAmount = 15;
-            healthSystem.Damage(damageAmount);
+            attackedByMelee = false;
+            attackedByArcher = false;
+            attackedByHealer = false;
+            attackedByTank = true;
+            attackedByMage = false;
+            if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 15 + 20;
+                else damageAmount = 15;
+            }
+            else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 20 + 20;
+                else damageAmount = 20;
+            }
+            else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + 20;
+                else damageAmount = 25;
+            }
         }
         else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {
-            damageAmount = 25;
-            healthSystem.Damage(damageAmount);
+            attackedByMelee = false;
+            attackedByArcher = false;
+            attackedByHealer = false;
+            attackedByTank = false;
+            attackedByMage = true;
+            if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + 20;
+                else damageAmount = 25;
+            }
+            else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 30 + 20;
+                else damageAmount = 30;
+            }
+            else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
+            {
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 35 + 20;
+                else damageAmount = 35;
+            }
         }
+        healthSystem.Damage(damageAmount);
 
         if (healthSystem.IsDead()){
             if(Attacker.GetTeam() == Team.Blue) 
             {
+                if(characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
+                {
+                    if (attackedByMelee)
+                    {
+                        characterManager.meleeExp += 5;
+                    }
+                    if (attackedByArcher)
+                    {
+                        characterManager.archerExp += 5;
+                    }
+                    if (attackedByHealer)
+                    {
+                        characterManager.healerExp += 5;
+                    }
+                    if (attackedByTank)
+                    {
+                        characterManager.tankExp += 5;
+                    }
+                    if (attackedByMage)
+                    {
+                        characterManager.mageExp += 5;
+                    }
+                }
+                if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
+                {
+                    if (attackedByMelee)
+                    {
+                        characterManager.meleeExp += 25;
+                    }
+                    if (attackedByArcher)
+                    {
+                        characterManager.archerExp += 25;
+                    }
+                    if (attackedByHealer)
+                    {
+                        characterManager.healerExp += 25;
+                    }
+                    if (attackedByTank)
+                    {
+                        characterManager.tankExp += 25;
+                    }
+                    if (attackedByMage)
+                    {
+                        characterManager.mageExp += 25;
+                    }
+                }
+
                 imDead = true;
                 sceneCombatSystem.CheckIfDead();
                 for(int i = 0; i < sceneCombatSystem.enemiesTeamList.Count; i++)
@@ -159,6 +363,28 @@ public class UnitGridCombat : MonoBehaviour {
                 imDead = true;
                 sceneCombatSystem.CheckIfDead();
                 sceneCombatSystem.allydeads += 1;
+
+                if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.MELEE)
+                {
+                    sceneCombatSystem.numberOfMeleeLeft--;
+                }
+                if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.RANGED)
+                {
+                    sceneCombatSystem.numberOfRangedLeft--;
+                }
+                if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.HEALER)
+                {
+                    sceneCombatSystem.numberOfHealerLeft--;
+                }
+                if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.TANK)
+                {
+                    sceneCombatSystem.numberOfTankLeft--;
+                }
+                if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.MAGE)
+                {
+                    sceneCombatSystem.numberOfMageLeft--;
+                }
+
                 for (int i = 0; i < sceneCombatSystem.alliesTeamList.Count; i++)
                 {
                     if (!sceneCombatSystem.alliesTeamList[i].imDead)

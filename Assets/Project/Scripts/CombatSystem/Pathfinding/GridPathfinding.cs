@@ -74,6 +74,10 @@ namespace GridPathfindingSystem {
                     if (raycastHit.collider != null) {
                         mapNodes[i][j].SetWalkable(false);
                     }
+                    if (raycastHit.rigidbody != null)
+                    {
+                        mapNodes[i][j].SetWalkable(false);
+                    }
                 }
             }
         }

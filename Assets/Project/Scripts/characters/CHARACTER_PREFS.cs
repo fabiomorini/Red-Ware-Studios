@@ -3,14 +3,8 @@ using UnityEngine;
 
 public class CHARACTER_PREFS : MonoBehaviour {
 
-    [HideInInspector]
-    public int level;
     public Tipo tipo;
-    /*
-     nivel
-     armadura
-     arma
-    */
+    public Level level;
 
     public enum Tipo
     {
@@ -19,6 +13,12 @@ public class CHARACTER_PREFS : MonoBehaviour {
         HEALER,
         TANK,
         MAGE
+    }
+    public enum Level
+    {
+        NIVEL1, 
+        NIVEL2, 
+        NIVEL3
     }
 
     public Vector3 GetPosition() 
@@ -29,5 +29,10 @@ public class CHARACTER_PREFS : MonoBehaviour {
     public Tipo getType()
     {
         return tipo;
+    }
+
+    public Level Getlevel()
+    {
+        return level;
     }
 }
