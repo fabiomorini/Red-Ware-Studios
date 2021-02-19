@@ -13,6 +13,7 @@ public class UnitGridCombat : MonoBehaviour {
     [HideInInspector] public int curHealth;
     [HideInInspector] public bool imDead = false;
     [HideInInspector] public int damageAmount;
+    private int defense;
 
     private int attackRangeMelee = 11;
     private int attackRangeRanged = 41;
@@ -78,14 +79,17 @@ public class UnitGridCombat : MonoBehaviour {
             if(characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
             {
                 maxHealth = 80;
+                defense = 15;
             }
             else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
             {
                 maxHealth = 85;
+                defense = 17;
             }
             else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
                 maxHealth = 90;
+                defense = 20;
             }
         }
         else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.RANGED)
@@ -93,14 +97,17 @@ public class UnitGridCombat : MonoBehaviour {
             if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
             {
                 maxHealth = 60;
+                defense = 10;
             }
             else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
             {
                 maxHealth = 65;
+                defense = 12;
             }
             else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
                 maxHealth = 70;
+                defense = 15;
             }
         }
         else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.HEALER)
@@ -109,16 +116,19 @@ public class UnitGridCombat : MonoBehaviour {
             {
                 maxHealth = 50;
                 healAmount = 20;
+                defense = 5;
             }
             else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
             {
                 maxHealth = 55;
                 healAmount = 25;
+                defense = 7;
             }
             else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
                 maxHealth = 60;
                 healAmount = 30;
+                defense = 10;
             }
 
         }
@@ -127,14 +137,17 @@ public class UnitGridCombat : MonoBehaviour {
             if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
             {
                 maxHealth = 85;
+                defense = 25;
             }
             else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
             {
                 maxHealth = 90;
+                defense = 27;
             }
             else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
                 maxHealth = 95;
+                defense = 30;
             }
         }
         else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.MAGE)
@@ -142,14 +155,17 @@ public class UnitGridCombat : MonoBehaviour {
             if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
             {
                 maxHealth = 50;
+                defense = 10;
             }
             else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
             {
                 maxHealth = 55;
+                defense = 12;
             }
             else if (characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
                 maxHealth = 60;
+                defense = 15;
             }
         }
     }
@@ -190,17 +206,17 @@ public class UnitGridCombat : MonoBehaviour {
 
             if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + ((25 / 100) * 55);
                 else damageAmount = 25;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 30 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 30 + ((30 / 100) * 20);
                 else damageAmount = 30;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 35 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 35 + ((35 / 100) * 20);
                 else damageAmount = 35;
             }
 
@@ -214,17 +230,17 @@ public class UnitGridCombat : MonoBehaviour {
             attackedByMage = false;
             if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 20 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 20 + ((20 / 100) * 20);
                 else damageAmount = 20;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + ((25 / 100) * 20);
                 else damageAmount = 25;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 30 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 30 + ((30 / 100) * 20);
                 else damageAmount = 30;
             }
         }
@@ -237,17 +253,17 @@ public class UnitGridCombat : MonoBehaviour {
             attackedByMage = false;
             if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 10 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 10 + ((10 / 100) * 20);
                 else damageAmount = 10;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 15 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 15 + ((15 / 100) * 20);
                 else damageAmount = 15;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 20 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 20 + ((20 / 100) * 20);
                 else damageAmount = 20;
             }
         }
@@ -260,17 +276,17 @@ public class UnitGridCombat : MonoBehaviour {
             attackedByMage = false;
             if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 15 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 15 + ((15 / 100) * 20);
                 else damageAmount = 15;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 20 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 20 + ((20 / 100) * 20);
                 else damageAmount = 20;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + ((25 / 100) * 20);
                 else damageAmount = 25;
             }
         }
@@ -283,21 +299,23 @@ public class UnitGridCombat : MonoBehaviour {
             attackedByMage = true;
             if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 25 + ((25 / 100) * 20);
                 else damageAmount = 25;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 30 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 30 + ((30 / 100) * 20);
                 else damageAmount = 30;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
-                if (sceneCombatSystem.inspiredAttack) damageAmount = 35 + 20;
+                if (sceneCombatSystem.inspiredAttack) damageAmount = 35 + ((35 / 100) * 20);
                 else damageAmount = 35;
             }
         }
-        healthSystem.Damage(damageAmount);
+        int dmg;
+        dmg = RandomDamage(damageAmount);
+        healthSystem.Damage(dmg);
 
         if (healthSystem.IsDead()){
             if(Attacker.GetTeam() == Team.Blue) 
@@ -394,6 +412,24 @@ public class UnitGridCombat : MonoBehaviour {
             }
         }
         StartCoroutine(FeedbackAttack());
+    }
+
+    int RandomDamage(int damageAmount)
+    {
+        int randomNum = UnityEngine.Random.Range(-2, 2);
+        damageAmount = damageAmount + randomNum;
+        randomNum = UnityEngine.Random.Range(0, 100);
+        if (randomNum <= 5)
+        {
+            damageAmount = damageAmount + (damageAmount / 100) * 20;
+        }
+        else if(randomNum >= 95)
+        {
+            damageAmount = 0;
+        }
+
+        damageAmount = damageAmount - ((damageAmount / 100) * defense);
+        return damageAmount;
     }
 
     private IEnumerator FeedbackAttack()
