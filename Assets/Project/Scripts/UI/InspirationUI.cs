@@ -9,13 +9,12 @@ public class InspirationUI : MonoBehaviour
     public GameObject pointAttackUI;
     public Image AttackButton;
     public Image MoveButton;
-
-    public Image HabilitiesButton;
     public Image Hability1Button;
     public Image Hability2Button;
+
     public GameObject pointHabilitiesUI;
-    public GameObject pointHability1UI;
-    public GameObject pointHability2UI;
+    public GameObject Hability1UI;
+    public GameObject Hability2UI;
 
     public GameObject Inspiration1;
     public GameObject Inspiration2;
@@ -26,6 +25,8 @@ public class InspirationUI : MonoBehaviour
 
     [HideInInspector] public bool pointMove = false;
     [HideInInspector] public bool pointAttack = false;
+    [HideInInspector] public bool pointHability1 = false;
+    [HideInInspector] public bool pointHability2 = false;
     [HideInInspector] public bool alreadyRestedInspiration = false;
     [HideInInspector] public bool alreadyUsedInspiration = false;
 
@@ -35,7 +36,7 @@ public class InspirationUI : MonoBehaviour
     {
         alreadyRestedInspiration = false;
         alreadyUsedInspiration = false;
-        inspirationIndexUI = 1;
+        inspirationIndexUI = 3;
     }
 
     private void Update()
@@ -89,6 +90,8 @@ public class InspirationUI : MonoBehaviour
         pointHabilitiesUI.SetActive(false);
         pointAttack = true;
         pointMove = true;
+        pointHability1 = true;
+        pointHability2 = true;
         combatSystem.inspiredAttack = false;
         combatSystem.inspiredMovement = false;
         if (alreadyRestedInspiration && !alreadyUsedInspiration)
@@ -98,6 +101,8 @@ public class InspirationUI : MonoBehaviour
         }
         InspirationMove();
         InspirationAttack();
+        ActivateHability1();
+        ActivateHability2();
     }
     public void ShowPointAttack()
     {
@@ -105,7 +110,9 @@ public class InspirationUI : MonoBehaviour
         pointMoveUI.SetActive(false);
         pointHabilitiesUI.SetActive(false);
         pointAttack = true;
-        pointMove = true;
+        pointMove = true; 
+        pointHability1 = true;
+        pointHability2 = true;
         combatSystem.inspiredAttack = false;
         combatSystem.inspiredMovement = false;
         if (alreadyRestedInspiration && !alreadyUsedInspiration)
@@ -115,16 +122,67 @@ public class InspirationUI : MonoBehaviour
         }
         InspirationAttack();
         InspirationMove();
+        ActivateHability1();
+        ActivateHability2();
     }
 
-    public void ShowPointHabilities() 
+    public void ShowHabilities() 
     {
         pointMoveUI.SetActive(false);
         pointAttackUI.SetActive(false);
         pointHabilitiesUI.SetActive(true);
+        //vuelve a poner los puntos en blanco
+        pointAttack = true;
+        pointMove = true;
+        Hability1UI.GetComponent<Button>().interactable = false;
 
+        if (alreadyRestedInspiration && !alreadyUsedInspiration)
+        {
+            inspirationIndexUI = combatSystem.inspiration;
+            alreadyRestedInspiration = false;
+        }
+    }
 
+    public void ActivateHability1()
+    {
+        if (pointHability1) Hability1Button.color = Color.white;
+        if (combatSystem.inspiration > 2)
+        {
+            if (!pointHability1)
+            {
+                Hability1Button.color = new Color32(241, 178, 35, 255);
+                pointHability1 = true;
+                Hability1UI.GetComponent<Button>().interactable = true;
+                //unitgridcombat llamar ataque especial = true
+            }
+            else
+            {
+                Hability1Button.color = Color.white;
+                pointHability1 = false;
+                Hability1UI.GetComponent<Button>().interactable = false;
+                //unitgridcombat llamar ataque especial = false
+            }
+        }
+    }
 
+    public void ActivateHability2()
+    {
+        if (pointHability2) Hability2Button.color = Color.white;
+        if (combatSystem.inspiration > 2)
+        {
+            if (!pointHability1)
+            {
+                Hability2Button.color = new Color32(241, 178, 35, 255);
+                pointHability2 = true;
+                //unitgridcombat llamar ataque especial = true
+            }
+            else
+            {
+                Hability2Button.color = Color.white;
+                pointHability2 = false;
+                //unitgridcombat llamar ataque especial = false
+            }
+        }
     }
 
 
@@ -138,6 +196,10 @@ public class InspirationUI : MonoBehaviour
         pointAttackUI.SetActive(false);
         pointMoveUI.SetActive(false);
         pointHabilitiesUI.SetActive(false);
+        pointHability1 = true;
+        pointHability2 = true;
+        ActivateHability1();
+        ActivateHability2();
     }
 
     //if you are moving or attacking, stop showing the point buttons
@@ -145,6 +207,8 @@ public class InspirationUI : MonoBehaviour
     {
         pointAttackUI.SetActive(false);
         pointMoveUI.SetActive(false);
+        pointHabilitiesUI.SetActive(false);
+
     }
 
     public void InspirationAttack()
@@ -190,7 +254,7 @@ public class InspirationUI : MonoBehaviour
         }
     }
 
-    public void ManageInspiration()
+    public void ManageInspirationBase()
     {
         if (combatSystem.inspiration > 0 && inspirationIndexUI >= 0)
         {
@@ -202,6 +266,23 @@ public class InspirationUI : MonoBehaviour
             else
             {
                 inspirationIndexUI++;
+                alreadyRestedInspiration = false;
+            }
+        }
+    }
+
+    public void ManageInspirationHability()
+    {
+        if (combatSystem.inspiration > 2 && inspirationIndexUI >= 0)
+        {
+            if (!alreadyRestedInspiration)
+            {
+                inspirationIndexUI = inspirationIndexUI - 3;
+                alreadyRestedInspiration = true;
+            }
+            else
+            {
+                inspirationIndexUI = inspirationIndexUI + 3;
                 alreadyRestedInspiration = false;
             }
         }
