@@ -10,6 +10,13 @@ public class InspirationUI : MonoBehaviour
     public Image AttackButton;
     public Image MoveButton;
 
+    public Image HabilitiesButton;
+    public Image Hability1Button;
+    public Image Hability2Button;
+    public GameObject pointHabilitiesUI;
+    public GameObject pointHability1UI;
+    public GameObject pointHability2UI;
+
     public GameObject Inspiration1;
     public GameObject Inspiration2;
     public GameObject Inspiration3;
@@ -77,11 +84,9 @@ public class InspirationUI : MonoBehaviour
 
     public void ShowPointMove()
     {
-        Debug.Log(combatSystem.inspiration);
-        Debug.Log(inspirationIndexUI + "index");
-        Debug.Log(alreadyRestedInspiration);
         pointMoveUI.SetActive(true);
         pointAttackUI.SetActive(false);
+        pointHabilitiesUI.SetActive(false);
         pointAttack = true;
         pointMove = true;
         combatSystem.inspiredAttack = false;
@@ -98,6 +103,7 @@ public class InspirationUI : MonoBehaviour
     {
         pointAttackUI.SetActive(true);
         pointMoveUI.SetActive(false);
+        pointHabilitiesUI.SetActive(false);
         pointAttack = true;
         pointMove = true;
         combatSystem.inspiredAttack = false;
@@ -110,6 +116,18 @@ public class InspirationUI : MonoBehaviour
         InspirationAttack();
         InspirationMove();
     }
+
+    public void ShowPointHabilities() 
+    {
+        pointMoveUI.SetActive(false);
+        pointAttackUI.SetActive(false);
+        pointHabilitiesUI.SetActive(true);
+
+
+
+    }
+
+
     public void HidePointsSkip()
     {
         if (alreadyRestedInspiration && !alreadyUsedInspiration)
@@ -119,6 +137,7 @@ public class InspirationUI : MonoBehaviour
         }
         pointAttackUI.SetActive(false);
         pointMoveUI.SetActive(false);
+        pointHabilitiesUI.SetActive(false);
     }
 
     //if you are moving or attacking, stop showing the point buttons
