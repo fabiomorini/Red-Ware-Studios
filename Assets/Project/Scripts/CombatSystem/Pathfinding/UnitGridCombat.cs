@@ -478,7 +478,13 @@ public class UnitGridCombat : MonoBehaviour {
 
     public void HealAlly(UnitGridCombat unitGridCombat)
     {
-        unitGridCombat.Heal(this, healAmount);
+        if (sceneCombatSystem.hexOfNature)
+        {
+            unitGridCombat.Heal(this, 60);
+            sceneCombatSystem.hexOfNature = false;
+            sceneCombatSystem.inspiration -= 3;
+        }
+        else unitGridCombat.Heal(this, healAmount);
     }
 
     public void Heal(UnitGridCombat Attacker, int healAmount)

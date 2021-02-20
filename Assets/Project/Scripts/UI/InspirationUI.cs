@@ -94,6 +94,7 @@ public class InspirationUI : MonoBehaviour
         pointHability2 = true;
         combatSystem.inspiredAttack = false;
         combatSystem.inspiredMovement = false;
+        DeactivateHabilities();
         if (alreadyRestedInspiration && !alreadyUsedInspiration)
         {
             inspirationIndexUI = combatSystem.inspiration;
@@ -115,6 +116,7 @@ public class InspirationUI : MonoBehaviour
         pointHability2 = true;
         combatSystem.inspiredAttack = false;
         combatSystem.inspiredMovement = false;
+        DeactivateHabilities();
         if (alreadyRestedInspiration && !alreadyUsedInspiration)
         {
             inspirationIndexUI = combatSystem.inspiration;
@@ -185,6 +187,71 @@ public class InspirationUI : MonoBehaviour
         }
     }
 
+    public void InspirationHability1()
+    {
+        if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
+        {
+            combatSystem.doubleSlash = true;
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
+        {
+            combatSystem.boltofPrecision = true;
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
+        {
+            combatSystem.hexOfNature = true;
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
+        {
+            combatSystem.overload = true;
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
+        {
+            combatSystem.fireBurst = true;
+        }
+    }
+
+
+
+    public void InspirationHability2()
+    {
+        if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
+        {
+            combatSystem.justicesExecute = true;
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
+        {
+            combatSystem.windRush = true;
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
+        {
+            combatSystem.divineGrace = true;
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
+        {
+            combatSystem.whirlwind = true;
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
+        {
+            combatSystem.summon = true;
+        }
+    }
+
+    private void DeactivateHabilities()
+    {
+        combatSystem.doubleSlash = false;
+        combatSystem.justicesExecute = false;
+        combatSystem.boltofPrecision = false;
+        combatSystem.windRush = false;
+        combatSystem.hexOfNature = false;
+        combatSystem.divineGrace = false;
+        combatSystem.overload = false;
+        combatSystem.whirlwind = false;
+        combatSystem.fireBurst = false;
+        combatSystem.summon = false;
+
+    }
+
 
     public void HidePointsSkip()
     {
@@ -198,6 +265,7 @@ public class InspirationUI : MonoBehaviour
         pointHabilitiesUI.SetActive(false);
         pointHability1 = true;
         pointHability2 = true;
+        DeactivateHabilities();
         ActivateHability1();
         ActivateHability2();
     }
@@ -254,6 +322,47 @@ public class InspirationUI : MonoBehaviour
         }
     }
 
+    public void HabilitiesSelectorL1()
+    {
+        if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
+        {
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
+        {
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
+        {
+            combatSystem.hexOfNature = true;
+            combatSystem.SetAttackingTrue();
+            combatSystem.AttackAllyVisual();
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
+        {
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
+        {
+        }
+    }
+
+    public void HabilitiesSelectorL2()
+    {
+        if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
+        {
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
+        {
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
+        {
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
+        {
+        }
+        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
+        {
+        }
+    }
+
     public void ManageInspirationBase()
     {
         if (combatSystem.inspiration > 0 && inspirationIndexUI >= 0)
@@ -284,6 +393,7 @@ public class InspirationUI : MonoBehaviour
             {
                 inspirationIndexUI = inspirationIndexUI + 3;
                 alreadyRestedInspiration = false;
+                DeactivateHabilities();
             }
         }
     }

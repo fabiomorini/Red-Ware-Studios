@@ -1940,6 +1940,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1273261309}
+        m_MethodName: HabilitiesSelectorL1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &365673962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4486,6 +4497,16 @@ MonoBehaviour:
   maxMoveDistance: 2
   inspiredAttack: 0
   inspiredMovement: 0
+  doubleSlash: 0
+  justicesExecute: 0
+  boltofPrecision: 0
+  windRush: 0
+  hexOfNature: 0
+  divineGrace: 0
+  overload: 0
+  whirlwind: 0
+  fireBurst: 0
+  summon: 0
   Minimenu: {fileID: 1321756828}
   moving: 0
   attacking: 0
@@ -4496,6 +4517,8 @@ MonoBehaviour:
   moveButton: {fileID: 942170753}
   healthMenu: {fileID: 31388274}
   inspirationUI: {fileID: 163661247}
+  hability1Text: {fileID: 1958981713}
+  hability2Text: {fileID: 989494491}
   alliesLeftText: {fileID: 583786642}
   totalAlliesLeftText: {fileID: 790866644}
   coinsRewardText: {fileID: 2117674758}
@@ -5448,17 +5471,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 747323689}
-        m_MethodName: SetAttackingTrue
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1682233569}
         m_MethodName: Play
         m_Mode: 1
@@ -5471,7 +5483,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1273261309}
-        m_MethodName: ShowPointAttack
+        m_MethodName: HabilitiesSelectorL2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5676,8 +5688,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -10737,7 +10749,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Habilities
+  m_text: Bolt of Precision
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2c077880a81cf29468b74e6abdf92a0c, type: 2}
   m_sharedMaterial: {fileID: 2691118237745086368, guid: 2c077880a81cf29468b74e6abdf92a0c,
@@ -10765,8 +10777,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

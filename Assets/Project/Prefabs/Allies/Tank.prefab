@@ -386,7 +386,6 @@ MonoBehaviour:
   curHealth: 0
   imDead: 0
   damageAmount: 1
-  level: 1
   slashAnim: {fileID: 8288384011522629396}
   healAnim: {fileID: 5465518042890320815}
   playerSprite: {fileID: 8519992233551733056}
