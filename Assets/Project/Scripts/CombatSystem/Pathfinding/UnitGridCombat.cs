@@ -442,7 +442,10 @@ public class UnitGridCombat : MonoBehaviour {
             damageAmount = damageAmount - ((damageAmount / 100.0f) * defense);
         }
 
-        if (sceneCombatSystem.boltofPrecision) damageAmount = damageAmount + ((damageAmount / 100.0f) * 40.0f);
+        if (sceneCombatSystem.boltOfPrecision)
+        {
+            damageAmount = damageAmount + ((damageAmount / 100.0f) * 40.0f);
+        }
 
         return damageAmount;
     }
@@ -512,7 +515,7 @@ public class UnitGridCombat : MonoBehaviour {
         {
             return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeMelee;
         }
-        else if (gameObject.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED && sceneCombatSystem.boltofPrecision)
+        else if (gameObject.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED && sceneCombatSystem.boltOfPrecision)
         {
             return true;
         }

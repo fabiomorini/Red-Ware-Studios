@@ -31,7 +31,7 @@ public class GridCombatSystem : MonoBehaviour {
     private bool canMoveThisTurn;
     private bool canAttackThisTurn;
     [HideInInspector] public bool hasUpdatedPositionMove = false;
-    private bool hasUpdatedPositionAttack = false;
+    [HideInInspector] public bool hasUpdatedPositionAttack = false;
 
     //Sistema de spawning de tropas según cuantas tienes compradas en el cuartel
     //deep lore, se usa solo para que no de error, no sirve para nada más
@@ -90,7 +90,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     [HideInInspector] public bool doubleSlash = false;
     [HideInInspector] public bool justicesExecute = false;
-    [HideInInspector] public bool boltofPrecision = false;
+    [HideInInspector] public bool boltOfPrecision = false;
     [HideInInspector] public bool windRush = false;
     [HideInInspector] public bool hexOfNature = false;
     [HideInInspector] public bool divineGrace = false;
@@ -129,6 +129,10 @@ public class GridCombatSystem : MonoBehaviour {
     private bool surrender;
     public GameObject SurrenderUI;
 
+    public GameObject fireUI;
+    public GameObject Center;
+    private bool isHabilityActive;
+
     private int experienceKnight;
     private int experienceArcher;
     private int experienceHealer;
@@ -142,8 +146,6 @@ public class GridCombatSystem : MonoBehaviour {
     public TMP_Text experienceMageTxt;
 
     [HideInInspector] public int inspiration;
-
-
 
     private void Start() {
         StartCoroutine(YourTurnUI());
@@ -204,6 +206,12 @@ public class GridCombatSystem : MonoBehaviour {
                 UpdateStatisticMenu();
                 unitGridCombat.setSelectedActive();
                 setMenuVisible();
+
+                if (boltOfPrecision && !hasUpdatedPositionAttack)
+                {
+                    SetAttackingTrue();
+                }
+
                 if (moving)
                 {
                     MoveAllyVisual();
@@ -229,9 +237,10 @@ public class GridCombatSystem : MonoBehaviour {
                     }
                     else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
                     {
-                        if (boltofPrecision)
+                        if (boltOfPrecision && !hasUpdatedPositionAttack)
                         {
-                            maxMoveDistance = 14;
+                            SpawnGridHability();
+                            hasUpdatedPositionAttack = true;
                         }
                         else
                         {
@@ -251,7 +260,7 @@ public class GridCombatSystem : MonoBehaviour {
                         maxMoveDistance = 4;
                     }
 
-                    if (!hasUpdatedPositionAttack)
+                    if (!hasUpdatedPositionAttack && !boltOfPrecision)
                     {
                         UpdateValidMovePositions();
                         hasUpdatedPositionAttack = true;
@@ -487,7 +496,8 @@ public class GridCombatSystem : MonoBehaviour {
         allyTurn.SetActive(false);
     }
 
-    public void UpdateValidMovePositions() {
+    public void UpdateValidMovePositions()
+    {
         Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
         GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
 
@@ -502,19 +512,26 @@ public class GridCombatSystem : MonoBehaviour {
         );
 
         // Reset Entire Grid ValidMovePositions
-        for (int x = 0; x < grid.GetWidth(); x++) {
-            for (int y = 0; y < grid.GetHeight(); y++) {
+        for (int x = 0; x < grid.GetWidth(); x++)
+        {
+            for (int y = 0; y < grid.GetHeight(); y++)
+            {
                 grid.GetGridObject(x, y).SetIsValidMovePosition(false);
             }
         }
 
-        for (int x = unitX - maxMoveDistance; x <= unitX + maxMoveDistance; x++) {
-            for (int y = unitY - maxMoveDistance; y <= unitY + maxMoveDistance; y++) {
-                if (gridPathfinding.IsWalkable(x, y)) {
+        for (int x = unitX - maxMoveDistance; x <= unitX + maxMoveDistance; x++)
+        {
+            for (int y = unitY - maxMoveDistance; y <= unitY + maxMoveDistance; y++)
+            {
+                if (gridPathfinding.IsWalkable(x, y))
+                {
                     // Position is Walkable
-                    if (gridPathfinding.HasPath(unitX, unitY, x, y)) {
+                    if (gridPathfinding.HasPath(unitX, unitY, x, y))
+                    {
                         // There is a Path
-                        if (gridPathfinding.GetPath(unitX, unitY, x, y).Count <= maxMoveDistance) {
+                        if (gridPathfinding.GetPath(unitX, unitY, x, y).Count <= maxMoveDistance)
+                        {
                             // Path within Move Distance
 
                             // Set Tilemap Tile to Move
@@ -523,18 +540,55 @@ public class GridCombatSystem : MonoBehaviour {
                             );
 
                             grid.GetGridObject(x, y).SetIsValidMovePosition(true);
-                        } else { 
+                        }
+                        else
+                        {
                             // Path outside Move Distance!
                         }
-                    } else {
+                    }
+                    else
+                    {
                         // No valid Path
                     }
-                } else {
+                }
+                else
+                {
                     // Position is not Walkable
                 }
             }
         }
     }
+
+    public void PrintTilemap()
+    {
+        Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+        GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
+
+        grid.GetXY(Center.transform.position, out int unitX, out int unitY);
+
+        // Set entire Tilemap to Invisible
+        GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
+            MovementTilemap.TilemapObject.TilemapSprite.None
+        );
+
+        if (!isHabilityActive) 
+        { 
+            for (int x = unitX - 7; x <= unitX + 7; x++)
+            {
+                for (int y = unitY - 7; y <= unitY + 7; y++)
+                {
+                    if (gridPathfinding.IsWalkable(x, y))
+                    {
+                        // Set Tilemap Tile to Move
+                        GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetTilemapSprite(
+                            x, y, MovementTilemap.TilemapObject.TilemapSprite.Move
+                        );
+                    }
+                }
+            }
+        }
+    }
+
     public void CheckIfGameIsOver(){
         if (enemiesTeamList.Count == 0){
             SoundManager.PlaySound("Victory");
@@ -812,6 +866,11 @@ public class GridCombatSystem : MonoBehaviour {
             // Check if clicking on a unit position
             if (gridObject.GetUnitGridCombat() != null)
             {
+                if (boltOfPrecision) // borra el rango de la habilidad de rango infinito
+                {
+                    SpawnGridHability();
+                    inspirationManager.ActivateHability1();
+                }
                 if (unitGridCombat.IsEnemy(gridObject.GetUnitGridCombat()))
                 {
                     // Clicked on an Enemy of the current unit
@@ -822,7 +881,7 @@ public class GridCombatSystem : MonoBehaviour {
                         {
                             Minimenu.SetActive(true);
                             canAttackThisTurn = false;
-                            if (inspirationManager.alreadyRestedInspiration && !doubleSlash)
+                            if (inspirationManager.alreadyRestedInspiration && !doubleSlash && !boltOfPrecision)
                             {
                                 inspiration--;
                                 inspirationManager.alreadyUsedInspiration = true;
@@ -838,9 +897,9 @@ public class GridCombatSystem : MonoBehaviour {
                                 unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
                             }
 
-                            if(boltofPrecision)
+                            if(boltOfPrecision)
                             {
-                                boltofPrecision = false;
+                                boltOfPrecision = false;
                                 inspiration -= 3;
                             }
                             inspiredAttack = false;
@@ -868,6 +927,20 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
     }
+
+    public void SpawnGridHability()
+    {
+        if (!isHabilityActive)
+        {
+            PrintTilemap();
+        }
+        else
+        {
+            PrintTilemap();
+        }
+        isHabilityActive = !isHabilityActive;
+    }
+
     private IEnumerator DoubleSlash(GridObject gridObject)
     {
         unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());

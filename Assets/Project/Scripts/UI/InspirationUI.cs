@@ -195,7 +195,7 @@ public class InspirationUI : MonoBehaviour
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
-            combatSystem.boltofPrecision = true;
+            combatSystem.boltOfPrecision = true;
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
         {
@@ -241,7 +241,7 @@ public class InspirationUI : MonoBehaviour
     {
         combatSystem.doubleSlash = false;
         combatSystem.justicesExecute = false;
-        combatSystem.boltofPrecision = false;
+        combatSystem.boltOfPrecision = false;
         combatSystem.windRush = false;
         combatSystem.hexOfNature = false;
         combatSystem.divineGrace = false;
@@ -331,9 +331,9 @@ public class InspirationUI : MonoBehaviour
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
-            combatSystem.boltofPrecision = true;
-            combatSystem.SetAttackingTrue();
-            combatSystem.AttackAllyVisual();
+            combatSystem.boltOfPrecision = true;
+            combatSystem.hasUpdatedPositionAttack = false;
+
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
         {
@@ -350,6 +350,8 @@ public class InspirationUI : MonoBehaviour
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {
+            combatSystem.fireBurst = true;
+            combatSystem.SpawnGridHability();
         }
     }
 

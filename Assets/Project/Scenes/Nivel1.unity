@@ -4528,6 +4528,8 @@ MonoBehaviour:
   enemyUI: {fileID: 1753734441}
   endGameUI: {fileID: 1864700914}
   SurrenderUI: {fileID: 416866145}
+  fireUI: {fileID: 480572144873647580, guid: 4633a30691653454f9880852e22bd37e, type: 3}
+  Center: {fileID: 1732554268}
   experienceKnightTxt: {fileID: 1553432355}
   experienceArcherTxt: {fileID: 1806203792}
   experienceHealerTxt: {fileID: 1595045972}
@@ -9605,6 +9607,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727048729}
   m_CullTransparentMesh: 0
+--- !u!1 &1732554268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1732554269}
+  m_Layer: 0
+  m_Name: Center
+  m_TagString: Untagged
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1732554269
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732554268}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 235.1, y: 104.5, z: -4.5756335}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1753734441
 GameObject:
   m_ObjectHideFlags: 0
