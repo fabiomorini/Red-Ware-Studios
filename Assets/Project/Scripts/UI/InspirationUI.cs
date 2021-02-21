@@ -331,6 +331,9 @@ public class InspirationUI : MonoBehaviour
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
+            combatSystem.boltofPrecision = true;
+            combatSystem.SetAttackingTrue();
+            combatSystem.AttackAllyVisual();
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
         {

@@ -229,7 +229,14 @@ public class GridCombatSystem : MonoBehaviour {
                     }
                     else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
                     {
-                        maxMoveDistance = 5;
+                        if (boltofPrecision)
+                        {
+                            maxMoveDistance = 14;
+                        }
+                        else
+                        {
+                            maxMoveDistance = 5;
+                        }
                     }
                     else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
                     {
@@ -829,6 +836,12 @@ public class GridCombatSystem : MonoBehaviour {
                             else
                             {
                                 unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                            }
+
+                            if(boltofPrecision)
+                            {
+                                boltofPrecision = false;
+                                inspiration -= 3;
                             }
                             inspiredAttack = false;
                             inspirationManager.pointAttack = true;
