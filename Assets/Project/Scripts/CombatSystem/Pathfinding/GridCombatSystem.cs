@@ -928,6 +928,99 @@ public class GridCombatSystem : MonoBehaviour {
         }
     }
 
+    public void FireburstHability()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+
+            Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+            GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
+            GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
+
+            if(gridPathfinding.IsWalkable((int)GetMouseWorldPosition().x, (int)GetMouseWorldPosition().y))
+            {
+                SpawnGridHability();
+                int x = (int)GetMouseWorldPosition().x;
+                int lastDigitX = Mathf.Abs(x) % 10;
+                switch (lastDigitX)
+                {
+                    case 9:
+                        x -= 4;
+                        break;
+                    case 8:
+                        x -= 3;
+                        break;
+                    case 7:
+                        x -= 2;
+                        break;
+                    case 6:
+                        x -= 1;
+                        break;
+                    case 5:
+                        x -= 0;
+                        break;
+                    case 4:
+                        x += 1;
+                        break;
+                    case 3:
+                        x += 2;
+                        break;
+                    case 2:
+                        x += 3;
+                        break;
+                    case 1:
+                        x += 4;
+                        break;
+                    case 0:
+                        x -= 5;
+                        break;
+                }
+
+                int y = (int)GetMouseWorldPosition().y;
+                int lastDigitY = Mathf.Abs(x) % 10;
+                switch (lastDigitY)
+                {
+                    case 9:
+                        y -= 4;
+                        break;
+                    case 8:
+                        y -= 3;
+                        break;
+                    case 7:
+                        y -= 2;
+                        break;
+                    case 6:
+                        y -= 1;
+                        break;
+                    case 5:
+                        y -= 0;
+                        break;
+                    case 4:
+                        y += 1;
+                        break;
+                    case 3:
+                        y += 2;
+                        break;
+                    case 2:
+                        y += 3;
+                        break;
+                    case 1:
+                        y += 4;
+                        break;
+                    case 0:
+                        y -= 5;
+                        break;
+                }
+                Vector3 position = new Vector3(x, y, 0);
+
+                Instantiate(fireUI, position, Quaternion.identity);
+                attacking = false;
+                attackButton.interactable = false;
+            }
+        }
+    }
+
+
     public void SpawnGridHability()
     {
         if (!isHabilityActive)

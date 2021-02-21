@@ -352,6 +352,7 @@ public class InspirationUI : MonoBehaviour
         {
             combatSystem.fireBurst = true;
             combatSystem.SpawnGridHability();
+            combatSystem.FireburstHability();
         }
     }
 
