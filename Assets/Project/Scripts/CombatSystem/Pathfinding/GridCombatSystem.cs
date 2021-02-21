@@ -88,6 +88,17 @@ public class GridCombatSystem : MonoBehaviour {
     [HideInInspector] public bool inspiredAttack = false;
     [HideInInspector] public bool inspiredMovement = false;
 
+    [HideInInspector] public bool doubleSlash = false;
+    [HideInInspector] public bool justicesExecute = false;
+    [HideInInspector] public bool boltofPrecision = false;
+    [HideInInspector] public bool windRush = false;
+    [HideInInspector] public bool hexOfNature = false;
+    [HideInInspector] public bool divineGrace = false;
+    [HideInInspector] public bool overload = false;
+    [HideInInspector] public bool whirlwind = false;
+    [HideInInspector] public bool fireBurst = false;
+    [HideInInspector] public bool summon = false;
+
     //minimenu in-game
     public GameObject Minimenu;
     private bool isMenuVisible;
@@ -102,6 +113,9 @@ public class GridCombatSystem : MonoBehaviour {
     public GameObject healthMenu;
     public GameObject inspirationUI;
     private InspirationUI inspirationManager;
+
+    public TMP_Text hability1Text;
+    public TMP_Text hability2Text;
 
     //EndMenu UI
     public TMP_Text alliesLeftText;
@@ -175,7 +189,7 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
         SelectNextActiveUnit(); 
-        inspiration = 1;
+        inspiration = 3;
     }
 
     private void Update()
@@ -644,6 +658,35 @@ public class GridCombatSystem : MonoBehaviour {
         }
     }
 
+    private void CheckNameHability()
+    {
+        if(unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
+        {
+            hability1Text.SetText("Double Slash");
+            hability2Text.SetText("Justice’s Execute");
+        }
+        else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
+        {
+            hability1Text.SetText("Bolt of Precision");
+            hability2Text.SetText("Wind Rush");
+        }
+        else if(unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
+        {
+            hability1Text.SetText("Hex of Nature");
+            hability2Text.SetText("Divine Grace");
+        }
+        else if(unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
+        {
+            hability1Text.SetText("Overload");
+            hability2Text.SetText("Whirlwind");
+        }
+        else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
+        {
+            hability1Text.SetText("Fire Burst");
+            hability2Text.SetText("Summon");
+        }
+    }
+
     private void SelectNextActiveUnit()
     {
 
@@ -664,6 +707,7 @@ public class GridCombatSystem : MonoBehaviour {
         }
 
         unitGridCombat = GetNextActiveUnit();
+        CheckNameHability(); // update el nombre de las habilidades
         GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
         canMoveThisTurn = true;
         canAttackThisTurn = true;
