@@ -245,7 +245,6 @@ public class InspirationUI : MonoBehaviour
         combatSystem.windRush = false;
         combatSystem.hexOfNature = false;
         combatSystem.divineGrace = false;
-        combatSystem.overload = false;
         combatSystem.whirlwind = false;
         combatSystem.fireBurst = false;
         combatSystem.summon = false;
@@ -326,6 +325,9 @@ public class InspirationUI : MonoBehaviour
     {
         if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
         {
+            combatSystem.doubleSlash = true;
+            combatSystem.SetAttackingTrue();
+            combatSystem.AttackAllyVisual();
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
@@ -338,6 +340,10 @@ public class InspirationUI : MonoBehaviour
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
         {
+            combatSystem.overload = true;
+            combatSystem.alliesTeamList[combatSystem.allyTeamActiveUnitIndex].GetComponent<UnitGridCombat>().isOverloaded = true;
+            combatSystem.inspiration -= 3;
+            Hability1UI.GetComponent<Button>().interactable = false;
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {

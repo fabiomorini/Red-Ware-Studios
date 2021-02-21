@@ -701,6 +701,10 @@ public class GridCombatSystem : MonoBehaviour {
             {
                 inspiration++;
             }
+            for(int i = 0; i < alliesTeamList.Count; i++) // reset de la habilidad overload cuando acaban los enemigos
+            {
+                alliesTeamList[i].GetComponent<UnitGridCombat>().isOverloaded = false;
+            }
             isAllyTurn = true;
             StartCoroutine(YourTurnUI());
             enemiesTeamActiveUnitIndex = -1;
@@ -811,13 +815,21 @@ public class GridCombatSystem : MonoBehaviour {
                         {
                             Minimenu.SetActive(true);
                             canAttackThisTurn = false;
-                            if (inspirationManager.alreadyRestedInspiration)
+                            if (inspirationManager.alreadyRestedInspiration && !doubleSlash)
                             {
                                 inspiration--;
                                 inspirationManager.alreadyUsedInspiration = true;
                             }
                             // Attack Enemy
-                            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                            if (doubleSlash)
+                            {
+                                StartCoroutine(DoubleSlash(gridObject));
+                                inspiration -= 3;
+                            }
+                            else
+                            {
+                                unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                            }
                             inspiredAttack = false;
                             inspirationManager.pointAttack = true;
                             inspirationManager.InspirationAttack();
@@ -843,6 +855,14 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
     }
+    private IEnumerator DoubleSlash(GridObject gridObject)
+    {
+        unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+        yield return new WaitForSeconds(0.5f);
+        unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+        doubleSlash = false;
+    }
+
     public void SetAttackingTrue()
     {/*
         if (inspirationManager.alreadyRestedInspiration)

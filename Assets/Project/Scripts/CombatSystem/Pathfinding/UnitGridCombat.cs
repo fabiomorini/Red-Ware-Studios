@@ -12,8 +12,10 @@ public class UnitGridCombat : MonoBehaviour {
     [HideInInspector] public int maxHealth;
     [HideInInspector] public int curHealth;
     [HideInInspector] public bool imDead = false;
+    [HideInInspector] public bool isOverloaded = false;
     [HideInInspector] public float damageAmount;
     private int defense;
+    [HideInInspector] public int overloadIndex;
 
     private int attackRangeMelee = 11;
     private int attackRangeRanged = 41;
@@ -49,6 +51,7 @@ public class UnitGridCombat : MonoBehaviour {
     }
 
     private void Awake() {
+        isOverloaded = false;
         healthBar = GetComponentInChildren<HealthBar>();
         characterPrefs = GetComponent<CHARACTER_PREFS>();
         selectedGameObject = transform.Find("SelectedArrow").gameObject;
@@ -316,7 +319,6 @@ public class UnitGridCombat : MonoBehaviour {
         float dmg;
         dmg = RandomDamage(damageAmount);
         healthSystem.Damage((int)dmg);
-        Debug.Log(dmg);
 
         if (healthSystem.IsDead()){
             if(Attacker.GetTeam() == Team.Blue) 
@@ -431,7 +433,15 @@ public class UnitGridCombat : MonoBehaviour {
             //feedback
         }
 
-        damageAmount = damageAmount - ((damageAmount / 100.0f) * defense);
+        if(this.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.TANK && sceneCombatSystem.overload && isOverloaded)
+        {
+            damageAmount = damageAmount - ((damageAmount / 100.0f) * 75.0f);
+        }
+        else
+        {
+            damageAmount = damageAmount - ((damageAmount / 100.0f) * defense);
+        }
+
         return damageAmount;
     }
 
