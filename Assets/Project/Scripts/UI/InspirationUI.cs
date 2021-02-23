@@ -248,7 +248,6 @@ public class InspirationUI : MonoBehaviour
         combatSystem.whirlwind = false;
         combatSystem.fireBurst = false;
         combatSystem.summon = false;
-
     }
 
 
@@ -333,7 +332,6 @@ public class InspirationUI : MonoBehaviour
         {
             combatSystem.boltOfPrecision = true;
             combatSystem.hasUpdatedPositionAttack = false;
-
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
         {
@@ -352,7 +350,7 @@ public class InspirationUI : MonoBehaviour
         {
             combatSystem.fireBurst = true;
             combatSystem.SpawnGridHability();
-            combatSystem.FireburstHability();
+            Hability1UI.GetComponent<Button>().interactable = false;
         }
     }
 

@@ -131,7 +131,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     public GameObject fireUI;
     public GameObject Center;
-    private bool isHabilityActive;
+    [HideInInspector] public bool isHabilityActive;
 
     private int experienceKnight;
     private int experienceArcher;
@@ -144,6 +144,9 @@ public class GridCombatSystem : MonoBehaviour {
     public TMP_Text experienceHealerTxt;
     public TMP_Text experienceTankTxt;
     public TMP_Text experienceMageTxt;
+
+    private Vector3 fireBurstBox = new Vector3(0, 0, 0);
+    private bool feedbackFireBurst = false;
 
     [HideInInspector] public int inspiration;
 
@@ -210,6 +213,11 @@ public class GridCombatSystem : MonoBehaviour {
                 if (boltOfPrecision && !hasUpdatedPositionAttack)
                 {
                     SetAttackingTrue();
+                }
+
+                if (fireBurst)
+                {
+                    FireburstHability();
                 }
 
                 if (moving)
@@ -291,6 +299,14 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
     }
+    private void ShowFireBurst()
+    {
+        if (feedbackFireBurst) // no queremos que se borre la casilla del fireburst
+        {
+            GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetTilemapSprite(
+            (int)fireBurstBox.x, (int)fireBurstBox.y, MovementTilemap.TilemapObject.TilemapSprite.Move);
+        }
+    }
 
     private void UpdateStatisticMenu()
     {
@@ -324,6 +340,7 @@ public class GridCombatSystem : MonoBehaviour {
         }
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
+        ShowFireBurst();
         yield return new WaitForSeconds(1);
         CheckTurnOver();
     }
@@ -510,6 +527,7 @@ public class GridCombatSystem : MonoBehaviour {
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
             MovementTilemap.TilemapObject.TilemapSprite.None
         );
+        ShowFireBurst();
 
         // Reset Entire Grid ValidMovePositions
         for (int x = 0; x < grid.GetWidth(); x++)
@@ -570,6 +588,7 @@ public class GridCombatSystem : MonoBehaviour {
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
             MovementTilemap.TilemapObject.TilemapSprite.None
         );
+        ShowFireBurst();
 
         if (!isHabilityActive) 
         { 
@@ -661,6 +680,7 @@ public class GridCombatSystem : MonoBehaviour {
         unitGridCombat.selectedGameObject.SetActive(false);
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
+        ShowFireBurst();
     }
 
     public void ExitFromBattle()
@@ -690,16 +710,17 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void ForceTurnOver()
     {
-            unitGridCombat.setSelectedFalse();
-            //iA_Enemies.ResetPositions();
-            SelectNextActiveUnit();
-            //UpdateValidMovePositions();
-            GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
-            MovementTilemap.TilemapObject.TilemapSprite.None);
-            CheckMinimenuAlly();
-            isWaiting = true;
-            hasUpdatedPositionMove = false;
-            hasUpdatedPositionAttack = false;
+        unitGridCombat.setSelectedFalse();
+        //iA_Enemies.ResetPositions();
+        SelectNextActiveUnit();
+        //UpdateValidMovePositions();
+        GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
+        MovementTilemap.TilemapObject.TilemapSprite.None);
+        ShowFireBurst();
+        CheckMinimenuAlly();
+        isWaiting = true;
+        hasUpdatedPositionMove = false;
+        hasUpdatedPositionAttack = false;
             
     }
 
@@ -819,7 +840,7 @@ public class GridCombatSystem : MonoBehaviour {
                         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
                             MovementTilemap.TilemapObject.TilemapSprite.None
                         );
-
+                        ShowFireBurst();
                         // Remove Unit from current Grid Object
                         grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
                         // Set Unit on target Grid Object
@@ -908,6 +929,7 @@ public class GridCombatSystem : MonoBehaviour {
                             inspirationManager.HidePointsAction();
                             attacking = false;
                             attackButton.interactable = false;
+                            inspirationManager.Hability1UI.GetComponent<Button>().interactable = false;
                         }
                     }
                 }
@@ -932,92 +954,99 @@ public class GridCombatSystem : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
+            SpawnGridHability(); 
+
+            int x = (int)GetMouseWorldPosition().x;
+            int lastDigitX = Mathf.Abs(x) % 10;
+            switch (lastDigitX)
+            {
+                case 9:
+                    x -= 4;
+                    break;
+                case 8:
+                    x -= 3;
+                    break;
+                case 7:
+                    x -= 2;
+                    break;
+                case 6:
+                    x -= 1;
+                    break;
+                case 5:
+                    x -= 0;
+                    break;
+                case 4:
+                    x += 1;
+                    break;
+                case 3:
+                    x += 2;
+                    break;
+                case 2:
+                    x += 3;
+                    break;
+                case 1:
+                    x += 4;
+                    break;
+                case 0:
+                    x -= 5;
+                    break;
+            }
+
+            int y = (int)GetMouseWorldPosition().y;
+            int lastDigitY = Mathf.Abs(y) % 10;
+            switch (lastDigitY)
+            {
+                case 9:
+                    y -= 4;
+                    break;
+                case 8:
+                    y -= 3;
+                    break;
+                case 7:
+                    y -= 2;
+                    break;
+                case 6:
+                    y -= 1;
+                    break;
+                case 5:
+                    y -= 0;
+                    break;
+                case 4:
+                    y += 1;
+                    break;
+                case 3:
+                    y += 2;
+                    break;
+                case 2:
+                    y += 3;
+                    break;
+                case 1:
+                    y += 4;
+                    break;
+                case 0:
+                    y -= 5;
+                    break;
+            }
+            Vector3 position = new Vector3(x, y, 0);
+            Instantiate(fireUI, position, Quaternion.identity);
 
             Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
-            GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
-            GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
+            grid.GetXY(position, out int unitX, out int unitY);
+            x = unitX;
+            y = unitY;
+            fireBurstBox.x = x; // para no dejar de pintar la casilla
+            fireBurstBox.y = y;
+            feedbackFireBurst = true;
+            GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetTilemapSprite(
+                               x, y, MovementTilemap.TilemapObject.TilemapSprite.Move
+                               );
 
-            if(gridPathfinding.IsWalkable((int)GetMouseWorldPosition().x, (int)GetMouseWorldPosition().y))
-            {
-                SpawnGridHability();
-                int x = (int)GetMouseWorldPosition().x;
-                int lastDigitX = Mathf.Abs(x) % 10;
-                switch (lastDigitX)
-                {
-                    case 9:
-                        x -= 4;
-                        break;
-                    case 8:
-                        x -= 3;
-                        break;
-                    case 7:
-                        x -= 2;
-                        break;
-                    case 6:
-                        x -= 1;
-                        break;
-                    case 5:
-                        x -= 0;
-                        break;
-                    case 4:
-                        x += 1;
-                        break;
-                    case 3:
-                        x += 2;
-                        break;
-                    case 2:
-                        x += 3;
-                        break;
-                    case 1:
-                        x += 4;
-                        break;
-                    case 0:
-                        x -= 5;
-                        break;
-                }
-
-                int y = (int)GetMouseWorldPosition().y;
-                int lastDigitY = Mathf.Abs(x) % 10;
-                switch (lastDigitY)
-                {
-                    case 9:
-                        y -= 4;
-                        break;
-                    case 8:
-                        y -= 3;
-                        break;
-                    case 7:
-                        y -= 2;
-                        break;
-                    case 6:
-                        y -= 1;
-                        break;
-                    case 5:
-                        y -= 0;
-                        break;
-                    case 4:
-                        y += 1;
-                        break;
-                    case 3:
-                        y += 2;
-                        break;
-                    case 2:
-                        y += 3;
-                        break;
-                    case 1:
-                        y += 4;
-                        break;
-                    case 0:
-                        y -= 5;
-                        break;
-                }
-                Vector3 position = new Vector3(x, y, 0);
-
-                Instantiate(fireUI, position, Quaternion.identity);
-                attacking = false;
-                attackButton.interactable = false;
-            }
+            attacking = false;
+            attackButton.interactable = false;
+            inspiration -= 3;
+            fireBurst = false;
         }
+        
     }
 
 
