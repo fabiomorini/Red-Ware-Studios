@@ -62,7 +62,8 @@ public class MovementTilemapVisual : MonoBehaviour {
     {
         attackingColor = new Color32(187, 68, 48, 255);
         movingColor = new Color32(66, 122, 161, 255);
-
+        meshRenderer.material.color = attackingColor;
+        /*
         if (gridCombatSystem.attacking == true)
         {
             meshRenderer.material.color = attackingColor;
@@ -70,8 +71,7 @@ public class MovementTilemapVisual : MonoBehaviour {
         else if (gridCombatSystem.moving == true)
         {
             meshRenderer.material.color = movingColor;
-        }
-
+        }*/
     }
 
     public void SetGrid(MovementTilemap tilemap, Grid<MovementTilemap.TilemapObject> grid) {

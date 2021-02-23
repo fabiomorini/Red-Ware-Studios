@@ -147,6 +147,9 @@ public class GridCombatSystem : MonoBehaviour {
 
     private Vector3 fireBurstBox = new Vector3(0, 0, 0);
     private bool feedbackFireBurst = false;
+    [HideInInspector] public int burstTurns = 0;
+    private GameObject temporalFireBurst;
+
 
     [HideInInspector] public int inspiration;
 
@@ -194,7 +197,7 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
         SelectNextActiveUnit(); 
-        inspiration = 3;
+        inspiration = 4;
     }
 
     private void Update()
@@ -721,7 +724,6 @@ public class GridCombatSystem : MonoBehaviour {
         isWaiting = true;
         hasUpdatedPositionMove = false;
         hasUpdatedPositionAttack = false;
-            
     }
 
     private void CheckMinimenuAlly() 
@@ -776,9 +778,33 @@ public class GridCombatSystem : MonoBehaviour {
         {
             isAllyTurn = false;
             allyTeamActiveUnitIndex = -1;
+            if (burstTurns < 5)
+            {
+                burstTurns++;
+                CheckFireDamage();
+            }
+            else
+            {
+                Destroy(temporalFireBurst);
+                fireBurstBox.x = 0;
+                fireBurstBox.y = 0;
+            }
+                
         }
         if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
         {
+            if (burstTurns < 5)
+            {
+                burstTurns++;
+                CheckFireDamage();
+            }
+            else
+            {
+                Destroy(temporalFireBurst);
+                fireBurstBox.x = 0;
+                fireBurstBox.y = 0;
+            }
+
             if (inspiration < 4) //sumamos uno de inspiración al comienzo del turno
             {
                 inspiration++;
@@ -954,8 +980,9 @@ public class GridCombatSystem : MonoBehaviour {
     {
         if (Input.GetMouseButtonDown(0))
         {
-            SpawnGridHability(); 
-
+            SpawnGridHability();
+            burstTurns = 0;
+            inspirationManager.Hability1UI.GetComponent<Button>().interactable = false;
             int x = (int)GetMouseWorldPosition().x;
             int lastDigitX = Mathf.Abs(x) % 10;
             switch (lastDigitX)
@@ -1028,18 +1055,28 @@ public class GridCombatSystem : MonoBehaviour {
                     break;
             }
             Vector3 position = new Vector3(x, y, 0);
-            Instantiate(fireUI, position, Quaternion.identity);
+
+            if (temporalFireBurst != null) // si ya hay un fireburst, destruyelo
+            {
+                Destroy(temporalFireBurst);
+            }
+
+            temporalFireBurst = Instantiate(fireUI, position, Quaternion.identity);
 
             Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+
             grid.GetXY(position, out int unitX, out int unitY);
             x = unitX;
             y = unitY;
             fireBurstBox.x = x; // para no dejar de pintar la casilla
             fireBurstBox.y = y;
             feedbackFireBurst = true;
+
+            // Set Tilemap Tile to Move
             GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetTilemapSprite(
-                               x, y, MovementTilemap.TilemapObject.TilemapSprite.Move
-                               );
+                x, y, MovementTilemap.TilemapObject.TilemapSprite.Move);
+
+            CheckFireDamage();
 
             attacking = false;
             attackButton.interactable = false;
@@ -1047,6 +1084,29 @@ public class GridCombatSystem : MonoBehaviour {
             fireBurst = false;
         }
         
+    }
+
+    public void CheckFireDamage()
+    {
+        Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+        for (int i = 0; i < alliesTeamList.Count; i++)
+        {
+            grid.GetXY(alliesTeamList[i].GetPosition(), out int unitX, out int unitY);
+
+            if ( unitX == fireBurstBox.x && unitY == fireBurstBox.y)
+            {
+                alliesTeamList[i].FireDamage();
+            }
+        }
+        for (int i = 0; i < enemiesTeamList.Count; i++)
+        {
+            grid.GetXY(enemiesTeamList[i].GetPosition(), out int unitX, out int unitY);
+
+            if (unitX == fireBurstBox.x && unitY == fireBurstBox.y)
+            {
+                enemiesTeamList[i].FireDamage();
+            }
+        }
     }
 
 

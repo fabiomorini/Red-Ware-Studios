@@ -36,7 +36,7 @@ public class InspirationUI : MonoBehaviour
     {
         alreadyRestedInspiration = false;
         alreadyUsedInspiration = false;
-        inspirationIndexUI = 3;
+        inspirationIndexUI = 4;
     }
 
     private void Update()
@@ -350,7 +350,6 @@ public class InspirationUI : MonoBehaviour
         {
             combatSystem.fireBurst = true;
             combatSystem.SpawnGridHability();
-            Hability1UI.GetComponent<Button>().interactable = false;
         }
     }
 
