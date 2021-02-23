@@ -12,8 +12,10 @@ public class UnitGridCombat : MonoBehaviour {
     [HideInInspector] public int maxHealth;
     [HideInInspector] public int curHealth;
     [HideInInspector] public bool imDead = false;
+    [HideInInspector] public bool isOverloaded = false;
     [HideInInspector] public float damageAmount;
     private int defense;
+    [HideInInspector] public int overloadIndex;
 
     private int attackRangeMelee = 11;
     private int attackRangeRanged = 41;
@@ -29,6 +31,10 @@ public class UnitGridCombat : MonoBehaviour {
 
     private int rangeHeal = 30;
     private int healAmount = 20;
+
+    // numero de veces en las que el fuego te haya dañado
+    private int fireBurstIndex = 0;
+    private int fireDamage;
 
     // Feedback
     public GameObject slashAnim;
@@ -49,6 +55,7 @@ public class UnitGridCombat : MonoBehaviour {
     }
 
     private void Awake() {
+        isOverloaded = false;
         healthBar = GetComponentInChildren<HealthBar>();
         characterPrefs = GetComponent<CHARACTER_PREFS>();
         selectedGameObject = transform.Find("SelectedArrow").gameObject;
@@ -70,6 +77,11 @@ public class UnitGridCombat : MonoBehaviour {
         healthBar.SetHealth(curHealth);
         healthBar.SetHealthNumber(curHealth);
         animEnded = true;
+
+        if(sceneCombatSystem.burstTurns >= 5)
+        {
+            fireBurstIndex = 0;
+        }
     }
 
     private void SetHealth() // para balancear
@@ -195,6 +207,55 @@ public class UnitGridCombat : MonoBehaviour {
         GetComponent<IMoveVelocity>().Enable();
     }
 
+    public void FireDamage()
+    {
+        if (fireBurstIndex == 0)
+        {
+            fireDamage = 21;
+        }
+        else if(fireBurstIndex > 0)
+        {
+            fireDamage = 8;
+        }
+        fireBurstIndex++;
+        healthSystem.Damage(fireDamage);
+        StartCoroutine(FireDamageFeedback());
+    }
+
+    private IEnumerator FireDamageFeedback()
+    {
+        //SoundManager.PlaySound("burst");
+        playerSprite.color = Color.red;
+        if (healthSystem.IsDead())
+        {
+            imDead = true;
+            sceneCombatSystem.CheckIfDead();
+            if (GetTeam() == Team.Blue)
+            {
+                for (int i = 0; i < sceneCombatSystem.alliesTeamList.Count; i++)
+                {
+                    if (!sceneCombatSystem.alliesTeamList[i].imDead)
+                        sceneCombatSystem.newAlliesTeamList.Add(sceneCombatSystem.alliesTeamList[i]);
+                }
+                CleanListAlly();
+            }
+            else if(GetTeam() == Team.Red) 
+            { 
+                characterManager.mageExp += 5;
+                for (int i = 0; i < sceneCombatSystem.enemiesTeamList.Count; i++)
+                {
+                    if (!sceneCombatSystem.enemiesTeamList[i].imDead)
+                        sceneCombatSystem.newEnemiesTeamList.Add(sceneCombatSystem.enemiesTeamList[i]);
+                }
+                CleanListIA();
+            }
+        }
+        yield return new WaitForSeconds(0.7f);
+        playerSprite.color = Color.white;
+        if (imDead) Destroy(gameObject);
+    }
+
+
     public void Damage(UnitGridCombat Attacker){
         if(Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
         {
@@ -316,7 +377,6 @@ public class UnitGridCombat : MonoBehaviour {
         float dmg;
         dmg = RandomDamage(damageAmount);
         healthSystem.Damage((int)dmg);
-        Debug.Log(dmg);
 
         if (healthSystem.IsDead()){
             if(Attacker.GetTeam() == Team.Blue) 
@@ -431,7 +491,20 @@ public class UnitGridCombat : MonoBehaviour {
             //feedback
         }
 
-        damageAmount = damageAmount - ((damageAmount / 100.0f) * defense);
+        if(this.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.TANK && sceneCombatSystem.overload && isOverloaded)
+        {
+            damageAmount = damageAmount - ((damageAmount / 100.0f) * 75.0f);
+        }
+        else
+        {
+            damageAmount = damageAmount - ((damageAmount / 100.0f) * defense);
+        }
+
+        if (sceneCombatSystem.boltOfPrecision)
+        {
+            damageAmount = damageAmount + ((damageAmount / 100.0f) * 40.0f);
+        }
+
         return damageAmount;
     }
 
@@ -499,6 +572,10 @@ public class UnitGridCombat : MonoBehaviour {
         if(gameObject.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
         {
             return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeMelee;
+        }
+        else if (gameObject.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED && sceneCombatSystem.boltOfPrecision)
+        {
+            return true;
         }
         else if (gameObject.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
