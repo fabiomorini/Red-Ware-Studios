@@ -958,7 +958,9 @@ MonoBehaviour:
   maxHealth: 0
   curHealth: 0
   imDead: 0
+  isOverloaded: 0
   damageAmount: 1
+  overloadIndex: 0
   slashAnim: {fileID: 7521122801981848761}
   healAnim: {fileID: 4640376298257353167}
   playerSprite: {fileID: 5451920597673780541}
