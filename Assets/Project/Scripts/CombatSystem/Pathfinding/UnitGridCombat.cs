@@ -39,6 +39,9 @@ public class UnitGridCombat : MonoBehaviour {
     // Feedback
     public GameObject slashAnim;
     public GameObject healAnim;
+
+    public GameObject selectedBox;
+
     public SpriteRenderer playerSprite;
     [HideInInspector] public bool animEnded = true;
 
@@ -184,9 +187,91 @@ public class UnitGridCombat : MonoBehaviour {
 
 
     public void MoveTo(Vector3 targetPosition, Action onReachedPosition) {
+        selectedBox.SetActive(false);
         movePosition.SetMovePosition(targetPosition + new Vector3(1, 1), () => {
+            SetCorrectPosition();
+            selectedBox.SetActive(true);
             onReachedPosition();
         });
+    }
+
+    public void SetCorrectPosition()
+    {
+        Vector3 myPosition = new Vector3(transform.position.x, transform.position.y, 0);
+
+        int x = (int)myPosition.x;
+        int lastDigitX = Mathf.Abs(x) % 10;
+        switch (lastDigitX)
+        {
+            case 9:
+                x -= 4;
+                break;
+            case 8:
+                x -= 3;
+                break;
+            case 7:
+                x -= 2;
+                break;
+            case 6:
+                x -= 1;
+                break;
+            case 5:
+                x -= 0;
+                break;
+            case 4:
+                x += 1;
+                break;
+            case 3:
+                x += 2;
+                break;
+            case 2:
+                x += 3;
+                break;
+            case 1:
+                x += 4;
+                break;
+            case 0:
+                x -= 5;
+                break;
+        }
+
+        int y = (int)myPosition.y;
+        int lastDigitY = Mathf.Abs(y) % 10;
+        switch (lastDigitY)
+        {
+            case 9:
+                y -= 4;
+                break;
+            case 8:
+                y -= 3;
+                break;
+            case 7:
+                y -= 2;
+                break;
+            case 6:
+                y -= 1;
+                break;
+            case 5:
+                y -= 0;
+                break;
+            case 4:
+                y += 1;
+                break;
+            case 3:
+                y += 2;
+                break;
+            case 2:
+                y += 3;
+                break;
+            case 1:
+                y += 4;
+                break;
+            case 0:
+                y -= 5;
+                break;
+        }
+        Vector3 newPosition = new Vector3(x, y, 0);
+        transform.position = newPosition;
     }
 
     public Vector3 GetPosition() {
