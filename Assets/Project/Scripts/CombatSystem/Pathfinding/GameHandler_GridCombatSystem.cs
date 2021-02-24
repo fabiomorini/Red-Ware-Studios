@@ -9,7 +9,8 @@ public class GameHandler_GridCombatSystem : MonoBehaviour {
     public static GameHandler_GridCombatSystem Instance { get; private set; }
 
     [SerializeField] private Transform cinemachineFollowTransform;
-    [SerializeField] private MovementTilemapVisual movementTilemapVisual;
+
+    [SerializeField] private MovementTilemapVisual movementTilemapVisualActions;
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
 
     private Grid<GridCombatSystem.GridObject> grid;
@@ -32,7 +33,7 @@ public class GameHandler_GridCombatSystem : MonoBehaviour {
     }
 
     private void Start() {
-        movementTilemap.SetTilemapVisual(movementTilemapVisual);
+        movementTilemap.SetTilemapVisual(movementTilemapVisualActions);
     }
 
     public void HandleCameraMovement() {

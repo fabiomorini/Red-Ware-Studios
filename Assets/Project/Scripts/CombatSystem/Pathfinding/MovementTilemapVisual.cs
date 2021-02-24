@@ -7,6 +7,15 @@ public class MovementTilemapVisual : MonoBehaviour {
     private GridCombatSystem gridCombatSystem;
     Material mat;
     Texture texture;
+    public BoxType boxType;
+
+    public enum BoxType
+    {
+        ACTIONS,
+        MOUSE,
+        ALLIES,
+        ENEMIES
+    }
 
     [System.Serializable]
 
@@ -26,6 +35,7 @@ public class MovementTilemapVisual : MonoBehaviour {
 
     private Color attackingColor;
     private Color movingColor;
+    private Color habilityColor;
 
     private Mesh mesh;
     private bool updateMesh;
@@ -61,17 +71,25 @@ public class MovementTilemapVisual : MonoBehaviour {
     private void Update()
     {
         attackingColor = new Color32(187, 68, 48, 255);
-        movingColor = new Color32(66, 122, 161, 255);
+        movingColor = new Color32(90, 90, 90, 255);
+        habilityColor = new Color32(133, 204, 102, 255);
+
         meshRenderer.material.color = attackingColor;
-        /*
-        if (gridCombatSystem.attacking == true)
+        if (boxType == BoxType.ACTIONS)
         {
-            meshRenderer.material.color = attackingColor;
+            if (gridCombatSystem.attacking)
+            {
+                meshRenderer.material.color = attackingColor;
+            }
+            else if (gridCombatSystem.moving)
+            {
+                meshRenderer.material.color = movingColor;
+            }
+            /*else if (gridCombatSystem.usingHability)
+            {
+                meshRenderer.material.color = habilityColor;
+            }*/
         }
-        else if (gridCombatSystem.moving == true)
-        {
-            meshRenderer.material.color = movingColor;
-        }*/
     }
 
     public void SetGrid(MovementTilemap tilemap, Grid<MovementTilemap.TilemapObject> grid) {
