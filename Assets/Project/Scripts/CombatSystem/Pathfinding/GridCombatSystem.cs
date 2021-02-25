@@ -867,7 +867,7 @@ public class GridCombatSystem : MonoBehaviour {
                 fireBurstBox.x = 0;
                 fireBurstBox.y = 0;
             }
-            selectedMouse.SetActive(false);
+            selectedFeedback.SetActive(false);
         }
         if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
         {
@@ -882,7 +882,7 @@ public class GridCombatSystem : MonoBehaviour {
                 fireBurstBox.x = 0;
                 fireBurstBox.y = 0;
             }
-            selectedMouse.SetActive(true);
+            selectedFeedback.SetActive(true);
             if (inspiration < 4) //sumamos uno de inspiración al comienzo del turno
             {
                 inspiration++;
@@ -926,7 +926,6 @@ public class GridCombatSystem : MonoBehaviour {
         ShowMouseCell();
         if (Input.GetMouseButtonDown(0))
         {
-            selectedMouse.SetActive(false);
             Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
             GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
 
@@ -961,6 +960,7 @@ public class GridCombatSystem : MonoBehaviour {
                         {
                             GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
                             Minimenu.SetActive(true);
+                            selectedFeedback.SetActive(false);
                             CheckTurnOver();
                         });
                     }
@@ -987,7 +987,7 @@ public class GridCombatSystem : MonoBehaviour {
         ShowMouseCell();
         if (Input.GetMouseButtonDown(0))
         {
-            selectedMouse.SetActive(false);
+            selectedFeedback.SetActive(false);
             Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
             GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
 
@@ -1062,7 +1062,7 @@ public class GridCombatSystem : MonoBehaviour {
         ShowMouseCell();
         if (Input.GetMouseButtonDown(0))
         {
-            selectedMouse.SetActive(false);
+            selectedFeedback.SetActive(false);
             SpawnGridHability();
             burstTurns = 0;
             inspirationManager.Hability1UI.GetComponent<Button>().interactable = false;
@@ -1143,8 +1143,13 @@ public class GridCombatSystem : MonoBehaviour {
             {
                 Destroy(temporalFireBurst);
             }
+
             temporalFireBurst = Instantiate(fireUI, position, Quaternion.identity);
             feedbackFireBurst = true;
+
+            Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+            grid.GetXY(position, out int unitX, out int unitY);
+            fireBurstBox = new Vector3(unitX, unitY, 0);
 
             CheckFireDamage();
 
