@@ -146,7 +146,7 @@ public class GridCombatSystem : MonoBehaviour {
     public TMP_Text experienceMageTxt;
 
     private Vector3 fireBurstBox = new Vector3(0, 0, 0);
-    private bool feedbackFireBurst = false;
+    [HideInInspector] public bool feedbackHability = false;
     [HideInInspector] public int burstTurns = 0;
     private GameObject temporalFireBurst;
     public GameObject selectedMouse;
@@ -978,6 +978,7 @@ public class GridCombatSystem : MonoBehaviour {
         */
         moving = true;
         attacking = false;
+        feedbackHability = false;
         hasUpdatedPositionMove = false;
         //Minimenu.SetActive(false);
     }
@@ -1145,7 +1146,7 @@ public class GridCombatSystem : MonoBehaviour {
             }
 
             temporalFireBurst = Instantiate(fireUI, position, Quaternion.identity);
-            feedbackFireBurst = true;
+            feedbackHability = true;
 
             Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
             grid.GetXY(position, out int unitX, out int unitY);
@@ -1207,16 +1208,18 @@ public class GridCombatSystem : MonoBehaviour {
     }
 
     public void SetAttackingTrue()
-    {/*
-        if (inspirationManager.alreadyRestedInspiration)
-        {
-            inspirationManager.alreadyUsedInspiration = true;
-        }
-        */
+    {
         attacking = true;
         moving = false;
+        if(boltOfPrecision || doubleSlash)
+        {
+            feedbackHability = true;
+        }
+        else
+        {
+            feedbackHability = false;
+        }
         hasUpdatedPositionAttack = false;
-        //Minimenu.SetActive(false);
     }
     public void SetHealingTrue()
     {/*
@@ -1254,8 +1257,6 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void setMenuVisible()
     {
-        //función para mostrar el minimenu si 
-        //le das a la tecla "M"
         if (isMenuVisible)
         {
             Minimenu.SetActive(true);
