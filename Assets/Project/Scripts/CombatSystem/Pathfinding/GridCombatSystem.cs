@@ -1046,6 +1046,7 @@ public class GridCombatSystem : MonoBehaviour {
                 {
                     if(canAttackThisTurn)
                     {
+                        if(hexOfNature) inspirationManager.Hability1UI.GetComponent<Button>().interactable = false;
                         Minimenu.SetActive(true);
                         canAttackThisTurn = false;
                         unitGridCombat.HealAlly(gridObject.GetUnitGridCombat());
