@@ -70,7 +70,7 @@ namespace GridPathfindingSystem {
             for (int i = 0; i < widthMax; i++) {
                 for (int j = 0; j < heightMax; j++) {
                     Vector3 nodeWorldPosition = mapNodes[i][j].GetWorldVector(worldOrigin, nodeSize);
-                    RaycastHit2D raycastHit = Physics2D.Raycast(nodeWorldPosition, Vector2.zero, 0f);
+                    RaycastHit2D raycastHit = Physics2D.Raycast(nodeWorldPosition, Vector2.zero, 0f, ~LayerMask.GetMask("Confiner"));
                     if (raycastHit.collider != null) {
                         mapNodes[i][j].SetWalkable(false);
                     }

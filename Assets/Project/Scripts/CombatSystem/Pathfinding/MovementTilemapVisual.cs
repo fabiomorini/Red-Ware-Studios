@@ -7,15 +7,6 @@ public class MovementTilemapVisual : MonoBehaviour {
     private GridCombatSystem gridCombatSystem;
     Material mat;
     Texture texture;
-    public BoxType boxType;
-
-    public enum BoxType
-    {
-        ACTIONS,
-        MOUSE,
-        ALLIES,
-        ENEMIES
-    }
 
     [System.Serializable]
 
@@ -70,25 +61,21 @@ public class MovementTilemapVisual : MonoBehaviour {
 
     private void Update()
     {
-        attackingColor = new Color32(187, 68, 48, 255);
-        movingColor = new Color32(90, 90, 90, 255);
-        habilityColor = new Color32(133, 204, 102, 255);
+        attackingColor = new Color32(187, 68, 48, 150);
+        movingColor = new Color32(43, 165, 184, 150);
+        habilityColor = new Color32(146, 54, 194, 150);
 
-        meshRenderer.material.color = attackingColor;
-        if (boxType == BoxType.ACTIONS)
+        if (gridCombatSystem.feedbackHability)
         {
-            if (gridCombatSystem.attacking)
-            {
-                meshRenderer.material.color = attackingColor;
-            }
-            else if (gridCombatSystem.moving)
-            {
-                meshRenderer.material.color = movingColor;
-            }
-            /*else if (gridCombatSystem.usingHability)
-            {
-                meshRenderer.material.color = habilityColor;
-            }*/
+            meshRenderer.material.color = habilityColor;
+        }
+        else if (gridCombatSystem.moving)
+        {
+            meshRenderer.material.color = movingColor;
+        }
+        else if (gridCombatSystem.attacking)
+        {
+            meshRenderer.material.color = attackingColor;
         }
     }
 

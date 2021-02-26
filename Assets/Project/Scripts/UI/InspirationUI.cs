@@ -239,6 +239,7 @@ public class InspirationUI : MonoBehaviour
 
     private void DeactivateHabilities()
     {
+        combatSystem.feedbackHability = false;
         combatSystem.doubleSlash = false;
         combatSystem.justicesExecute = false;
         combatSystem.boltOfPrecision = false;
@@ -325,16 +326,19 @@ public class InspirationUI : MonoBehaviour
         if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
         {
             combatSystem.doubleSlash = true;
+            combatSystem.feedbackHability = true;
             combatSystem.SetAttackingTrue();
             combatSystem.AttackAllyVisual();
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
             combatSystem.boltOfPrecision = true;
+            combatSystem.feedbackHability = true;
             combatSystem.hasUpdatedPositionAttack = false;
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
         {
+            combatSystem.feedbackHability = true;
             combatSystem.hexOfNature = true;
             combatSystem.SetAttackingTrue();
             combatSystem.AttackAllyVisual();
@@ -342,12 +346,14 @@ public class InspirationUI : MonoBehaviour
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
         {
             combatSystem.overload = true;
+            combatSystem.feedbackHability = true;
             combatSystem.alliesTeamList[combatSystem.allyTeamActiveUnitIndex].GetComponent<UnitGridCombat>().isOverloaded = true;
             combatSystem.inspiration -= 3;
             Hability1UI.GetComponent<Button>().interactable = false;
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {
+            combatSystem.feedbackHability = true;
             combatSystem.fireBurst = true;
             combatSystem.SpawnGridHability();
         }
