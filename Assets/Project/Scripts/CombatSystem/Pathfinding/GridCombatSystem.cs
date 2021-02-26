@@ -146,14 +146,16 @@ public class GridCombatSystem : MonoBehaviour {
     public TMP_Text experienceMageTxt;
 
     private Vector3 fireBurstBox = new Vector3(0, 0, 0);
-    private bool feedbackFireBurst = false;
+    [HideInInspector] public bool feedbackHability = false;
     [HideInInspector] public int burstTurns = 0;
     private GameObject temporalFireBurst;
-
+    public GameObject selectedMouse;
+    public GameObject selectedFeedback;
 
     [HideInInspector] public int inspiration;
 
     private void Start() {
+        selectedFeedback = Instantiate(selectedMouse);
         StartCoroutine(YourTurnUI());
         inspirationManager = GameObject.FindGameObjectWithTag("InspirationManager").GetComponent<InspirationUI>();
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
@@ -302,14 +304,6 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
     }
-    private void ShowFireBurst()
-    {
-        if (feedbackFireBurst) // no queremos que se borre la casilla del fireburst
-        {
-            GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetTilemapSprite(
-            (int)fireBurstBox.x, (int)fireBurstBox.y, MovementTilemap.TilemapObject.TilemapSprite.Move);
-        }
-    }
 
     private void UpdateStatisticMenu()
     {
@@ -343,7 +337,6 @@ public class GridCombatSystem : MonoBehaviour {
         }
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
-        ShowFireBurst();
         yield return new WaitForSeconds(1);
         CheckTurnOver();
     }
@@ -530,7 +523,6 @@ public class GridCombatSystem : MonoBehaviour {
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
             MovementTilemap.TilemapObject.TilemapSprite.None
         );
-        ShowFireBurst();
 
         // Reset Entire Grid ValidMovePositions
         for (int x = 0; x < grid.GetWidth(); x++)
@@ -591,7 +583,6 @@ public class GridCombatSystem : MonoBehaviour {
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
             MovementTilemap.TilemapObject.TilemapSprite.None
         );
-        ShowFireBurst();
 
         if (!isHabilityActive) 
         { 
@@ -610,6 +601,95 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
     }
+    private void ShowMouseCell()
+    {
+        Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+        GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
+        grid.GetXY(GetMouseWorldPosition(), out int unitX, out int unitY);
+        if (!gridPathfinding.IsWall(unitX, unitY))
+        {
+            selectedFeedback.SetActive(true);
+            Vector3 myPosition = new Vector3(GetMouseWorldPosition().x, GetMouseWorldPosition().y, 0);
+            int x = (int)myPosition.x;
+            int lastDigitX = Mathf.Abs(x) % 10;
+            switch (lastDigitX)
+            {
+                case 9:
+                    x -= 4;
+                    break;
+                case 8:
+                    x -= 3;
+                    break;
+                case 7:
+                    x -= 2;
+                    break;
+                case 6:
+                    x -= 1;
+                    break;
+                case 5:
+                    x -= 0;
+                    break;
+                case 4:
+                    x += 1;
+                    break;
+                case 3:
+                    x += 2;
+                    break;
+                case 2:
+                    x += 3;
+                    break;
+                case 1:
+                    x += 4;
+                    break;
+                case 0:
+                    x -= 5;
+                    break;
+            }
+
+            int y = (int)myPosition.y;
+            int lastDigitY = Mathf.Abs(y) % 10;
+            switch (lastDigitY)
+            {
+                case 9:
+                    y -= 4;
+                    break;
+                case 8:
+                    y -= 3;
+                    break;
+                case 7:
+                    y -= 2;
+                    break;
+                case 6:
+                    y -= 1;
+                    break;
+                case 5:
+                    y -= 0;
+                    break;
+                case 4:
+                    y += 1;
+                    break;
+                case 3:
+                    y += 2;
+                    break;
+                case 2:
+                    y += 3;
+                    break;
+                case 1:
+                    y += 4;
+                    break;
+                case 0:
+                    y -= 5;
+                    break;
+            }
+            Vector3 newPosition = new Vector3(x, y, 0);
+            selectedFeedback.transform.position = newPosition;
+        }
+        else
+        {
+            selectedFeedback.SetActive(false);
+        }
+    }
+
 
     public void CheckIfGameIsOver(){
         if (enemiesTeamList.Count == 0){
@@ -683,7 +763,6 @@ public class GridCombatSystem : MonoBehaviour {
         unitGridCombat.selectedGameObject.SetActive(false);
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
-        ShowFireBurst();
     }
 
     public void ExitFromBattle()
@@ -719,7 +798,6 @@ public class GridCombatSystem : MonoBehaviour {
         //UpdateValidMovePositions();
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
-        ShowFireBurst();
         CheckMinimenuAlly();
         isWaiting = true;
         hasUpdatedPositionMove = false;
@@ -789,7 +867,7 @@ public class GridCombatSystem : MonoBehaviour {
                 fireBurstBox.x = 0;
                 fireBurstBox.y = 0;
             }
-                
+            selectedFeedback.SetActive(false);
         }
         if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
         {
@@ -804,7 +882,7 @@ public class GridCombatSystem : MonoBehaviour {
                 fireBurstBox.x = 0;
                 fireBurstBox.y = 0;
             }
-
+            selectedFeedback.SetActive(true);
             if (inspiration < 4) //sumamos uno de inspiración al comienzo del turno
             {
                 inspiration++;
@@ -845,6 +923,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void MoveAllyVisual()
     {
+        ShowMouseCell();
         if (Input.GetMouseButtonDown(0))
         {
             Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
@@ -866,11 +945,9 @@ public class GridCombatSystem : MonoBehaviour {
                         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
                             MovementTilemap.TilemapObject.TilemapSprite.None
                         );
-                        ShowFireBurst();
                         // Remove Unit from current Grid Object
                         grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
                         // Set Unit on target Grid Object
-                        gridObject.SetUnitGridCombat(unitGridCombat);
 
                         if (inspirationManager.alreadyRestedInspiration)
                         {
@@ -880,8 +957,10 @@ public class GridCombatSystem : MonoBehaviour {
 
                         unitGridCombat.MoveTo(GetMouseWorldPosition(), () =>
                         {
+                            gridObject.SetUnitGridCombat(unitGridCombat);
                             GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
                             Minimenu.SetActive(true);
+                            selectedFeedback.SetActive(false);
                             CheckTurnOver();
                         });
                     }
@@ -899,14 +978,17 @@ public class GridCombatSystem : MonoBehaviour {
         */
         moving = true;
         attacking = false;
+        feedbackHability = false;
         hasUpdatedPositionMove = false;
         //Minimenu.SetActive(false);
     }
 
     public void AttackAllyVisual()
     {
+        ShowMouseCell();
         if (Input.GetMouseButtonDown(0))
         {
+            selectedFeedback.SetActive(false);
             Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
             GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
 
@@ -964,6 +1046,7 @@ public class GridCombatSystem : MonoBehaviour {
                 {
                     if(canAttackThisTurn)
                     {
+                        if(hexOfNature) inspirationManager.Hability1UI.GetComponent<Button>().interactable = false;
                         Minimenu.SetActive(true);
                         canAttackThisTurn = false;
                         unitGridCombat.HealAlly(gridObject.GetUnitGridCombat());
@@ -978,8 +1061,10 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void FireburstHability()
     {
+        ShowMouseCell();
         if (Input.GetMouseButtonDown(0))
         {
+            selectedFeedback.SetActive(false);
             SpawnGridHability();
             burstTurns = 0;
             inspirationManager.Hability1UI.GetComponent<Button>().interactable = false;
@@ -1062,19 +1147,11 @@ public class GridCombatSystem : MonoBehaviour {
             }
 
             temporalFireBurst = Instantiate(fireUI, position, Quaternion.identity);
+            feedbackHability = true;
 
             Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
-
             grid.GetXY(position, out int unitX, out int unitY);
-            x = unitX;
-            y = unitY;
-            fireBurstBox.x = x; // para no dejar de pintar la casilla
-            fireBurstBox.y = y;
-            feedbackFireBurst = true;
-
-            // Set Tilemap Tile to Move
-            GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetTilemapSprite(
-                x, y, MovementTilemap.TilemapObject.TilemapSprite.Move);
+            fireBurstBox = new Vector3(unitX, unitY, 0);
 
             CheckFireDamage();
 
@@ -1132,16 +1209,18 @@ public class GridCombatSystem : MonoBehaviour {
     }
 
     public void SetAttackingTrue()
-    {/*
-        if (inspirationManager.alreadyRestedInspiration)
-        {
-            inspirationManager.alreadyUsedInspiration = true;
-        }
-        */
+    {
         attacking = true;
         moving = false;
+        if(boltOfPrecision || doubleSlash)
+        {
+            feedbackHability = true;
+        }
+        else
+        {
+            feedbackHability = false;
+        }
         hasUpdatedPositionAttack = false;
-        //Minimenu.SetActive(false);
     }
     public void SetHealingTrue()
     {/*
@@ -1179,8 +1258,6 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void setMenuVisible()
     {
-        //función para mostrar el minimenu si 
-        //le das a la tecla "M"
         if (isMenuVisible)
         {
             Minimenu.SetActive(true);
