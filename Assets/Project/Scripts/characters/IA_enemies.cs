@@ -8,6 +8,7 @@ public class IA_enemies : MonoBehaviour
     private GameObject gridCombatSystem;
     private int enemiesCount;
     private int maxMoveDistanceInt = 21;
+    private int maxMoveDistanceTargetIntermedio = 26;
 
     private bool canMoveRight = false;
     private bool canMoveLeft = false;
@@ -28,22 +29,21 @@ public class IA_enemies : MonoBehaviour
     {
         gridCombatSystem = GameObject.FindGameObjectWithTag("CombatHandler");
     }
-
     //Atacas a alguien a melee
     public UnitGridCombat lookForEnemies(UnitGridCombat thisUnit) // lookForEnemies a una casilla
     {
         enemiesCount = gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList.Count;
         Vector3 myPosition = thisUnit.GetPosition();
+        float distance;
         for (int i = 0; i <= enemiesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
         {
             //El primer Player a rango, lo atacas
-            float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i].GetPosition());
+            distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i].GetPosition());
             if (distance <= 11)
             {
                 return gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i];
             }
         }
-
         return null;
     }
 
@@ -266,9 +266,9 @@ public class IA_enemies : MonoBehaviour
 
     private void SelectNewMovePosition(Vector3 myPosition)
     {
-        targetIntermedio = target;
-        Vector3 directionOfTravel = targetIntermedio - myPosition;
+        Vector3 directionOfTravel = target - myPosition;
         Vector3 finalDirection = directionOfTravel.normalized * maxMoveDistanceInt;
         targetIntermedio = myPosition + finalDirection;
+        Debug.Log(targetIntermedio);
     }
 }

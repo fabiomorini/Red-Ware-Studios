@@ -1021,4 +1021,4 @@ MonoBehaviour:
   ExportScale: 1
   MapWidthInPixels: 1280
   MapHeightInPixels: 1280
-  BackgroundColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+  BackgroundColor: {r: 1, g: 1, b: 1, a: 1}

@@ -948,7 +948,6 @@ public class GridCombatSystem : MonoBehaviour {
                         // Remove Unit from current Grid Object
                         grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
                         // Set Unit on target Grid Object
-                        gridObject.SetUnitGridCombat(unitGridCombat);
 
                         if (inspirationManager.alreadyRestedInspiration)
                         {
@@ -958,6 +957,8 @@ public class GridCombatSystem : MonoBehaviour {
 
                         unitGridCombat.MoveTo(GetMouseWorldPosition(), () =>
                         {
+                            grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
+                            gridObject.SetUnitGridCombat(unitGridCombat);
                             GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
                             Minimenu.SetActive(true);
                             selectedFeedback.SetActive(false);
