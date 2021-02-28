@@ -7,7 +7,7 @@ public class IA_enemies : MonoBehaviour
 {
     private GameObject gridCombatSystem;
     private int enemiesCount;
-    private int maxMoveDistanceInt = 21;
+    private int maxMoveDistanceInt = 25;
     private int maxMoveDistanceTargetIntermedio = 26;
 
     private bool canMoveRight = false;
@@ -92,7 +92,7 @@ public class IA_enemies : MonoBehaviour
         Grid<GridCombatSystem.GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
         GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
 
-        SelectNewMovePosition(thisUnit.GetPosition());
+        SelectNewMovePosition(thisUnit.GetPosition()); //Se calcula el targetIntermedio
         gridObject = grid.GetGridObject(targetIntermedio);
         if (CheckCollisionsTargetIntermedio() && gridObject.GetUnitGridCombat() == null)
         {
@@ -109,9 +109,9 @@ public class IA_enemies : MonoBehaviour
         //Buscar nuevo target Intermedio y me muevo
         else
         {
-            enemyOutOfRange = false;
+            enemyOutOfRange = false; //El target intermedio se calcula para que siempre este a rango de movimiento, por lo tanto esto va a ser siempre false en esta parte del codigo 
             targetIntermedio = CheckTargetRange(targetIntermedio, thisUnit);
-            if (!enemyOutOfRange)
+            if (CheckCollisionsTargetIntermedio() && gridObject.GetUnitGridCombat() == null)
             {
                 grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
                 thisUnit.MoveTo(targetIntermedio, () =>
@@ -123,9 +123,25 @@ public class IA_enemies : MonoBehaviour
                     }
                 });
             }
-            else
+            else //Busca un segundo target intermedio y sus adyacentes para moverse a una posicion
             {
-                //No me muevo
+                targetIntermedio = CheckTargetRange(targetIntermedio, thisUnit);
+                if (CheckCollisionsTargetIntermedio() && gridObject.GetUnitGridCombat() == null)
+                {
+                    grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
+                    thisUnit.MoveTo(targetIntermedio, () =>
+                    {
+                        gridObject.SetUnitGridCombat(thisUnit);
+                        if (gridCombatSystem.GetComponent<GridCombatSystem>().SeekEnemiesIA(thisUnit) == true)
+                        {
+                            thisUnit.AttackUnit(lookForEnemies(thisUnit));
+                        }
+                    });
+                }
+                else
+                {
+                    //No me muevo
+                }
             }
         }
     }
@@ -157,10 +173,10 @@ public class IA_enemies : MonoBehaviour
         Vector3 targetTop = new Vector3(0, 0, 0);
         Vector3 targetBot = new Vector3(0, 0, 0);
 
-        targetRight.x = Objective.x - 10;
+        targetRight.x = Objective.x + 10;
         targetRight.y = Objective.y;
 
-        targetLeft.x = Objective.x + 10;
+        targetLeft.x = Objective.x - 10;
         targetLeft.y = Objective.y;
 
         targetTop.x = Objective.x;
@@ -172,28 +188,28 @@ public class IA_enemies : MonoBehaviour
         gridObject = grid.GetGridObject(targetRight);
         if (CheckMoveRange(targetRight, myPosition) && CheckCollisionsTarget() && gridObject.GetUnitGridCombat() == null)
         {
-            //Debug.Log("Derecha");
+            Debug.Log("Derecha");
             enemyOutOfRange = false;
             return targetRight;
         }
         gridObject = grid.GetGridObject(targetLeft);
         if (CheckMoveRange(targetLeft, myPosition) && CheckCollisionsTarget() && gridObject.GetUnitGridCombat() == null)
         {
-            //Debug.Log("Izquierda");
+            Debug.Log("Izquierda");
             enemyOutOfRange = false;
             return targetLeft;
         }
         gridObject = grid.GetGridObject(targetTop);
         if (CheckMoveRange(targetTop, myPosition) && CheckCollisionsTarget() && gridObject.GetUnitGridCombat() == null)
         {
-            //Debug.Log("Arriba");
+            Debug.Log("Arriba");
             enemyOutOfRange = false;
             return targetTop;
         }
         gridObject = grid.GetGridObject(targetBot);
         if (CheckMoveRange(targetBot, myPosition) && CheckCollisionsTarget() && gridObject.GetUnitGridCombat() == null)
         {
-            //Debug.Log("Abajo");
+            Debug.Log("Abajo");
             enemyOutOfRange = false;
             return targetBot;
         }
@@ -208,32 +224,32 @@ public class IA_enemies : MonoBehaviour
         float distRight = CheckMoveOutOfRange(targetRight, myPosition);
         float distLeft = CheckMoveOutOfRange(targetLeft, myPosition);
 
-        if (distTop > distBot && distTop > distRight && distTop > distLeft)
+        if (distTop < distBot && distTop < distRight && distTop < distLeft)
         {
-            //Debug.Log("ArribaOut");
+            Debug.Log("ArribaOut");
             enemyOutOfRange = true;
             return targetTop;
         }
-        if (distBot > distTop && distBot > distRight && distBot > distLeft)
+        if (distBot <= distTop && distBot <= distRight && distBot <= distLeft)
         {
-            //Debug.Log("AbajoOut");
+            Debug.Log("AbajoOut");
             enemyOutOfRange = true;
             return targetBot;
         }
-        if (distRight > distBot && distRight > distTop && distRight > distLeft)
+        if (distRight <= distBot && distRight <= distTop && distRight <= distLeft)
         {
-            //Debug.Log("DerechaOut");
+            Debug.Log("DerechaOut");
             enemyOutOfRange = true;
             return targetRight;
         }
-        if (distLeft > distBot && distLeft > distRight && distLeft > distTop)
+        if (distLeft < distBot && distLeft < distRight && distLeft < distTop)
         {
-            //Debug.Log("IzquierdaOut");
+            Debug.Log("IzquierdaOut");
             enemyOutOfRange = true;
             return targetLeft;
         }
 
-        //Debug.Log("Else");
+        Debug.Log("Else");
         return new Vector3(0, 0, 0);
 
     }
@@ -269,6 +285,6 @@ public class IA_enemies : MonoBehaviour
         Vector3 directionOfTravel = target - myPosition;
         Vector3 finalDirection = directionOfTravel.normalized * maxMoveDistanceInt;
         targetIntermedio = myPosition + finalDirection;
-        Debug.Log(targetIntermedio);
+        //Debug.Log(targetIntermedio);
     }
 }
