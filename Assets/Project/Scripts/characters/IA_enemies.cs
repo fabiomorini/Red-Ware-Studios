@@ -7,17 +7,7 @@ public class IA_enemies : MonoBehaviour
 {
     private GameObject gridCombatSystem;
     private int enemiesCount;
-    private int maxMoveDistanceInt = 25;
-    private int maxMoveDistanceTargetIntermedio = 26;
-
-    private bool canMoveRight = false;
-    private bool canMoveLeft = false;
-    private bool canMoveTop = false;
-    private bool canMoveBot = false;
-    private bool canMoveRightIntermedio = false;
-    private bool canMoveLeftIntermedio = false;
-    private bool canMoveTopIntermedio = false;
-    private bool canMoveBotIntermedio = false;
+    private int maxMoveDistanceInt = 23;
 
     private GridCombatSystem.GridObject gridObject;
     private Vector3 target = new Vector3(0, 0, 0);
@@ -111,7 +101,8 @@ public class IA_enemies : MonoBehaviour
         {
             enemyOutOfRange = false; //El target intermedio se calcula para que siempre este a rango de movimiento, por lo tanto esto va a ser siempre false en esta parte del codigo 
             targetIntermedio = CheckTargetRange(targetIntermedio, thisUnit);
-            if (CheckCollisionsTargetIntermedio() && gridObject.GetUnitGridCombat() == null)
+            gridObject = grid.GetGridObject(targetIntermedio);
+            if (CheckCollisionsTargetIntermedio() && gridObject.GetUnitGridCombat() == null && CheckMoveRange(targetIntermedio, thisUnit.GetPosition()))
             {
                 grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
                 thisUnit.MoveTo(targetIntermedio, () =>
@@ -126,7 +117,8 @@ public class IA_enemies : MonoBehaviour
             else //Busca un segundo target intermedio y sus adyacentes para moverse a una posicion
             {
                 targetIntermedio = CheckTargetRange(targetIntermedio, thisUnit);
-                if (CheckCollisionsTargetIntermedio() && gridObject.GetUnitGridCombat() == null)
+                gridObject = grid.GetGridObject(targetIntermedio);
+                if (CheckCollisionsTargetIntermedio() && gridObject.GetUnitGridCombat() == null && CheckMoveRange(targetIntermedio, thisUnit.GetPosition()))
                 {
                     grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
                     thisUnit.MoveTo(targetIntermedio, () =>
@@ -138,10 +130,6 @@ public class IA_enemies : MonoBehaviour
                         }
                     });
                 }
-                else
-                {
-                    //No me muevo
-                }
             }
         }
     }
@@ -151,16 +139,22 @@ public class IA_enemies : MonoBehaviour
     {
         Grid<GridCombatSystem.GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
         GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
-
-        grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
-        thisUnit.MoveTo(target, () =>
+        if (CheckCollisionsTargetIntermedio() && gridObject.GetUnitGridCombat() == null)
         {
-            gridObject.SetUnitGridCombat(thisUnit);
-            if (gridCombatSystem.GetComponent<GridCombatSystem>().SeekEnemiesIA(thisUnit) == true)
+            grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
+            thisUnit.MoveTo(target, () =>
             {
-                thisUnit.AttackUnit(lookForEnemies(thisUnit));
-            }
-        });
+                gridObject.SetUnitGridCombat(thisUnit);
+                if (gridCombatSystem.GetComponent<GridCombatSystem>().SeekEnemiesIA(thisUnit) == true)
+                {
+                    thisUnit.AttackUnit(lookForEnemies(thisUnit));
+                }
+            });
+        }
+        else
+        {
+            Debug.Log("Aqui no deberia entrar nunca");
+        }
     }
 
     //Busco un target al que moverme cerca de mi posicion
