@@ -29,7 +29,15 @@ public class IA_enemies : MonoBehaviour
         {
             //El primer Player a rango, lo atacas
             distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i].GetPosition());
-            if (distance <= 11)
+            if (distance <= 11 && (thisUnit.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE || thisUnit.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK))
+            {
+                return gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i];
+            }
+            else if (distance <= 31 && (thisUnit.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE || thisUnit.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER))
+            {
+                return gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i];
+            }
+            else if (distance <= 41 && (thisUnit.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED))
             {
                 return gridCombatSystem.GetComponent<GridCombatSystem>().alliesTeamList[i];
             }

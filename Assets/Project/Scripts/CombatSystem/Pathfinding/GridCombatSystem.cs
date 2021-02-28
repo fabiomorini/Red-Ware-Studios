@@ -777,8 +777,18 @@ public class GridCombatSystem : MonoBehaviour {
         for (int i = 0; i < alliesTeamList.Count; i++)
         {
             float distance = Vector3.Distance(myPosition, alliesTeamList[i].GetPosition());
-            if (distance <= 11) 
+            if (distance <= 11 && (thisUnit.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE || thisUnit.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK))
+            {
                 return true;
+            }
+            else if (distance <= 31 && (thisUnit.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE || thisUnit.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER))
+            {
+                return true;
+            }
+            else if (distance <= 41 && (thisUnit.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED))
+            {
+                return true;
+            }
         }
         return false;
     }
