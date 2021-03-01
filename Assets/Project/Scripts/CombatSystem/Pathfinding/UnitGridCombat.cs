@@ -461,6 +461,7 @@ public class UnitGridCombat : MonoBehaviour {
         }
         float dmg;
         dmg = RandomDamage(damageAmount);
+        sceneCombatSystem.DamagePopUp(this.GetPosition(), (int)dmg);
         healthSystem.Damage((int)dmg);
 
         if (healthSystem.IsDead()){
