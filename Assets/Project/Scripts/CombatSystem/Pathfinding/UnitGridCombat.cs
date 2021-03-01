@@ -193,6 +193,7 @@ public class UnitGridCombat : MonoBehaviour {
             selectedBox.SetActive(true);
             onReachedPosition();
         });
+        SoundManager.PlaySound("WalkingBattle");
     }
 
     public void SetCorrectPosition()
@@ -310,6 +311,7 @@ public class UnitGridCombat : MonoBehaviour {
     private IEnumerator FireDamageFeedback()
     {
         //SoundManager.PlaySound("burst");
+        SoundManager.PlaySound("Fire");
         playerSprite.color = Color.red;
         if (healthSystem.IsDead())
         {
@@ -340,10 +342,13 @@ public class UnitGridCombat : MonoBehaviour {
         if (imDead) Destroy(gameObject);
     }
 
-
+    int unitID;
     public void Damage(UnitGridCombat Attacker){
+
         if(Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
         {
+            unitID = 1;
+
             attackedByMelee = true;
             attackedByArcher = false;
             attackedByHealer = false;
@@ -369,6 +374,8 @@ public class UnitGridCombat : MonoBehaviour {
         }
         else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
+            unitID = 2;
+
             attackedByMelee = false;
             attackedByArcher = true;
             attackedByHealer = false;
@@ -557,7 +564,7 @@ public class UnitGridCombat : MonoBehaviour {
                 CleanListAlly();
             }
         }
-        StartCoroutine(FeedbackAttack());
+        StartCoroutine(FeedbackAttack(unitID));
     }
 
     float RandomDamage(float damageAmount)
@@ -593,11 +600,12 @@ public class UnitGridCombat : MonoBehaviour {
         return damageAmount;
     }
 
-    private IEnumerator FeedbackAttack()
+    private IEnumerator FeedbackAttack(int ID)
     {
         animEnded = false;
         slashAnim.SetActive(true);
-        SoundManager.PlaySound("Attack");
+        if (ID == 2) SoundManager.PlaySound("Arrow");
+        else SoundManager.PlaySound("Attack");
         yield return new WaitForSeconds(0.5f);
         slashAnim.SetActive(false);
         playerSprite.color = Color.red;

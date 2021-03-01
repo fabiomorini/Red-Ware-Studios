@@ -12,7 +12,7 @@ public class SoundManager : MonoBehaviour
     //  -MINIMENU
     public static AudioClip hoverButtonSound, clickButtonSound, openMenuSound, closeMenuSound;
     //  -BATALLA
-    public static AudioClip attackSound, attackDeathSound, walkingBattleSound, turnSwapSound, healingSound;
+    public static AudioClip attackSound, attackDeathSound, walkingBattleSound, turnSwapSound, healingSound, fireSound, arrowAttackSound, missedHitSound;
     //  -ENDMENU
     public static AudioClip victorySound, lostSound;
 
@@ -20,10 +20,11 @@ public class SoundManager : MonoBehaviour
 
     public void Start()
     {
-        playSound = Resources.Load<AudioClip>("Play");
-        returnSound = Resources.Load<AudioClip>("Return");
         hoverMenuSound = Resources.Load<AudioClip>("HoverMenu");
         clickMenuSound = Resources.Load<AudioClip>("ClickMenu");
+        returnSound = Resources.Load<AudioClip>("Return");
+        playSound = Resources.Load<AudioClip>("Play");
+        
         ambientSound = Resources.Load<AudioClip>("Ambient");
         walkingSound = Resources.Load<AudioClip>("Walking");
         openCuartelSound = Resources.Load<AudioClip>("OpenCuartel");
@@ -31,17 +32,23 @@ public class SoundManager : MonoBehaviour
         buyAllySound = Resources.Load<AudioClip>("BuyAlly");
         levelSoundSound = Resources.Load<AudioClip>("LevelSound");
         playLevelSound = Resources.Load<AudioClip>("PlayLevel");
+
         hoverButtonSound = Resources.Load<AudioClip>("HoverMainMenu");
         clickButtonSound = Resources.Load<AudioClip>("ClickButton");
         openMenuSound = Resources.Load<AudioClip>("OpenMenu");
         closeMenuSound = Resources.Load<AudioClip>("CloseMenu");
+
         attackSound = Resources.Load<AudioClip>("Attack");
         attackDeathSound = Resources.Load<AudioClip>("AttackDeath");
         walkingBattleSound = Resources.Load<AudioClip>("WalkingBattle");
         turnSwapSound = Resources.Load<AudioClip>("TurnSwap");
+        healingSound = Resources.Load<AudioClip>("Healing");
+        fireSound = Resources.Load<AudioClip>("FireAttack");
+        arrowAttackSound = Resources.Load<AudioClip>("ArrowHit");
+        missedHitSound = Resources.Load<AudioClip>("MissedAttack");
+
         victorySound = Resources.Load<AudioClip>("Victory");
         lostSound = Resources.Load<AudioClip>("Lost");
-        healingSound = Resources.Load<AudioClip>("Healing");
 
         audioSrc = GetComponent<AudioSource>();
     }
@@ -101,7 +108,7 @@ public class SoundManager : MonoBehaviour
             case "AttackDeath":
                 audioSrc.PlayOneShot(attackDeathSound);
                 break;
-            case "walkingBattle":
+            case "WalkingBattle":
                 audioSrc.PlayOneShot(walkingBattleSound);
                 break;
             case "turnSwap":
@@ -116,9 +123,15 @@ public class SoundManager : MonoBehaviour
             case "Healing":
                 audioSrc.PlayOneShot(healingSound);
                 break;
+            case "Fire":
+                audioSrc.PlayOneShot(fireSound);
+                break;
+            case "Arrow":
+                audioSrc.PlayOneShot(arrowAttackSound);
+                break;
+            case "Missed":
+                audioSrc.PlayOneShot(missedHitSound);
+                break;
         }
     }
-
-
-
 }
