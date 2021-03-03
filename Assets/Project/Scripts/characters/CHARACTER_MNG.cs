@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class CHARACTER_MNG : MonoBehaviour
 {
     public int coins;
-    public int numberOfMelee;
-    public int numberOfRanged;
+    public int numberOfMelee = 1;
+    public int numberOfRanged = 1;
     public int numberOfHealer;
     public int numberOfTank;
     public int numberOfMage;
