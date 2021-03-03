@@ -12,7 +12,7 @@ public class SoundManager : MonoBehaviour
     //  -MINIMENU
     public static AudioClip hoverButtonSound, clickButtonSound, openMenuSound, closeMenuSound;
     //  -BATALLA
-    public static AudioClip attackSound, attackDeathSound, walkingBattleSound, turnSwapSound, healingSound, fireSound, arrowAttackSound, missedHitSound;
+    public static AudioClip attackSound, attackDeathSound, walkingBattleSound, turnSwapSound, healingSound, magicAttackSound, fireSound, arrowAttackSound, missedHitSound, criticalHitSound;
     //  -ENDMENU
     public static AudioClip victorySound, lostSound;
 
@@ -43,9 +43,12 @@ public class SoundManager : MonoBehaviour
         walkingBattleSound = Resources.Load<AudioClip>("WalkingBattle");
         turnSwapSound = Resources.Load<AudioClip>("TurnSwap");
         healingSound = Resources.Load<AudioClip>("Healing");
+        magicAttackSound = Resources.Load<AudioClip>("MagicAttack");
         fireSound = Resources.Load<AudioClip>("FireAttack");
         arrowAttackSound = Resources.Load<AudioClip>("ArrowHit");
         missedHitSound = Resources.Load<AudioClip>("MissedAttack");
+        //missedHitSound = Resources.Load<AudioClip>("Critical");
+        
 
         victorySound = Resources.Load<AudioClip>("Victory");
         lostSound = Resources.Load<AudioClip>("Lost");
@@ -123,6 +126,9 @@ public class SoundManager : MonoBehaviour
             case "Healing":
                 audioSrc.PlayOneShot(healingSound);
                 break;
+            case "Magic":
+                audioSrc.PlayOneShot(magicAttackSound);
+                break;
             case "Fire":
                 audioSrc.PlayOneShot(fireSound);
                 break;
@@ -131,6 +137,9 @@ public class SoundManager : MonoBehaviour
                 break;
             case "Missed":
                 audioSrc.PlayOneShot(missedHitSound);
+                break;
+            case "Critical":
+                audioSrc.PlayOneShot(criticalHitSound);
                 break;
         }
     }

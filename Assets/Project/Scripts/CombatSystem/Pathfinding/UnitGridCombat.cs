@@ -342,12 +342,12 @@ public class UnitGridCombat : MonoBehaviour {
         if (imDead) Destroy(gameObject);
     }
 
-    int unitID;
+    int attackID;
     public void Damage(UnitGridCombat Attacker){
 
         if(Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
         {
-            unitID = 1;
+            attackID = 1;
 
             attackedByMelee = true;
             attackedByArcher = false;
@@ -374,7 +374,7 @@ public class UnitGridCombat : MonoBehaviour {
         }
         else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
-            unitID = 2;
+            attackID = 2;
 
             attackedByMelee = false;
             attackedByArcher = true;
@@ -445,6 +445,8 @@ public class UnitGridCombat : MonoBehaviour {
         }
         else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {
+            attackID = 3;
+
             attackedByMelee = false;
             attackedByArcher = false;
             attackedByHealer = false;
@@ -564,7 +566,7 @@ public class UnitGridCombat : MonoBehaviour {
                 CleanListAlly();
             }
         }
-        StartCoroutine(FeedbackAttack(unitID));
+        StartCoroutine(FeedbackAttack(attackID));
     }
 
     float RandomDamage(float damageAmount)
@@ -576,11 +578,13 @@ public class UnitGridCombat : MonoBehaviour {
         {
             damageAmount = damageAmount + (damageAmount / 100.0f) * 20.0f;
             //feedback
+            attackID = 5;
         }
         else if(randomNum >= 95)
         {
             damageAmount = 0;
             //feedback
+            attackID = 6;
         }
 
         if(this.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.TANK && sceneCombatSystem.overload && isOverloaded)
@@ -600,11 +604,13 @@ public class UnitGridCombat : MonoBehaviour {
         return damageAmount;
     }
 
-    private IEnumerator FeedbackAttack(int ID)
+    private IEnumerator FeedbackAttack(int AID)
     {
         animEnded = false;
         slashAnim.SetActive(true);
-        if (ID == 2) SoundManager.PlaySound("Arrow");
+        if (AID == 2) SoundManager.PlaySound("Arrow");
+        else if (AID == 3) SoundManager.PlaySound("Magic");
+        else if (AID == 6) SoundManager.PlaySound("Missed");
         else SoundManager.PlaySound("Attack");
         yield return new WaitForSeconds(0.5f);
         slashAnim.SetActive(false);
