@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1904467620629300216}
   - component: {fileID: 2566849050184367728}
   - component: {fileID: 7959081427858849878}
+  - component: {fileID: 9050117083297242922}
   m_Layer: 0
   m_Name: DamagePopUp
   m_TagString: Untagged
@@ -58,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3350998237439478946, guid: 53a2a525a4643f948b876381acc9b11f, type: 2}
+  - {fileID: -4494139446267967573, guid: 36d5d1978c90c644cb6a88062c6767f8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,8 +109,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 156
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 53a2a525a4643f948b876381acc9b11f, type: 2}
-  m_sharedMaterial: {fileID: 3350998237439478946, guid: 53a2a525a4643f948b876381acc9b11f,
+  m_fontAsset: {fileID: 11400000, guid: 36d5d1978c90c644cb6a88062c6767f8, type: 2}
+  m_sharedMaterial: {fileID: -4494139446267967573, guid: 36d5d1978c90c644cb6a88062c6767f8,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -134,8 +135,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 62
+  m_fontSizeBase: 62
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -209,3 +210,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14bea8b0cc76866409b85e1bec761664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!210 &9050117083297242922
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1632364784755626160}
+  m_Enabled: 1
+  m_SortingLayerID: -338209009
+  m_SortingLayer: 4
+  m_SortingOrder: 10

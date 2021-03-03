@@ -1073,7 +1073,7 @@ public class GridCombatSystem : MonoBehaviour {
     public void DamagePopUp(Vector3 position, int damageAmount)
     {
         DamagePopUpPrefab.GetComponent<TextMeshPro>().SetText(damageAmount.ToString());
-        Instantiate(DamagePopUpPrefab, position, Quaternion.identity);
+        Instantiate(DamagePopUpPrefab, new Vector3 (position.x, position.y + 3, 0), Quaternion.identity);
     }
 
     public void FireburstHability()

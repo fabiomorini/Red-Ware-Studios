@@ -4719,7 +4719,7 @@ MonoBehaviour:
   selectedFeedback: {fileID: 384179138928281782, guid: 7660a1bfef54f114db91e1977389bd69,
     type: 3}
   inspiration: 0
-  DamagePopUpPrefab: {fileID: 6051316330791691393, guid: 7660a1bfef54f114db91e1977389bd69,
+  DamagePopUpPrefab: {fileID: 1632364784755626160, guid: 7660a1bfef54f114db91e1977389bd69,
     type: 3}
 --- !u!1 &790866642
 GameObject:
