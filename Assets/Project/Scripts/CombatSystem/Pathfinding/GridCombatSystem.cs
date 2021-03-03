@@ -153,6 +153,7 @@ public class GridCombatSystem : MonoBehaviour {
     public GameObject selectedFeedback;
 
     [HideInInspector] public int inspiration;
+    public GameObject DamagePopUpPrefab;
 
     private void Start() {
         selectedFeedback = Instantiate(selectedMouse);
@@ -1067,6 +1068,12 @@ public class GridCombatSystem : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void DamagePopUp(Vector3 position, int damageAmount)
+    {
+        DamagePopUpPrefab.GetComponent<TextMeshPro>().SetText(damageAmount.ToString());
+        Instantiate(DamagePopUpPrefab, new Vector3 (position.x, position.y + 7, 0), Quaternion.identity);
     }
 
     public void FireburstHability()
