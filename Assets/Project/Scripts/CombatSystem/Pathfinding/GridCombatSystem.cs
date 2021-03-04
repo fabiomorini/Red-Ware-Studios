@@ -155,7 +155,7 @@ public class GridCombatSystem : MonoBehaviour {
     [HideInInspector] public int inspiration;
     public GameObject DamagePopUpPrefab;
 
-    [HideInInspector] public TutorialManager tutorialManager;
+    private TutorialManager tutorialManager;
 
     private void Start() {
         selectedFeedback = Instantiate(selectedMouse);
@@ -165,7 +165,8 @@ public class GridCombatSystem : MonoBehaviour {
 
         if (SceneManager.GetActiveScene().buildIndex == 2)
         {
-            tutorialManager = GameObject.FindWithTag("tutorialManager").GetComponent<TutorialManager>();
+
+            tutorialManager = GameObject.FindGameObjectWithTag("tutorialManager").GetComponent<TutorialManager>();
         }
 
         experienceKnight = characterManager.meleeExp;
@@ -212,7 +213,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void Update()
     {
-        if (!gameOver)
+        if (!gameOver && !tutorialManager.isPaused)
         {
             gameHandler.HandleCameraMovement();
             if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
@@ -971,22 +972,11 @@ public class GridCombatSystem : MonoBehaviour {
                         {
                             inspiration--;
                             inspirationManager.alreadyUsedInspiration = true;
-                        }
-
-                        tutorialManager.ToolTip.SetActive(false);
-                        tutorialManager.TooltipDescription.SetText("Accion de Pasar, Para pasar clicka en el boton de pasar");
-                        tutorialManager.TooltipName.SetText("Tutorial - Skip");
-                        tutorialManager.ToolTip.SetActive(true);
-                        
+                        }                        
 
                         unitGridCombat.MoveTo(GetMouseWorldPosition(), () =>
                         {
-                            //Tutorial
-                            if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved)
-                            {
-                                tutorialManager.hasMoved = true;
-                                tutorialManager.tutorialIndex++;
-                            }
+                            if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved) tutorialManager.hasMoved = true;
                             gridObject.SetUnitGridCombat(unitGridCombat);
                             GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
                             Minimenu.SetActive(true);
@@ -1054,6 +1044,7 @@ public class GridCombatSystem : MonoBehaviour {
                             // Attack Enemy
                             if (doubleSlash)
                             {
+                                if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved) tutorialManager.hasUsedHability = true;
                                 StartCoroutine(DoubleSlash(gridObject));
                                 inspiration -= 3;
                             }
@@ -1064,9 +1055,11 @@ public class GridCombatSystem : MonoBehaviour {
 
                             if(boltOfPrecision)
                             {
+                                if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved) tutorialManager.hasUsedHability = true;
                                 boltOfPrecision = false;
                                 inspiration -= 3;
                             }
+                            if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved) tutorialManager.hasAttacked = true;
                             inspiredAttack = false;
                             inspirationManager.pointAttack = true;
                             inspirationManager.InspirationAttack();
