@@ -155,11 +155,18 @@ public class GridCombatSystem : MonoBehaviour {
     [HideInInspector] public int inspiration;
     public GameObject DamagePopUpPrefab;
 
+    [HideInInspector] public TutorialManager tutorialManager;
+
     private void Start() {
         selectedFeedback = Instantiate(selectedMouse);
         StartCoroutine(YourTurnUI());
         inspirationManager = GameObject.FindGameObjectWithTag("InspirationManager").GetComponent<InspirationUI>();
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
+
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            tutorialManager = GameObject.FindWithTag("tutorialManager").GetComponent<TutorialManager>();
+        }
 
         experienceKnight = characterManager.meleeExp;
         experienceArcher = characterManager.archerExp;
@@ -966,8 +973,20 @@ public class GridCombatSystem : MonoBehaviour {
                             inspirationManager.alreadyUsedInspiration = true;
                         }
 
+                        tutorialManager.ToolTip.SetActive(false);
+                        tutorialManager.TooltipDescription.SetText("Accion de Pasar, Para pasar clicka en el boton de pasar");
+                        tutorialManager.TooltipName.SetText("Tutorial - Skip");
+                        tutorialManager.ToolTip.SetActive(true);
+                        
+
                         unitGridCombat.MoveTo(GetMouseWorldPosition(), () =>
                         {
+                            //Tutorial
+                            if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved)
+                            {
+                                tutorialManager.hasMoved = true;
+                                tutorialManager.tutorialIndex++;
+                            }
                             gridObject.SetUnitGridCombat(unitGridCombat);
                             GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
                             Minimenu.SetActive(true);
@@ -1019,6 +1038,12 @@ public class GridCombatSystem : MonoBehaviour {
                         // Can Attack Enemy
                         if (canAttackThisTurn)
                         {
+                            //Tutorial
+                            if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasAttacked)
+                            {
+                                tutorialManager.hasAttacked = true;
+                                tutorialManager.tutorialIndex++;
+                            }
                             Minimenu.SetActive(true);
                             canAttackThisTurn = false;
                             if (inspirationManager.alreadyRestedInspiration && !doubleSlash && !boltOfPrecision)
