@@ -12,6 +12,7 @@ public class TutorialManager : MonoBehaviour
     [HideInInspector] public bool hasAttacked = false;
     [HideInInspector] public bool hasUsedHability = false;
     [HideInInspector] public bool hasSkip = false;
+    [HideInInspector] public bool hasExit = false;
 
     public Button exitButton;
     public GameObject endText;
@@ -278,6 +279,17 @@ public class TutorialManager : MonoBehaviour
             StartCoroutine(ToolTipWaitTime());
         }
         hasSkip = true;
+    }    
+    public void ExitTutorialText()
+    {
+        if (!hasExit)
+        {
+            TooltipDescription.SetText("If you want to get out of a real combat for any reason, you can use Surrender and get back to the world map. \nYou will not get experience or money if you use not get experience or money.");
+            TooltipName.SetText("Action: Surrender");
+            ToolTip.SetActive(true);
+            StartCoroutine(ToolTipWaitTime());
+        }
+        hasExit = true;
     }
 
     public void ShowExitText()
