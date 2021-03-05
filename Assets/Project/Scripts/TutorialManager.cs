@@ -21,6 +21,30 @@ public class TutorialManager : MonoBehaviour
     public Image TooltipImage;
     public GameObject spaceKey;
 
+    public Button moveButton;
+    public Button attackButton;
+    public Button habilityButton;
+    public Button skipButton;
+
+    public GameObject inspirationMoveButton;
+    public GameObject inspirationAttackButton;
+
+    public GameObject arrowMinimenu;
+    public GameObject arrowUI;
+    public GameObject arrowInspiration;
+    public GameObject arrowMove;
+
+    public TMP_Text welcomeText;
+    private bool tutorial1 = true;
+    private bool canPressSpace;
+    private bool isWaiting1 = false;
+    private bool isWaiting2 = false;
+    private bool isWaiting3 = false;
+    private bool isWaiting4 = false;
+    public GameObject pressSpaceButton;
+    private int firstPartIndex = 0;
+    public GameObject firstTutorial;
+    public GameObject yourTurnUI;
 
 
     private void Start()
@@ -30,24 +54,183 @@ public class TutorialManager : MonoBehaviour
         endText.SetActive(false);
         spaceKey.SetActive(false);
         ToolTip.SetActive(false);
+        StartFirstPartTutorial();
     }
 
     private void Update()
     {
-        if (hasMoved && hasAttacked && hasUsedHability) exitButton.interactable = true;
-
-        if (isPaused && Input.GetKeyDown(KeyCode.Space))
+        if (!tutorial1) // segunda parte del tutorial
         {
-            spaceKey.SetActive(false);
-            isPaused = false;
-            ToolTip.SetActive(false);
+            UnlockButtons();
+            if (hasMoved && hasAttacked && hasUsedHability) exitButton.interactable = true;
+
+            if (isPaused && Input.GetKeyDown(KeyCode.Space))
+            {
+                moveButton.interactable = true;
+                attackButton.interactable = true;
+                skipButton.interactable = true;
+                habilityButton.interactable = true;
+
+                spaceKey.SetActive(false);
+                isPaused = false;
+                ToolTip.SetActive(false);
+            }
+        }
+        else //primera parte del tutorial
+        {
+            UpdateFirstPartTutorial();
+        }
+    }
+    private void CheckSpaceButton()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && canPressSpace)
+        {
+            if(firstPartIndex == 3)
+            {
+                tutorial1 = false;
+                isPaused = false;
+                firstTutorial.SetActive(false);
+                inspirationMoveButton.SetActive(false);
+                inspirationAttackButton.SetActive(false);
+                arrowMove.SetActive(true);
+                moveButton.interactable = true;
+            }
+            else
+            {
+                firstPartIndex++;
+            }
+        }
+    }
+
+    private IEnumerator WelcomeWaitTime()
+    {
+        yield return new WaitForSeconds(1f);
+        pressSpaceButton.SetActive(true);
+        canPressSpace = true;
+    }
+
+    private void UpdateFirstPartTutorial()
+    {
+        if(firstPartIndex == 0) // welcome
+        {
+            if (!isWaiting1)
+            {
+                canPressSpace = false;
+                pressSpaceButton.SetActive(false);
+                welcomeText.SetText("Welcome to the Battle Tale tutorial! \n\n Now you will learn to use the different elements that will be shown on the battlefield");
+                isWaiting1 = true;
+                StartCoroutine(WelcomeWaitTime());
+            }
+            if(canPressSpace)
+            {
+                CheckSpaceButton();
+            }
+        }
+        else if (firstPartIndex == 1) // minimenu
+        {
+            if (!isWaiting2)
+            {
+                canPressSpace = false;
+                pressSpaceButton.SetActive(false);
+                arrowMinimenu.SetActive(true);
+                welcomeText.SetText("In the Actions Menu you will be able to use the different commands that your units can perform in combat");
+                isWaiting2 = true;
+                StartCoroutine(WelcomeWaitTime());
+            }
+            if (canPressSpace)
+            {
+                CheckSpaceButton();
+            }
+        }
+        else if (firstPartIndex == 2) // UI
+        {
+            if (!isWaiting3)
+            {
+                canPressSpace = false;
+                pressSpaceButton.SetActive(false);
+                welcomeText.SetText("This is the Unit Stats Menu, here you can see the attributes corresponding to the current unit.");
+                arrowMinimenu.SetActive(false);
+                arrowUI.SetActive(true);
+                isWaiting3 = true;
+                StartCoroutine(WelcomeWaitTime());
+            }
+            if (canPressSpace)
+            {
+                CheckSpaceButton();
+            }
+        }
+        else if (firstPartIndex == 3) // Inspiration
+        {
+            if (!isWaiting4)
+            {
+                canPressSpace = false;
+                pressSpaceButton.SetActive(false);
+                welcomeText.SetText("In the top you have your inspiration points. \n You gain one point each turn and you can use them to enhance your actions.");
+                inspirationMoveButton.SetActive(true);
+                inspirationAttackButton.SetActive(true);
+                arrowUI.SetActive(false);
+                arrowInspiration.SetActive(true);
+                isWaiting4 = true;
+                StartCoroutine(WelcomeWaitTime());
+                yourTurnUI.GetComponent<TMP_Text>().SetText("Your Turn");
+            }
+            if (canPressSpace)
+            {
+                CheckSpaceButton();
+            }
+        }
+    }
+
+    private void StartFirstPartTutorial()
+    {
+        yourTurnUI.GetComponent<TMP_Text>().SetText("");
+        tutorial1 = true;
+        isPaused = true;
+        firstTutorial.SetActive(true);
+        pressSpaceButton.SetActive(false);
+        canPressSpace = false;
+        inspirationMoveButton.SetActive(false);
+        inspirationAttackButton.SetActive(false);
+        moveButton.interactable = false;
+        attackButton.interactable = false;
+        skipButton.interactable = false;
+        habilityButton.interactable = false;
+        arrowMinimenu.SetActive(false);
+        arrowUI.SetActive(false);
+        arrowInspiration.SetActive(false);
+        arrowMove.SetActive(false);
+    }
+
+    private void UnlockButtons()
+    {
+        if (!hasMoved)
+        {
+            attackButton.interactable = false;
+            skipButton.interactable = false;
+        }
+        else
+        {
+            attackButton.interactable = true;
+            skipButton.interactable = true;
+        }
+        if (gridCombatSystem.inspiration < 3)
+        {
+            habilityButton.interactable = false;
+        }
+        else
+        {
+            habilityButton.interactable = true;
         }
     }
 
     private IEnumerator ToolTipWaitTime()
     {
         isPaused = true;
-        yield return new WaitForSeconds(3f);
+        moveButton.interactable = false;
+        attackButton.interactable = false;
+        skipButton.interactable = false;
+        habilityButton.interactable = false;
+        yield return new WaitForSeconds(1f);
         spaceKey.SetActive(true);
     }
 
@@ -55,31 +238,35 @@ public class TutorialManager : MonoBehaviour
     {
        if (!hasMoved)
        {
-            TooltipDescription.SetText("Accion de Movimiento, Para moverte clicka en una de las casillas dentro del rango de movimiento de tu personaje.");
-            TooltipName.SetText("Tutorial - Movimiento");
+            arrowMove.SetActive(false);
+            TooltipDescription.SetText("The unit will advance to the desired position within its range. \n\nIf you use its inspiration button, the unit will advance more squares");
+            TooltipName.SetText("Action: \nMove");
             ToolTip.SetActive(true);
             StartCoroutine(ToolTipWaitTime());
-        }
+       }
+       hasMoved = true;
     }
     public void AttackTutorialText()
     {
         if (!hasAttacked)
         {
-            TooltipDescription.SetText("Accion de Ataque, Para atacar clicka en una de las casillas dentro del rango de movimiento de tu personaje.");
-            TooltipName.SetText("Tutorial - Atacar");
+            TooltipDescription.SetText("Your unit will inflict damage to the selected enemy within its range \n\nIf you use its inspiration button, the attack will be more powerfull");
+            TooltipName.SetText("Action: Attack");
             ToolTip.SetActive(true);
             StartCoroutine(ToolTipWaitTime());
         }
+        hasAttacked = true;
     }
     public void AbilityTutorialText()
     {
         if (!hasUsedHability)
         {
-            TooltipDescription.SetText("Accion de Habilidad, Para usar habilidad clicka en una de las casillas dentro del rango de movimiento de tu personaje.");
-            TooltipName.SetText("Tutorial - Habilidades");
+            TooltipDescription.SetText("It's a special skill that costs three inspiration points \n\nEvery class has two Special Skills");
+            TooltipName.SetText("Action: Ability");
             ToolTip.SetActive(true);
             StartCoroutine(ToolTipWaitTime());
         }
+        hasUsedHability = true;
     }
 
     public void ShowExitText()

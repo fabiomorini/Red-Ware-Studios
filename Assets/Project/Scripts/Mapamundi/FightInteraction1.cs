@@ -98,7 +98,7 @@ public class FightInteraction1 : MonoBehaviour
 
         SoundManager.PlaySound("playLevel");
         yield return new WaitForSeconds(1.0f);
-        SceneManager.LoadScene("Tutorial");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
 }
