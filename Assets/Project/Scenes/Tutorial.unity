@@ -1515,7 +1515,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Habilities
+  m_text: Abilities
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2c077880a81cf29468b74e6abdf92a0c, type: 2}
   m_sharedMaterial: {fileID: 2691118237745086368, guid: 2c077880a81cf29468b74e6abdf92a0c,
@@ -1848,6 +1848,7 @@ MonoBehaviour:
   hasMoved: 0
   hasAttacked: 0
   hasUsedHability: 0
+  hasSkip: 0
   exitButton: {fileID: 1711986116}
   endText: {fileID: 416866145}
   tutorialIndex: 0
@@ -13057,6 +13058,17 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1273261309}
         m_MethodName: HidePointsSkip
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 323342583}
+        m_MethodName: SkipTutorialText
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

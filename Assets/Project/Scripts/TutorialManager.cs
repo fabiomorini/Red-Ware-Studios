@@ -11,6 +11,8 @@ public class TutorialManager : MonoBehaviour
     [HideInInspector] public bool hasMoved = false;
     [HideInInspector] public bool hasAttacked = false;
     [HideInInspector] public bool hasUsedHability = false;
+    [HideInInspector] public bool hasSkip = false;
+
     public Button exitButton;
     public GameObject endText;
     [HideInInspector] public int tutorialIndex = 0;
@@ -244,7 +246,6 @@ public class TutorialManager : MonoBehaviour
             ToolTip.SetActive(true);
             StartCoroutine(ToolTipWaitTime());
        }
-       hasMoved = true;
     }
     public void AttackTutorialText()
     {
@@ -255,7 +256,6 @@ public class TutorialManager : MonoBehaviour
             ToolTip.SetActive(true);
             StartCoroutine(ToolTipWaitTime());
         }
-        hasAttacked = true;
     }
     public void AbilityTutorialText()
     {
@@ -266,7 +266,18 @@ public class TutorialManager : MonoBehaviour
             ToolTip.SetActive(true);
             StartCoroutine(ToolTipWaitTime());
         }
-        hasUsedHability = true;
+    }
+
+    public void SkipTutorialText()
+    {
+        if (!hasSkip)
+        {
+            TooltipDescription.SetText("If you dont want to execute any more action with the current unit, you can use Skip to pass turn. \n\nYou will skip turn if you already moved and attacked or used an hability");
+            TooltipName.SetText("Action: Skip Turn");
+            ToolTip.SetActive(true);
+            StartCoroutine(ToolTipWaitTime());
+        }
+        hasSkip = true;
     }
 
     public void ShowExitText()

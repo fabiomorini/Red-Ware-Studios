@@ -821,6 +821,7 @@ public class GridCombatSystem : MonoBehaviour {
         isWaiting = true;
         hasUpdatedPositionMove = false;
         hasUpdatedPositionAttack = false;
+        if (SceneManager.GetActiveScene().buildIndex == 2) tutorialManager.SkipTutorialText();
     }
 
     private void CheckMinimenuAlly() 
