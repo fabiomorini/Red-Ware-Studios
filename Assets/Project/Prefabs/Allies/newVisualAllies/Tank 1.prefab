@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434988252838708533}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.127, y: 0.311, z: 0}
+  m_LocalPosition: {x: 0.127, y: 0.154, z: 0}
   m_LocalScale: {x: 1.1666667, y: 1.1666667, z: 1}
   m_Children:
   - {fileID: 5495759451515835363}
@@ -211,8 +211,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2555715427719967621}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.021, y: 0.258, z: 0}
-  m_LocalScale: {x: 0.8224091, y: 0.8224091, z: 0.8224091}
+  m_LocalPosition: {x: 0.017, y: 0.108, z: 0}
+  m_LocalScale: {x: 0.125, y: 0.125, z: 0.062309686}
   m_Children: []
   m_Father: {fileID: 3300769062914515235}
   m_RootOrder: 1
@@ -256,7 +256,7 @@ SpriteRenderer:
   m_SortingLayerID: -827213157
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0d6c08bcd70b24b4299d4198d78176d9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 997dac28a08dce447bf90978c44c0431, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 3300769062914515233}
   - component: {fileID: 3300769062914515232}
   m_Layer: 0
-  m_Name: Tank
+  m_Name: Tank 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

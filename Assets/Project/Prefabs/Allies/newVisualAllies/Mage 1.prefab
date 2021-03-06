@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 55412772131948236}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.76, y: 0.86, z: 0}
-  m_LocalScale: {x: 4.5852113, y: 4.5852113, z: 4.5852113}
+  m_LocalPosition: {x: 0.27, y: 0.97, z: 0}
+  m_LocalScale: {x: 0.7354199, y: 0.7354199, z: 0.4541095}
   m_Children: []
   m_Father: {fileID: 4463992025083117555}
   m_RootOrder: 1
@@ -70,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: -827213157
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a72ab760aaf325344b537407b0fc915e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5f0c8dcd3aedc7442a4ba6105a1876ac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -542,7 +542,7 @@ GameObject:
   - component: {fileID: 268258433665219050}
   - component: {fileID: 1360768022238864823}
   m_Layer: 0
-  m_Name: Mage
+  m_Name: Mage 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1150,7 +1150,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9130299008390386827}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.77, y: 1.91, z: 0}
+  m_LocalPosition: {x: 0.77, y: 0.9, z: 0}
   m_LocalScale: {x: 7, y: 7, z: 1}
   m_Children:
   - {fileID: 8640382534369327348}
