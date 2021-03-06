@@ -155,11 +155,19 @@ public class GridCombatSystem : MonoBehaviour {
     [HideInInspector] public int inspiration;
     public GameObject DamagePopUpPrefab;
 
+    private TutorialManager tutorialManager;
+
     private void Start() {
         selectedFeedback = Instantiate(selectedMouse);
         StartCoroutine(YourTurnUI());
         inspirationManager = GameObject.FindGameObjectWithTag("InspirationManager").GetComponent<InspirationUI>();
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
+
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+
+            tutorialManager = GameObject.FindGameObjectWithTag("tutorialManager").GetComponent<TutorialManager>();
+        }
 
         experienceKnight = characterManager.meleeExp;
         experienceArcher = characterManager.archerExp;
@@ -205,7 +213,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void Update()
     {
-        if (!gameOver)
+        if (!gameOver && !tutorialManager.isPaused)
         {
             gameHandler.HandleCameraMovement();
             if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
@@ -813,6 +821,7 @@ public class GridCombatSystem : MonoBehaviour {
         isWaiting = true;
         hasUpdatedPositionMove = false;
         hasUpdatedPositionAttack = false;
+        if (SceneManager.GetActiveScene().buildIndex == 2) tutorialManager.SkipTutorialText();
     }
 
     private void CheckMinimenuAlly() 
@@ -964,10 +973,11 @@ public class GridCombatSystem : MonoBehaviour {
                         {
                             inspiration--;
                             inspirationManager.alreadyUsedInspiration = true;
-                        }
+                        }                        
 
                         unitGridCombat.MoveTo(GetMouseWorldPosition(), () =>
                         {
+                            if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved) tutorialManager.hasMoved = true;
                             gridObject.SetUnitGridCombat(unitGridCombat);
                             GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
                             Minimenu.SetActive(true);
@@ -1019,6 +1029,12 @@ public class GridCombatSystem : MonoBehaviour {
                         // Can Attack Enemy
                         if (canAttackThisTurn)
                         {
+                            //Tutorial
+                            if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasAttacked)
+                            {
+                                tutorialManager.hasAttacked = true;
+                                tutorialManager.tutorialIndex++;
+                            }
                             Minimenu.SetActive(true);
                             canAttackThisTurn = false;
                             if (inspirationManager.alreadyRestedInspiration && !doubleSlash && !boltOfPrecision)
@@ -1029,6 +1045,7 @@ public class GridCombatSystem : MonoBehaviour {
                             // Attack Enemy
                             if (doubleSlash)
                             {
+                                if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved) tutorialManager.hasUsedHability = true;
                                 StartCoroutine(DoubleSlash(gridObject));
                                 inspiration -= 3;
                             }
@@ -1039,9 +1056,11 @@ public class GridCombatSystem : MonoBehaviour {
 
                             if(boltOfPrecision)
                             {
+                                if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved) tutorialManager.hasUsedHability = true;
                                 boltOfPrecision = false;
                                 inspiration -= 3;
                             }
+                            if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved) tutorialManager.hasAttacked = true;
                             inspiredAttack = false;
                             inspirationManager.pointAttack = true;
                             inspirationManager.InspirationAttack();

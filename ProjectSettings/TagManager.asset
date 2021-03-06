@@ -15,6 +15,7 @@ TagManager:
   - L2
   - L3
   - InspirationManager
+  - tutorialManager
   layers:
   - Default
   - TransparentFX
