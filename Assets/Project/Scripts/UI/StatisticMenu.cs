@@ -35,7 +35,7 @@ public class StatisticMenu : MonoBehaviour
         currHealthText.SetText("HP:  " + unitGridCombat.curHealth + " / " + unitGridCombat.maxHealth);
         SetHealth(unitGridCombat.curHealth);
     }
-
+    
     private void SetLevelText()
     {
         if (unitGridCombat.GetComponent<CHARACTER_PREFS>().level == CHARACTER_PREFS.Level.NIVEL1)
@@ -51,7 +51,7 @@ public class StatisticMenu : MonoBehaviour
             levelText.SetText("Nv. 3");
         }
     }
-
+    
     public void UpdateSprite(UnitGridCombat unitGridCombat)
     {
         if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)

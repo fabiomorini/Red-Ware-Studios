@@ -213,7 +213,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void Update()
     {
-        if (!gameOver && !tutorialManager.isPaused)
+        if (!gameOver /*&&!tutorialManager.isPaused*/)
         {
             gameHandler.HandleCameraMovement();
             if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
