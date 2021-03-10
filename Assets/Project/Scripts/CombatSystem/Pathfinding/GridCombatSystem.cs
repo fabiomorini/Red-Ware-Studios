@@ -628,6 +628,7 @@ public class GridCombatSystem : MonoBehaviour {
         grid.GetXY(GetMouseWorldPosition(), out int unitX, out int unitY);
         selectedFeedback.SetActive(true);
         Vector3 myPosition = new Vector3(GetMouseWorldPosition().x, GetMouseWorldPosition().y, 0);
+
         int x = (int)myPosition.x;
         float lastDigitX = Mathf.Abs(myPosition.x) % 10;
         int lastDigitXInt = Mathf.Abs(x) % 10;
