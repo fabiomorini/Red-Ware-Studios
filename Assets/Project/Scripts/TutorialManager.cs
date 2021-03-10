@@ -17,7 +17,6 @@ public class TutorialManager : MonoBehaviour
     public Button exitButton;
     public GameObject endText;
     [HideInInspector] public int tutorialIndex = 0;
-    [HideInInspector] public bool isPaused = false;
     public GameObject ToolTip;
     public TMP_Text TooltipDescription;
     public TMP_Text TooltipName;
@@ -67,7 +66,7 @@ public class TutorialManager : MonoBehaviour
             UnlockButtons();
             if (hasMoved && hasAttacked && hasUsedHability) exitButton.interactable = true;
 
-            if (isPaused && Input.GetKeyDown(KeyCode.Space))
+            if (gridCombatSystem.isPaused && Input.GetKeyDown(KeyCode.Space))
             {
                 moveButton.interactable = true;
                 attackButton.interactable = true;
@@ -75,7 +74,7 @@ public class TutorialManager : MonoBehaviour
                 habilityButton.interactable = true;
 
                 spaceKey.SetActive(false);
-                isPaused = false;
+                gridCombatSystem.isPaused = false;
                 ToolTip.SetActive(false);
             }
         }
@@ -91,7 +90,7 @@ public class TutorialManager : MonoBehaviour
             if(firstPartIndex == 3)
             {
                 tutorial1 = false;
-                isPaused = false;
+                gridCombatSystem.isPaused = false;
                 firstTutorial.SetActive(false);
                 inspirationMoveButton.SetActive(false);
                 inspirationAttackButton.SetActive(false);
@@ -188,7 +187,7 @@ public class TutorialManager : MonoBehaviour
     {
         yourTurnUI.GetComponent<TMP_Text>().SetText("");
         tutorial1 = true;
-        isPaused = true;
+        gridCombatSystem.isPaused = true;
         firstTutorial.SetActive(true);
         pressSpaceButton.SetActive(false);
         canPressSpace = false;
@@ -228,7 +227,7 @@ public class TutorialManager : MonoBehaviour
 
     private IEnumerator ToolTipWaitTime()
     {
-        isPaused = true;
+        gridCombatSystem.isPaused = true;
         moveButton.interactable = false;
         attackButton.interactable = false;
         skipButton.interactable = false;
