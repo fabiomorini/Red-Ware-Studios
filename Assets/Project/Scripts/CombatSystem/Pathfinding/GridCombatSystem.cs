@@ -163,7 +163,7 @@ public class GridCombatSystem : MonoBehaviour {
         inspirationManager = GameObject.FindGameObjectWithTag("InspirationManager").GetComponent<InspirationUI>();
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
 
-        if (SceneManager.GetActiveScene().buildIndex == 2)
+        if (SceneManager.GetActiveScene().name == "Tutorial")
         {
 
             tutorialManager = GameObject.FindGameObjectWithTag("tutorialManager").GetComponent<TutorialManager>();
@@ -213,7 +213,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void Update()
     {
-        if (!gameOver && !tutorialManager.isPaused)
+        if (!gameOver || (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.isPaused))
         {
             gameHandler.HandleCameraMovement();
             if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
@@ -616,16 +616,28 @@ public class GridCombatSystem : MonoBehaviour {
         GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
         grid.GetXY(GetMouseWorldPosition(), out int unitX, out int unitY);
         if (!gridPathfinding.IsWall(unitX, unitY))
+            selectedFeedback.transform.position = LookForCellCenter();
+        else
+            selectedFeedback.SetActive(false);
+    }
+
+    public Vector3 LookForCellCenter()
+    {
+        Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+        GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
+        grid.GetXY(GetMouseWorldPosition(), out int unitX, out int unitY);
+        selectedFeedback.SetActive(true);
+        Vector3 myPosition = new Vector3(GetMouseWorldPosition().x, GetMouseWorldPosition().y, 0);
+        int x = (int)myPosition.x;
+        float lastDigitX = Mathf.Abs(myPosition.x) % 10;
+        int lastDigitXInt = Mathf.Abs(x) % 10;
+
+        if (lastDigitX >= 9 && lastDigitX < 10) x -= 4;
+        else if (lastDigitX >= 0 && lastDigitX < 1) x += 5;
+        else
         {
-            selectedFeedback.SetActive(true);
-            Vector3 myPosition = new Vector3(GetMouseWorldPosition().x, GetMouseWorldPosition().y, 0);
-            int x = (int)myPosition.x;
-            int lastDigitX = Mathf.Abs(x) % 10;
-            switch (lastDigitX)
+            switch (lastDigitXInt)
             {
-                case 9:
-                    x -= 4;
-                    break;
                 case 8:
                     x -= 3;
                     break;
@@ -650,18 +662,19 @@ public class GridCombatSystem : MonoBehaviour {
                 case 1:
                     x += 4;
                     break;
-                case 0:
-                    x -= 5;
-                    break;
             }
+        }
 
-            int y = (int)myPosition.y;
-            int lastDigitY = Mathf.Abs(y) % 10;
-            switch (lastDigitY)
+        int y = (int)myPosition.y;
+        float lastDigitY = Mathf.Abs(myPosition.y) % 10;
+        int lastDigitYInt = Mathf.Abs(y) % 10;
+
+        if (lastDigitY >= 9 && lastDigitY < 10) y -= 4;
+        else if (lastDigitY >= 0 && lastDigitY < 1) y += 5;
+        else
+        {
+            switch (lastDigitYInt)
             {
-                case 9:
-                    y -= 4;
-                    break;
                 case 8:
                     y -= 3;
                     break;
@@ -686,17 +699,10 @@ public class GridCombatSystem : MonoBehaviour {
                 case 1:
                     y += 4;
                     break;
-                case 0:
-                    y -= 5;
-                    break;
             }
-            Vector3 newPosition = new Vector3(x, y, 0);
-            selectedFeedback.transform.position = newPosition;
         }
-        else
-        {
-            selectedFeedback.SetActive(false);
-        }
+
+        return new Vector3(x, y, 0);
     }
 
 
@@ -821,7 +827,7 @@ public class GridCombatSystem : MonoBehaviour {
         isWaiting = true;
         hasUpdatedPositionMove = false;
         hasUpdatedPositionAttack = false;
-        if (SceneManager.GetActiveScene().buildIndex == 2) tutorialManager.SkipTutorialText();
+        if (SceneManager.GetActiveScene().name == "Tutorial") tutorialManager.SkipTutorialText();
     }
 
     private void CheckMinimenuAlly() 
@@ -947,7 +953,7 @@ public class GridCombatSystem : MonoBehaviour {
         if (Input.GetMouseButtonDown(0))
         {
             Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
-            GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
+            GridObject gridObject = grid.GetGridObject(LookForCellCenter());
 
             // Check if clicking on a unit position
             if (gridObject.GetUnitGridCombat() == null)
@@ -975,9 +981,9 @@ public class GridCombatSystem : MonoBehaviour {
                             inspirationManager.alreadyUsedInspiration = true;
                         }                        
 
-                        unitGridCombat.MoveTo(GetMouseWorldPosition(), () =>
+                        unitGridCombat.MoveTo(LookForCellCenter(), () =>
                         {
-                            if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved) tutorialManager.hasMoved = true;
+                            if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasMoved) tutorialManager.hasMoved = true;
                             gridObject.SetUnitGridCombat(unitGridCombat);
                             GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
                             Minimenu.SetActive(true);
@@ -1011,7 +1017,7 @@ public class GridCombatSystem : MonoBehaviour {
         {
             selectedFeedback.SetActive(false);
             Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
-            GridObject gridObject = grid.GetGridObject(GetMouseWorldPosition());
+            GridObject gridObject = grid.GetGridObject(LookForCellCenter());
 
             // Check if clicking on a unit position
             if (gridObject.GetUnitGridCombat() != null)
@@ -1030,7 +1036,7 @@ public class GridCombatSystem : MonoBehaviour {
                         if (canAttackThisTurn)
                         {
                             //Tutorial
-                            if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasAttacked)
+                            if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasAttacked)
                             {
                                 tutorialManager.hasAttacked = true;
                                 tutorialManager.tutorialIndex++;
@@ -1045,7 +1051,7 @@ public class GridCombatSystem : MonoBehaviour {
                             // Attack Enemy
                             if (doubleSlash)
                             {
-                                if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved) tutorialManager.hasUsedHability = true;
+                                if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasMoved) tutorialManager.hasUsedHability = true;
                                 StartCoroutine(DoubleSlash(gridObject));
                                 inspiration -= 3;
                             }
@@ -1056,11 +1062,11 @@ public class GridCombatSystem : MonoBehaviour {
 
                             if(boltOfPrecision)
                             {
-                                if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved) tutorialManager.hasUsedHability = true;
+                                if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasMoved) tutorialManager.hasUsedHability = true;
                                 boltOfPrecision = false;
                                 inspiration -= 3;
                             }
-                            if (SceneManager.GetActiveScene().buildIndex == 2 && !tutorialManager.hasMoved) tutorialManager.hasAttacked = true;
+                            if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasMoved) tutorialManager.hasAttacked = true;
                             inspiredAttack = false;
                             inspirationManager.pointAttack = true;
                             inspirationManager.InspirationAttack();
@@ -1106,6 +1112,7 @@ public class GridCombatSystem : MonoBehaviour {
             inspirationManager.Hability1UI.GetComponent<Button>().interactable = false;
             int x = (int)GetMouseWorldPosition().x;
             int lastDigitX = Mathf.Abs(x) % 10;
+            //if()
             switch (lastDigitX)
             {
                 case 9:
