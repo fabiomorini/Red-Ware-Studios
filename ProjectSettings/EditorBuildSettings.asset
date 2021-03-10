@@ -15,11 +15,11 @@ EditorBuildSettings:
     path: Assets/Project/Scenes/Tutorial.unity
     guid: 531582646b689034abcb95793cdcdf83
   - enabled: 1
-    path: Assets/Project/Scenes/Nuevos Graficos.unity
-    guid: 4544af4ed50e0c347b2da25be6068aa5
-  - enabled: 1
     path: Assets/Project/Scenes/Nivel1.unity
     guid: 7c06400df2bc9874ab4ebf4186879593
+  - enabled: 1
+    path: Assets/Project/Scenes/Nuevos Graficos.unity
+    guid: 4544af4ed50e0c347b2da25be6068aa5
   - enabled: 1
     path: Assets/Project/Scenes/Nivel2.unity
     guid: 4622c73a5479e94439628ff467cab795

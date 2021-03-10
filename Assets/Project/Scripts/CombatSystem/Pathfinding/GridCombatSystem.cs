@@ -99,6 +99,8 @@ public class GridCombatSystem : MonoBehaviour {
     [HideInInspector] public bool fireBurst = false;
     [HideInInspector] public bool summon = false;
 
+    private bool alreadyUsedOverload = false;
+
     //minimenu in-game
     public GameObject Minimenu;
     private bool isMenuVisible;
@@ -213,7 +215,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void Update()
     {
-        if (!gameOver /*&&!tutorialManager.isPaused*/)
+        if (!gameOver /*&&!tutorialManager.isPaused*/)  //CAMBIAR
         {
             gameHandler.HandleCameraMovement();
             if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
@@ -232,6 +234,11 @@ public class GridCombatSystem : MonoBehaviour {
                 if (fireBurst)
                 {
                     FireburstHability();
+                }
+
+                if (overload && !alreadyUsedOverload)
+                {
+                    OverloadFeedback();
                 }
 
                 if (moving)
@@ -312,6 +319,12 @@ public class GridCombatSystem : MonoBehaviour {
                 }
             }
         }
+    }
+
+    private void OverloadFeedback()
+    {
+        unitGridCombat.DoOverloadFeedback();
+        alreadyUsedOverload = true;
     }
 
     private void UpdateStatisticMenu()
@@ -910,6 +923,7 @@ public class GridCombatSystem : MonoBehaviour {
             for(int i = 0; i < alliesTeamList.Count; i++) // reset de la habilidad overload cuando acaban los enemigos
             {
                 alliesTeamList[i].GetComponent<UnitGridCombat>().isOverloaded = false;
+                alreadyUsedOverload = false;
             }
             isAllyTurn = true;
             StartCoroutine(YourTurnUI());

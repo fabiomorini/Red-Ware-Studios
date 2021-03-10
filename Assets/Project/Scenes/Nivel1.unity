@@ -4704,7 +4704,7 @@ MonoBehaviour:
   enemyUI: {fileID: 1753734441}
   endGameUI: {fileID: 1864700914}
   SurrenderUI: {fileID: 416866145}
-  fireUI: {fileID: 480572144873647580, guid: 4633a30691653454f9880852e22bd37e, type: 3}
+  fireUI: {fileID: 7043383512610315436, guid: d70a9199374cdc5498909889885507ff, type: 3}
   Center: {fileID: 1732554268}
   isHabilityActive: 0
   experienceKnightTxt: {fileID: 1553432355}
@@ -6281,7 +6281,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1038777281
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11600,7 +11600,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141661505}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 152.95737, y: 18.153204, z: -10}
+  m_LocalPosition: {x: 153.03607, y: 18.153204, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1892862704}

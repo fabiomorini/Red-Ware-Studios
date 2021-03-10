@@ -39,6 +39,8 @@ public class UnitGridCombat : MonoBehaviour {
     // Feedback
     public GameObject slashAnim;
     public GameObject healAnim;
+    public GameObject lightningAnim;
+    public GameObject overloadAnim;
 
     public GameObject selectedBox;
 
@@ -596,18 +598,36 @@ public class UnitGridCombat : MonoBehaviour {
 
     private IEnumerator FeedbackAttack()
     {
-        animEnded = false;
-        slashAnim.SetActive(true);
-        SoundManager.PlaySound("Attack");
-        yield return new WaitForSeconds(0.5f);
-        slashAnim.SetActive(false);
-        playerSprite.color = Color.red;
-        yield return new WaitForSeconds(0.3f);
-        playerSprite.color = Color.white;
-        animEnded = true;
-        if (imDead)
-            Destroy(gameObject);
-        sceneCombatSystem.CheckIfGameIsOver();
+        if (attackedByMelee || attackedByTank || attackedByArcher)
+        {
+            animEnded = false;
+            slashAnim.SetActive(true);
+            SoundManager.PlaySound("Attack");
+            yield return new WaitForSeconds(0.5f);
+            slashAnim.SetActive(false);
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+            if (imDead)
+                Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
+        else if (attackedByMage || attackedByHealer)
+        {
+            animEnded = false;
+            lightningAnim.SetActive(true);
+            SoundManager.PlaySound("Lightning");
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(1.2f);
+            lightningAnim.SetActive(false);
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+            if (imDead)
+                Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
     }
 
     private IEnumerator FeedbackHealing(int healAmount)
@@ -619,6 +639,24 @@ public class UnitGridCombat : MonoBehaviour {
         healAnim.SetActive(false);
         playerSprite.color = Color.green;
         healthSystem.Heal(healAmount);
+        yield return new WaitForSeconds(0.3f);
+        playerSprite.color = Color.white;
+        animEnded = true;
+    }
+
+    public void DoOverloadFeedback()
+    {
+        StartCoroutine(FeedbackOverload());
+    }
+
+    public IEnumerator FeedbackOverload()
+    {
+        animEnded = false;
+        overloadAnim.SetActive(true);
+        //SoundManager.PlaySound("Healing");
+        yield return new WaitForSeconds(1.6f);
+        overloadAnim.SetActive(false);
+        playerSprite.color = Color.blue;
         yield return new WaitForSeconds(0.3f);
         playerSprite.color = Color.white;
         animEnded = true;
