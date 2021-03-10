@@ -156,8 +156,10 @@ public class GridCombatSystem : MonoBehaviour {
     public GameObject DamagePopUpPrefab;
 
     private TutorialManager tutorialManager;
+    [HideInInspector] public bool isPaused;
 
     private void Start() {
+        isPaused = false; 
         selectedFeedback = Instantiate(selectedMouse);
         StartCoroutine(YourTurnUI());
         inspirationManager = GameObject.FindGameObjectWithTag("InspirationManager").GetComponent<InspirationUI>();
@@ -213,7 +215,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void Update()
     {
-        if (!gameOver || (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.isPaused))
+        if (!gameOver && !isPaused)
         {
             gameHandler.HandleCameraMovement();
             if (unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
@@ -819,9 +821,7 @@ public class GridCombatSystem : MonoBehaviour {
     public void ForceTurnOver()
     {
         unitGridCombat.setSelectedFalse();
-        //iA_Enemies.ResetPositions();
         SelectNextActiveUnit();
-        //UpdateValidMovePositions();
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
         CheckMinimenuAlly();
