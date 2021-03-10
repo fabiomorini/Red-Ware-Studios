@@ -348,6 +348,7 @@ public class InspirationUI : MonoBehaviour
             combatSystem.overload = true;
             combatSystem.feedbackHability = true;
             combatSystem.alliesTeamList[combatSystem.allyTeamActiveUnitIndex].GetComponent<UnitGridCombat>().isOverloaded = true;
+            combatSystem.alliesTeamList[combatSystem.allyTeamActiveUnitIndex].GetComponent<UnitGridCombat>().DoOverloadFeedback();
             combatSystem.inspiration -= 3;
             Hability1UI.GetComponent<Button>().interactable = false;
         }

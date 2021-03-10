@@ -768,6 +768,7 @@ MonoBehaviour:
   slashAnim: {fileID: 8767967885425950126}
   healAnim: {fileID: 8993102180584529665}
   lightningAnim: {fileID: 364798258922908777}
+  overloadAnim: {fileID: 0}
   selectedBox: {fileID: 6263981104763527864}
   playerSprite: {fileID: 6917315024235975099}
   animEnded: 1
