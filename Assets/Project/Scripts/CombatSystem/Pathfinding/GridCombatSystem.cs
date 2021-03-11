@@ -787,7 +787,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void ExitFromBattle()
     {
-        SceneManager.LoadScene("Mapamundi");
+        SceneManager.LoadScene("Mapamundi Final");
     }
 
     //mira si hay un enemigo a una casilla

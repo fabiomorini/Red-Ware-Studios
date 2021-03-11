@@ -33,7 +33,7 @@ public class CuartelManager : MonoBehaviour
     public GameObject infoUI;
 
     public GameObject characterManager;
-    public CHARACTER_MNG charManager;
+    [HideInInspector] public CHARACTER_MNG charManager;
 
     private bool isActive;
 
