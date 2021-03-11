@@ -43,10 +43,10 @@ public class SoundManager : MonoBehaviour
         walkingBattleSound = Resources.Load<AudioClip>("WalkingBattle");
         turnSwapSound = Resources.Load<AudioClip>("TurnSwap");
         healingSound = Resources.Load<AudioClip>("Healing");
-        magicAttackSound = Resources.Load<AudioClip>("MagicAttack");
-        fireSound = Resources.Load<AudioClip>("FireAttack");
-        arrowAttackSound = Resources.Load<AudioClip>("ArrowHit");
-        missedHitSound = Resources.Load<AudioClip>("MissedAttack");
+        //magicAttackSound = Resources.Load<AudioClip>("MagicAttack");
+        //fireSound = Resources.Load<AudioClip>("FireAttack");
+        //arrowAttackSound = Resources.Load<AudioClip>("ArrowHit");
+        //missedHitSound = Resources.Load<AudioClip>("MissedAttack");
         //missedHitSound = Resources.Load<AudioClip>("Critical");
         
 
