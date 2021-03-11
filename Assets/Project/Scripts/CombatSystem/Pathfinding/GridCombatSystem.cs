@@ -157,6 +157,8 @@ public class GridCombatSystem : MonoBehaviour {
 
     private TutorialManager tutorialManager;
 
+    [SerializeField] private Transform arrowRoute;
+
     private void Start() {
         selectedFeedback = Instantiate(selectedMouse);
         StartCoroutine(YourTurnUI());

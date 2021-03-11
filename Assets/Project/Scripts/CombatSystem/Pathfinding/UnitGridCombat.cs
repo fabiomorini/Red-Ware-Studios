@@ -620,10 +620,16 @@ public class UnitGridCombat : MonoBehaviour {
         else if (attackedByArcher && !sceneCombatSystem.boltOfPrecision)
         {
             animEnded = false;
-            slashAnim.SetActive(true);
+            //slashAnim.SetActive(true);
+            //Instantiate(ArrowPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            //LOGICA
+            //Instanciamos una flecha en el inicio de la curva
+            //Cambiamos los 2 primeros puntos de la curva al centro del arquero y el otro un poco mas arriba
+            //Cambiamos los 2 ultimos puntos de la curva al centro del objetivo y el otro un poco mas arriba
+            //Destruimos la flecha al impactar y seguimos con sonido y feedback
             SoundManager.PlaySound("ArrowHit");
             yield return new WaitForSeconds(0.5f);
-            slashAnim.SetActive(false);
+            //slashAnim.SetActive(false);
             playerSprite.color = Color.red;
             yield return new WaitForSeconds(0.3f);
             playerSprite.color = Color.white;

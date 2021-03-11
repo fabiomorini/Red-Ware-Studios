@@ -1201,6 +1201,7 @@ MonoBehaviour:
   lightningAnim: {fileID: 3692014838110364413}
   overloadAnim: {fileID: 0}
   explosionAnim: {fileID: 2874201523653600528}
+  arrowAnim: {fileID: 0}
   boltAnim: {fileID: 0}
   selectedBox: {fileID: 1486291032867234630}
   playerSprite: {fileID: 5451920597673780541}
