@@ -12,9 +12,9 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: RedWareStudios
-  productName: BattleTale
-  defaultCursor: {fileID: 0}
+  companyName: RedWare Studio
+  productName: Battle Tale
+  defaultCursor: {fileID: 2800000, guid: 2d756944a3891e34c95081e5316955e5, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   m_ShowUnitySplashScreen: 1
@@ -126,7 +126,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.2
+  bundleVersion: 0.3
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -269,7 +269,7 @@ PlayerSettings:
   - m_BuildTarget: Standalone
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: ced4d997f3426ae4bab1cdff52f10e30, type: 3}
+      m_Icon: {fileID: 2800000, guid: 35df060b154f9424a93f356d32539951, type: 3}
       m_Width: 1024
       m_Height: 1024
       m_Kind: 0
@@ -311,7 +311,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 0}
+      m_Icon: {fileID: 2800000, guid: 35df060b154f9424a93f356d32539951, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
