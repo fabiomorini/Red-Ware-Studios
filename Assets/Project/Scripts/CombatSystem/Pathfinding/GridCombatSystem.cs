@@ -158,6 +158,8 @@ public class GridCombatSystem : MonoBehaviour {
     private TutorialManager tutorialManager;
     [HideInInspector] public bool isPaused;
 
+    [SerializeField] private Transform arrowRoute;
+
     private void Start() {
         isPaused = false; 
         selectedFeedback = Instantiate(selectedMouse);

@@ -39,6 +39,11 @@ public class UnitGridCombat : MonoBehaviour {
     // Feedback
     public GameObject slashAnim;
     public GameObject healAnim;
+    public GameObject lightningAnim;
+    public GameObject overloadAnim;
+    public GameObject explosionAnim;
+    public GameObject arrowAnim;
+    public GameObject boltAnim;
 
     public GameObject selectedBox;
 
@@ -570,7 +575,7 @@ public class UnitGridCombat : MonoBehaviour {
                 CleanListAlly();
             }
         }
-        StartCoroutine(FeedbackAttack(attackID));
+        StartCoroutine(FeedbackAttack(Attacker));
     }
 
     float RandomDamage(float damageAmount)
@@ -608,23 +613,93 @@ public class UnitGridCombat : MonoBehaviour {
         return damageAmount;
     }
 
-    private IEnumerator FeedbackAttack(int AID)
+    private IEnumerator FeedbackAttack(UnitGridCombat Attacker)
     {
-        animEnded = false;
-        slashAnim.SetActive(true);
-        if (AID == 2) SoundManager.PlaySound("Arrow");
-        else if (AID == 3) SoundManager.PlaySound("Magic");
-        else if (AID == 6) SoundManager.PlaySound("Missed");
-        else SoundManager.PlaySound("Attack");
-        yield return new WaitForSeconds(0.5f);
-        slashAnim.SetActive(false);
-        playerSprite.color = Color.red;
-        yield return new WaitForSeconds(0.3f);
-        playerSprite.color = Color.white;
-        animEnded = true;
-        if (imDead)
-            Destroy(gameObject);
-        sceneCombatSystem.CheckIfGameIsOver();
+        if (attackedByMelee || attackedByTank)
+        {
+            animEnded = false;
+            slashAnim.SetActive(true);
+            SoundManager.PlaySound("Attack");
+            yield return new WaitForSeconds(0.5f);
+            slashAnim.SetActive(false);
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+            if (imDead)
+                Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
+
+        else if (attackedByArcher && !sceneCombatSystem.boltOfPrecision)
+        {
+            animEnded = false;
+            //slashAnim.SetActive(true);
+            //Instantiate(ArrowPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            //LOGICA
+            Vector3 attackerPos = Attacker.GetPosition();
+            Vector3 myPos = this.GetPosition();
+            //Cambiamos los 2 primeros puntos de la curva al centro del arquero y el otro un poco mas arriba
+            //Cambiamos los 2 ultimos puntos de la curva al centro del objetivo y el otro un poco mas arriba
+            //Instanciamos una flecha en el inicio de la curva
+            //Seguimos con sonido y feedback
+            SoundManager.PlaySound("ArrowHit");
+            yield return new WaitForSeconds(0.5f);
+            //slashAnim.SetActive(false);
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+            if (imDead)
+                Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
+
+        else if (attackedByArcher && sceneCombatSystem.boltOfPrecision)
+        {
+            animEnded = false;
+            boltAnim.SetActive(true);
+            SoundManager.PlaySound("ArrowHit");
+            SoundManager.PlaySound("Bolt");
+            yield return new WaitForSeconds(1.2f);
+            boltAnim.SetActive(false);
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+        }
+
+        else if (attackedByMage)
+        {
+            animEnded = false;
+            lightningAnim.SetActive(true);
+            SoundManager.PlaySound("Lightning");
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(1.2f);
+            lightningAnim.SetActive(false);
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+            if (imDead)
+                Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
+
+        else if (attackedByHealer)
+        {
+            animEnded = false;
+            explosionAnim.SetActive(true);
+            SoundManager.PlaySound("HealerBasicAttack");
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.9f);
+            explosionAnim.SetActive(false);
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+            if (imDead)
+                Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
     }
 
     private IEnumerator FeedbackHealing(int healAmount)
@@ -636,6 +711,24 @@ public class UnitGridCombat : MonoBehaviour {
         healAnim.SetActive(false);
         playerSprite.color = Color.green;
         healthSystem.Heal(healAmount);
+        yield return new WaitForSeconds(0.3f);
+        playerSprite.color = Color.white;
+        animEnded = true;
+    }
+
+    public void DoOverloadFeedback()
+    {
+        StartCoroutine(FeedbackOverload());
+    }
+
+    public IEnumerator FeedbackOverload()
+    {
+        animEnded = false;
+        overloadAnim.SetActive(true);
+        //SoundManager.PlaySound("Healing");
+        yield return new WaitForSeconds(1.6f);
+        overloadAnim.SetActive(false);
+        playerSprite.color = Color.blue;
         yield return new WaitForSeconds(0.3f);
         playerSprite.color = Color.white;
         animEnded = true;
@@ -659,14 +752,14 @@ public class UnitGridCombat : MonoBehaviour {
     {
         if (sceneCombatSystem.hexOfNature)
         {
-            unitGridCombat.Heal(this, 60);
+            unitGridCombat.Heal(60);
             sceneCombatSystem.hexOfNature = false;
             sceneCombatSystem.inspiration -= 3;
         }
-        else unitGridCombat.Heal(this, healAmount);
+        else unitGridCombat.Heal(healAmount);
     }
 
-    public void Heal(UnitGridCombat Attacker, int healAmount)
+    public void Heal(int healAmount)
     {
         StartCoroutine(FeedbackHealing(healAmount));
     }
