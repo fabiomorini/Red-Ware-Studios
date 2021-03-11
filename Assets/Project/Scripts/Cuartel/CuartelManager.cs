@@ -70,7 +70,7 @@ public class CuartelManager : MonoBehaviour
             infoUI.SetActive(true);
             isActive = false;
         }
-        coinsText.SetText("¥ " + charManager.coins);
+        coinsText.SetText(charManager.coins + "g");
         ArcherText.SetText("x " + ArcherCounter);
         KnightText.SetText("x " + knightCounter);
         HealerText.SetText("x " + HealerCounter);

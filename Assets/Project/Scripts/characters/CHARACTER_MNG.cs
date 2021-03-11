@@ -116,10 +116,6 @@ public class CHARACTER_MNG : MonoBehaviour
             VictoryL3True();
         }
     }
-    public void KeepPlayerPosition()
-    {
-        //playerPosition.position = new Vector3(player.transform.position.x, player.transform.position.y, 0);
-    }
     private void VictoryL1True()
     {
         VictoryL1 = true;
