@@ -563,7 +563,7 @@ public class UnitGridCombat : MonoBehaviour {
                 CleanListAlly();
             }
         }
-        StartCoroutine(FeedbackAttack());
+        StartCoroutine(FeedbackAttack(Attacker));
     }
 
     float RandomDamage(float damageAmount)
@@ -599,7 +599,7 @@ public class UnitGridCombat : MonoBehaviour {
         return damageAmount;
     }
 
-    private IEnumerator FeedbackAttack()
+    private IEnumerator FeedbackAttack(UnitGridCombat Attacker)
     {
         if (attackedByMelee || attackedByTank)
         {
@@ -623,10 +623,12 @@ public class UnitGridCombat : MonoBehaviour {
             //slashAnim.SetActive(true);
             //Instantiate(ArrowPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             //LOGICA
-            //Instanciamos una flecha en el inicio de la curva
+            Vector3 attackerPos = Attacker.GetPosition();
+            Vector3 myPos = this.GetPosition();
             //Cambiamos los 2 primeros puntos de la curva al centro del arquero y el otro un poco mas arriba
             //Cambiamos los 2 ultimos puntos de la curva al centro del objetivo y el otro un poco mas arriba
-            //Destruimos la flecha al impactar y seguimos con sonido y feedback
+            //Instanciamos una flecha en el inicio de la curva
+            //Seguimos con sonido y feedback
             SoundManager.PlaySound("ArrowHit");
             yield return new WaitForSeconds(0.5f);
             //slashAnim.SetActive(false);
@@ -736,14 +738,14 @@ public class UnitGridCombat : MonoBehaviour {
     {
         if (sceneCombatSystem.hexOfNature)
         {
-            unitGridCombat.Heal(this, 60);
+            unitGridCombat.Heal(60);
             sceneCombatSystem.hexOfNature = false;
             sceneCombatSystem.inspiration -= 3;
         }
-        else unitGridCombat.Heal(this, healAmount);
+        else unitGridCombat.Heal(healAmount);
     }
 
-    public void Heal(UnitGridCombat Attacker, int healAmount)
+    public void Heal(int healAmount)
     {
         StartCoroutine(FeedbackHealing(healAmount));
     }
