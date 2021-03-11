@@ -193,6 +193,7 @@ public class UnitGridCombat : MonoBehaviour {
             selectedBox.SetActive(true);
             onReachedPosition();
         });
+        SoundManager.PlaySound("WalkingBattle");
     }
 
     public void SetCorrectPosition()
@@ -310,6 +311,7 @@ public class UnitGridCombat : MonoBehaviour {
     private IEnumerator FireDamageFeedback()
     {
         //SoundManager.PlaySound("burst");
+        SoundManager.PlaySound("Fire");
         playerSprite.color = Color.red;
         if (healthSystem.IsDead())
         {
@@ -340,10 +342,13 @@ public class UnitGridCombat : MonoBehaviour {
         if (imDead) Destroy(gameObject);
     }
 
-
+    int attackID;
     public void Damage(UnitGridCombat Attacker){
+
         if(Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
         {
+            attackID = 1;
+
             attackedByMelee = true;
             attackedByArcher = false;
             attackedByHealer = false;
@@ -369,6 +374,8 @@ public class UnitGridCombat : MonoBehaviour {
         }
         else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
+            attackID = 2;
+
             attackedByMelee = false;
             attackedByArcher = true;
             attackedByHealer = false;
@@ -438,6 +445,8 @@ public class UnitGridCombat : MonoBehaviour {
         }
         else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {
+            attackID = 3;
+
             attackedByMelee = false;
             attackedByArcher = false;
             attackedByHealer = false;
@@ -557,7 +566,7 @@ public class UnitGridCombat : MonoBehaviour {
                 CleanListAlly();
             }
         }
-        StartCoroutine(FeedbackAttack());
+        StartCoroutine(FeedbackAttack(attackID));
     }
 
     float RandomDamage(float damageAmount)
@@ -569,11 +578,13 @@ public class UnitGridCombat : MonoBehaviour {
         {
             damageAmount = damageAmount + (damageAmount / 100.0f) * 20.0f;
             //feedback
+            attackID = 5;
         }
         else if(randomNum >= 95)
         {
             damageAmount = 0;
             //feedback
+            attackID = 6;
         }
 
         if(this.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.TANK && sceneCombatSystem.overload && isOverloaded)
@@ -593,11 +604,14 @@ public class UnitGridCombat : MonoBehaviour {
         return damageAmount;
     }
 
-    private IEnumerator FeedbackAttack()
+    private IEnumerator FeedbackAttack(int AID)
     {
         animEnded = false;
         slashAnim.SetActive(true);
-        SoundManager.PlaySound("Attack");
+        if (AID == 2) SoundManager.PlaySound("Arrow");
+        else if (AID == 3) SoundManager.PlaySound("Magic");
+        else if (AID == 6) SoundManager.PlaySound("Missed");
+        else SoundManager.PlaySound("Attack");
         yield return new WaitForSeconds(0.5f);
         slashAnim.SetActive(false);
         playerSprite.color = Color.red;
