@@ -1,19 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
 public class SelectUnit : MonoBehaviour
 {
     public GameObject UI;
-
-    private int maxL1 = 3;
-    private int maxL2 = 4;
-    private int maxL3 = 5;
-    private int maxL4 = 5;
-    private int maxL5 = 6;
-    private int maxL6 = 7;
     private int maxLevel;
 
     private int knightCounter = 0;
@@ -44,13 +38,12 @@ public class SelectUnit : MonoBehaviour
     public TMP_Text magesToFightText;
 
     private GameObject characterManager;
-    private MinimapManager minimapManager;
+    public MapamundiManager minimapManager;
 
     private void Update()
     {
+        CheckButtons();
         characterManager = GameObject.FindWithTag("characterManager");
-        minimapManager = GameObject.FindWithTag("MinimapManager").GetComponent<MinimapManager>();
-        CheckLevelMax();
         explainText.SetText("You can only bring " + maxLevel + " soldiers to the fight");
 
         knightCounter = characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee;
@@ -73,21 +66,13 @@ public class SelectUnit : MonoBehaviour
         magesToFightText.SetText("x " + magesToFight);
     }
 
-    private void CheckLevelMax()
+    private void CheckButtons()
     {
-        if (minimapManager.L1)
-        {
-            maxLevel = maxL1;
-        }
-        if (minimapManager.L2)
-        {
-            maxLevel = maxL2;
-        }
-        if (minimapManager.L3)
-        {
-            maxLevel = maxL3;
-        }
+        if (minimapManager.N1) maxLevel = minimapManager.maxL1;
+        else if (minimapManager.N2) maxLevel = minimapManager.maxL2;
+        else if (minimapManager.N3) maxLevel = minimapManager.maxL3;
     }
+
 
     public void AddKnight()
     {
@@ -188,30 +173,14 @@ public class SelectUnit : MonoBehaviour
             characterManager.GetComponent<CHARACTER_MNG>().numberOfHealerFight = healersToFight;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfTankFight = tanksToFight;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfMageFight = magesToFight;
-            StartCoroutine(PlayGame());
+            PlayGame();
         }
     }
 
-    public IEnumerator PlayGame()
+    public void PlayGame()
     {
-        if (minimapManager.L1)
-        {
-            SoundManager.PlaySound("playLevel");
-            yield return new WaitForSeconds(1.0f);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
-        if (minimapManager.L2)
-        {
-            SoundManager.PlaySound("playLevel");
-            yield return new WaitForSeconds(1.0f);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
-        }
-        if (minimapManager.L3)
-        {
-            SoundManager.PlaySound("playLevel");
-            yield return new WaitForSeconds(1.0f);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 3);
-        }
-
+        if (minimapManager.N1) SceneManager.LoadScene("Nivel1");
+        if (minimapManager.N2) SceneManager.LoadScene("Nivel2");
+        if (minimapManager.N3) SceneManager.LoadScene("Nivel3");
     }
 }
