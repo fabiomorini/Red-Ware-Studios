@@ -158,7 +158,8 @@ public class GridCombatSystem : MonoBehaviour {
     private TutorialManager tutorialManager;
     [HideInInspector] public bool isPaused;
 
-    [SerializeField] private Transform arrowRoute;
+    public Transform arrowRoute;
+    public GameObject arrowPrefab;
 
     private void Start() {
         isPaused = false; 

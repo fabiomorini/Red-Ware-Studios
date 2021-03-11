@@ -57,6 +57,14 @@ public class UnitGridCombat : MonoBehaviour {
     private HealthBar healthBar;
     private CHARACTER_MNG characterManager;
 
+    //Arrow
+    private Vector3 myPosArrow;
+    private Vector3 attackerPosArrow;
+    private Vector2 p0;
+    private Vector2 p1;
+    private Vector2 p2;
+    private Vector2 p3;
+
     public enum Team {
         Blue,
         Red
@@ -634,18 +642,40 @@ public class UnitGridCombat : MonoBehaviour {
         else if (attackedByArcher && !sceneCombatSystem.boltOfPrecision)
         {
             animEnded = false;
-            //slashAnim.SetActive(true);
-            //Instantiate(ArrowPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+
             //LOGICA
-            Vector3 attackerPos = Attacker.GetPosition();
-            Vector3 myPos = this.GetPosition();
             //Cambiamos los 2 primeros puntos de la curva al centro del arquero y el otro un poco mas arriba
             //Cambiamos los 2 ultimos puntos de la curva al centro del objetivo y el otro un poco mas arriba
             //Instanciamos una flecha en el inicio de la curva
-            //Seguimos con sonido y feedback
+            attackerPosArrow = Attacker.GetPosition();
+            myPosArrow = this.GetPosition();
+            //Pos0
+            p0 = sceneCombatSystem.arrowRoute.GetChild(0).position;
+            p0.x = attackerPosArrow.x;
+            p0.y = attackerPosArrow.y;
+            sceneCombatSystem.arrowRoute.GetChild(0).position = p0;
+            //Pos1
+            p1 = sceneCombatSystem.arrowRoute.GetChild(1).position;
+            p1.x = attackerPosArrow.x;
+            p1.y = attackerPosArrow.y + 3;
+            sceneCombatSystem.arrowRoute.GetChild(1).position = p1;
+            //Pos2
+            p2 = sceneCombatSystem.arrowRoute.GetChild(2).position;
+            p2.x = myPosArrow.x;
+            p2.y = myPosArrow.y + 3;
+            sceneCombatSystem.arrowRoute.GetChild(2).position = p2;
+            //Pos3
+            p3 = sceneCombatSystem.arrowRoute.GetChild(3).position;
+            p3.x = myPosArrow.x;
+            p3.y = myPosArrow.y;
+            sceneCombatSystem.arrowRoute.GetChild(3).position = p3;
+
+            sceneCombatSystem.arrowPrefab.GetComponent<BezierFollow>().route = sceneCombatSystem.arrowRoute;
+            Instantiate(sceneCombatSystem.arrowPrefab, attackerPosArrow, Quaternion.Euler(new Vector3(0, 0, 90)));
+
             SoundManager.PlaySound("ArrowHit");
-            yield return new WaitForSeconds(0.5f);
-            //slashAnim.SetActive(false);
+            //Seguimos con sonido y feedback
+            yield return new WaitForSeconds(0.1f);
             playerSprite.color = Color.red;
             yield return new WaitForSeconds(0.3f);
             playerSprite.color = Color.white;
