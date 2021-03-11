@@ -39,6 +39,11 @@ public class UnitGridCombat : MonoBehaviour {
     // Feedback
     public GameObject slashAnim;
     public GameObject healAnim;
+    public GameObject lightningAnim;
+    public GameObject overloadAnim;
+    public GameObject explosionAnim;
+    public GameObject arrowAnim;
+    public GameObject boltAnim;
 
     public GameObject selectedBox;
 
@@ -51,6 +56,14 @@ public class UnitGridCombat : MonoBehaviour {
     private HealthSystem healthSystem;
     private HealthBar healthBar;
     private CHARACTER_MNG characterManager;
+
+    //Arrow
+    private Vector3 myPosArrow;
+    private Vector3 attackerPosArrow;
+    private Vector2 p0;
+    private Vector2 p1;
+    private Vector2 p2;
+    private Vector2 p3;
 
     public enum Team {
         Blue,
@@ -201,76 +214,79 @@ public class UnitGridCombat : MonoBehaviour {
         Vector3 myPosition = new Vector3(transform.position.x, transform.position.y, 0);
 
         int x = (int)myPosition.x;
-        int lastDigitX = Mathf.Abs(x) % 10;
-        switch (lastDigitX)
+        float lastDigitX = Mathf.Abs(myPosition.x) % 10;
+        int lastDigitXInt = Mathf.Abs(x) % 10;
+
+        if (lastDigitX >= 9 && lastDigitX < 10) x -= 4;
+        else if (lastDigitX >= 0 && lastDigitX < 1) x += 5;
+        else
         {
-            case 9:
-                x -= 4;
-                break;
-            case 8:
-                x -= 3;
-                break;
-            case 7:
-                x -= 2;
-                break;
-            case 6:
-                x -= 1;
-                break;
-            case 5:
-                x -= 0;
-                break;
-            case 4:
-                x += 1;
-                break;
-            case 3:
-                x += 2;
-                break;
-            case 2:
-                x += 3;
-                break;
-            case 1:
-                x += 4;
-                break;
-            case 0:
-                x -= 5;
-                break;
+            switch (lastDigitXInt)
+            {
+                case 8:
+                    x -= 3;
+                    break;
+                case 7:
+                    x -= 2;
+                    break;
+                case 6:
+                    x -= 1;
+                    break;
+                case 5:
+                    x -= 0;
+                    break;
+                case 4:
+                    x += 1;
+                    break;
+                case 3:
+                    x += 2;
+                    break;
+                case 2:
+                    x += 3;
+                    break;
+                case 1:
+                    x += 4;
+                    break;
+            }
         }
 
         int y = (int)myPosition.y;
-        int lastDigitY = Mathf.Abs(y) % 10;
-        switch (lastDigitY)
+        float lastDigitY = Mathf.Abs(myPosition.y) % 10;
+        int lastDigitYInt = Mathf.Abs(y) % 10;
+
+        if (lastDigitY >= 9 && lastDigitY < 10) y -= 4;
+        else if (lastDigitY >= 0 && lastDigitY < 1) y += 5;
+        else
         {
-            case 9:
-                y -= 4;
-                break;
-            case 8:
-                y -= 3;
-                break;
-            case 7:
-                y -= 2;
-                break;
-            case 6:
-                y -= 1;
-                break;
-            case 5:
-                y -= 0;
-                break;
-            case 4:
-                y += 1;
-                break;
-            case 3:
-                y += 2;
-                break;
-            case 2:
-                y += 3;
-                break;
-            case 1:
-                y += 4;
-                break;
-            case 0:
-                y -= 5;
-                break;
+            switch (lastDigitYInt)
+            {
+                case 8:
+                    y -= 3;
+                    break;
+                case 7:
+                    y -= 2;
+                    break;
+                case 6:
+                    y -= 1;
+                    break;
+                case 5:
+                    y -= 0;
+                    break;
+                case 4:
+                    y += 1;
+                    break;
+                case 3:
+                    y += 2;
+                    break;
+                case 2:
+                    y += 3;
+                    break;
+                case 1:
+                    y += 4;
+                    break;
+            }
         }
+
         Vector3 newPosition = new Vector3(x, y, 0);
         transform.position = newPosition;
     }
@@ -470,6 +486,7 @@ public class UnitGridCombat : MonoBehaviour {
         }
         float dmg;
         dmg = RandomDamage(damageAmount);
+        sceneCombatSystem.DamagePopUp(this.GetPosition(), (int)dmg);
         healthSystem.Damage((int)dmg);
 
         if (healthSystem.IsDead()){
@@ -566,7 +583,7 @@ public class UnitGridCombat : MonoBehaviour {
                 CleanListAlly();
             }
         }
-        StartCoroutine(FeedbackAttack(attackID));
+        StartCoroutine(FeedbackAttack(Attacker));
     }
 
     float RandomDamage(float damageAmount)
@@ -604,23 +621,115 @@ public class UnitGridCombat : MonoBehaviour {
         return damageAmount;
     }
 
-    private IEnumerator FeedbackAttack(int AID)
+    private IEnumerator FeedbackAttack(UnitGridCombat Attacker)
     {
-        animEnded = false;
-        slashAnim.SetActive(true);
-        if (AID == 2) SoundManager.PlaySound("Arrow");
-        else if (AID == 3) SoundManager.PlaySound("Magic");
-        else if (AID == 6) SoundManager.PlaySound("Missed");
-        else SoundManager.PlaySound("Attack");
-        yield return new WaitForSeconds(0.5f);
-        slashAnim.SetActive(false);
-        playerSprite.color = Color.red;
-        yield return new WaitForSeconds(0.3f);
-        playerSprite.color = Color.white;
-        animEnded = true;
-        if (imDead)
-            Destroy(gameObject);
-        sceneCombatSystem.CheckIfGameIsOver();
+        if (attackedByMelee || attackedByTank)
+        {
+            animEnded = false;
+            slashAnim.SetActive(true);
+            SoundManager.PlaySound("Attack");
+            yield return new WaitForSeconds(0.5f);
+            slashAnim.SetActive(false);
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+            if (imDead)
+                Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
+
+        else if (attackedByArcher && !sceneCombatSystem.boltOfPrecision)
+        {
+            animEnded = false;
+
+            //LOGICA
+            //Cambiamos los 2 primeros puntos de la curva al centro del arquero y el otro un poco mas arriba
+            //Cambiamos los 2 ultimos puntos de la curva al centro del objetivo y el otro un poco mas arriba
+            //Instanciamos una flecha en el inicio de la curva
+            attackerPosArrow = Attacker.GetPosition();
+            myPosArrow = this.GetPosition();
+            //Pos0
+            p0 = sceneCombatSystem.arrowRoute.GetChild(0).position;
+            p0.x = attackerPosArrow.x;
+            p0.y = attackerPosArrow.y;
+            sceneCombatSystem.arrowRoute.GetChild(0).position = p0;
+            //Pos1
+            p1 = sceneCombatSystem.arrowRoute.GetChild(1).position;
+            p1.x = attackerPosArrow.x;
+            p1.y = attackerPosArrow.y + 3;
+            sceneCombatSystem.arrowRoute.GetChild(1).position = p1;
+            //Pos2
+            p2 = sceneCombatSystem.arrowRoute.GetChild(2).position;
+            p2.x = myPosArrow.x;
+            p2.y = myPosArrow.y + 3;
+            sceneCombatSystem.arrowRoute.GetChild(2).position = p2;
+            //Pos3
+            p3 = sceneCombatSystem.arrowRoute.GetChild(3).position;
+            p3.x = myPosArrow.x;
+            p3.y = myPosArrow.y;
+            sceneCombatSystem.arrowRoute.GetChild(3).position = p3;
+
+            sceneCombatSystem.arrowPrefab.GetComponent<BezierFollow>().route = sceneCombatSystem.arrowRoute;
+            Instantiate(sceneCombatSystem.arrowPrefab, attackerPosArrow, Quaternion.Euler(new Vector3(0, 0, 90)));
+
+            SoundManager.PlaySound("ArrowHit");
+            //Seguimos con sonido y feedback
+            yield return new WaitForSeconds(0.1f);
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+            if (imDead)
+                Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
+
+        else if (attackedByArcher && sceneCombatSystem.boltOfPrecision)
+        {
+            animEnded = false;
+            boltAnim.SetActive(true);
+            SoundManager.PlaySound("ArrowHit");
+            SoundManager.PlaySound("Bolt");
+            yield return new WaitForSeconds(1.2f);
+            boltAnim.SetActive(false);
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+        }
+
+        else if (attackedByMage)
+        {
+            animEnded = false;
+            lightningAnim.SetActive(true);
+            SoundManager.PlaySound("Lightning");
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(1.2f);
+            lightningAnim.SetActive(false);
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+            if (imDead)
+                Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
+
+        else if (attackedByHealer)
+        {
+            animEnded = false;
+            explosionAnim.SetActive(true);
+            SoundManager.PlaySound("HealerBasicAttack");
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.9f);
+            explosionAnim.SetActive(false);
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+            if (imDead)
+                Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
     }
 
     private IEnumerator FeedbackHealing(int healAmount)
@@ -632,6 +741,24 @@ public class UnitGridCombat : MonoBehaviour {
         healAnim.SetActive(false);
         playerSprite.color = Color.green;
         healthSystem.Heal(healAmount);
+        yield return new WaitForSeconds(0.3f);
+        playerSprite.color = Color.white;
+        animEnded = true;
+    }
+
+    public void DoOverloadFeedback()
+    {
+        StartCoroutine(FeedbackOverload());
+    }
+
+    public IEnumerator FeedbackOverload()
+    {
+        animEnded = false;
+        overloadAnim.SetActive(true);
+        //SoundManager.PlaySound("Healing");
+        yield return new WaitForSeconds(1.6f);
+        overloadAnim.SetActive(false);
+        playerSprite.color = Color.blue;
         yield return new WaitForSeconds(0.3f);
         playerSprite.color = Color.white;
         animEnded = true;
@@ -655,14 +782,14 @@ public class UnitGridCombat : MonoBehaviour {
     {
         if (sceneCombatSystem.hexOfNature)
         {
-            unitGridCombat.Heal(this, 60);
+            unitGridCombat.Heal(60);
             sceneCombatSystem.hexOfNature = false;
             sceneCombatSystem.inspiration -= 3;
         }
-        else unitGridCombat.Heal(this, healAmount);
+        else unitGridCombat.Heal(healAmount);
     }
 
-    public void Heal(UnitGridCombat Attacker, int healAmount)
+    public void Heal(int healAmount)
     {
         StartCoroutine(FeedbackHealing(healAmount));
     }

@@ -15,6 +15,8 @@ TagManager:
   - L2
   - L3
   - InspirationManager
+  - tutorialManager
+  - ArrowRoute
   layers:
   - Default
   - TransparentFX
