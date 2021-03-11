@@ -12,7 +12,7 @@ public class SoundManager : MonoBehaviour
     //  -MINIMENU
     public static AudioClip hoverButtonSound, clickButtonSound, openMenuSound, closeMenuSound;
     //  -BATALLA
-    public static AudioClip attackSound, attackDeathSound, walkingBattleSound, turnSwapSound, healingSound, lightningSound;
+    public static AudioClip attackSound, attackDeathSound, walkingBattleSound, turnSwapSound, healingSound, lightningSound, healerBasic, arrowHit, boltOfPrecision;
     //  -ENDMENU
     public static AudioClip victorySound, lostSound;
 
@@ -43,6 +43,9 @@ public class SoundManager : MonoBehaviour
         lostSound = Resources.Load<AudioClip>("Lost");
         healingSound = Resources.Load<AudioClip>("Healing");
         lightningSound = Resources.Load<AudioClip>("Lightning");
+        healerBasic = Resources.Load<AudioClip>("HealerBasicAttack");
+        arrowHit = Resources.Load<AudioClip>("ArrowHit");
+        boltOfPrecision = Resources.Load<AudioClip>("Bolt");
 
         audioSrc = GetComponent<AudioSource>();
     }
@@ -119,6 +122,15 @@ public class SoundManager : MonoBehaviour
                 break;
             case "Lightning":
                 audioSrc.PlayOneShot(lightningSound);
+                break;
+            case "HealerBasicAttack":
+                audioSrc.PlayOneShot(healerBasic);
+                break;
+            case "ArrowHit":
+                audioSrc.PlayOneShot(arrowHit);
+                break;
+            case "Bolt":
+                audioSrc.PlayOneShot(boltOfPrecision);
                 break;
         }
     }

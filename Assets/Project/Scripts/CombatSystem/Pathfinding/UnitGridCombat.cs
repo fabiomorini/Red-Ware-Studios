@@ -41,6 +41,9 @@ public class UnitGridCombat : MonoBehaviour {
     public GameObject healAnim;
     public GameObject lightningAnim;
     public GameObject overloadAnim;
+    public GameObject explosionAnim;
+    public GameObject arrowAnim;
+    public GameObject boltAnim;
 
     public GameObject selectedBox;
 
@@ -598,7 +601,7 @@ public class UnitGridCombat : MonoBehaviour {
 
     private IEnumerator FeedbackAttack()
     {
-        if (attackedByMelee || attackedByTank || attackedByArcher)
+        if (attackedByMelee || attackedByTank)
         {
             animEnded = false;
             slashAnim.SetActive(true);
@@ -613,7 +616,38 @@ public class UnitGridCombat : MonoBehaviour {
                 Destroy(gameObject);
             sceneCombatSystem.CheckIfGameIsOver();
         }
-        else if (attackedByMage || attackedByHealer)
+
+        else if (attackedByArcher && !sceneCombatSystem.boltOfPrecision)
+        {
+            animEnded = false;
+            slashAnim.SetActive(true);
+            SoundManager.PlaySound("ArrowHit");
+            yield return new WaitForSeconds(0.5f);
+            slashAnim.SetActive(false);
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+            if (imDead)
+                Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
+
+        else if (attackedByArcher && sceneCombatSystem.boltOfPrecision)
+        {
+            animEnded = false;
+            boltAnim.SetActive(true);
+            SoundManager.PlaySound("ArrowHit");
+            SoundManager.PlaySound("Bolt");
+            yield return new WaitForSeconds(1.2f);
+            boltAnim.SetActive(false);
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+        }
+
+        else if (attackedByMage)
         {
             animEnded = false;
             lightningAnim.SetActive(true);
@@ -621,6 +655,22 @@ public class UnitGridCombat : MonoBehaviour {
             playerSprite.color = Color.red;
             yield return new WaitForSeconds(1.2f);
             lightningAnim.SetActive(false);
+            yield return new WaitForSeconds(0.3f);
+            playerSprite.color = Color.white;
+            animEnded = true;
+            if (imDead)
+                Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
+
+        else if (attackedByHealer)
+        {
+            animEnded = false;
+            explosionAnim.SetActive(true);
+            SoundManager.PlaySound("HealerBasicAttack");
+            playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.9f);
+            explosionAnim.SetActive(false);
             yield return new WaitForSeconds(0.3f);
             playerSprite.color = Color.white;
             animEnded = true;
