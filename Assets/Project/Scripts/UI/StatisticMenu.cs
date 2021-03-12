@@ -40,15 +40,15 @@ public class StatisticMenu : MonoBehaviour
     {
         if (unitGridCombat.GetComponent<CHARACTER_PREFS>().level == CHARACTER_PREFS.Level.NIVEL1)
         {
-            levelText.SetText("Nv. 1");
+            levelText.SetText("Lvl. 1");
         }
         else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().level == CHARACTER_PREFS.Level.NIVEL2)
         {
-            levelText.SetText("Nv. 2");
+            levelText.SetText("Lvl. 2");
         }
         else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().level == CHARACTER_PREFS.Level.NIVEL3)
         {
-            levelText.SetText("Nv. 3");
+            levelText.SetText("Lvl. 3");
         }
     }
     
@@ -83,7 +83,7 @@ public class StatisticMenu : MonoBehaviour
             healerSprite.SetActive(true);
             tankSprite.SetActive(false);
             mageSprite.SetActive(false);
-            tipoText.SetText("Healer");
+            tipoText.SetText("Priest");
             atkText.SetText("Atk: 10");
             SetLevelText();
         }
@@ -94,7 +94,7 @@ public class StatisticMenu : MonoBehaviour
             healerSprite.SetActive(false);
             tankSprite.SetActive(true);
             mageSprite.SetActive(false);
-            tipoText.SetText("Tank");
+            tipoText.SetText("Paladin");
             atkText.SetText("Atk: 15");
             SetLevelText();
         }
@@ -105,7 +105,7 @@ public class StatisticMenu : MonoBehaviour
             healerSprite.SetActive(false);
             tankSprite.SetActive(false);
             mageSprite.SetActive(true);
-            tipoText.SetText("Mage");
+            tipoText.SetText("Wizard");
             atkText.SetText("Atk: 25");
             SetLevelText();
         }
