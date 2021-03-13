@@ -43,11 +43,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cbd2df3c513d1d4fabbea61393b2c94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfAllies: 0
-  numberOfMelee: 0
-  numberOfRanged: 0
-  numberOfHealer: 0
   coins: 500
+  numberOfMelee: 1
+  numberOfRanged: 1
+  numberOfHealer: 0
+  numberOfTank: 0
+  numberOfMage: 0
+  numberOfMeleeFight: 0
+  numberOfArcherFight: 0
+  numberOfHealerFight: 0
+  numberOfTankFight: 0
+  numberOfMageFight: 0
+  numberOfAllies: 0
   RewardL1: 300
   RewardL2: 350
   RewardL3: 400
@@ -56,3 +63,18 @@ MonoBehaviour:
   RewardL6: 550
   RewardL7: 600
   characterPrefs: []
+  VictoryL1: 0
+  VictoryL2: 0
+  VictoryL3: 0
+  meleeLevel: 1
+  archerLevel: 1
+  healerLevel: 1
+  tankLevel: 1
+  mageLevel: 1
+  meleeExp: 0
+  archerExp: 0
+  healerExp: 0
+  tankExp: 0
+  mageExp: 0
+  level2Exp: 175
+  level3Exp: 400

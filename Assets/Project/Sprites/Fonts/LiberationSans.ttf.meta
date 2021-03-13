@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: d67b3aaf17927574ba0ffc1c4035ec23
+=======
+guid: a6887513ad1c5644ab460c88d1e1905b
+>>>>>>> develop
 timeCreated: 1484171297
 licenseType: Pro
 TrueTypeFontImporter:
