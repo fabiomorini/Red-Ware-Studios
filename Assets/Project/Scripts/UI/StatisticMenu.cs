@@ -32,7 +32,7 @@ public class StatisticMenu : MonoBehaviour
     public void UpdateHealth(UnitGridCombat unitGridCombat)
     {
         SetMaxHealth(unitGridCombat.maxHealth);
-        currHealthText.SetText("HP:  " + unitGridCombat.curHealth + " / " + unitGridCombat.maxHealth);
+        currHealthText.SetText("hp:  " + unitGridCombat.curHealth + " / " + unitGridCombat.maxHealth);
         SetHealth(unitGridCombat.curHealth);
     }
     
