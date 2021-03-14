@@ -23,6 +23,11 @@ public class CuartelManager : MonoBehaviour
     public TMP_Text TankText;
     public TMP_Text MageText;
 
+    public TMP_Text KnightTextLvl;
+    public TMP_Text ArcherTextLvl;
+    public TMP_Text HealerTextLvl;
+    public TMP_Text TankTextLvl;
+    public TMP_Text MageTextLvl;
     public TMP_Text KnightTextExp;
     public TMP_Text ArcherTextExp;
     public TMP_Text HealerTextExp;
@@ -144,67 +149,82 @@ public class CuartelManager : MonoBehaviour
     {
         if (charManager.meleeLevel == 1)
         {
-            KnightTextExp.SetText("Lvl 1  " + charManager.meleeExp + "/" + charManager.level2Exp);
+            KnightTextLvl.SetText("Lvl 1");
+            KnightTextExp.SetText(charManager.meleeExp + "/" + charManager.level2Exp);
         }
         else if (charManager.meleeLevel == 2)
         {
-            KnightTextExp.SetText("Lvl 2  " + charManager.meleeExp + "/" + charManager.level3Exp);
+            KnightTextLvl.SetText("Lvl 2");
+            KnightTextExp.SetText(charManager.meleeExp + "/" + charManager.level3Exp);
         }
         else
         {
-            KnightTextExp.SetText("Lvl 3  MAX / MAX ");
+            KnightTextLvl.SetText("Lvl 3");
+            KnightTextExp.SetText("MAX / MAX");
         }
         ///
         if (charManager.archerLevel == 1)
         {
-            ArcherTextExp.SetText("Lvl 1  " + charManager.archerExp + "/" + charManager.level2Exp);
+            ArcherTextLvl.SetText("Lvl 1");
+            ArcherTextExp.SetText(charManager.archerExp + "/" + charManager.level2Exp);
         }
         else if (charManager.archerLevel == 2)
         {
-            ArcherTextExp.SetText("Lvl 2  " + charManager.archerExp + "/" + charManager.level3Exp);
+            ArcherTextLvl.SetText("Lvl 2");
+            ArcherTextExp.SetText(charManager.archerExp + "/" + charManager.level3Exp);
         }
         else
         {
-            ArcherTextExp.SetText("Lvl 3  MAX / MAX ");
+            ArcherTextLvl.SetText("Lvl 3");
+            ArcherTextExp.SetText("MAX / MAX");
         }
         ///
         if (charManager.healerLevel == 1)
         {
-            HealerTextExp.SetText("Lvl 1  " + charManager.healerExp + "/" + charManager.level2Exp);
+            HealerTextLvl.SetText("Lvl 1");
+            HealerTextExp.SetText(charManager.healerExp + "/" + charManager.level2Exp);
         }
         else if (charManager.healerLevel == 2)
         {
-            HealerTextExp.SetText("Lvl 2  " + charManager.healerExp + "/" + charManager.level3Exp);
+            HealerTextLvl.SetText("Lvl 2");
+            HealerTextExp.SetText(charManager.healerExp + "/" + charManager.level3Exp);
         }
         else
         {
-            HealerTextExp.SetText("Lvl 3  MAX / MAX ");
+            HealerTextLvl.SetText("Lvl 3");
+            HealerTextExp.SetText("MAX / MAX");
         }
         ///
         if (charManager.tankLevel == 1)
         {
-            TankTextExp.SetText("Lvl 1  " + charManager.tankExp + "/" + charManager.level2Exp);
+            TankTextLvl.SetText("Lvl 1");
+            TankTextExp.SetText(charManager.tankExp + "/" + charManager.level2Exp);
         }
         else if (charManager.tankLevel == 2)
         {
-            TankTextExp.SetText("Lvl 2  " + charManager.tankExp + "/" + charManager.level3Exp);
+            TankTextLvl.SetText("Lvl 2");
+            TankTextExp.SetText(charManager.tankExp + "/" + charManager.level3Exp);
         }
         else
         {
-            TankTextExp.SetText("Lvl 3  MAX / MAX ");
+            TankTextLvl.SetText("Lvl 3");
+            TankTextExp.SetText("MAX / MAX");
         }
         ///
         if (charManager.mageLevel == 1)
         {
-            MageTextExp.SetText("Lvl 1  " + charManager.mageExp + "/" + charManager.level2Exp);
+            MageTextLvl.SetText("Lvl 1");
+            MageTextExp.SetText(charManager.mageExp + "/" + charManager.level2Exp);
         }
         else if (charManager.mageLevel == 2)
         {
-            MageTextExp.SetText("Lvl 2  " + charManager.mageExp + "/" + charManager.level3Exp);
+            MageTextLvl.SetText("Lvl 2");
+            MageTextExp.SetText(charManager.mageExp + "/" + charManager.level3Exp);
         }
         else
         {
-            MageTextExp.SetText("Lvl 3  MAX / MAX ");
+            MageTextLvl.SetText("Lvl 3");
+            MageTextExp.SetText("MAX / MAX");
         }
     }
 }
