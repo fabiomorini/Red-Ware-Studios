@@ -196,6 +196,11 @@ public class UnitGridCombat : MonoBehaviour {
                 defense = 15;
             }
         }
+        else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.DUMMY)
+        {
+            maxHealth = 200;
+            defense = 10;
+        }
     }
 
 
@@ -815,9 +820,13 @@ public class UnitGridCombat : MonoBehaviour {
         {
             return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeMage;
         }
-        else // Tank
+        else if (gameObject.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
         {
             return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= attackRangeTank;
+        }
+        else //DUMMY
+        {
+            return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) <= 0;
         }
     }
     public bool CanHealUnit(UnitGridCombat unitGridCombat)

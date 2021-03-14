@@ -15,15 +15,21 @@ EditorBuildSettings:
     path: Assets/Project/Scenes/Mapamundi Final.unity
     guid: f4495f8fd3f29d846929037edc8c0e19
   - enabled: 1
-    path: Assets/Project/Scenes/Nuevos Graficos.unity
-    guid: 4544af4ed50e0c347b2da25be6068aa5
-  - enabled: 1
     path: Assets/Project/Scenes/Nivel1.unity
     guid: 7c06400df2bc9874ab4ebf4186879593
+  - enabled: 1
+    path: Assets/Project/Scenes/Nivel2.unity
+    guid: 620c10f87171a954588978b34b6a17f3
+  - enabled: 1
+    path: Assets/Project/Scenes/Nivel3.unity
+    guid: 7999ea806962f0143a4a6308b235881b
+  - enabled: 0
+    path: Assets/Project/Scenes/Nuevos Graficos.unity
+    guid: 4544af4ed50e0c347b2da25be6068aa5
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Project/Scenes/Nivel4.unity
     guid: a26fd8df90edc4c49bc4212edef5a87c
   - enabled: 0
