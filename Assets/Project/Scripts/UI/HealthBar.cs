@@ -12,7 +12,8 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealthNumber(int curHealth)
     {
-        CurrHealth.SetText(""+ curHealth);
+        if(gameObject.GetComponentInParent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.DUMMY) CurrHealth.SetText("99");
+        else CurrHealth.SetText(""+ curHealth);
     }
     public void SetMaxHealth(int health)
     {
@@ -22,6 +23,7 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealth(int health)
     {
+        if (this.gameObject.GetComponentInParent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.DUMMY) slider.value = 20000;
         slider.value = health;
     }
 

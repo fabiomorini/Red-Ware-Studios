@@ -198,7 +198,7 @@ public class UnitGridCombat : MonoBehaviour {
         }
         else if (characterPrefs.getType() == CHARACTER_PREFS.Tipo.DUMMY)
         {
-            maxHealth = 200;
+            maxHealth = 20000;
             defense = 10;
         }
     }
