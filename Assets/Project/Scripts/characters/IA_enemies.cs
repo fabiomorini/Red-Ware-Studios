@@ -97,7 +97,7 @@ public class IA_enemies : MonoBehaviour
             if (thisUnit.GetComponent<CHARACTER_PREFS>().tipo != CHARACTER_PREFS.Tipo.DUMMY)
             {
                 grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
-                thisUnit.MoveTo(targetIntermedio, () =>
+                thisUnit.MoveTo(targetIntermedio = gridCombatSystem.GetComponent<GridCombatSystem>().LookForCellCenter(), () =>
                 {
                     gridObject.SetUnitGridCombat(thisUnit);
                     if (gridCombatSystem.GetComponent<GridCombatSystem>().SeekEnemiesIA(thisUnit) == true)
@@ -118,7 +118,7 @@ public class IA_enemies : MonoBehaviour
                 if (thisUnit.GetComponent<CHARACTER_PREFS>().tipo != CHARACTER_PREFS.Tipo.DUMMY)
                 {
                     grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
-                    thisUnit.MoveTo(targetIntermedio, () =>
+                    thisUnit.MoveTo(targetIntermedio = gridCombatSystem.GetComponent<GridCombatSystem>().LookForCellCenter(), () =>
                     {
                         gridObject.SetUnitGridCombat(thisUnit);
                         if (gridCombatSystem.GetComponent<GridCombatSystem>().SeekEnemiesIA(thisUnit) == true)
@@ -137,7 +137,7 @@ public class IA_enemies : MonoBehaviour
                     if (thisUnit.GetComponent<CHARACTER_PREFS>().tipo != CHARACTER_PREFS.Tipo.DUMMY)
                     {
                         grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
-                        thisUnit.MoveTo(targetIntermedio, () =>
+                        thisUnit.MoveTo(targetIntermedio = gridCombatSystem.GetComponent<GridCombatSystem>().LookForCellCenter(), () =>
                         {
                             gridObject.SetUnitGridCombat(thisUnit);
                             if (gridCombatSystem.GetComponent<GridCombatSystem>().SeekEnemiesIA(thisUnit) == true)
@@ -161,7 +161,7 @@ public class IA_enemies : MonoBehaviour
             if (thisUnit.GetComponent<CHARACTER_PREFS>().tipo != CHARACTER_PREFS.Tipo.DUMMY)
             {
                 grid.GetGridObject(thisUnit.GetPosition()).ClearUnitGridCombat();
-                thisUnit.MoveTo(target, () =>
+                thisUnit.MoveTo(target = gridCombatSystem.GetComponent<GridCombatSystem>().LookForCellCenter(), () =>
                 {
                     gridObject.SetUnitGridCombat(thisUnit);
                     if (gridCombatSystem.GetComponent<GridCombatSystem>().SeekEnemiesIA(thisUnit) == true)
