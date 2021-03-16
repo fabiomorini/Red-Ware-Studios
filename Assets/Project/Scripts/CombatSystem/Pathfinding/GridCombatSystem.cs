@@ -28,8 +28,8 @@ public class GridCombatSystem : MonoBehaviour {
     private CHARACTER_MNG characterManager;
 
     //booleanos de atacar y mover
-    private bool canMoveThisTurn;
-    private bool canAttackThisTurn;
+    [HideInInspector] public bool canMoveThisTurn;
+    [HideInInspector] public bool canAttackThisTurn;
     [HideInInspector] public bool hasUpdatedPositionMove = false;
     [HideInInspector] public bool hasUpdatedPositionAttack = false;
 
@@ -110,6 +110,9 @@ public class GridCombatSystem : MonoBehaviour {
     public Button attackButton;
     public Button moveButton;
 
+    public Button attackButtonTutorial;
+    public Button moveButtonTutorial;
+
     public GameObject healthMenu;
     public GameObject inspirationUI;
     private InspirationUI inspirationManager;
@@ -170,7 +173,6 @@ public class GridCombatSystem : MonoBehaviour {
 
         if (SceneManager.GetActiveScene().name == "Tutorial")
         {
-
             tutorialManager = GameObject.FindGameObjectWithTag("tutorialManager").GetComponent<TutorialManager>();
         }
 
@@ -842,6 +844,11 @@ public class GridCombatSystem : MonoBehaviour {
             moveButton.interactable = true;
             attackButton.interactable = true;
             isMenuVisible = true;
+            if (SceneManager.GetActiveScene().name == "Tutorial")
+            {
+                moveButtonTutorial.interactable = true;
+                attackButtonTutorial.interactable = true;
+            }
         }
         else
         {
@@ -969,6 +976,7 @@ public class GridCombatSystem : MonoBehaviour {
                     {
                         inspirationManager.HidePointsAction();
                         moveButton.interactable = false;
+                        if (SceneManager.GetActiveScene().name == "Tutorial") moveButtonTutorial.interactable = false;
                         moving = false;
                         canMoveThisTurn = false;
                         // Set entire Tilemap to Invisible
@@ -1001,17 +1009,11 @@ public class GridCombatSystem : MonoBehaviour {
     }
 
     public void SetMovingTrue()
-    {/*
-        if (inspirationManager.alreadyRestedInspiration)
-        {
-            inspirationManager.alreadyUsedInspiration = true;
-        }
-        */
+    {
         moving = true;
         attacking = false;
         feedbackHability = false;
         hasUpdatedPositionMove = false;
-        //Minimenu.SetActive(false);
     }
 
     public void AttackAllyVisual()
@@ -1076,6 +1078,10 @@ public class GridCombatSystem : MonoBehaviour {
                             inspirationManager.InspirationAttack();
                             inspirationManager.HidePointsAction();
                             attacking = false;
+                            if (SceneManager.GetActiveScene().name == "Tutorial")
+                            {
+                                attackButtonTutorial.interactable = false;
+                            }
                             attackButton.interactable = false;
                             inspirationManager.Hability1UI.GetComponent<Button>().interactable = false;
                         }
@@ -1092,6 +1098,7 @@ public class GridCombatSystem : MonoBehaviour {
                         unitGridCombat.HealAlly(gridObject.GetUnitGridCombat());
                         attacking = false;
                         attackButton.interactable = false;
+                        if (SceneManager.GetActiveScene().name == "Tutorial") attackButtonTutorial.interactable = false; 
                         //CheckTurnOver();
                     }
                 }
@@ -1204,6 +1211,7 @@ public class GridCombatSystem : MonoBehaviour {
 
             attacking = false;
             attackButton.interactable = false;
+            if (SceneManager.GetActiveScene().name == "Tutorial") attackButtonTutorial.interactable = true;
             inspiration -= 3;
             fireBurst = false;
         }

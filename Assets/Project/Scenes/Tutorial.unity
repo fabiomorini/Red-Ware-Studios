@@ -7008,6 +7008,8 @@ MonoBehaviour:
   statisticMenu: {fileID: 31388276}
   attackButton: {fileID: 413160739}
   moveButton: {fileID: 942170753}
+  attackButtonTutorial: {fileID: 413160739}
+  moveButtonTutorial: {fileID: 942170753}
   healthMenu: {fileID: 31388274}
   inspirationUI: {fileID: 163661247}
   hability1Text: {fileID: 1958981713}
@@ -8040,7 +8042,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: nv. 2
+  m_text: lvl. 2
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 828c0ed0ef8f4964e9b79bce4f2a013e, type: 2}
   m_sharedMaterial: {fileID: -4513192197515409629, guid: 828c0ed0ef8f4964e9b79bce4f2a013e,
@@ -8075,7 +8077,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -8104,7 +8106,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 8.167149}
+  m_margin: {x: -39.500206, y: 0, z: -27.695587, w: 8.167149}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -25231,7 +25233,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -25260,7 +25262,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -26.900372, w: 8.167149}
+  m_margin: {x: -26.68134, y: 0, z: -28.649942, w: 8.167149}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
