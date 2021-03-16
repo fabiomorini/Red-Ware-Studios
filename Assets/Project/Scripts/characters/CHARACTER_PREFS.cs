@@ -12,7 +12,8 @@ public class CHARACTER_PREFS : MonoBehaviour {
         RANGED, 
         HEALER,
         TANK,
-        MAGE
+        MAGE,
+        DUMMY
     }
     public enum Level
     {

@@ -288,6 +288,10 @@ public class GridCombatSystem : MonoBehaviour {
                     {
                         maxMoveDistance = 4;
                     }
+                    else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.DUMMY)
+                    {
+                        maxMoveDistance = 0;
+                    }
 
                     if (!hasUpdatedPositionAttack && !boltOfPrecision)
                     {
