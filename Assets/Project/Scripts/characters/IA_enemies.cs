@@ -7,6 +7,7 @@ public class IA_enemies : MonoBehaviour
 {
     private GameObject gridCombatSystem;
     private int enemiesCount;
+    private int alliesCount;
     private int maxMoveDistanceInt = 23;
 
     private GridCombatSystem.GridObject gridObject;
@@ -45,6 +46,23 @@ public class IA_enemies : MonoBehaviour
         return null;
     }
 
+    // misma función de la anterior, pero para los healers de la IA
+    public UnitGridCombat lookForAllies(UnitGridCombat thisUnit) // lookForEnemies a una casilla
+    {
+        alliesCount = gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList.Count;
+        Vector3 myPosition = thisUnit.GetPosition();
+        float distance;
+        for (int i = 0; i <= alliesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
+        {
+            distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i].GetPosition());
+            if (distance <= 31 && distance > 0)
+            {
+                return gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i];
+            }
+        }
+        return null;
+    }
+
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     //BUCLE DE LA IA
     //Sabemos que no estas a Rango de Ataque y te mueves
@@ -65,6 +83,24 @@ public class IA_enemies : MonoBehaviour
             }
         }
         CheckRange(nearestEnemy, thisUnit);
+    }
+    //la misma función de antes pero para aliados de la IA
+    public void lookForAlliesDist(UnitGridCombat thisUnit) // lookForAllies de más distancia
+    {
+        alliesCount = gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList.Count;
+        float minDist = 9999.0f; // para encontrar el aliado más cerca
+        Vector3 myPosition = thisUnit.GetPosition();
+        UnitGridCombat nearestAlly = null;
+        for (int i = 0; i < alliesCount; i++) // para comparar mi posición con la posición de todos los aliados del enemigo
+        {
+            float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i].GetPosition());
+            if (distance < minDist && distance > 0)
+            {
+                minDist = distance;
+                nearestAlly = gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i];
+            }
+        }
+        CheckRange(nearestAlly, thisUnit);
     }
 
     //Comporbamos si el Enemigo mas Cercano esta a Rango de Movimiento o Hay que hacer un Target Intermedio

@@ -342,19 +342,31 @@ public class GridCombatSystem : MonoBehaviour {
     {
         yield return new WaitForSeconds(1.0f);
         canAttackThisTurn = false;
-        canMoveThisTurn = false; // temporal
-                                 // Attack Enemy
-        if (SeekEnemiesIA(unitGridCombat) == true)
+        canMoveThisTurn = false;
+
+        if (unitGridCombat.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.HEALER)
         {
-            //Player a Rango
-            unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
+            if (SeekAlliesIA(unitGridCombat)) // aliados a rango
+            {
+                unitGridCombat.HealAlly(iA_Enemies.lookForAllies(unitGridCombat));
+            }
+            else if (!SeekAlliesIA(unitGridCombat)) // aliados no a rango
+            {
+                iA_Enemies.lookForAlliesDist(unitGridCombat);
+            }
         }
-        else
+        else 
         {
-            //No Player a Rango
-            iA_Enemies.lookForEnemiesDist(unitGridCombat);
-            //UpdateValidMovePositions();
+            if(SeekEnemiesIA(unitGridCombat)) //Player a Rango
+            {
+                unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
+            }
+            else if (!SeekEnemiesIA(unitGridCombat)) //No Player a Rango
+            {
+                iA_Enemies.lookForEnemiesDist(unitGridCombat);
+            }
         }
+
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
         yield return new WaitForSeconds(1);
@@ -816,6 +828,18 @@ public class GridCombatSystem : MonoBehaviour {
             {
                 return true;
             }
+        }
+        return false;
+    }
+
+    //mira si hay un aliado a rango
+    public bool SeekAlliesIA(UnitGridCombat thisUnit)
+    {
+        Vector3 myPosition = thisUnit.GetPosition();
+        for (int i = 0; i < enemiesTeamList.Count; i++)
+        {
+            float distance = Vector3.Distance(myPosition, enemiesTeamList[i].GetPosition());
+            if (distance <= 31 && distance > 0) return true;
         }
         return false;
     }
