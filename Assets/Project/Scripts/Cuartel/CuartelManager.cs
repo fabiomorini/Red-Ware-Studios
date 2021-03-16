@@ -36,6 +36,7 @@ public class CuartelManager : MonoBehaviour
 
     public GameObject cuartel;
     public GameObject infoUI;
+    public Animation animator;
 
     public GameObject characterManager;
     [HideInInspector] public CHARACTER_MNG charManager;
@@ -61,26 +62,31 @@ public class CuartelManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && !isActive)
+        coinsText.SetText(charManager.coins + "");
+        ArcherText.SetText("x " + ArcherCounter);
+        KnightText.SetText("x " + knightCounter);
+        HealerText.SetText("x " + HealerCounter);
+        TankText.SetText("x " + TankCounter);
+        MageText.SetText("x " + MageCounter);
+    }
+
+    public void UseQuartel() 
+    {
+
+        if (!isActive) 
         {
             SoundManager.PlaySound("openCuartel");
             cuartel.SetActive(true);
             infoUI.SetActive(false);
             isActive = true;
         }
-        if (Input.GetKey("escape") && isActive)
+        else if (isActive) 
         {
             SoundManager.PlaySound("closeCuartel");
             cuartel.SetActive(false);
             infoUI.SetActive(true);
             isActive = false;
         }
-        coinsText.SetText(charManager.coins + "g");
-        ArcherText.SetText("x " + ArcherCounter);
-        KnightText.SetText("x " + knightCounter);
-        HealerText.SetText("x " + HealerCounter);
-        TankText.SetText("x " + TankCounter);
-        MageText.SetText("x " + MageCounter);
     }
 
     public void BuyKnight()
