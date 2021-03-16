@@ -7119,6 +7119,8 @@ MonoBehaviour:
   allyTeamActiveUnitIndex: 0
   enemiesTeamActiveUnitIndex: 0
   gameHandler: {fileID: 1892862705}
+  canMoveThisTurn: 0
+  canAttackThisTurn: 0
   hasUpdatedPositionMove: 0
   hasUpdatedPositionAttack: 0
   MeleePrefab: {fileID: 3300769062914515420, guid: 8a2310e5bd9b4c84194148a23ca9bbfd,
@@ -7159,6 +7161,8 @@ MonoBehaviour:
   statisticMenu: {fileID: 31388276}
   attackButton: {fileID: 413160739}
   moveButton: {fileID: 942170753}
+  attackButtonTutorial: {fileID: 0}
+  moveButtonTutorial: {fileID: 0}
   healthMenu: {fileID: 31388274}
   inspirationUI: {fileID: 163661247}
   hability1Text: {fileID: 1958981713}

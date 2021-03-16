@@ -4171,7 +4171,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4922,6 +4922,8 @@ MonoBehaviour:
   allyTeamActiveUnitIndex: 0
   enemiesTeamActiveUnitIndex: 0
   gameHandler: {fileID: 1892862705}
+  canMoveThisTurn: 0
+  canAttackThisTurn: 0
   hasUpdatedPositionMove: 0
   hasUpdatedPositionAttack: 0
   MeleePrefab: {fileID: 3300769062914515420, guid: 8a2310e5bd9b4c84194148a23ca9bbfd,
@@ -4962,6 +4964,8 @@ MonoBehaviour:
   statisticMenu: {fileID: 31388276}
   attackButton: {fileID: 413160739}
   moveButton: {fileID: 942170753}
+  attackButtonTutorial: {fileID: 0}
+  moveButtonTutorial: {fileID: 0}
   healthMenu: {fileID: 31388274}
   inspirationUI: {fileID: 163661247}
   hability1Text: {fileID: 1958981713}
@@ -15493,7 +15497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1193211613
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20936,7 +20940,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141661505}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 205.82288, y: 69.58382, z: -10}
+  m_LocalPosition: {x: 209.11627, y: 69.58382, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1892862704}
