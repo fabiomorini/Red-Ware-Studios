@@ -777,7 +777,7 @@ public class GridCombatSystem : MonoBehaviour {
 
         experienceKnightTxt.SetText("+ " + (characterManager.meleeExp - experienceKnight) + "Exp");
         experienceArcherTxt.SetText("+ " + (characterManager.archerExp - experienceArcher) + "Exp");
-        experienceHealerTxt.SetText("+ " + (characterManager.archerExp - experienceHealer) + "Exp");
+        experienceHealerTxt.SetText("+ " + (characterManager.healerExp - experienceHealer) + "Exp");
         experienceTankTxt.SetText("+ " + (characterManager.tankExp - experienceTank) + "Exp");
         experienceMageTxt.SetText("+ " + (characterManager.mageExp - experienceMage) + "Exp");
 
