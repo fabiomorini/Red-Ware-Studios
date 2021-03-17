@@ -12,7 +12,7 @@ public class HealthBar : MonoBehaviour
 
     public void SetHealthNumber(int curHealth)
     {
-        if(gameObject.GetComponentInParent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.DUMMY) CurrHealth.SetText("99");
+        if(gameObject.GetComponentInParent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.DUMMY) CurrHealth.SetText("0");
         else CurrHealth.SetText(""+ curHealth);
     }
     public void SetMaxHealth(int health)

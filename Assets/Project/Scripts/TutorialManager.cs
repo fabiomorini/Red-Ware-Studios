@@ -52,10 +52,6 @@ public class TutorialManager : MonoBehaviour
     private void Start()
     {
         gridCombatSystem = GameObject.FindGameObjectWithTag("CombatHandler").GetComponent<GridCombatSystem>();
-        exitButton.interactable = false;
-        endText.SetActive(false);
-        spaceKey.SetActive(false);
-        ToolTip.SetActive(false);
         StartFirstPartTutorial();
     }
 
@@ -68,10 +64,10 @@ public class TutorialManager : MonoBehaviour
 
             if (gridCombatSystem.isPaused && Input.GetKeyDown(KeyCode.Space))
             {
-                moveButton.interactable = true;
-                attackButton.interactable = true;
+                if(gridCombatSystem.canMoveThisTurn)moveButton.interactable = true;
+                if (gridCombatSystem.canAttackThisTurn) attackButton.interactable = true;
                 skipButton.interactable = true;
-                habilityButton.interactable = true;
+                if(gridCombatSystem.inspiration >= 3) habilityButton.interactable = true;
 
                 spaceKey.SetActive(false);
                 gridCombatSystem.isPaused = false;
@@ -185,22 +181,33 @@ public class TutorialManager : MonoBehaviour
 
     private void StartFirstPartTutorial()
     {
+        endText.SetActive(false);
+        spaceKey.SetActive(false);
+        ToolTip.SetActive(false);
         yourTurnUI.GetComponent<TMP_Text>().SetText("");
+
         tutorial1 = true;
         gridCombatSystem.isPaused = true;
+        canPressSpace = false;
+
         firstTutorial.SetActive(true);
         pressSpaceButton.SetActive(false);
-        canPressSpace = false;
         inspirationMoveButton.SetActive(false);
         inspirationAttackButton.SetActive(false);
-        moveButton.interactable = false;
-        attackButton.interactable = false;
-        skipButton.interactable = false;
-        habilityButton.interactable = false;
         arrowMinimenu.SetActive(false);
         arrowUI.SetActive(false);
         arrowInspiration.SetActive(false);
         arrowMove.SetActive(false);
+
+        moveButton.interactable = false;
+        attackButton.interactable = false;
+        skipButton.interactable = false;
+        habilityButton.interactable = false;
+        exitButton.interactable = false;
+
+        hasUsedHability = false;
+        hasAttacked = false;
+        hasMoved = false;
     }
 
     private void UnlockButtons()
@@ -303,7 +310,7 @@ public class TutorialManager : MonoBehaviour
 
     public void Exit()
     {
-        SceneManager.LoadScene("Mapamundi");
+        SceneManager.LoadScene("Mapamundi Final");
     }
 
     public void DontExit()

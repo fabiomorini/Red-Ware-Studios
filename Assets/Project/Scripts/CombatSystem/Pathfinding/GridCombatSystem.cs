@@ -63,16 +63,16 @@ public class GridCombatSystem : MonoBehaviour {
     // Sistema de limitación de spawning de tropas por escenas 
     private int maxOfCharacters; 
     //Escenas de Unity por buildIndex
-    private int IndexL1 = 2;
-    private int IndexL2 = 3;
-    private int IndexL3 = 4;
-    private int IndexL4 = 5;
-    private int IndexL5 = 6;
-    private int IndexL6 = 7;
+    private int IndexL1 = 3;
+    private int IndexL2 = 4;
+    private int IndexL3 = 5;
+    private int IndexL4 = 6;
+    private int IndexL5 = 7;
+    private int IndexL6 = 8;
     //MAX personajes por nivel
     private int maxL1 = 3;
-    private int maxL2 = 4;
-    private int maxL3 = 5;
+    private int maxL2 = 3;
+    private int maxL3 = 4;
     private int maxL4 = 5;
     private int maxL5 = 6;
     private int maxL6 = 7;
@@ -1089,7 +1089,7 @@ public class GridCombatSystem : MonoBehaviour {
                             // Attack Enemy
                             if (doubleSlash)
                             {
-                                if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasMoved) tutorialManager.hasUsedHability = true;
+                                if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasUsedHability) tutorialManager.hasUsedHability = true;
                                 StartCoroutine(DoubleSlash(gridObject));
                                 inspiration -= 3;
                             }
@@ -1100,11 +1100,11 @@ public class GridCombatSystem : MonoBehaviour {
 
                             if(boltOfPrecision)
                             {
-                                if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasMoved) tutorialManager.hasUsedHability = true;
+                                if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasUsedHability) tutorialManager.hasUsedHability = true;
                                 boltOfPrecision = false;
                                 inspiration -= 3;
                             }
-                            if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasMoved) tutorialManager.hasAttacked = true;
+                            if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasAttacked) tutorialManager.hasAttacked = true;
                             inspiredAttack = false;
                             inspirationManager.pointAttack = true;
                             inspirationManager.InspirationAttack();
