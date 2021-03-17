@@ -10,6 +10,9 @@ public class IA_enemies : MonoBehaviour
     private int alliesCount;
     private int maxMoveDistanceInt = 23;
 
+    [HideInInspector] public UnitGridCombat needHealing;
+
+
     private GridCombatSystem.GridObject gridObject;
     private Vector3 target = new Vector3(0, 0, 0);
     private Vector3 targetIntermedio = new Vector3(0, 0, 0);
@@ -46,21 +49,31 @@ public class IA_enemies : MonoBehaviour
         return null;
     }
 
-    // misma función de la anterior, pero para los healers de la IA
-    public UnitGridCombat lookForAllies(UnitGridCombat thisUnit) // lookForEnemies a una casilla
+
+    public UnitGridCombat CheckAlliesHealth(UnitGridCombat thisUnit)
     {
+        bool willBeHealing = false;
         alliesCount = gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList.Count;
         Vector3 myPosition = thisUnit.GetPosition();
-        float distance;
-        for (int i = 0; i <= alliesCount; i++) // para comparar mi posición con la posición de todos los personajes del equipo del jugador
+        float minHealth = 9999;
+        for (int i = 0; i < alliesCount; i++)
         {
-            distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i].GetPosition());
-            if (distance <= 31 && distance > 0)
+            if ((gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i].curHealth <= gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i].maxHealth / 2) && (gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i].curHealth < minHealth))
             {
-                return gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i];
+                willBeHealing = true;
+                minHealth = gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i].curHealth;
+                needHealing = gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i];
             }
         }
-        return null;
+
+        if (willBeHealing)
+        {
+            return needHealing;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -87,20 +100,7 @@ public class IA_enemies : MonoBehaviour
     //la misma función de antes pero para aliados de la IA
     public void lookForAlliesDist(UnitGridCombat thisUnit) // lookForAllies de más distancia
     {
-        alliesCount = gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList.Count;
-        float minDist = 9999.0f; // para encontrar el aliado más cerca
-        Vector3 myPosition = thisUnit.GetPosition();
-        UnitGridCombat nearestAlly = null;
-        for (int i = 0; i < alliesCount; i++) // para comparar mi posición con la posición de todos los aliados del enemigo
-        {
-            float distance = Vector3.Distance(myPosition, gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i].GetPosition());
-            if (distance < minDist && distance > 0)
-            {
-                minDist = distance;
-                nearestAlly = gridCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i];
-            }
-        }
-        CheckRange(nearestAlly, thisUnit);
+        CheckRange(needHealing, thisUnit);
     }
 
     //Comporbamos si el Enemigo mas Cercano esta a Rango de Movimiento o Hay que hacer un Target Intermedio
