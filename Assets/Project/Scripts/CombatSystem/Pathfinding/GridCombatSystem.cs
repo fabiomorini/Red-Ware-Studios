@@ -167,6 +167,7 @@ public class GridCombatSystem : MonoBehaviour {
     private void Start() {
         isPaused = false; 
         selectedFeedback = Instantiate(selectedMouse);
+        selectedFeedback.SetActive(false);
         StartCoroutine(YourTurnUI());
         inspirationManager = GameObject.FindGameObjectWithTag("InspirationManager").GetComponent<InspirationUI>();
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
@@ -635,6 +636,7 @@ public class GridCombatSystem : MonoBehaviour {
     }
     private void ShowMouseCell()
     {
+        selectedFeedback.SetActive(true);
         Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
         GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
         grid.GetXY(GetMouseWorldPosition(), out int unitX, out int unitY);
