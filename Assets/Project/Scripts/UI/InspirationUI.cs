@@ -36,7 +36,7 @@ public class InspirationUI : MonoBehaviour
     {
         alreadyRestedInspiration = false;
         alreadyUsedInspiration = false;
-        inspirationIndexUI = 4;
+        inspirationIndexUI = combatSystem.inspiration;
     }
 
     private void Update()

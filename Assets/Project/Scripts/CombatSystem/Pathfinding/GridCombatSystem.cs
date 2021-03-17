@@ -216,7 +216,7 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
         SelectNextActiveUnit(); 
-        inspiration = 4;
+        inspiration = 1;
     }
 
     private void Update()
