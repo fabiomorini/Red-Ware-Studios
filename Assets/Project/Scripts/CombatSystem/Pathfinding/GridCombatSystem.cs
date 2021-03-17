@@ -1087,7 +1087,7 @@ public class GridCombatSystem : MonoBehaviour {
                             // Attack Enemy
                             if (doubleSlash)
                             {
-                                if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasMoved) tutorialManager.hasUsedHability = true;
+                                if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasUsedHability) tutorialManager.hasUsedHability = true;
                                 StartCoroutine(DoubleSlash(gridObject));
                                 inspiration -= 3;
                             }
@@ -1098,11 +1098,11 @@ public class GridCombatSystem : MonoBehaviour {
 
                             if(boltOfPrecision)
                             {
-                                if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasMoved) tutorialManager.hasUsedHability = true;
+                                if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasUsedHability) tutorialManager.hasUsedHability = true;
                                 boltOfPrecision = false;
                                 inspiration -= 3;
                             }
-                            if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasMoved) tutorialManager.hasAttacked = true;
+                            if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasAttacked) tutorialManager.hasAttacked = true;
                             inspiredAttack = false;
                             inspirationManager.pointAttack = true;
                             inspirationManager.InspirationAttack();
