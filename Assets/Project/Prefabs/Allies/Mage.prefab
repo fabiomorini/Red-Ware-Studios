@@ -649,8 +649,9 @@ MonoBehaviour:
   isOverloaded: 0
   damageAmount: 1
   overloadIndex: 0
+  attackRangeHealer: 31
   slashAnim: {fileID: 8767967885425950126}
-  healAnim: {fileID: 8993102180584529665}
+  healAnim: {fileID: 6996749915846114544}
   lightningAnim: {fileID: 8799249026774312179}
   overloadAnim: {fileID: 0}
   explosionAnim: {fileID: 6996749915846114544}

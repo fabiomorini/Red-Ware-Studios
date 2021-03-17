@@ -347,13 +347,27 @@ public class GridCombatSystem : MonoBehaviour {
 
         if (unitGridCombat.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.HEALER)
         {
-            if (SeekAlliesIA(unitGridCombat)) // aliados a rango
+            if (iA_Enemies.CheckAlliesHealth(unitGridCombat) != null)
             {
-                unitGridCombat.HealAlly(iA_Enemies.lookForAllies(unitGridCombat));
+                if (Vector3.Distance(unitGridCombat.GetPosition(), iA_Enemies.needHealing.GetPosition()) <= unitGridCombat.attackRangeHealer)
+                {
+                    unitGridCombat.HealAlly(iA_Enemies.needHealing);
+                }
+                else
+                {
+                    iA_Enemies.lookForAlliesDist(unitGridCombat);
+                }
             }
-            else if (!SeekAlliesIA(unitGridCombat)) // aliados no a rango
+            else
             {
-                iA_Enemies.lookForAlliesDist(unitGridCombat);
+                if (SeekEnemiesIA(unitGridCombat)) //Player a Rango
+                {
+                    unitGridCombat.AttackUnit(iA_Enemies.lookForEnemies(unitGridCombat));
+                }
+                else if (!SeekEnemiesIA(unitGridCombat)) //No Player a Rango
+                {
+                    iA_Enemies.lookForEnemiesDist(unitGridCombat);
+                }
             }
         }
         else 
@@ -830,18 +844,6 @@ public class GridCombatSystem : MonoBehaviour {
             {
                 return true;
             }
-        }
-        return false;
-    }
-
-    //mira si hay un aliado a rango
-    public bool SeekAlliesIA(UnitGridCombat thisUnit)
-    {
-        Vector3 myPosition = thisUnit.GetPosition();
-        for (int i = 0; i < enemiesTeamList.Count; i++)
-        {
-            float distance = Vector3.Distance(myPosition, enemiesTeamList[i].GetPosition());
-            if (distance <= 31 && distance > 0) return true;
         }
         return false;
     }

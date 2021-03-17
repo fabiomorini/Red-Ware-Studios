@@ -19,7 +19,7 @@ public class UnitGridCombat : MonoBehaviour {
 
     private int attackRangeMelee = 11;
     private int attackRangeRanged = 41;
-    private int attackRangeHealer = 31;
+    [HideInInspector] public int attackRangeHealer = 31;
     private int attackRangeTank = 11;
     private int attackRangeMage = 31;
 
