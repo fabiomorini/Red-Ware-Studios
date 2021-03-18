@@ -48,6 +48,20 @@ public class TutorialManager : MonoBehaviour
     public GameObject firstTutorial;
     public GameObject yourTurnUI;
 
+    //Gifs
+    public Texture2D[] framesMove; 
+    public Texture2D[] framesAttack; 
+    public Texture2D[] framesAbility; 
+    public Texture2D[] framesSkip; 
+    public Texture2D[] framesExit; 
+    public int fps = 10;
+    public RawImage gif;
+
+    private bool gifMove = false;
+    private bool gifAttack = false;
+    private bool gifAbility = false;
+    private bool gifSkip = false;
+    private bool gifExit = false;
 
     private void Start()
     {
@@ -59,6 +73,12 @@ public class TutorialManager : MonoBehaviour
     {
         if (!tutorial1) // segunda parte del tutorial
         {
+            if (gifMove) GifMove();
+            else if (gifAttack) GifAttack();
+            else if (gifSkip) GifSkip();
+            else if (gifAbility) GifAbility();
+            else if (gifExit) GifSurrender();
+
             UnlockButtons();
             if (hasMoved && hasAttacked && hasUsedHability) exitButton.interactable = true;
 
@@ -245,6 +265,11 @@ public class TutorialManager : MonoBehaviour
 
     public void MoveTutorialText() 
     {
+       gifMove = true;
+       gifAttack = false;
+       gifAbility = false;
+       gifSkip = false;
+       gifExit = false;
        if (!hasMoved)
        {
             arrowMove.SetActive(false);
@@ -256,6 +281,11 @@ public class TutorialManager : MonoBehaviour
     }
     public void AttackTutorialText()
     {
+        gifAttack = true;
+        gifMove = false;
+        gifAbility = false;
+        gifSkip = false;
+        gifExit = false;
         if (!hasAttacked)
         {
             TooltipDescription.SetText("Your unit will inflict damage to the selected enemy within its range \n\nIf you use its inspiration button, the attack will be more powerfull");
@@ -266,6 +296,11 @@ public class TutorialManager : MonoBehaviour
     }
     public void AbilityTutorialText()
     {
+        gifAbility = true;
+        gifAttack = false;
+        gifMove = false;
+        gifSkip = false;
+        gifExit = false;
         if (!hasUsedHability)
         {
             TooltipDescription.SetText("It's a special skill that costs three inspiration points \n\nEvery class has two Special Skills");
@@ -277,6 +312,11 @@ public class TutorialManager : MonoBehaviour
 
     public void SkipTutorialText()
     {
+        gifSkip = true;
+        gifAbility = false;
+        gifAttack = false;
+        gifMove = false;
+        gifExit = false;
         if (!hasSkip)
         {
             TooltipDescription.SetText("If you dont want to execute any more action with the current unit, you can use Skip to pass turn. \n\nYou will skip turn if you already moved and attacked or used an hability");
@@ -285,9 +325,15 @@ public class TutorialManager : MonoBehaviour
             StartCoroutine(ToolTipWaitTime());
         }
         hasSkip = true;
-    }    
+    }
+
     public void ExitTutorialText()
     {
+        gifExit = true;
+        gifSkip = false;
+        gifAbility = false;
+        gifAttack = false;
+        gifMove = false;
         if (!hasExit)
         {
             TooltipDescription.SetText("If you want to get out of a real combat for any reason, you can use Surrender and get back to the world map. \nYou will not get experience or money if you use not get experience or money.");
@@ -296,6 +342,36 @@ public class TutorialManager : MonoBehaviour
             StartCoroutine(ToolTipWaitTime());
         }
         hasExit = true;
+    }
+
+    private void GifMove()
+    {
+        int index = (int)(Time.time * fps) % framesMove.Length;
+        gif.texture = framesMove[index];
+    }
+
+    private void GifAttack()
+    {
+        int index = (int)(Time.time * fps) % framesAttack.Length;
+        gif.texture = framesAttack[index];
+    }
+
+    private void GifAbility()
+    {
+        int index = (int)(Time.time * fps) % framesAbility.Length;
+        gif.texture = framesAbility[index];
+    }
+
+    private void GifSkip()
+    {
+        int index = (int)(Time.time * fps) % framesSkip.Length;
+        gif.texture = framesSkip[index];
+    }
+
+    private void GifSurrender()
+    {
+        int index = (int)(Time.time * fps) % framesExit.Length;
+        gif.texture = framesExit[index];
     }
 
     public void ShowExitText()
