@@ -1075,9 +1075,9 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 860788433}
-        m_MethodName: SetActive
-        m_Mode: 0
+      - m_Target: {fileID: 8610597239091548392}
+        m_MethodName: UseInfo
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

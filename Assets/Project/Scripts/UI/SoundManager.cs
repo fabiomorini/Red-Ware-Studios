@@ -7,7 +7,7 @@ public class SoundManager : MonoBehaviour
     //MENU
     public static AudioClip hoverMenuSound, clickMenuSound, returnSound, playSound;
     //MINIMAPA
-    public static AudioClip ambientSound, walkingSound, openCuartelSound, closeCuartelSound, buyAllySound, zeroMoneySound, levelSoundSound, playLevelSound;
+    public static AudioClip ambientSound, walkingSound, openCuartelSound, closeCuartelSound, buyAllySound, zeroMoneySound, levelSoundSound, playLevelSound, openInfoSound, closeInfoSound;
     //NIVEL
     //  -MINIMENU
     public static AudioClip hoverButtonSound, clickButtonSound, openMenuSound, closeMenuSound;
@@ -32,6 +32,8 @@ public class SoundManager : MonoBehaviour
         buyAllySound = Resources.Load<AudioClip>("BuyAlly");
         levelSoundSound = Resources.Load<AudioClip>("LevelSound");
         playLevelSound = Resources.Load<AudioClip>("PlayLevel");
+        openInfoSound = Resources.Load<AudioClip>("PaperOpen");
+        closeInfoSound = Resources.Load<AudioClip>("PaperClosed");
 
         hoverButtonSound = Resources.Load<AudioClip>("HoverMainMenu");
         clickButtonSound = Resources.Load<AudioClip>("ClickButton");
@@ -91,6 +93,12 @@ public class SoundManager : MonoBehaviour
                 break;
             case "buyAlly":
                 audioSrc.PlayOneShot(buyAllySound);
+                break;
+            case "PaperOpen":
+                audioSrc.PlayOneShot(openInfoSound);
+                break;
+            case "PaperClosed":
+                audioSrc.PlayOneShot(closeInfoSound);
                 break;
             case "levelSound":
                 audioSrc.PlayOneShot(levelSoundSound);

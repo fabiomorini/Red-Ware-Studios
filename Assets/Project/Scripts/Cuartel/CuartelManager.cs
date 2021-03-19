@@ -41,7 +41,8 @@ public class CuartelManager : MonoBehaviour
     public GameObject characterManager;
     private CHARACTER_MNG charManager;
 
-    private bool isActive;
+    private bool isActiveCuartel;
+    private bool isActiveInfo;
 
     private void Start()
     {
@@ -71,20 +72,35 @@ public class CuartelManager : MonoBehaviour
 
     public void UseQuartel() 
     {
-
-        if (!isActive) 
+        if (!isActiveCuartel) 
         {
             SoundManager.PlaySound("openCuartel");
             cuartel.SetActive(true);
             //infoUI.SetActive(false);
-            isActive = true;
+            isActiveCuartel = true;
         }
-        else if (isActive) 
+        else if (isActiveCuartel) 
         {
             SoundManager.PlaySound("closeCuartel");
             cuartel.SetActive(false);
             //infoUI.SetActive(true);
-            isActive = false;
+            isActiveCuartel = false;
+        }
+    }
+
+    public void UseInfo()
+    {
+        if (!isActiveInfo)
+        {
+            SoundManager.PlaySound("PaperOpen");
+            infoUI.SetActive(true);
+            isActiveInfo = true;
+        }
+        else if (isActiveInfo)
+        {
+            SoundManager.PlaySound("PaperClosed");
+            infoUI.SetActive(false);
+            isActiveInfo = false;
         }
     }
 
