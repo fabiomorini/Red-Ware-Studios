@@ -79,6 +79,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     //-------- IA------------
     public IA_enemies iA_Enemies;
+    public MapamundiManager mapamundiManager;
     [HideInInspector] private bool isAllyTurn = true;
     public GameObject allyTurn;
     private bool gameOver;

@@ -105,15 +105,15 @@ public class CHARACTER_MNG : MonoBehaviour
 
     public void CheckLevelNumber()
     {
-        if(SceneManager.GetActiveScene().buildIndex == 2)
+        if(SceneManager.GetActiveScene().name == "Nivel1")
         {
             VictoryL1True();
         }
-        else if (SceneManager.GetActiveScene().buildIndex == 3)
+        else if (SceneManager.GetActiveScene().name == "Nivel2")
         {
             VictoryL2True();
         }
-        else if (SceneManager.GetActiveScene().buildIndex == 4)
+        else if (SceneManager.GetActiveScene().name == "Nivel3")
         {
             VictoryL3True();
         }

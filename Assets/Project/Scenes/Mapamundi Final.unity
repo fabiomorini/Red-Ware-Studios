@@ -2460,7 +2460,7 @@ GameObject:
   - component: {fileID: 343824622}
   - component: {fileID: 343824621}
   m_Layer: 5
-  m_Name: Nivel (1)
+  m_Name: Nivel 2
   m_TagString: L2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8038,6 +8038,9 @@ MonoBehaviour:
   N1: 0
   N2: 0
   N3: 0
+  Nv1: {fileID: 1799560679}
+  Nv2: {fileID: 343824621}
+  Nv3: {fileID: 1594240420}
   maxL1: 3
   maxL2: 4
   maxL3: 5
@@ -12707,7 +12710,7 @@ GameObject:
   - component: {fileID: 1594240421}
   - component: {fileID: 1594240420}
   m_Layer: 5
-  m_Name: Nivel (2)
+  m_Name: Nivel 3
   m_TagString: L3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14330,7 +14333,7 @@ GameObject:
   - component: {fileID: 1799560680}
   - component: {fileID: 1799560679}
   m_Layer: 5
-  m_Name: Nivel
+  m_Name: Nivel 1
   m_TagString: L1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

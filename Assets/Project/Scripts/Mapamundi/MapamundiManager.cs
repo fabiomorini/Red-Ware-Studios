@@ -13,6 +13,10 @@ public class MapamundiManager : MonoBehaviour
     [HideInInspector] public bool N2;
     [HideInInspector] public bool N3;
 
+    public Button Nv1;
+    public Button Nv2;
+    public Button Nv3;
+
     [HideInInspector] public int maxL1 = 3;
     [HideInInspector] public int maxL2 = 3;
     [HideInInspector] public int maxL3 = 4;
@@ -20,10 +24,25 @@ public class MapamundiManager : MonoBehaviour
     [HideInInspector] public int maxL5 = 6;
     [HideInInspector] public int maxL6 = 7;
 
+    private void Start()
+    {
+        Nv1.interactable = true;
+        Nv2.interactable = false;
+        Nv3.interactable = false;
+    }
+
     private void Update()
     {
         CombatHandler = GameObject.FindWithTag("characterManager");
         CombatHandler.GetComponent<CHARACTER_MNG>().NumOfAllies();
+        if (CombatHandler.GetComponent<CHARACTER_MNG>().VictoryL1)
+        {
+            Nv2.interactable = true;
+        }
+        if (CombatHandler.GetComponent<CHARACTER_MNG>().VictoryL2)
+        {
+            Nv3.interactable = true;
+        }
     }
 
     public void Nivel1()
