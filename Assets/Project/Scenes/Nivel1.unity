@@ -4516,6 +4516,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyHealer
       objectReference: {fileID: 0}
+    - target: {fileID: 4539957916773627849, guid: 7d49397d1cfe6fd42885cc328c76e392,
+        type: 3}
+      propertyPath: level
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4539957916773627850, guid: 7d49397d1cfe6fd42885cc328c76e392,
         type: 3}
       propertyPath: m_LocalPosition.x
