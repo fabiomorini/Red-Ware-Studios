@@ -76,5 +76,5 @@ MonoBehaviour:
   healerExp: 0
   tankExp: 0
   mageExp: 0
-  level2Exp: 175
-  level3Exp: 400
+  level2Exp: 90
+  level3Exp: 200

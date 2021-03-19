@@ -1279,7 +1279,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 143809945}
+      - m_Target: {fileID: 8610597239091548392}
         m_MethodName: BuyTank
         m_Mode: 1
         m_Arguments:
@@ -1367,18 +1367,6 @@ RectTransform:
   m_AnchoredPosition: {x: -313, y: -67.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &143809945 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-    type: 3}
-  m_PrefabInstance: {fileID: 740842754}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7990c6ee6f5894b49a6accb07b1b71c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &177292706
 GameObject:
   m_ObjectHideFlags: 0
@@ -3141,7 +3129,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 143809945}
+      - m_Target: {fileID: 8610597239091548392}
         m_MethodName: CheatButton
         m_Mode: 1
         m_Arguments:
@@ -4639,191 +4627,6 @@ RectTransform:
   m_AnchoredPosition: {x: 143.14, y: 0.000033736}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &740842754
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 8610597238355955173, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 291.84982
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955173, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 319.48383
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955173, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -426.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955173, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955173, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955173, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955173, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955173, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955173, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955173, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955173, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: coinsText
-      value: 
-      objectReference: {fileID: 5997409504752050364}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: KnightText
-      value: 
-      objectReference: {fileID: 5997409504778271528}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: ArcherText
-      value: 
-      objectReference: {fileID: 5997409505641356167}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: cuartel
-      value: 
-      objectReference: {fileID: 5997409504698787881}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: characterManager
-      value: 
-      objectReference: {fileID: 4556971247533917802, guid: a4f80bfddcb96ea49be05282708b176d,
-        type: 3}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: HealerText
-      value: 
-      objectReference: {fileID: 1282319358}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: TankText
-      value: 
-      objectReference: {fileID: 683057090}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: MageText
-      value: 
-      objectReference: {fileID: 1850308742}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: ExpText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: LvText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: KnightTextExp
-      value: 
-      objectReference: {fileID: 721947677}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: ArcherTextExp
-      value: 
-      objectReference: {fileID: 1220870241}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: HealerTextExp
-      value: 
-      objectReference: {fileID: 1629660934}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: TankTextExp
-      value: 
-      objectReference: {fileID: 1086961657}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: MageTextExp
-      value: 
-      objectReference: {fileID: 1953211077}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: infoUI
-      value: 
-      objectReference: {fileID: 860788433}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: KnightTextLvl
-      value: 
-      objectReference: {fileID: 177292709}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: ArcherTextLvl
-      value: 
-      objectReference: {fileID: 1246072668}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: HealerTextLvl
-      value: 
-      objectReference: {fileID: 1604920924}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: TankTextLvl
-      value: 
-      objectReference: {fileID: 1869294287}
-    - target: {fileID: 8610597238355955178, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: MageTextLvl
-      value: 
-      objectReference: {fileID: 1266964212}
-    - target: {fileID: 8610597238355955179, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_Name
-      value: Cuartel
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955179, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610597238355955179, guid: 976058c4ccf1e77449b477e89c6ba7b3,
-        type: 3}
-      propertyPath: m_TagString
-      value: Cuartel
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 976058c4ccf1e77449b477e89c6ba7b3, type: 3}
 --- !u!1 &741043419
 GameObject:
   m_ObjectHideFlags: 0
@@ -5918,7 +5721,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 143809945}
+      - m_Target: {fileID: 8610597239091548392}
         m_MethodName: BuyMage
         m_Mode: 1
         m_Arguments:
@@ -9545,7 +9348,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 143809945}
+      - m_Target: {fileID: 8610597239091548392}
         m_MethodName: UseQuartel
         m_Mode: 1
         m_Arguments:
@@ -17170,7 +16973,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 143809945}
+      - m_Target: {fileID: 8610597239091548392}
         m_MethodName: BuyHealer
         m_Mode: 1
         m_Arguments:
@@ -18205,7 +18008,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 143809945}
+      - m_Target: {fileID: 8610597239091548392}
         m_MethodName: BuyKnight
         m_Mode: 1
         m_Arguments:
@@ -18690,7 +18493,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 143809945}
+      - m_Target: {fileID: 8610597239091548392}
         m_MethodName: BuyArcher
         m_Mode: 1
         m_Arguments:
@@ -19467,3 +19270,72 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5997409505725643794}
   m_CullTransparentMesh: 0
+--- !u!4 &8610597239091548391
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8610597239091548393}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 291.84982, y: 319.48383, z: -426.25}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8610597239091548392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8610597239091548393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7990c6ee6f5894b49a6accb07b1b71c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  knightPrice: 100
+  archerPrice: 130
+  healerPrice: 140
+  tankPrice: 150
+  magePrice: 160
+  coinsText: {fileID: 5997409504752050364}
+  KnightText: {fileID: 5997409504778271528}
+  ArcherText: {fileID: 5997409505641356167}
+  HealerText: {fileID: 1282319358}
+  TankText: {fileID: 683057090}
+  MageText: {fileID: 1850308742}
+  KnightTextLvl: {fileID: 177292709}
+  ArcherTextLvl: {fileID: 1246072668}
+  HealerTextLvl: {fileID: 1604920924}
+  TankTextLvl: {fileID: 1869294287}
+  MageTextLvl: {fileID: 1266964212}
+  KnightTextExp: {fileID: 721947677}
+  ArcherTextExp: {fileID: 1220870241}
+  HealerTextExp: {fileID: 1629660934}
+  TankTextExp: {fileID: 1086961657}
+  MageTextExp: {fileID: 1953211077}
+  cuartel: {fileID: 5997409504698787881}
+  infoUI: {fileID: 860788433}
+  animator: {fileID: 0}
+  characterManager: {fileID: 4556971247533917802, guid: a4f80bfddcb96ea49be05282708b176d,
+    type: 3}
+--- !u!1 &8610597239091548393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8610597239091548391}
+  - component: {fileID: 8610597239091548392}
+  m_Layer: 0
+  m_Name: Cuartel
+  m_TagString: Cuartel
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1

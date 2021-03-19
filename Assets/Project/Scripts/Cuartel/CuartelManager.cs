@@ -39,7 +39,7 @@ public class CuartelManager : MonoBehaviour
     public Animation animator;
 
     public GameObject characterManager;
-    [HideInInspector] public CHARACTER_MNG charManager;
+    private CHARACTER_MNG charManager;
 
     private bool isActive;
 
@@ -56,12 +56,11 @@ public class CuartelManager : MonoBehaviour
         HealerCounter = charManager.numberOfHealer;
         TankCounter = charManager.numberOfTank;
         MageCounter = charManager.numberOfMage;
-
-        SetExpText();
     }
 
     private void Update()
     {
+        SetExpText();
         coinsText.SetText(charManager.coins + "");
         ArcherText.SetText("x " + ArcherCounter);
         KnightText.SetText("x " + knightCounter);

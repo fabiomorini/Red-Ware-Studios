@@ -14,8 +14,8 @@ public class MapamundiManager : MonoBehaviour
     [HideInInspector] public bool N3;
 
     [HideInInspector] public int maxL1 = 3;
-    [HideInInspector] public int maxL2 = 4;
-    [HideInInspector] public int maxL3 = 5;
+    [HideInInspector] public int maxL2 = 3;
+    [HideInInspector] public int maxL3 = 4;
     [HideInInspector] public int maxL4 = 5;
     [HideInInspector] public int maxL5 = 6;
     [HideInInspector] public int maxL6 = 7;

@@ -55,6 +55,8 @@ public class CHARACTER_MNG : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(level2Exp);
+        Debug.Log(level3Exp);
         if (meleeExp >= level3Exp)
         {
             meleeLevel = 3;
