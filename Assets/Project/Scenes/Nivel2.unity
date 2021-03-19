@@ -7106,9 +7106,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitGridCombat: {fileID: 0}
   unitGridCombatArray:
+  - {fileID: 597021489}
   - {fileID: 1621743671}
   - {fileID: 877390663}
-  - {fileID: 597021489}
   alliesTeamList: []
   alliesTeamKO: []
   allydeads: 0
