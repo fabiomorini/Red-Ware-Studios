@@ -121,6 +121,80 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &116040705
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 116040706}
+  - component: {fileID: 116040708}
+  - component: {fileID: 116040707}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &116040706
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116040705}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.12024, y: 0.12024, z: 0.12024}
+  m_Children: []
+  m_Father: {fileID: 1819470881}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.1, y: 0}
+  m_SizeDelta: {x: 6652.2397, y: 3741.8848}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &116040707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116040705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 7216be1c8cd6691418f73453f60ade19, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &116040708
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 116040705}
+  m_CullTransparentMesh: 0
 --- !u!1 &793347386
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,12 +321,12 @@ PrefabInstance:
     - target: {fileID: 8901912552639485245, guid: f9b367ab6204dfe4ab54d5adc686ddaf,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 642
+      value: 632
       objectReference: {fileID: 0}
     - target: {fileID: 8901912552639485245, guid: f9b367ab6204dfe4ab54d5adc686ddaf,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 137
+      value: 147
       objectReference: {fileID: 0}
     - target: {fileID: 8901912552639485245, guid: f9b367ab6204dfe4ab54d5adc686ddaf,
         type: 3}
@@ -282,7 +356,7 @@ PrefabInstance:
     - target: {fileID: 8901912552639485245, guid: f9b367ab6204dfe4ab54d5adc686ddaf,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8901912552639485245, guid: f9b367ab6204dfe4ab54d5adc686ddaf,
         type: 3}
@@ -441,7 +515,7 @@ RectTransform:
   m_LocalScale: {x: 0.81172, y: 0.81172, z: 0.81172}
   m_Children: []
   m_Father: {fileID: 1819470881}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -475,16 +549,16 @@ MonoBehaviour:
 
     You must lead the Saxons to victory!'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 828c0ed0ef8f4964e9b79bce4f2a013e, type: 2}
-  m_sharedMaterial: {fileID: -4513192197515409629, guid: 828c0ed0ef8f4964e9b79bce4f2a013e,
+  m_fontAsset: {fileID: 11400000, guid: 5e12ea1df1289af41ac17a6dc5231191, type: 2}
+  m_sharedMaterial: {fileID: -469263109198937642, guid: 5e12ea1df1289af41ac17a6dc5231191,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4293847749
+  m_fontColor: {r: 0.77095944, g: 0.9168321, b: 0.9339623, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -581,6 +655,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 116040706}
   - {fileID: 1045929650}
   - {fileID: 1310559049}
   m_Father: {fileID: 1918454225}
