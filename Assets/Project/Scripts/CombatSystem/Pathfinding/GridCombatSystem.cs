@@ -158,6 +158,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     [HideInInspector] public int inspiration;
     public GameObject DamagePopUpPrefab;
+    public GameObject inspirationUIGameObject;
 
     private TutorialManager tutorialManager;
     [HideInInspector] public bool isPaused;
@@ -763,6 +764,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void ShowEndGameUI()
     {
+        inspirationUIGameObject.SetActive(false);
         alliesLeftText.SetText("Allies left: " + (numberOfAllies - allydeads));
         totalAlliesLeftText.SetText("Total allies left: " + (characterManager.numberOfAllies - allydeads));
         endGameUI.SetActive(true);
@@ -792,18 +794,17 @@ public class GridCombatSystem : MonoBehaviour {
     {
         if (surrender)
         {
-            ShowEndGameUI();
             coinsRewardText.SetText("Reward: 0 coins");
             victory.gameObject.SetActive(false);
         }
         else
         {
-            ShowEndGameUI();
             coinsRewardText.SetText("Reward: " + (int)characterManager.GetLevelIndex() / 2 + " coins");
             characterManager.coins += (int)characterManager.GetLevelIndex() / 2;
             victory.gameObject.SetActive(false);
         }
 
+        ShowEndGameUI();
         experienceKnightTxt.SetText("+ " + (characterManager.meleeExp - experienceKnight) + "Exp");
         experienceArcherTxt.SetText("+ " + (characterManager.archerExp - experienceArcher) + "Exp");
         experienceHealerTxt.SetText("+ " + (characterManager.archerExp - experienceHealer) + "Exp");
@@ -921,9 +922,10 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void SelectNextActiveUnit()
     {
-
         if (allyTeamActiveUnitIndex + 1 == alliesTeamList.Count && isAllyTurn)
         {
+            if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.DUMMY)
+                unitGridCombat.curHealth = unitGridCombat.maxHealth;
             isAllyTurn = false;
             allyTeamActiveUnitIndex = -1;
             if (burstTurns < 5)

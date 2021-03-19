@@ -318,6 +318,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Press space (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8901912552639485244, guid: f9b367ab6204dfe4ab54d5adc686ddaf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8901912552639485245, guid: f9b367ab6204dfe4ab54d5adc686ddaf,
         type: 3}
       propertyPath: m_LocalPosition.x

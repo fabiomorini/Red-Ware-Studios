@@ -16,7 +16,7 @@ public class CHARACTER_MNG : MonoBehaviour
     public int numberOfHealerFight;
     public int numberOfTankFight;
     public int numberOfMageFight;
-    [HideInInspector] public int numberOfAllies;
+    [HideInInspector] public int numberOfAllies = 2;
     [HideInInspector] public int RewardL1 = 300;
     [HideInInspector] public int RewardL2 = 350;
     [HideInInspector] public int RewardL3 = 400;

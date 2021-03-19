@@ -7233,11 +7233,11 @@ MonoBehaviour:
   burstTurns: 0
   selectedMouse: {fileID: 1367562910074608638, guid: 04ba03c4031d0924ea4f019189f2b058,
     type: 3}
-  selectedFeedback: {fileID: 384179138928281782, guid: 7660a1bfef54f114db91e1977389bd69,
-    type: 3}
+  selectedFeedback: {fileID: 0}
   inspiration: 0
   DamagePopUpPrefab: {fileID: 1632364784755626160, guid: 7660a1bfef54f114db91e1977389bd69,
     type: 3}
+  inspirationUIGameObject: {fileID: 163661247}
   isPaused: 0
   arrowRoute: {fileID: 959734647}
   arrowPrefab: {fileID: 641970379968207096, guid: 34cb63c8de5f80c4c99d1a20a88c6063,
@@ -25975,7 +25975,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141661505}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 153.01584, y: 18.153204, z: -10}
+  m_LocalPosition: {x: 152.9397, y: 18.153204, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1892862704}
@@ -26222,7 +26222,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
