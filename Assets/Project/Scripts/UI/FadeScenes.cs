@@ -14,7 +14,7 @@ public class FadeScenes : MonoBehaviour
 
     public IEnumerator PlayGame()
     {
-        SoundManager.PlaySound("Play");
+        if(SceneManager.GetActiveScene().name == "Main Menu") SoundManager.PlaySound("Play");
         yield return new WaitForSeconds(0.5f);
         animator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1.0f);
