@@ -1246,6 +1246,7 @@ public class GridCombatSystem : MonoBehaviour {
 
             attacking = false;
             attackButton.interactable = false;
+            canAttackThisTurn = false;
             if (SceneManager.GetActiveScene().name == "Tutorial") attackButtonTutorial.interactable = true;
             inspiration -= 3;
             fireBurst = false;
