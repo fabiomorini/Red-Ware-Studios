@@ -361,6 +361,7 @@ public class UnitGridCombat : MonoBehaviour {
         yield return new WaitForSeconds(0.7f);
         playerSprite.color = Color.white;
         if (imDead) Destroy(gameObject);
+        sceneCombatSystem.CheckIfGameIsOver();
     }
 
     int attackID;
@@ -602,7 +603,7 @@ public class UnitGridCombat : MonoBehaviour {
             //feedback
             attackID = 5;
         }
-        else if(randomNum >= 95)
+        else if(randomNum > 95)
         {
             damageAmount = 0;
             //feedback

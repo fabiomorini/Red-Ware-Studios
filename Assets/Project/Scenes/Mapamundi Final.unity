@@ -3685,7 +3685,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Mage
+  m_text: Wizard
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 828c0ed0ef8f4964e9b79bce4f2a013e, type: 2}
   m_sharedMaterial: {fileID: -4513192197515409629, guid: 828c0ed0ef8f4964e9b79bce4f2a013e,
@@ -3749,7 +3749,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 1
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -9.285936, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -8042,11 +8042,11 @@ MonoBehaviour:
   Nv2: {fileID: 343824621}
   Nv3: {fileID: 1594240420}
   maxL1: 3
-  maxL2: 4
-  maxL3: 5
-  maxL4: 5
-  maxL5: 6
-  maxL6: 7
+  maxL2: 3
+  maxL3: 4
+  maxL4: 4
+  maxL5: 4
+  maxL6: 4
 --- !u!4 &1089097808
 Transform:
   m_ObjectHideFlags: 0
