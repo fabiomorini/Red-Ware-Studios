@@ -1,23 +1,15 @@
-﻿/* 
-    ------------------- Code Monkey -------------------
-
-    Thank you for downloading this package
-    I hope you find it useful in your projects
-    If you have any questions let me know
-    Cheers!
-
-               unitycodemonkey.com
-    --------------------------------------------------
- */
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MovementTilemapVisual : MonoBehaviour {
 
+    private GridCombatSystem gridCombatSystem;
+    Material mat;
+    Texture texture;
+
     [System.Serializable]
-    
+
     public struct TilemapSpriteUV {
         public MovementTilemap.TilemapObject.TilemapSprite tilemapSprite;
         public Vector2Int uv00Pixels;
@@ -31,15 +23,29 @@ public class MovementTilemapVisual : MonoBehaviour {
 
     [SerializeField] private TilemapSpriteUV[] tilemapSpriteUVArray;
     private Grid<MovementTilemap.TilemapObject> grid;
+
+    private Color attackingColor;
+    private Color movingColor;
+    private Color habilityColor;
+
     private Mesh mesh;
     private bool updateMesh;
+    MeshRenderer meshRenderer;
+    // change color to blue
     private Dictionary<MovementTilemap.TilemapObject.TilemapSprite, UVCoords> uvCoordsDictionary;
 
     private void Awake() {
+
+        meshRenderer = GetComponent<MeshRenderer>();
+
+        gridCombatSystem = GameObject.FindGameObjectWithTag("CombatHandler").GetComponent<GridCombatSystem>();
+
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
 
-        Texture texture = GetComponent<MeshRenderer>().material.mainTexture;
+        mat = GetComponent<MeshRenderer>().material;
+
+        texture = mat.mainTexture;
         float textureWidth = texture.width;
         float textureHeight = texture.height;
 
@@ -50,6 +56,26 @@ public class MovementTilemapVisual : MonoBehaviour {
                 uv00 = new Vector2(tilemapSpriteUV.uv00Pixels.x / textureWidth, tilemapSpriteUV.uv00Pixels.y / textureHeight),
                 uv11 = new Vector2(tilemapSpriteUV.uv11Pixels.x / textureWidth, tilemapSpriteUV.uv11Pixels.y / textureHeight),
             };
+        }
+    }
+
+    private void Update()
+    {
+        attackingColor = new Color32(187, 68, 48, 150);
+        movingColor = new Color32(43, 165, 184, 150);
+        habilityColor = new Color32(146, 54, 194, 150);
+
+        if (gridCombatSystem.feedbackHability)
+        {
+            meshRenderer.material.color = habilityColor;
+        }
+        else if (gridCombatSystem.moving)
+        {
+            meshRenderer.material.color = movingColor;
+        }
+        else if (gridCombatSystem.attacking)
+        {
+            meshRenderer.material.color = attackingColor;
         }
     }
 

@@ -6,6 +6,17 @@ TagManager:
   tags:
   - Selected
   - Active
+  - CombatHandler
+  - characterManager
+  - SoundManager
+  - MinimapManager
+  - Cuartel
+  - L1
+  - L2
+  - L3
+  - InspirationManager
+  - tutorialManager
+  - ArrowRoute
   layers:
   - Default
   - TransparentFX
@@ -15,7 +26,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Confiner
   - 
   - 
   - 

@@ -5,19 +5,18 @@ using System;
 public class HealthSystem : MonoBehaviour
 {
     public event EventHandler OnHealthChanged;
-    public event EventHandler OnHealthMaxChanged;
     public event EventHandler OnDamaged;
     public event EventHandler OnHealed;
     public event EventHandler OnDead;
-    public float MaxHealth;
-    public float CurrentHealth;
+    public int MaxHealth;
+    public int CurrentHealth;
     public bool isDead;
 
-    public HealthSystem(float MaxHealth) {
+    public HealthSystem(int MaxHealth) {
         this.MaxHealth = MaxHealth;
         CurrentHealth = MaxHealth;
     }
-    public void Damage(float DamageAmount){
+    public void Damage(int DamageAmount){
         CurrentHealth -= DamageAmount;
         if (CurrentHealth < 0) {
             CurrentHealth = 0;
@@ -29,6 +28,17 @@ public class HealthSystem : MonoBehaviour
             Die();
         }
     }
+    public void Heal(int HealAmount)
+    {
+        CurrentHealth += HealAmount;
+        if (CurrentHealth > MaxHealth)
+        {
+            CurrentHealth = MaxHealth;
+        }
+        OnHealthChanged?.Invoke(this, EventArgs.Empty);
+        OnHealed?.Invoke(this, EventArgs.Empty);
+    }
+
     public bool IsDead() {
         return CurrentHealth <= 0;
     }

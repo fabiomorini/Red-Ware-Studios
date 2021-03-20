@@ -9,7 +9,8 @@ public class GameHandler_GridCombatSystem : MonoBehaviour {
     public static GameHandler_GridCombatSystem Instance { get; private set; }
 
     [SerializeField] private Transform cinemachineFollowTransform;
-    [SerializeField] private MovementTilemapVisual movementTilemapVisual;
+
+    [SerializeField] private MovementTilemapVisual movementTilemapVisualActions;
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
 
     private Grid<GridCombatSystem.GridObject> grid;
@@ -19,8 +20,8 @@ public class GameHandler_GridCombatSystem : MonoBehaviour {
     private void Awake() {
         Instance = this;
 
-        int mapWidth = 40;
-        int mapHeight = 25;
+        int mapWidth = 60;
+        int mapHeight = 60;
         float cellSize = 10f;
         Vector3 origin = new Vector3(0, 0);
 
@@ -32,14 +33,10 @@ public class GameHandler_GridCombatSystem : MonoBehaviour {
     }
 
     private void Start() {
-        movementTilemap.SetTilemapVisual(movementTilemapVisual);
+        movementTilemap.SetTilemapVisual(movementTilemapVisualActions);
     }
 
-    private void Update() {
-        HandleCameraMovement();
-    }
-
-    private void HandleCameraMovement() {
+    public void HandleCameraMovement() {
         Vector3 moveDir = new Vector3(0, 0);
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) {
             moveDir.y = +1;
