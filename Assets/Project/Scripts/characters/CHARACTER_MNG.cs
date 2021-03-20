@@ -162,21 +162,21 @@ public class CHARACTER_MNG : MonoBehaviour
     public int GetLevelIndex()
     {
         int reward = 0;
-        switch (SceneManager.GetActiveScene().buildIndex)
+        switch (SceneManager.GetActiveScene().name)
         {
-            case 2:
+            case "Nivel1":
                 reward = RewardL1;
                 break;
-            case 3:
+            case "Nivel2":
                 reward = RewardL2;
                 break;
-            case 4:
+            case "Nivel3":
                 reward = RewardL3;
                 break;
-            case 5:
+            case "Nivel4":
                 reward = RewardL4;
                 break;
-            case 6:
+            case "Nivel5":
                 reward = RewardL5;
                 break;
         }
