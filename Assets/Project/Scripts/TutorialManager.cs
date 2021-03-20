@@ -336,7 +336,7 @@ public class TutorialManager : MonoBehaviour
         gifMove = false;
         if (!hasExit)
         {
-            TooltipDescription.SetText("If you want to get out of a real combat for any reason, you can use Surrender and get back to the world map. \nYou will not get experience or money if you use not get experience or money.");
+            TooltipDescription.SetText("If you want to get out of a real combat for any reason, you can use Surrender and get back to the world map. \nYou will not get any experience or money.");
             TooltipName.SetText("Action: Surrender");
             ToolTip.SetActive(true);
             StartCoroutine(ToolTipWaitTime());
