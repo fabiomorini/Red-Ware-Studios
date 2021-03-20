@@ -361,6 +361,7 @@ public class UnitGridCombat : MonoBehaviour {
         yield return new WaitForSeconds(0.7f);
         playerSprite.color = Color.white;
         if (imDead) Destroy(gameObject);
+        sceneCombatSystem.CheckIfGameIsOver();
     }
 
     int attackID;
