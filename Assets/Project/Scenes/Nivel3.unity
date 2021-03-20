@@ -212,7 +212,7 @@ PrefabInstance:
     - target: {fileID: 4539957916773627849, guid: 22c63816e9f25a74084f0db91e99a1e1,
         type: 3}
       propertyPath: level
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4539957916773627850, guid: 22c63816e9f25a74084f0db91e99a1e1,
         type: 3}
@@ -2868,7 +2868,7 @@ PrefabInstance:
     - target: {fileID: 4539957916773627849, guid: 41e2e604321763e419f1720138918f59,
         type: 3}
       propertyPath: level
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4539957916773627850, guid: 41e2e604321763e419f1720138918f59,
         type: 3}
@@ -4301,7 +4301,7 @@ MonoBehaviour:
   inspiration: 0
   DamagePopUpPrefab: {fileID: 1632364784755626160, guid: 7660a1bfef54f114db91e1977389bd69,
     type: 3}
-  inspirationUIGameObject: {fileID: 0}
+  inspirationUIGameObject: {fileID: 163661247}
   isPaused: 0
   arrowRoute: {fileID: 1069063553}
   arrowPrefab: {fileID: 641970379968207096, guid: 34cb63c8de5f80c4c99d1a20a88c6063,
@@ -6375,7 +6375,7 @@ PrefabInstance:
     - target: {fileID: 4539957916773627849, guid: 1907755cf48d5ff4c8426149fdb63f80,
         type: 3}
       propertyPath: level
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4539957916773627850, guid: 1907755cf48d5ff4c8426149fdb63f80,
         type: 3}
@@ -13308,7 +13308,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1732554268}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 183.7, y: 82.4, z: -4.5756335}
+  m_LocalPosition: {x: 195.32, y: 84.52, z: -4.5756335}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -635,9 +635,9 @@ public class GridCombatSystem : MonoBehaviour {
 
         if (!isHabilityActive) 
         { 
-            for (int x = unitX - 10; x <= unitX + 10; x++)
+            for (int x = unitX - 7; x <= unitX + 7; x++)
             {
-                for (int y = unitY - 10; y <= unitY + 10; y++)
+                for (int y = unitY - 7; y <= unitY + 7; y++)
                 {
                     if (gridPathfinding.IsWalkable(x, y))
                     {
@@ -807,7 +807,7 @@ public class GridCombatSystem : MonoBehaviour {
         ShowEndGameUI();
         experienceKnightTxt.SetText("+ " + (characterManager.meleeExp - experienceKnight) + "Exp");
         experienceArcherTxt.SetText("+ " + (characterManager.archerExp - experienceArcher) + "Exp");
-        experienceHealerTxt.SetText("+ " + (characterManager.archerExp - experienceHealer) + "Exp");
+        experienceHealerTxt.SetText("+ " + (characterManager.healerExp - experienceHealer) + "Exp");
         experienceTankTxt.SetText("+ " + (characterManager.tankExp - experienceTank) + "Exp");
         experienceMageTxt.SetText("+ " + (characterManager.mageExp - experienceMage) + "Exp");
     }
@@ -1246,6 +1246,7 @@ public class GridCombatSystem : MonoBehaviour {
 
             attacking = false;
             attackButton.interactable = false;
+            canAttackThisTurn = false;
             if (SceneManager.GetActiveScene().name == "Tutorial") attackButtonTutorial.interactable = true;
             inspiration -= 3;
             fireBurst = false;
