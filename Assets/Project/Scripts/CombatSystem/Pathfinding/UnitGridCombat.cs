@@ -602,7 +602,7 @@ public class UnitGridCombat : MonoBehaviour {
             //feedback
             attackID = 5;
         }
-        else if(randomNum >= 95)
+        else if(randomNum > 95)
         {
             damageAmount = 0;
             //feedback

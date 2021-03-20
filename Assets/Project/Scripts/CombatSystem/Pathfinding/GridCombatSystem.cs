@@ -635,9 +635,9 @@ public class GridCombatSystem : MonoBehaviour {
 
         if (!isHabilityActive) 
         { 
-            for (int x = unitX - 10; x <= unitX + 10; x++)
+            for (int x = unitX - 7; x <= unitX + 7; x++)
             {
-                for (int y = unitY - 10; y <= unitY + 10; y++)
+                for (int y = unitY - 7; y <= unitY + 7; y++)
                 {
                     if (gridPathfinding.IsWalkable(x, y))
                     {
