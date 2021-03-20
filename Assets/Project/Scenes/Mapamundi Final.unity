@@ -8042,11 +8042,11 @@ MonoBehaviour:
   Nv2: {fileID: 343824621}
   Nv3: {fileID: 1594240420}
   maxL1: 3
-  maxL2: 4
-  maxL3: 5
-  maxL4: 5
-  maxL5: 6
-  maxL6: 7
+  maxL2: 3
+  maxL3: 4
+  maxL4: 4
+  maxL5: 4
+  maxL6: 4
 --- !u!4 &1089097808
 Transform:
   m_ObjectHideFlags: 0
