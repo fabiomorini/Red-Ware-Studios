@@ -238,16 +238,19 @@ public class TutorialManager : MonoBehaviour
             attackButton.interactable = false;
             skipButton.interactable = false;
         }
-        else
+        else if (hasMoved && gridCombatSystem.canAttackThisTurn)
         {
             attackButton.interactable = true;
+        }
+        if (hasMoved)
+        {
             skipButton.interactable = true;
         }
-        if (gridCombatSystem.inspiration < 3)
+        if (gridCombatSystem.inspiration < 3 || !gridCombatSystem.canAttackThisTurn)
         {
             habilityButton.interactable = false;
         }
-        else
+        else if (gridCombatSystem.inspiration >= 3 && gridCombatSystem.canAttackThisTurn)
         {
             habilityButton.interactable = true;
         }

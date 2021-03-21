@@ -1078,11 +1078,6 @@ public class GridCombatSystem : MonoBehaviour {
                         // Can Attack Enemy
                         if (canAttackThisTurn)
                         {   
-                            /*if (SceneManager.GetActiveScene().name == "Tutorial")
-                            {
-                                attackButtonTutorial.interactable = false;
-                                abilityButtonTutorial.interactable = false;
-                            }*/
                             //Tutorial
                             if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasAttacked)
                             {

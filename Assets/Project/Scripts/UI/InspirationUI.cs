@@ -34,6 +34,7 @@ public class InspirationUI : MonoBehaviour
 
     private void Start()
     {
+        pointHability1 = false;
         alreadyRestedInspiration = false;
         alreadyUsedInspiration = false;
         inspirationIndexUI = combatSystem.inspiration;
@@ -136,6 +137,7 @@ public class InspirationUI : MonoBehaviour
         //vuelve a poner los puntos en blanco
         pointAttack = true;
         pointMove = true;
+        pointHability1 = false;
         Hability1UI.GetComponent<Button>().interactable = false;
 
         if (alreadyRestedInspiration && !alreadyUsedInspiration)
