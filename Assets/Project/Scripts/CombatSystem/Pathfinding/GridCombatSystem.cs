@@ -113,6 +113,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     public Button attackButtonTutorial;
     public Button moveButtonTutorial;
+    public Button abilityButtonTutorial;
 
     public GameObject healthMenu;
     public GameObject inspirationUI;
@@ -882,6 +883,7 @@ public class GridCombatSystem : MonoBehaviour {
             {
                 moveButtonTutorial.interactable = true;
                 attackButtonTutorial.interactable = true;
+                abilityButtonTutorial.interactable = true;
             }
         }
         else
@@ -1075,7 +1077,12 @@ public class GridCombatSystem : MonoBehaviour {
                     {
                         // Can Attack Enemy
                         if (canAttackThisTurn)
-                        {
+                        {   
+                            /*if (SceneManager.GetActiveScene().name == "Tutorial")
+                            {
+                                attackButtonTutorial.interactable = false;
+                                abilityButtonTutorial.interactable = false;
+                            }*/
                             //Tutorial
                             if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasAttacked)
                             {
@@ -1113,10 +1120,6 @@ public class GridCombatSystem : MonoBehaviour {
                             inspirationManager.InspirationAttack();
                             inspirationManager.HidePointsAction();
                             attacking = false;
-                            if (SceneManager.GetActiveScene().name == "Tutorial")
-                            {
-                                attackButtonTutorial.interactable = false;
-                            }
                             attackButton.interactable = false;
                             inspirationManager.Hability1UI.GetComponent<Button>().interactable = false;
                         }

@@ -27,6 +27,7 @@ public class TutorialManager : MonoBehaviour
     public Button attackButton;
     public Button habilityButton;
     public Button skipButton;
+    public Button InspirationAbility;
 
     public GameObject inspirationMoveButton;
     public GameObject inspirationAttackButton;
@@ -81,13 +82,13 @@ public class TutorialManager : MonoBehaviour
 
             UnlockButtons();
             if (hasMoved && hasAttacked && hasUsedHability) exitButton.interactable = true;
-
+            if (hasUsedHability) InspirationAbility.interactable = true;
             if (gridCombatSystem.isPaused && Input.GetKeyDown(KeyCode.Space))
             {
                 if(gridCombatSystem.canMoveThisTurn)moveButton.interactable = true;
                 if (gridCombatSystem.canAttackThisTurn) attackButton.interactable = true;
                 skipButton.interactable = true;
-                if(gridCombatSystem.inspiration >= 3) habilityButton.interactable = true;
+                if(gridCombatSystem.inspiration >= 3) habilityButton.interactable = true; InspirationAbility.interactable = true;
 
                 spaceKey.SetActive(false);
                 gridCombatSystem.isPaused = false;
@@ -296,6 +297,7 @@ public class TutorialManager : MonoBehaviour
     }
     public void AbilityTutorialText()
     {
+        InspirationAbility.interactable = false;
         gifAbility = true;
         gifAttack = false;
         gifMove = false;

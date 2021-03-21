@@ -1983,6 +1983,7 @@ MonoBehaviour:
   attackButton: {fileID: 413160739}
   habilityButton: {fileID: 1029977951}
   skipButton: {fileID: 2139387579}
+  InspirationAbility: {fileID: 1063710934}
   inspirationMoveButton: {fileID: 353915651}
   inspirationAttackButton: {fileID: 1119168593}
   arrowMinimenu: {fileID: 171228942}
@@ -7208,6 +7209,7 @@ MonoBehaviour:
   moveButton: {fileID: 942170753}
   attackButtonTutorial: {fileID: 413160739}
   moveButtonTutorial: {fileID: 942170753}
+  abilityButtonTutorial: {fileID: 1029977951}
   healthMenu: {fileID: 31388274}
   inspirationUI: {fileID: 163661247}
   hability1Text: {fileID: 1958981713}
@@ -9436,6 +9438,17 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1273261309}
         m_MethodName: ManageInspirationHability
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1981276485}
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -25975,7 +25988,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141661505}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 152.9397, y: 18.153204, z: -10}
+  m_LocalPosition: {x: 153.0246, y: 18.153204, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1892862704}
