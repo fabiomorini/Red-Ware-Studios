@@ -167,6 +167,18 @@ public class GridCombatSystem : MonoBehaviour {
     public Transform arrowRoute;
     public GameObject arrowPrefab;
 
+    public bool melee2Syn = false;
+    public bool melee4Syn = false;
+    public bool archer2Syn = false;
+    public bool archer4Syn = false;
+    public bool tank2Syn = false;
+    public bool tank4Syn = false;
+    public bool healer2Syn = false;
+    public bool healer4Syn = false;
+    public bool mage2Syn = false;
+    public bool mage4Syn = false;
+
+
     private void Start() {
         isPaused = false; 
         selectedFeedback = Instantiate(selectedMouse);
@@ -198,6 +210,45 @@ public class GridCombatSystem : MonoBehaviour {
                        + numberOfTank 
                        + numberOfMage;
         characterPrefs = characterManager.characterPrefs;
+
+        //Synergies
+        if (numberOfMelee >= 2 && numberOfMelee < 4) melee2Syn = true;
+        if (numberOfMelee >= 4)
+        {
+            melee2Syn = true;
+            melee4Syn = true;
+        }
+        if (numberOfRanged >= 2 && numberOfRanged < 4) archer2Syn = true;
+        if (numberOfRanged >= 4)
+        {
+            archer2Syn = true;
+            archer4Syn = true;
+        }
+        if (numberOfHealer >= 2 && numberOfHealer < 4) healer2Syn = true;
+        if (numberOfHealer >= 4)
+        {
+            healer2Syn = true;
+            healer4Syn = true;
+        }
+        if (numberOfTank >= 2 && numberOfTank < 4) tank2Syn = true;
+        if (numberOfTank >= 4)
+        {
+            tank2Syn = true;
+            tank4Syn = true;
+        }
+        if (numberOfMage >= 2 && numberOfMage < 4) mage2Syn = true;
+        if (numberOfMage >= 4)
+        {
+            mage2Syn = true;
+            mage4Syn = true;
+        }
+
+        Debug.Log("Melee 2 " + melee2Syn + " / Melee 4 " + melee4Syn);
+        Debug.Log("Archer 2 " + archer2Syn + " / Archer 4 " + archer4Syn);
+        Debug.Log("Healer 2 " + healer2Syn + " / Healer 4 " + healer4Syn);
+        Debug.Log("Tank 2 " + tank2Syn + " / Tank 4 " + tank4Syn);
+        Debug.Log("Mage 2 " + mage2Syn + " / Mage 4 " + mage4Syn);
+
         spawnCharacters();
 
         alliesTeamList = new List<UnitGridCombat>();
@@ -945,16 +996,33 @@ public class GridCombatSystem : MonoBehaviour {
         }
         if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
         {
-            if (burstTurns < 5)
+            if (mage2Syn)
             {
-                burstTurns++;
-                CheckFireDamage();
+                if (burstTurns < 7)
+                {
+                    burstTurns++;
+                    CheckFireDamage();
+                }
+                else
+                {
+                    Destroy(temporalFireBurst);
+                    fireBurstBox.x = 0;
+                    fireBurstBox.y = 0;
+                }
             }
-            else
+            else if (!mage2Syn)
             {
-                Destroy(temporalFireBurst);
-                fireBurstBox.x = 0;
-                fireBurstBox.y = 0;
+                if (burstTurns < 5)
+                {
+                    burstTurns++;
+                    CheckFireDamage();
+                }
+                else
+                {
+                    Destroy(temporalFireBurst);
+                    fireBurstBox.x = 0;
+                    fireBurstBox.y = 0;
+                }
             }
             selectedFeedback.SetActive(true);
             if (inspiration < 4) //sumamos uno de inspiración al comienzo del turno

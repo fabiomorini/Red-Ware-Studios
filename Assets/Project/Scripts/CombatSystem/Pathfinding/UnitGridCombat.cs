@@ -405,16 +405,19 @@ public class UnitGridCombat : MonoBehaviour {
             attackedByMage = false;
             if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
             {
+                if (sceneCombatSystem.archer2Syn) damageAmount += 3;
                 if (sceneCombatSystem.inspiredAttack) damageAmount = 20.0f + ((20.0f / 100.0f) * 20.0f);
                 else damageAmount = 20.0f;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
             {
+                if (sceneCombatSystem.archer2Syn) damageAmount += 3;
                 if (sceneCombatSystem.inspiredAttack) damageAmount = 25.0f + ((25.0f / 100.0f) * 20.0f);
                 else damageAmount = 25.0f;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
+                if (sceneCombatSystem.archer2Syn) damageAmount += 3;
                 if (sceneCombatSystem.inspiredAttack) damageAmount = 30.0f + ((30.0f / 100.0f) * 20.0f);
                 else damageAmount = 30.0f;
             }
@@ -491,7 +494,7 @@ public class UnitGridCombat : MonoBehaviour {
             }
         }
         float dmg;
-        dmg = RandomDamage(damageAmount);
+        dmg = RandomDamage(damageAmount, Attacker);
         sceneCombatSystem.DamagePopUp(this.GetPosition(), (int)dmg);
         healthSystem.Damage((int)dmg);
 
@@ -592,7 +595,7 @@ public class UnitGridCombat : MonoBehaviour {
         StartCoroutine(FeedbackAttack(Attacker));
     }
 
-    float RandomDamage(float damageAmount)
+    float RandomDamage(float damageAmount, UnitGridCombat Attacker)
     {
         int randomNum = UnityEngine.Random.Range(-2, 2);
         damageAmount = damageAmount + randomNum;
@@ -603,11 +606,27 @@ public class UnitGridCombat : MonoBehaviour {
             //feedback
             attackID = 5;
         }
+        else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE && sceneCombatSystem.melee2Syn)
+        {
+            if (randomNum <= 10)
+            {
+                damageAmount = damageAmount + (damageAmount / 100.0f) * 20.0f;
+                //feedback
+                attackID = 5;
+            }
+        }
         else if(randomNum > 95)
         {
-            damageAmount = 0;
-            //feedback
-            attackID = 6;
+            if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED && sceneCombatSystem.archer2Syn)
+            {
+
+            }
+            else
+            {
+                damageAmount = 0;
+                //feedback
+                attackID = 6;
+            }
         }
 
         if(this.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.TANK && sceneCombatSystem.overload && isOverloaded)
@@ -622,6 +641,11 @@ public class UnitGridCombat : MonoBehaviour {
         if (sceneCombatSystem.boltOfPrecision)
         {
             damageAmount = damageAmount + ((damageAmount / 100.0f) * 40.0f);
+        }
+
+        if(sceneCombatSystem.tank2Syn)
+        {
+            damageAmount = damageAmount - ((5 * damageAmount) / 100.0f);
         }
 
         return damageAmount;
@@ -786,6 +810,7 @@ public class UnitGridCombat : MonoBehaviour {
 
     public void HealAlly(UnitGridCombat unitGridCombat)
     {
+        if (sceneCombatSystem.healer2Syn) this.Heal(5);
         if (sceneCombatSystem.hexOfNature)
         {
             unitGridCombat.Heal(60);
