@@ -502,7 +502,16 @@ public class UnitGridCombat : MonoBehaviour {
             UnitGridCombat newObjective = LookForClosestUnit(this);
             sceneCombatSystem.DamagePopUp(newObjective.GetPosition(), (int)dmg);
             newObjective.healthSystem.Damage((int)dmg / 2);
-            StartCoroutine(FeedbackAttack(newObjective));
+            //StartCoroutine(FeedbackAttack(newObjective));
+        }
+        if ((this.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK) && (sceneCombatSystem.tank4Syn))
+        {
+            if (Attacker.GetTeam() == Team.Red)
+            {
+                dmg = ((30 * dmg) / 100.0f);
+                sceneCombatSystem.DamagePopUp(Attacker.GetPosition(), (int)dmg);
+                Attacker.healthSystem.Damage((int)dmg);
+            }
         }
 
         if (healthSystem.IsDead()){
@@ -513,7 +522,7 @@ public class UnitGridCombat : MonoBehaviour {
                     if (attackedByMelee)
                     {
                         characterManager.meleeExp += 5;
-                        //Añado 1 de Inspiracion
+                        sceneCombatSystem.inspiration++;
                     }
                     if (attackedByArcher)
                     {
