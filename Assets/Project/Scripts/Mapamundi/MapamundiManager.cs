@@ -28,7 +28,7 @@ public class MapamundiManager : MonoBehaviour
     {
         Nv1.interactable = true;
         Nv2.interactable = false;
-        Nv3.interactable = false;
+        Nv3.interactable = true;
     }
 
     private void Update()

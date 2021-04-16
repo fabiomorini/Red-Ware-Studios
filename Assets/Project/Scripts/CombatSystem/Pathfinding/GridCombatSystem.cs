@@ -981,16 +981,33 @@ public class GridCombatSystem : MonoBehaviour {
                 unitGridCombat.curHealth = unitGridCombat.maxHealth;
             isAllyTurn = false;
             allyTeamActiveUnitIndex = -1;
-            if (burstTurns < 5)
+            if (mage2Syn)
             {
-                burstTurns++;
-                CheckFireDamage();
+                if (burstTurns < 7)
+                {
+                    burstTurns++;
+                    CheckFireDamage();
+                }
+                else
+                {
+                    Destroy(temporalFireBurst);
+                    fireBurstBox.x = 0;
+                    fireBurstBox.y = 0;
+                }
             }
-            else
+            else if (!mage2Syn)
             {
-                Destroy(temporalFireBurst);
-                fireBurstBox.x = 0;
-                fireBurstBox.y = 0;
+                if (burstTurns < 5)
+                {
+                    burstTurns++;
+                    CheckFireDamage();
+                }
+                else
+                {
+                    Destroy(temporalFireBurst);
+                    fireBurstBox.x = 0;
+                    fireBurstBox.y = 0;
+                }
             }
             selectedFeedback.SetActive(false);
         }

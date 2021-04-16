@@ -497,6 +497,13 @@ public class UnitGridCombat : MonoBehaviour {
         dmg = RandomDamage(damageAmount, Attacker);
         sceneCombatSystem.DamagePopUp(this.GetPosition(), (int)dmg);
         healthSystem.Damage((int)dmg);
+        if ((Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED) && (sceneCombatSystem.archer4Syn && sceneCombatSystem.enemiesTeamList.Count > 1))
+        {
+            UnitGridCombat newObjective = LookForClosestUnit(this);
+            sceneCombatSystem.DamagePopUp(newObjective.GetPosition(), (int)dmg);
+            newObjective.healthSystem.Damage((int)dmg / 2);
+            StartCoroutine(FeedbackAttack(newObjective));
+        }
 
         if (healthSystem.IsDead()){
             if(Attacker.GetTeam() == Team.Blue) 
@@ -506,6 +513,7 @@ public class UnitGridCombat : MonoBehaviour {
                     if (attackedByMelee)
                     {
                         characterManager.meleeExp += 5;
+                        //Añado 1 de Inspiracion
                     }
                     if (attackedByArcher)
                     {
@@ -645,6 +653,7 @@ public class UnitGridCombat : MonoBehaviour {
 
         if(sceneCombatSystem.tank2Syn)
         {
+            //A los aliados tambien
             damageAmount = damageAmount - ((5 * damageAmount) / 100.0f);
         }
 
@@ -779,6 +788,25 @@ public class UnitGridCombat : MonoBehaviour {
     public void DoOverloadFeedback()
     {
         StartCoroutine(FeedbackOverload());
+    }
+
+    private UnitGridCombat LookForClosestUnit(UnitGridCombat thisUnit)
+    {
+        int enemiesCount = sceneCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList.Count;
+        Vector3 myPosition = thisUnit.GetPosition();
+        float minDistance = 9999;
+        float distance = 0.0f;
+        UnitGridCombat temporal = null;
+        
+        for (int i = 0; i < enemiesCount; i++)
+        {
+            distance = Vector3.Distance(myPosition, sceneCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i].GetPosition());
+            if (minDistance > distance)
+            {
+                temporal = sceneCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i];
+            }
+        }
+        return temporal;
     }
 
     public IEnumerator FeedbackOverload()
