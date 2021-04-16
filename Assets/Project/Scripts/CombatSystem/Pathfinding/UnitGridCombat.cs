@@ -501,7 +501,8 @@ public class UnitGridCombat : MonoBehaviour {
         {
             UnitGridCombat newObjective = LookForClosestUnit(this);
             sceneCombatSystem.DamagePopUp(newObjective.GetPosition(), (int)dmg);
-            newObjective.healthSystem.Damage((int)dmg / 2);
+            dmg = dmg / 2;
+            newObjective.healthSystem.Damage((int)dmg);
             //StartCoroutine(FeedbackAttack(newObjective));
         }
         if ((this.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK) && (sceneCombatSystem.tank4Syn))
