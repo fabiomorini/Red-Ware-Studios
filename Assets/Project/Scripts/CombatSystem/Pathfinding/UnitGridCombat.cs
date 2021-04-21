@@ -70,6 +70,10 @@ public class UnitGridCombat : MonoBehaviour {
         Red
     }
 
+    public bool burning = false;
+    public int burningIndex = 0;
+    public int burnDamage = 0;
+
     private void Awake() {
         isOverloaded = false;
         healthBar = GetComponentInChildren<HealthBar>();
@@ -329,6 +333,14 @@ public class UnitGridCombat : MonoBehaviour {
         StartCoroutine(FireDamageFeedback());
     }
 
+    public void BurnDamage()
+    {
+        burnDamage = 8;
+        burningIndex++;
+        healthSystem.Damage(burnDamage);
+        StartCoroutine(FireDamageFeedback());
+    }
+
     private IEnumerator FireDamageFeedback()
     {
         //SoundManager.PlaySound("burst");
@@ -499,11 +511,14 @@ public class UnitGridCombat : MonoBehaviour {
         healthSystem.Damage((int)dmg);
         if ((Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED) && (sceneCombatSystem.archer4Syn && sceneCombatSystem.enemiesTeamList.Count > 1))
         {
-            UnitGridCombat newObjective = LookForClosestUnit(this);
-            sceneCombatSystem.DamagePopUp(newObjective.GetPosition(), (int)dmg);
-            dmg = dmg / 2;
-            newObjective.healthSystem.Damage((int)dmg);
-            //StartCoroutine(FeedbackAttack(newObjective));
+            if (Attacker.GetTeam() == Team.Blue)
+            {
+                UnitGridCombat newObjective = LookForClosestUnit(this);
+                sceneCombatSystem.DamagePopUp(newObjective.GetPosition(), (int)dmg);
+                dmg = dmg / 2;
+                newObjective.healthSystem.Damage((int)dmg);
+                StartCoroutine(FeedbackAttack(newObjective));
+            }
         }
         if ((this.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK) && (sceneCombatSystem.tank4Syn))
         {
@@ -512,6 +527,20 @@ public class UnitGridCombat : MonoBehaviour {
                 dmg = ((30 * dmg) / 100.0f);
                 sceneCombatSystem.DamagePopUp(Attacker.GetPosition(), (int)dmg);
                 Attacker.healthSystem.Damage((int)dmg);
+            }
+        }
+        if ((Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER) && (sceneCombatSystem.healer4Syn))
+        {
+            if (Attacker.GetTeam() == Team.Blue)
+            {
+                for (int i = 0; i < sceneCombatSystem.enemiesTeamList.Count; i++)
+                {
+                    UnitGridCombat enemyToAttack = sceneCombatSystem.enemiesTeamList[i];
+                    sceneCombatSystem.DamagePopUp(enemyToAttack.GetPosition(), (int)dmg);
+                    enemyToAttack.healthSystem.Damage((int)dmg);
+                    enemyToAttack.StartCoroutine(FeedbackAttack(enemyToAttack));
+                }
+                SoundManager.PlaySound("HealerBasicAttack");
             }
         }
 
@@ -610,7 +639,15 @@ public class UnitGridCombat : MonoBehaviour {
                 CleanListAlly();
             }
         }
-        StartCoroutine(FeedbackAttack(Attacker));
+
+        if ((Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER) && (sceneCombatSystem.healer4Syn))
+        {
+
+        }
+        else
+        {
+            StartCoroutine(FeedbackAttack(Attacker));
+        }
     }
 
     float RandomDamage(float damageAmount, UnitGridCombat Attacker)
@@ -663,8 +700,23 @@ public class UnitGridCombat : MonoBehaviour {
 
         if(sceneCombatSystem.tank2Syn)
         {
-            //A los aliados tambien
-            damageAmount = damageAmount - ((5 * damageAmount) / 100.0f);
+            if (Attacker.GetTeam() == Team.Red)
+            {
+                damageAmount = damageAmount - ((5 * damageAmount) / 100.0f);
+            }
+        }
+
+        if(sceneCombatSystem.mage4Syn)
+        {
+            if (Attacker.GetTeam() == Team.Blue)
+            {
+                if (randomNum >= 50 || burning)
+                {
+                    burning = true;
+                    Debug.Log(this + "Ardiendo");
+                    //StartCoroutine(FireDamageFeedback());
+                }
+            }
         }
 
         return damageAmount;
@@ -764,7 +816,7 @@ public class UnitGridCombat : MonoBehaviour {
             sceneCombatSystem.CheckIfGameIsOver();
         }
 
-        else if (attackedByHealer)
+        else if (attackedByHealer && !sceneCombatSystem.healer4Syn)
         {
             animEnded = false;
             explosionAnim.SetActive(true);
@@ -777,6 +829,22 @@ public class UnitGridCombat : MonoBehaviour {
             animEnded = true;
             if (imDead)
                 Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
+
+        else if (attackedByHealer && sceneCombatSystem.healer4Syn)
+        {
+            Attacker.animEnded = false;
+            Attacker.explosionAnim.SetActive(true);
+            //SoundManager.PlaySound("HealerBasicAttack");
+            Attacker.playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.9f);
+            Attacker.explosionAnim.SetActive(false);
+            yield return new WaitForSeconds(0.3f);
+            Attacker.playerSprite.color = Color.white;
+            Attacker.animEnded = true;
+            if (Attacker.imDead)
+                Destroy(Attacker.gameObject);
             sceneCombatSystem.CheckIfGameIsOver();
         }
     }

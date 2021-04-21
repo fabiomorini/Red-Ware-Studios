@@ -98,7 +98,7 @@ public class GridCombatSystem : MonoBehaviour {
     [HideInInspector] public bool overload = false;
     [HideInInspector] public bool whirlwind = false;
     [HideInInspector] public bool fireBurst = false;
-    [HideInInspector] public bool summon = false;
+    [HideInInspector] public bool shatter = false;
 
     //minimenu in-game
     public GameObject Minimenu;
@@ -1009,6 +1009,16 @@ public class GridCombatSystem : MonoBehaviour {
                     fireBurstBox.y = 0;
                 }
             }
+            if (mage4Syn)
+            {
+                for (int i = 0; i < enemiesTeamList.Count; i++)
+                {
+                    if (enemiesTeamList[i].burning && enemiesTeamList[i].burningIndex <= 2)
+                    {
+                        enemiesTeamList[i].FireDamage();
+                    }
+                }
+            }
             selectedFeedback.SetActive(false);
         }
         if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
@@ -1039,6 +1049,16 @@ public class GridCombatSystem : MonoBehaviour {
                     Destroy(temporalFireBurst);
                     fireBurstBox.x = 0;
                     fireBurstBox.y = 0;
+                }
+            }
+            if (mage4Syn)
+            {
+                for (int i = 0; i < enemiesTeamList.Count; i++)
+                {
+                    if (enemiesTeamList[i].burning && enemiesTeamList[i].burningIndex <= 2)
+                    {
+                        enemiesTeamList[i].FireDamage();
+                    }
                 }
             }
             selectedFeedback.SetActive(true);
@@ -1183,17 +1203,26 @@ public class GridCombatSystem : MonoBehaviour {
                                 StartCoroutine(DoubleSlash(gridObject));
                                 inspiration -= 3;
                             }
-                            else
-                            {
-                                unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
-                            }
 
-                            if(boltOfPrecision)
+                            else if (whirlwind)
+                            {
+                                StartCoroutine(Whirlwind(gridObject, unitGridCombat));
+                                inspiration -= 4;
+                            }
+   
+                            else if(boltOfPrecision)
                             {
                                 if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasUsedHability) tutorialManager.hasUsedHability = true;
                                 boltOfPrecision = false;
                                 inspiration -= 3;
                             }
+
+                            else
+                            {
+                                unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                            }
+
+
                             if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasAttacked) tutorialManager.hasAttacked = true;
                             inspiredAttack = false;
                             inspirationManager.pointAttack = true;
@@ -1380,6 +1409,52 @@ public class GridCombatSystem : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
         doubleSlash = false;
+    }
+
+    private IEnumerator Whirlwind(GridObject Objective, UnitGridCombat Attacker)
+    {
+        Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+        unitGridCombat.AttackUnit(Objective.GetUnitGridCombat());
+        yield return new WaitForSeconds(0.5f);
+
+        Vector3 position = Attacker.GetPosition();
+        //derecha
+        position.x += 10;
+        GridObject gridObject = grid.GetGridObject(position);
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            yield return new WaitForSeconds(0.5f);
+        }
+        //arriba
+        position.x -= 10;
+        position.y += 10;
+        gridObject = grid.GetGridObject(position);
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            yield return new WaitForSeconds(0.5f);
+        }
+        //izquierda
+        position.y -= 10;
+        position.x -= 10;
+        gridObject = grid.GetGridObject(position);
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            yield return new WaitForSeconds(0.5f);
+        }
+        //abajo
+        position.x += 10;
+        position.y -= 10;
+        gridObject = grid.GetGridObject(position);
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        whirlwind = false;
     }
 
     public void SetAttackingTrue()
