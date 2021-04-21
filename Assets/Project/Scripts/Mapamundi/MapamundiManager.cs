@@ -32,12 +32,16 @@ public class MapamundiManager : MonoBehaviour
     public GameObject point4;
     public GameObject scrollObject;
     Vector3 mousePos;
+    public Slider sliderLevels;
 
     private void Start()
     {
         Nv1.interactable = true;
         Nv2.interactable = false;
         Nv3.interactable = false;
+        sliderLevels.maxValue = scrollObject.transform.position.y + 390;
+        sliderLevels.minValue = scrollObject.transform.position.y - 30;
+        sliderLevels.value = scrollObject.transform.position.y;
     }
 
     private void Update()
@@ -53,8 +57,13 @@ public class MapamundiManager : MonoBehaviour
         {
             Nv3.interactable = true;
         }
-        Debug.Log(point3.transform.position.y + scrollObject.transform.position.y);
-        CheckScrollMouse();
+
+        if (Input.GetAxis("Mouse ScrollWheel") == 0f) { CheckSliderValue();  }
+        else { CheckScrollMouse(); }
+    }
+    private void CheckSliderValue()
+    {
+        scrollObject.transform.position = new Vector3(scrollObject.transform.position.x, sliderLevels.value, 0);
     }
 
     public void CheckScrollMouse()
@@ -62,15 +71,16 @@ public class MapamundiManager : MonoBehaviour
         mousePos = Input.mousePosition;
         if (mousePos.x > point1.transform.position.x && mousePos.x < point2.transform.position.x && mousePos.y < point1.transform.position.y && mousePos.y > point2.transform.position.y)
         {
-            if (Input.GetAxis("Mouse ScrollWheel") < 0f && point4.transform.position.y + scrollObject.transform.position.y < 1357.0f) // forward
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f && point4.transform.position.y + scrollObject.transform.position.y < 1350.0f) // forward
             {
                 scrollObject.transform.Translate(Vector3.up * 30);
             }
-            if (Input.GetAxis("Mouse ScrollWheel") > 0f && point3.transform.position.y + scrollObject.transform.position.y > 1350.0f) // backwards
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f && point3.transform.position.y + scrollObject.transform.position.y > 1330.0f) // backwards
             {
                 scrollObject.transform.Translate(Vector3.down * 30);
             }
         }
+        sliderLevels.value = scrollObject.transform.position.y;
     }
 
     public void Nivel1()
