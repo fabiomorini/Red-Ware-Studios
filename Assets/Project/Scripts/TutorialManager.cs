@@ -21,6 +21,7 @@ public class TutorialManager : MonoBehaviour
     public TMP_Text TooltipDescription;
     public TMP_Text TooltipName;
     public GameObject NextTooltipButton;
+    public GameObject SurrenderCheck;
 
     public Button moveButton;
     public Button attackButton;
@@ -97,6 +98,7 @@ public class TutorialManager : MonoBehaviour
         NextTooltipButton.SetActive(false);
         gridCombatSystem.isPaused = false;
         ToolTip.SetActive(false);
+        if(hasExit) SurrenderCheck.SetActive(true);
     }
 
 
@@ -321,6 +323,7 @@ public class TutorialManager : MonoBehaviour
             TooltipName.SetText("Action: Surrender");
             ToolTip.SetActive(true);
             StartCoroutine(ToolTipWaitTime());
+
         }
         hasExit = true;
     }
