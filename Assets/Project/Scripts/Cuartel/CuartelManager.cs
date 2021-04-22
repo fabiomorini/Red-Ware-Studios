@@ -46,7 +46,15 @@ public class CuartelManager : MonoBehaviour
     private Soldier soldier;
     public TMP_Text soldierText;
 
-    private enum Soldier { KNIGHT, ARCHER, HEALER, PALADIN, WIZARD};
+    public GameObject knightImage;
+    public GameObject ArcherImage;
+    public GameObject HealerImage;
+    public GameObject TankImage;
+    public GameObject MageImage;
+
+    public TMP_Text price;
+
+    private enum Soldier { KNIGHT, ARCHER, HEALER, PALADIN, WIZARD };
 
     private void Start()
     {
@@ -63,6 +71,7 @@ public class CuartelManager : MonoBehaviour
         MageCounter = charManager.numberOfMage;
 
         soldier = Soldier.KNIGHT;
+        price.SetText("" + knightPrice);
     }
 
     private void Update()
@@ -101,39 +110,71 @@ public class CuartelManager : MonoBehaviour
     {
         soldier = Soldier.KNIGHT;
         soldierText.SetText("Knight");
+
+        knightImage.SetActive(true);
+        ArcherImage.SetActive(false);
+        HealerImage.SetActive(false);
+        TankImage.SetActive(false);
+        MageImage.SetActive(false);
+
+        price.SetText(""+ knightPrice);
     }
     public void SetArcher()
     {
         soldier = Soldier.ARCHER;
         soldierText.SetText("Archer");
+
+        knightImage.SetActive(false);
+        ArcherImage.SetActive(true);
+        HealerImage.SetActive(false);
+        TankImage.SetActive(false);
+        MageImage.SetActive(false);
+
+        price.SetText("" + archerPrice);
     }
     public void SetHealer()
     {
         soldier = Soldier.HEALER;
-        soldierText.SetText("Healer");
+        soldierText.SetText("Priest");
+
+        knightImage.SetActive(false);
+        ArcherImage.SetActive(false);
+        HealerImage.SetActive(true);
+        TankImage.SetActive(false);
+        MageImage.SetActive(false);
+
+        price.SetText("" + healerPrice);
     }
     public void SetPaladin()
     {
         soldier = Soldier.PALADIN;
         soldierText.SetText("Paladin");
+
+        knightImage.SetActive(false);
+        ArcherImage.SetActive(false);
+        HealerImage.SetActive(false);
+        TankImage.SetActive(true);
+        MageImage.SetActive(false);
+
+        price.SetText("" + tankPrice);
     }
     public void SetWizard()
     {
         soldier = Soldier.WIZARD;
         soldierText.SetText("Wizard");
+
+        knightImage.SetActive(false);
+        ArcherImage.SetActive(false);
+        HealerImage.SetActive(false);
+        TankImage.SetActive(false);
+        MageImage.SetActive(true);
+
+        price.SetText("" + magePrice);
     }
 
-    public void UseInfo()
+    public void BuySoldier()
     {
-            SoundManager.PlaySound("PaperOpen");
-            infoUI.SetActive(true);
-            SoundManager.PlaySound("PaperClosed");
-            infoUI.SetActive(false);
-    }
-
-    public void BuyKnight()
-    {
-        if (characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
+        if(soldier == Soldier.KNIGHT && characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
         {
             SoundManager.PlaySound("buyAlly");
             characterManager.GetComponent<CHARACTER_MNG>().coins -= knightPrice;
@@ -141,11 +182,7 @@ public class CuartelManager : MonoBehaviour
             characterManager.GetComponent<CHARACTER_MNG>().numberOfMelee++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfAllies++;
         }
-
-    }
-    public void BuyArcher()
-    {
-        if (characterManager.GetComponent<CHARACTER_MNG>().coins >= archerPrice)
+        else if (soldier == Soldier.ARCHER && characterManager.GetComponent<CHARACTER_MNG>().coins >= archerPrice)
         {
             SoundManager.PlaySound("buyAlly");
             characterManager.GetComponent<CHARACTER_MNG>().coins -= archerPrice;
@@ -153,10 +190,7 @@ public class CuartelManager : MonoBehaviour
             characterManager.GetComponent<CHARACTER_MNG>().numberOfRanged++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfAllies++;
         }
-    }
-    public void BuyHealer()
-    {
-        if (characterManager.GetComponent<CHARACTER_MNG>().coins >= healerPrice)
+        else if (soldier == Soldier.HEALER && characterManager.GetComponent<CHARACTER_MNG>().coins >= healerPrice)
         {
             SoundManager.PlaySound("buyAlly");
             characterManager.GetComponent<CHARACTER_MNG>().coins -= healerPrice;
@@ -164,10 +198,7 @@ public class CuartelManager : MonoBehaviour
             characterManager.GetComponent<CHARACTER_MNG>().numberOfHealer++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfAllies++;
         }
-    }
-    public void BuyTank()
-    {
-        if (characterManager.GetComponent<CHARACTER_MNG>().coins >= tankPrice)
+        else if (soldier == Soldier.PALADIN && characterManager.GetComponent<CHARACTER_MNG>().coins >= tankPrice)
         {
             SoundManager.PlaySound("buyAlly");
             characterManager.GetComponent<CHARACTER_MNG>().coins -= tankPrice;
@@ -175,10 +206,7 @@ public class CuartelManager : MonoBehaviour
             characterManager.GetComponent<CHARACTER_MNG>().numberOfTank++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfAllies++;
         }
-    }
-    public void BuyMage()
-    {
-        if (characterManager.GetComponent<CHARACTER_MNG>().coins >= magePrice)
+        else if (soldier == Soldier.WIZARD && characterManager.GetComponent<CHARACTER_MNG>().coins >= magePrice)
         {
             SoundManager.PlaySound("buyAlly");
             characterManager.GetComponent<CHARACTER_MNG>().coins -= magePrice;
@@ -186,11 +214,10 @@ public class CuartelManager : MonoBehaviour
             characterManager.GetComponent<CHARACTER_MNG>().numberOfMage++;
             characterManager.GetComponent<CHARACTER_MNG>().numberOfAllies++;
         }
-    }
-
-    public void CheatButton()
-    {
-        characterManager.GetComponent<CHARACTER_MNG>().coins += 200;
+        else
+        {
+            //play not enough money sound
+        }
     }
 
     private void SetExpText()
