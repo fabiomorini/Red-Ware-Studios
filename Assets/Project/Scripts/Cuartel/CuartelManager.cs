@@ -36,13 +36,17 @@ public class CuartelManager : MonoBehaviour
 
     public GameObject cuartel;
     public GameObject infoUI;
-    public Animation animator;
 
     public GameObject characterManager;
     private CHARACTER_MNG charManager;
 
-    private bool isActiveCuartel;
-    private bool isActiveInfo;
+    //Animation
+    public Animator CuartelAnimator;
+
+    private Soldier soldier;
+    public TMP_Text soldierText;
+
+    private enum Soldier { KNIGHT, ARCHER, HEALER, PALADIN, WIZARD};
 
     private void Start()
     {
@@ -57,6 +61,8 @@ public class CuartelManager : MonoBehaviour
         HealerCounter = charManager.numberOfHealer;
         TankCounter = charManager.numberOfTank;
         MageCounter = charManager.numberOfMage;
+
+        soldier = Soldier.KNIGHT;
     }
 
     private void Update()
@@ -72,36 +78,57 @@ public class CuartelManager : MonoBehaviour
 
     public void UseQuartel() 
     {
-        if (!isActiveCuartel) 
-        {
-            SoundManager.PlaySound("openCuartel");
-            cuartel.SetActive(true);
-            //infoUI.SetActive(false);
-            isActiveCuartel = true;
-        }
-        else if (isActiveCuartel) 
-        {
-            SoundManager.PlaySound("closeCuartel");
-            cuartel.SetActive(false);
-            //infoUI.SetActive(true);
-            isActiveCuartel = false;
-        }
+        StartCoroutine(OpenAnimCuartel());
+    }
+
+    private IEnumerator OpenAnimCuartel()
+    {
+        CuartelAnimator.Play("transitionCuartel");
+        SoundManager.PlaySound("openCuartel");
+        yield return new WaitForSeconds(1.60f);
+        cuartel.SetActive(true);
+    }
+
+    public void CloseQuartel()
+    {
+        CuartelAnimator.Play("closeCuartel");
+        SoundManager.PlaySound("closeCuartel");
+        cuartel.SetActive(false);
+    }
+
+    //New UI Cuartel
+    public void SetKnight()
+    {
+        soldier = Soldier.KNIGHT;
+        soldierText.SetText("Knight");
+    }
+    public void SetArcher()
+    {
+        soldier = Soldier.ARCHER;
+        soldierText.SetText("Archer");
+    }
+    public void SetHealer()
+    {
+        soldier = Soldier.HEALER;
+        soldierText.SetText("Healer");
+    }
+    public void SetPaladin()
+    {
+        soldier = Soldier.PALADIN;
+        soldierText.SetText("Paladin");
+    }
+    public void SetWizard()
+    {
+        soldier = Soldier.WIZARD;
+        soldierText.SetText("Wizard");
     }
 
     public void UseInfo()
     {
-        if (!isActiveInfo)
-        {
             SoundManager.PlaySound("PaperOpen");
             infoUI.SetActive(true);
-            isActiveInfo = true;
-        }
-        else if (isActiveInfo)
-        {
             SoundManager.PlaySound("PaperClosed");
             infoUI.SetActive(false);
-            isActiveInfo = false;
-        }
     }
 
     public void BuyKnight()
