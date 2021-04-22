@@ -402,6 +402,7 @@ public class UnitGridCombat : MonoBehaviour {
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
                 if (sceneCombatSystem.inspiredAttack) damageAmount = 35.0f + ((35.0f / 100.0f) * 20.0f);
+                if (sceneCombatSystem.justicesExecute) damageAmount = 80;
                 else damageAmount = 35.0f;
             }
 
@@ -922,6 +923,15 @@ public class UnitGridCombat : MonoBehaviour {
             unitGridCombat.Heal(60);
             sceneCombatSystem.hexOfNature = false;
             sceneCombatSystem.inspiration -= 3;
+        }
+        else if (sceneCombatSystem.divineGrace)
+        {
+            for (int i = 0; i < sceneCombatSystem.alliesTeamList.Count; i++)
+            {
+                sceneCombatSystem.alliesTeamList[i].Heal(healAmount);
+            }
+            sceneCombatSystem.divineGrace = false;
+            sceneCombatSystem.inspiration -= 4;
         }
         else unitGridCombat.Heal(healAmount);
     }

@@ -1204,6 +1204,12 @@ public class GridCombatSystem : MonoBehaviour {
                                 inspiration -= 3;
                             }
 
+                            else if (justicesExecute)
+                            {
+                                StartCoroutine(JusticeExecute(gridObject));
+                                inspiration -= 4;
+                            }
+
                             else if (whirlwind)
                             {
                                 StartCoroutine(Whirlwind(gridObject, unitGridCombat));
@@ -1409,6 +1415,13 @@ public class GridCombatSystem : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
         doubleSlash = false;
+    }
+
+    private IEnumerator JusticeExecute(GridObject gridObject)
+    {
+        unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+        yield return new WaitForSeconds(0.5f);
+        justicesExecute = false;
     }
 
     private IEnumerator Whirlwind(GridObject Objective, UnitGridCombat Attacker)
