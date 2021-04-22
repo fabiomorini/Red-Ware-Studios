@@ -66,11 +66,11 @@ MonoBehaviour:
   VictoryL1: 0
   VictoryL2: 0
   VictoryL3: 0
-  meleeLevel: 1
-  archerLevel: 1
-  healerLevel: 1
-  tankLevel: 1
-  mageLevel: 1
+  meleeLevel: 3
+  archerLevel: 3
+  healerLevel: 3
+  tankLevel: 3
+  mageLevel: 3
   meleeExp: 0
   archerExp: 0
   healerExp: 0

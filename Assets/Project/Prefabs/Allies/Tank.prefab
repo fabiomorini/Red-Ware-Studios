@@ -504,6 +504,9 @@ MonoBehaviour:
   playerSprite: {fileID: 8519992233551733056}
   animEnded: 1
   selectedGameObject: {fileID: 0}
+  burning: 0
+  burningIndex: 0
+  burnDamage: 0
 --- !u!1 &4323016319878930167
 GameObject:
   m_ObjectHideFlags: 0

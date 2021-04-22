@@ -641,10 +641,7 @@ public class UnitGridCombat : MonoBehaviour {
             }
         }
 
-        if ((Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER) && (sceneCombatSystem.healer4Syn))
-        {
-
-        }
+        if ((Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER) && (sceneCombatSystem.healer4Syn)) { }
         else
         {
             StartCoroutine(FeedbackAttack(Attacker));
