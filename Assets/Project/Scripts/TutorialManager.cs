@@ -20,8 +20,8 @@ public class TutorialManager : MonoBehaviour
     public GameObject ToolTip;
     public TMP_Text TooltipDescription;
     public TMP_Text TooltipName;
-    public Image TooltipImage;
-    public GameObject spaceKey;
+    public GameObject NextTooltipButton;
+    public GameObject SurrenderCheck;
 
     public Button moveButton;
     public Button attackButton;
@@ -39,7 +39,6 @@ public class TutorialManager : MonoBehaviour
 
     public TMP_Text welcomeText;
     private bool tutorial1 = true;
-    private bool canPressSpace;
     private bool isWaiting1 = false;
     private bool isWaiting2 = false;
     private bool isWaiting3 = false;
@@ -83,41 +82,42 @@ public class TutorialManager : MonoBehaviour
             UnlockButtons();
             if (hasMoved && hasAttacked && hasUsedHability) exitButton.interactable = true;
             if (hasUsedHability) InspirationAbility.interactable = true;
-            if (gridCombatSystem.isPaused && Input.GetKeyDown(KeyCode.Space))
-            {
-                if(gridCombatSystem.canMoveThisTurn)moveButton.interactable = true;
-                if (gridCombatSystem.canAttackThisTurn) attackButton.interactable = true;
-                skipButton.interactable = true;
-                if(gridCombatSystem.inspiration >= 3) habilityButton.interactable = true; InspirationAbility.interactable = true;
-
-                spaceKey.SetActive(false);
-                gridCombatSystem.isPaused = false;
-                ToolTip.SetActive(false);
-            }
+            if (gridCombatSystem.canMoveThisTurn) moveButton.interactable = true;
+            if (gridCombatSystem.canAttackThisTurn) attackButton.interactable = true;
+            skipButton.interactable = true;
+            if (gridCombatSystem.inspiration >= 3) habilityButton.interactable = true; InspirationAbility.interactable = true;
         }
         else //primera parte del tutorial
         {
             UpdateFirstPartTutorial();
         }
     }
-    private void CheckSpaceButton()
+
+    public void OkTooltip()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && canPressSpace)
+        NextTooltipButton.SetActive(false);
+        gridCombatSystem.isPaused = false;
+        ToolTip.SetActive(false);
+        if(hasExit) SurrenderCheck.SetActive(true);
+    }
+
+
+    public void NextButton()
+    {
+
+        if(firstPartIndex == 3)
         {
-            if(firstPartIndex == 3)
-            {
-                tutorial1 = false;
-                gridCombatSystem.isPaused = false;
-                firstTutorial.SetActive(false);
-                inspirationMoveButton.SetActive(false);
-                inspirationAttackButton.SetActive(false);
-                arrowMove.SetActive(true);
-                moveButton.interactable = true;
-            }
-            else
-            {
-                firstPartIndex++;
-            }
+            tutorial1 = false;
+            gridCombatSystem.isPaused = false;
+            firstTutorial.SetActive(false);
+            inspirationMoveButton.SetActive(false);
+            inspirationAttackButton.SetActive(false);
+            arrowMove.SetActive(true);
+            moveButton.interactable = true;
+        }
+        else
+        {
+            firstPartIndex++;
         }
     }
 
@@ -125,7 +125,6 @@ public class TutorialManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         pressSpaceButton.SetActive(true);
-        canPressSpace = true;
     }
 
     private void UpdateFirstPartTutorial()
@@ -134,38 +133,27 @@ public class TutorialManager : MonoBehaviour
         {
             if (!isWaiting1)
             {
-                canPressSpace = false;
                 pressSpaceButton.SetActive(false);
                 welcomeText.SetText("Welcome to the Battle Tale tutorial! \n\n Now you will learn to use the different elements that will be shown on the battlefield");
                 isWaiting1 = true;
                 StartCoroutine(WelcomeWaitTime());
-            }
-            if(canPressSpace)
-            {
-                CheckSpaceButton();
             }
         }
         else if (firstPartIndex == 1) // minimenu
         {
             if (!isWaiting2)
             {
-                canPressSpace = false;
                 pressSpaceButton.SetActive(false);
                 arrowMinimenu.SetActive(true);
                 welcomeText.SetText("In the Actions Menu you will be able to use the different commands that your units can perform in combat");
                 isWaiting2 = true;
                 StartCoroutine(WelcomeWaitTime());
             }
-            if (canPressSpace)
-            {
-                CheckSpaceButton();
-            }
         }
         else if (firstPartIndex == 2) // UI
         {
             if (!isWaiting3)
             {
-                canPressSpace = false;
                 pressSpaceButton.SetActive(false);
                 welcomeText.SetText("This is the Unit Stats Menu, here you can see the attributes corresponding to the current unit.");
                 arrowMinimenu.SetActive(false);
@@ -173,16 +161,11 @@ public class TutorialManager : MonoBehaviour
                 isWaiting3 = true;
                 StartCoroutine(WelcomeWaitTime());
             }
-            if (canPressSpace)
-            {
-                CheckSpaceButton();
-            }
         }
         else if (firstPartIndex == 3) // Inspiration
         {
             if (!isWaiting4)
             {
-                canPressSpace = false;
                 pressSpaceButton.SetActive(false);
                 welcomeText.SetText("In the top you have your inspiration points. \n You gain one point each turn and you can use them to enhance your actions.");
                 inspirationMoveButton.SetActive(true);
@@ -193,23 +176,18 @@ public class TutorialManager : MonoBehaviour
                 StartCoroutine(WelcomeWaitTime());
                 yourTurnUI.GetComponent<TMP_Text>().SetText("Your Turn");
             }
-            if (canPressSpace)
-            {
-                CheckSpaceButton();
-            }
         }
     }
 
     private void StartFirstPartTutorial()
     {
         endText.SetActive(false);
-        spaceKey.SetActive(false);
+        NextTooltipButton.SetActive(false);
         ToolTip.SetActive(false);
         yourTurnUI.GetComponent<TMP_Text>().SetText("");
 
         tutorial1 = true;
         gridCombatSystem.isPaused = true;
-        canPressSpace = false;
 
         firstTutorial.SetActive(true);
         pressSpaceButton.SetActive(false);
@@ -264,7 +242,7 @@ public class TutorialManager : MonoBehaviour
         skipButton.interactable = false;
         habilityButton.interactable = false;
         yield return new WaitForSeconds(1f);
-        spaceKey.SetActive(true);
+        NextTooltipButton.SetActive(true);
     }
 
     public void MoveTutorialText() 
@@ -345,6 +323,7 @@ public class TutorialManager : MonoBehaviour
             TooltipName.SetText("Action: Surrender");
             ToolTip.SetActive(true);
             StartCoroutine(ToolTipWaitTime());
+
         }
         hasExit = true;
     }
