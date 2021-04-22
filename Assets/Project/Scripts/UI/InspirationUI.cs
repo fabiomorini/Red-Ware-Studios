@@ -5,326 +5,138 @@ using UnityEngine.UI;
 
 public class InspirationUI : MonoBehaviour
 {
-    public GameObject pointMoveUI;
-    public GameObject pointAttackUI;
-    public Image AttackButton;
-    public Image MoveButton;
-    public Image Hability1Button;
-    public Image Hability2Button;
-
-    public GameObject pointHabilitiesUI;
-    public GameObject Hability1UI;
-    public GameObject Hability2UI;
-
     public GameObject Inspiration1;
     public GameObject Inspiration2;
     public GameObject Inspiration3;
     public GameObject Inspiration4;
 
-    [HideInInspector] public int inspirationIndexUI;
-
     [HideInInspector] public bool pointMove = false;
     [HideInInspector] public bool pointAttack = false;
-    [HideInInspector] public bool pointHability1 = false;
-    [HideInInspector] public bool pointHability2 = false;
-    [HideInInspector] public bool alreadyRestedInspiration = false;
-    [HideInInspector] public bool alreadyUsedInspiration = false;
+
+    public Button inspiredAttack;
+    public Button inspiredMove;
 
     public GridCombatSystem combatSystem;
 
-    private void Start()
-    {
-        pointHability1 = false;
-        alreadyRestedInspiration = false;
-        alreadyUsedInspiration = false;
-        inspirationIndexUI = combatSystem.inspiration;
-    }
+    public Button ability1;
+    public Button ability2;
+
+    public GameObject habilitiesUI;
+    private bool abilitiesUIShowing = false;
 
     private void Update()
     {
         SetInspirationUI();
+        SetAbilitiesInteractable();
+        /*if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE && combatSystem.attacking == false) 
+        {
+            ability1.interactable = false; 
+        }
+        if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER && combatSystem.attacking == false)
+        {
+            ability1.interactable = false;
+            ability2.interactable = false;
+        }*/
+    }
+
+    public void ResetAbilities()
+    {
+        ability1.interactable = true;
+        ability2.interactable = true;
     }
 
     private void SetInspirationUI()
     {
-        if (inspirationIndexUI == 0)
+        if (combatSystem.inspiration == 0)
         {
             Inspiration1.SetActive(false);
             Inspiration2.SetActive(false);
             Inspiration3.SetActive(false);
             Inspiration4.SetActive(false);
         }
-        else if (inspirationIndexUI == 1)
+        else if (combatSystem.inspiration == 1)
         {
             Inspiration1.SetActive(true);
             Inspiration2.SetActive(false);
             Inspiration3.SetActive(false);
             Inspiration4.SetActive(false);
         }
-        else if (inspirationIndexUI == 2)
+        else if (combatSystem.inspiration == 2)
         {
             Inspiration1.SetActive(true);
             Inspiration2.SetActive(true);
             Inspiration3.SetActive(false);
             Inspiration4.SetActive(false);
         }
-        else if (inspirationIndexUI == 3)
+        else if (combatSystem.inspiration == 3)
         {
             Inspiration1.SetActive(true);
             Inspiration2.SetActive(true);
             Inspiration3.SetActive(true);
             Inspiration4.SetActive(false);
         }
-        else if (inspirationIndexUI == 4)
+        else if (combatSystem.inspiration == 4)
         {
             Inspiration1.SetActive(true);
             Inspiration2.SetActive(true);
             Inspiration3.SetActive(true);
             Inspiration4.SetActive(true);
         }
-    }
+    } //enseña la energía en la UI
 
-    public void ShowPointMove()
+    public void InspiredMovement() // para los botones de inspiración move
     {
-        pointMoveUI.SetActive(true);
-        pointAttackUI.SetActive(false);
-        pointHabilitiesUI.SetActive(false);
-        pointAttack = true;
-        pointMove = true;
-        pointHability1 = true;
-        pointHability2 = true;
-        combatSystem.inspiredAttack = false;
-        combatSystem.inspiredMovement = false;
-        DeactivateHabilities();
-        if (alreadyRestedInspiration && !alreadyUsedInspiration)
-        {
-            inspirationIndexUI = combatSystem.inspiration;
-            alreadyRestedInspiration = false;
+        pointMove = !pointMove;
+        if (pointMove && combatSystem.inspiration > 0) {
+            combatSystem.inspiredMovement = true;
         }
-        InspirationMove();
-        InspirationAttack();
-        ActivateHability1();
-        ActivateHability2();
+        else { combatSystem.inspiredMovement = false; }
     }
-    public void ShowPointAttack()
+
+    public void InspiredAttack()  // para los botones de inspiración attack
     {
-        pointAttackUI.SetActive(true);
-        pointMoveUI.SetActive(false);
-        pointHabilitiesUI.SetActive(false);
-        pointAttack = true;
-        pointMove = true; 
-        pointHability1 = true;
-        pointHability2 = true;
-        combatSystem.inspiredAttack = false;
-        combatSystem.inspiredMovement = false;
-        DeactivateHabilities();
-        if (alreadyRestedInspiration && !alreadyUsedInspiration)
-        {
-            inspirationIndexUI = combatSystem.inspiration;
-            alreadyRestedInspiration = false;
+        pointAttack = !pointAttack;
+        if (pointAttack && combatSystem.inspiration > 0) { 
+            combatSystem.inspiredAttack = true;
         }
-        InspirationAttack();
-        InspirationMove();
-        ActivateHability1();
-        ActivateHability2();
+        else { combatSystem.inspiredAttack = false; }
     }
 
-    public void ShowHabilities() 
+    public void ShowAbilitiesUI()
     {
-        pointMoveUI.SetActive(false);
-        pointAttackUI.SetActive(false);
-        pointHabilitiesUI.SetActive(true);
-        //vuelve a poner los puntos en blanco
-        pointAttack = true;
-        pointMove = true;
-        pointHability1 = false;
-        Hability1UI.GetComponent<Button>().interactable = false;
-
-        if (alreadyRestedInspiration && !alreadyUsedInspiration)
+        if (!abilitiesUIShowing)
         {
-            inspirationIndexUI = combatSystem.inspiration;
-            alreadyRestedInspiration = false;
+            habilitiesUI.SetActive(true);
+            abilitiesUIShowing = true;
+        }
+        else if (abilitiesUIShowing)
+        {
+            habilitiesUI.SetActive(false);
+            abilitiesUIShowing = false;
         }
     }
 
-    public void ActivateHability1()
+    public void StopShowingAbilitiesUI()
     {
-        if (pointHability1) Hability1Button.color = Color.white;
-        if (combatSystem.inspiration > 2)
-        {
-            if (!pointHability1)
-            {
-                Hability1Button.color = new Color32(241, 178, 35, 255);
-                pointHability1 = true;
-                Hability1UI.GetComponent<Button>().interactable = true;
-                //unitgridcombat llamar ataque especial = true
-            }
-            else
-            {
-                Hability1Button.color = Color.white;
-                pointHability1 = false;
-                Hability1UI.GetComponent<Button>().interactable = false;
-                //unitgridcombat llamar ataque especial = false
-            }
-        }
+        habilitiesUI.SetActive(false);
     }
 
-    public void ActivateHability2()
+    public void SetAbilitiesInteractable()
     {
-        if (pointHability2) Hability2Button.color = Color.white;
-        if (combatSystem.inspiration > 3)
-        {
-            if (!pointHability2)
-            {
-                Hability2Button.color = new Color32(241, 178, 35, 255);
-                pointHability2 = true;
-                //unitgridcombat llamar ataque especial = true
-            }
-            else
-            {
-                Hability2Button.color = Color.white;
-                pointHability2 = false;
-                //unitgridcombat llamar ataque especial = false
-            }
-        }
-    }
+        // N1
+        if(combatSystem.inspiration > 2) { ability1.interactable = true; }
+        else { ability1.interactable = false; }
 
-    public void InspirationHability1()
-    {
-        if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
-        {
-            combatSystem.doubleSlash = true;
-        }
-        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
-        {
-            combatSystem.boltOfPrecision = true;
-        }
-        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
-        {
-            combatSystem.hexOfNature = true;
-        }
-        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
-        {
-            combatSystem.overload = true;
-        }
-        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
-        {
-            combatSystem.fireBurst = true;
-        }
-    }
-
-
-
-    public void InspirationHability2()
-    {
-        if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
-        {
-            combatSystem.justicesExecute = true;
-        }
-        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
-        {
-            combatSystem.windRush = true;
-        }
-        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
-        {
-            combatSystem.divineGrace = true;
-        }
-        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
-        {
-            combatSystem.whirlwind = true;
-        }
-        else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
-        {
-            combatSystem.shatter = true;
-        }
-    }
-
-    private void DeactivateHabilities()
-    {
-        combatSystem.feedbackHability = false;
-        combatSystem.doubleSlash = false;
-        combatSystem.justicesExecute = false;
-        combatSystem.boltOfPrecision = false;
-        combatSystem.windRush = false;
-        combatSystem.hexOfNature = false;
-        combatSystem.divineGrace = false;
-        combatSystem.whirlwind = false;
-        combatSystem.fireBurst = false;
-        combatSystem.shatter = false;
-    }
-
-
-    public void HidePointsSkip()
-    {
-        if (alreadyRestedInspiration && !alreadyUsedInspiration)
-        {
-            inspirationIndexUI = combatSystem.inspiration;
-            alreadyRestedInspiration = false;
-        }
-        pointAttackUI.SetActive(false);
-        pointMoveUI.SetActive(false);
-        pointHabilitiesUI.SetActive(false);
-        pointHability1 = true;
-        pointHability2 = true;
-        DeactivateHabilities();
-        ActivateHability1();
-        ActivateHability2();
-    }
-
-    //if you are moving or attacking, stop showing the point buttons
-    public void HidePointsAction()
-    {
-        pointAttackUI.SetActive(false);
-        pointMoveUI.SetActive(false);
-        pointHabilitiesUI.SetActive(false);
-
-    }
-
-    public void InspirationAttack()
-    {
-        if (pointAttack) AttackButton.color = Color.white;
-        if (combatSystem.inspiration > 0)
-        {
-            if (!pointAttack)
-            {
-                AttackButton.color = new Color32(241, 178, 35, 255);
-                pointAttack = true;
-                combatSystem.inspiredAttack = true;
-                //Ataque cargado
-            }
-            else
-            {
-                AttackButton.color = Color.white;
-                pointAttack = false;
-                combatSystem.inspiredAttack = false;
-            }
-        }
-    }
-
-    public void InspirationMove()
-    {
-        if (pointMove) MoveButton.color = Color.white;
-        if (combatSystem.inspiration > 0)
-        {
-            combatSystem.hasUpdatedPositionMove = false;
-            if (!pointMove)
-            {
-                MoveButton.color = new Color32(241, 178, 35, 255);
-                pointMove = true;
-                //Movimiento cargado
-                combatSystem.inspiredMovement = true;
-            }
-            else
-            {
-                MoveButton.color = Color.white;
-                pointMove = false;
-                combatSystem.inspiredMovement = false;
-            }
-        }
+        // N3
+        if (combatSystem.inspiration > 3 && combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().level == CHARACTER_PREFS.Level.NIVEL3)
+        { ability2.interactable = true; }
+        else { ability2.interactable = false; }
     }
 
     public void HabilitiesSelectorL1()
     {
+        pointAttack = false;
+        pointMove = false;
         if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
         {
             combatSystem.doubleSlash = true;
@@ -352,7 +164,6 @@ public class InspirationUI : MonoBehaviour
             combatSystem.alliesTeamList[combatSystem.allyTeamActiveUnitIndex].GetComponent<UnitGridCombat>().isOverloaded = true;
             combatSystem.alliesTeamList[combatSystem.allyTeamActiveUnitIndex].GetComponent<UnitGridCombat>().DoOverloadFeedback();
             combatSystem.inspiration -= 3;
-            Hability1UI.GetComponent<Button>().interactable = false;
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {
@@ -360,18 +171,30 @@ public class InspirationUI : MonoBehaviour
             combatSystem.fireBurst = true;
             combatSystem.SpawnGridHability();
         }
-    }
+    }  // aquí llamamos las habilidades
 
     public void HabilitiesSelectorL2()
     {
+        pointAttack = false;
+        pointMove = false;
         if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE)
         {
+            combatSystem.justicesExecute = true;
+            combatSystem.feedbackHability = true;
+            combatSystem.SetAttackingTrue();
+            combatSystem.AttackAllyVisual();
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
+            combatSystem.feedbackHability = true;
+            combatSystem.windRush = true;
+            combatSystem.MoveAllyVisual();
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
         {
+            combatSystem.feedbackHability = true;
+            combatSystem.divineGrace = true;
+            combatSystem.unitGridCombat.HealAlly(combatSystem.unitGridCombat);
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
         {
@@ -382,41 +205,10 @@ public class InspirationUI : MonoBehaviour
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {
+            combatSystem.feedbackHability = true;
+            combatSystem.shatter = true;
+            combatSystem.SetAttackingTrue();
+            combatSystem.AttackAllyVisual();
         }
-    }
-
-    public void ManageInspirationBase()
-    {
-        if (combatSystem.inspiration > 0 && inspirationIndexUI >= 0)
-        {
-            if (!alreadyRestedInspiration)
-            {
-                inspirationIndexUI--;
-                alreadyRestedInspiration = true;
-            }
-            else
-            {
-                inspirationIndexUI++;
-                alreadyRestedInspiration = false;
-            }
-        }
-    }
-
-    public void ManageInspirationHability()
-    {
-        if (combatSystem.inspiration > 2 && inspirationIndexUI >= 0)
-        {
-            if (!alreadyRestedInspiration)
-            {
-                inspirationIndexUI = inspirationIndexUI - 3;
-                alreadyRestedInspiration = true;
-            }
-            else
-            {
-                inspirationIndexUI = inspirationIndexUI + 3;
-                alreadyRestedInspiration = false;
-                DeactivateHabilities();
-            }
-        }
-    }
+    }  // aquí llamamos las habilidades
 }

@@ -178,7 +178,6 @@ public class GridCombatSystem : MonoBehaviour {
     public bool mage2Syn = false;
     public bool mage4Syn = false;
 
-
     private void Start() {
         isPaused = false; 
         selectedFeedback = Instantiate(selectedMouse);
@@ -270,7 +269,7 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
         SelectNextActiveUnit(); 
-        inspiration = 1;
+        inspiration = 4;
     }
 
     private void Update()
@@ -930,6 +929,10 @@ public class GridCombatSystem : MonoBehaviour {
         hasUpdatedPositionMove = false;
         hasUpdatedPositionAttack = false;
         if (SceneManager.GetActiveScene().name == "Tutorial") tutorialManager.SkipTutorialText();
+        inspiredAttack = false;
+        inspiredMovement = false;
+        inspirationManager.ResetAbilities();
+        inspirationManager.StopShowingAbilitiesUI();
     }
 
     private void CheckMinimenuAlly() 
@@ -1101,10 +1104,6 @@ public class GridCombatSystem : MonoBehaviour {
     {
         if (isAllyTurn)
         {
-            inspirationManager.alreadyRestedInspiration = false;
-            inspirationManager.alreadyUsedInspiration = false;
-            inspirationManager.inspirationIndexUI = inspiration;
-
             allyTeamActiveUnitIndex = (allyTeamActiveUnitIndex + 1) % alliesTeamList.Count;
             return alliesTeamList[allyTeamActiveUnitIndex];
         }
@@ -1116,8 +1115,9 @@ public class GridCombatSystem : MonoBehaviour {
         return null;
     }
 
-    private void MoveAllyVisual()
+    public void MoveAllyVisual()
     {
+        inspirationManager.StopShowingAbilitiesUI();
         ShowMouseCell();
         if (Input.GetMouseButtonDown(0))
         {
@@ -1137,7 +1137,11 @@ public class GridCombatSystem : MonoBehaviour {
                             SpawnGridHability();
                         }
 
-                        inspirationManager.HidePointsAction();
+                        if (inspiredMovement) { // movimiento inspirado
+                            inspiration--;
+                            inspiredMovement = false;
+                        }; 
+
                         moveButton.interactable = false;
                         if (SceneManager.GetActiveScene().name == "Tutorial") moveButtonTutorial.interactable = false;
                         moving = false;
@@ -1148,13 +1152,7 @@ public class GridCombatSystem : MonoBehaviour {
                         );
                         // Remove Unit from current Grid Object
                         grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat();
-                        // Set Unit on target Grid Object
-
-                        if (inspirationManager.alreadyRestedInspiration)
-                        {
-                            inspiration--;
-                            inspirationManager.alreadyUsedInspiration = true;
-                        }                        
+                        // Set Unit on target Grid Object               
 
                         unitGridCombat.MoveTo(LookForCellCenter(), () =>
                         {
@@ -1181,6 +1179,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void AttackAllyVisual()
     {
+        inspirationManager.StopShowingAbilitiesUI();
         ShowMouseCell();
         if (Input.GetMouseButtonDown(0))
         {
@@ -1194,7 +1193,6 @@ public class GridCombatSystem : MonoBehaviour {
                 if (boltOfPrecision) // borra el rango de la habilidad de rango infinito
                 {
                     SpawnGridHability();
-                    inspirationManager.ActivateHability1();
                 }
                 if (unitGridCombat.IsEnemy(gridObject.GetUnitGridCombat()))
                 {
@@ -1212,58 +1210,53 @@ public class GridCombatSystem : MonoBehaviour {
                             }
                             Minimenu.SetActive(true);
                             canAttackThisTurn = false;
-                            if (inspirationManager.alreadyRestedInspiration && !doubleSlash && !boltOfPrecision)
-                            {
+
+                            if(inspiredAttack) // ataque inspirado
+                            { 
                                 inspiration--;
-                                inspirationManager.alreadyUsedInspiration = true;
-                            }
-                            // Attack Enemy
+                                inspiredAttack = false;
+                            } 
+
+                            // Habilidades
                             if (doubleSlash)
                             {
                                 if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasUsedHability) tutorialManager.hasUsedHability = true;
                                 StartCoroutine(DoubleSlash(gridObject));
                                 inspiration -= 3;
                             }
-
                             else if (justicesExecute)
                             {
-                                JusticeExecute(gridObject);
+                                unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                                justicesExecute = false;
                                 inspiration -= 4;
                             }
-
                             else if (whirlwind)
                             {
                                 StartCoroutine(Whirlwind(gridObject, unitGridCombat));
                                 inspiration -= 4;
                             }
-
                             else if (shatter)
                             {
                                 StartCoroutine(Shatter(gridObject, unitGridCombat));
                                 inspiration -= 4;
                             }
-   
                             else if(boltOfPrecision)
                             {
                                 if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasUsedHability) tutorialManager.hasUsedHability = true;
                                 boltOfPrecision = false;
                                 inspiration -= 3;
                             }
-
                             else
                             {
                                 unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
                             }
 
-
                             if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasAttacked) tutorialManager.hasAttacked = true;
+                            
                             inspiredAttack = false;
-                            inspirationManager.pointAttack = true;
-                            inspirationManager.InspirationAttack();
-                            inspirationManager.HidePointsAction();
+                            inspirationManager.pointAttack = false;
                             attacking = false;
                             attackButton.interactable = false;
-                            inspirationManager.Hability1UI.GetComponent<Button>().interactable = false;
                         }
                     }
                 }
@@ -1272,7 +1265,6 @@ public class GridCombatSystem : MonoBehaviour {
                 {
                     if(canAttackThisTurn)
                     {
-                        if(hexOfNature) inspirationManager.Hability1UI.GetComponent<Button>().interactable = false;
                         Minimenu.SetActive(true);
                         canAttackThisTurn = false;
                         unitGridCombat.HealAlly(gridObject.GetUnitGridCombat());
@@ -1300,7 +1292,6 @@ public class GridCombatSystem : MonoBehaviour {
             selectedFeedback.SetActive(false);
             SpawnGridHability();
             burstTurns = 0;
-            inspirationManager.Hability1UI.GetComponent<Button>().interactable = false;
             int x = (int)GetMouseWorldPosition().x;
             int lastDigitX = Mathf.Abs(x) % 10;
             //if()
@@ -1442,12 +1433,6 @@ public class GridCombatSystem : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
         doubleSlash = false;
-    }
-
-    void  JusticeExecute(GridObject gridObject)
-    {
-        unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
-        justicesExecute = false;
     }
 
     private IEnumerator Shatter(GridObject Objective, UnitGridCombat Attacker)
@@ -1683,6 +1668,5 @@ public class GridCombatSystem : MonoBehaviour {
         public UnitGridCombat GetUnitGridCombat() {
             return unitGridCombat;
         }
-
     }
 }

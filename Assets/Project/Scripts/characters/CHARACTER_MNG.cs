@@ -30,11 +30,11 @@ public class CHARACTER_MNG : MonoBehaviour
     [HideInInspector] public bool VictoryL2 = false;
     [HideInInspector] public bool VictoryL3 = false;
 
-    [HideInInspector] public int meleeLevel = 1;
-    [HideInInspector] public int archerLevel = 1;
-    [HideInInspector] public int healerLevel = 1;
-    [HideInInspector] public int tankLevel = 1;
-    [HideInInspector] public int mageLevel = 1;
+    public int meleeLevel = 3;
+    public int archerLevel = 3;
+    public int healerLevel = 3;
+    public int tankLevel = 3;
+    public int mageLevel = 3;
 
     [HideInInspector] public int meleeExp = 0;
     [HideInInspector] public int archerExp = 0;
