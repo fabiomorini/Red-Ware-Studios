@@ -15,9 +15,20 @@ public class FadeScenes : MonoBehaviour
     public IEnumerator PlayGame()
     {
         if(SceneManager.GetActiveScene().name == "Main Menu") SoundManager.PlaySound("Play");
-        yield return new WaitForSeconds(0.5f);
         animator.SetTrigger("FadeOut");
         yield return new WaitForSeconds(1.0f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    public void PlayMapamundi()
+    {
+        StartCoroutine(Mapamundi());
+    }
+
+    public IEnumerator Mapamundi()
+    {
+        animator.SetTrigger("FadeOut");
+        yield return new WaitForSeconds(1.0f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
     }
 }

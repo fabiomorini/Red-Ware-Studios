@@ -6215,12 +6215,12 @@ PrefabInstance:
     - target: {fileID: 4539957916773627850, guid: 22c63816e9f25a74084f0db91e99a1e1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 325
+      value: 295
       objectReference: {fileID: 0}
     - target: {fileID: 4539957916773627850, guid: 22c63816e9f25a74084f0db91e99a1e1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 95
+      value: 85
       objectReference: {fileID: 0}
     - target: {fileID: 4539957916773627850, guid: 22c63816e9f25a74084f0db91e99a1e1,
         type: 3}
@@ -7164,6 +7164,7 @@ MonoBehaviour:
   moveButton: {fileID: 942170753}
   attackButtonTutorial: {fileID: 0}
   moveButtonTutorial: {fileID: 0}
+  abilityButtonTutorial: {fileID: 0}
   healthMenu: {fileID: 31388274}
   inspirationUI: {fileID: 163661247}
   hability1Text: {fileID: 1958981713}
@@ -7674,7 +7675,7 @@ PrefabInstance:
     - target: {fileID: 4539957916773627850, guid: 1907755cf48d5ff4c8426149fdb63f80,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 305
+      value: 285
       objectReference: {fileID: 0}
     - target: {fileID: 4539957916773627850, guid: 1907755cf48d5ff4c8426149fdb63f80,
         type: 3}
@@ -24269,7 +24270,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141661505}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 189.10736, y: 64.58382, z: -10}
+  m_LocalPosition: {x: 189.11627, y: 64.58382, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1892862704}
