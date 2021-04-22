@@ -78,17 +78,15 @@ public class CuartelManager : MonoBehaviour
 
         soldier = Soldier.KNIGHT;
         price.SetText("" + knightPrice);
-    }
 
-    private void Update()
-    {
-        SetExpText();
-        coinsText.SetText(charManager.coins + "");
         ArcherText.SetText("x " + ArcherCounter);
         KnightText.SetText("x " + knightCounter);
         HealerText.SetText("x " + HealerCounter);
         TankText.SetText("x " + TankCounter);
         MageText.SetText("x " + MageCounter);
+
+        SetExpText();
+        coinsText.SetText(charManager.coins + "");
     }
 
     public void UseQuartel() 
@@ -254,6 +252,14 @@ public class CuartelManager : MonoBehaviour
         {
             //play not enough money sound
         }
+
+        ArcherText.SetText("x " + ArcherCounter);
+        KnightText.SetText("x " + knightCounter);
+        HealerText.SetText("x " + HealerCounter);
+        TankText.SetText("x " + TankCounter);
+        MageText.SetText("x " + MageCounter);
+
+        coinsText.SetText(charManager.coins + "");
     }
 
     private void SetExpText()
