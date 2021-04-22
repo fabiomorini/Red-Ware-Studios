@@ -44,6 +44,7 @@ public class CuartelManager : MonoBehaviour
     public Animator CuartelAnimator;
 
     private Soldier soldier;
+    private Ability ability;
     public TMP_Text soldierText;
 
     public GameObject knightImage;
@@ -59,8 +60,11 @@ public class CuartelManager : MonoBehaviour
     public GameObject MageArrow;
 
     public TMP_Text price;
+    public TMP_Text abilityName;
+    public TMP_Text abilityDesc;
 
     private enum Soldier { KNIGHT, ARCHER, HEALER, PALADIN, WIZARD };
+    private enum Ability { ONE, TWO };
 
     private void Start()
     {
@@ -86,7 +90,13 @@ public class CuartelManager : MonoBehaviour
         MageText.SetText("x " + MageCounter);
 
         SetExpText();
+        SetAbilityText();
         coinsText.SetText(charManager.coins + "");
+    }
+
+    private void Update()
+    {
+        SetAbilityText();
     }
 
     public void UseQuartel() 
@@ -205,7 +215,6 @@ public class CuartelManager : MonoBehaviour
         TankArrow.SetActive(false);
         MageArrow.SetActive(true);
     }
-
     public void BuySoldier()
     {
         if(soldier == Soldier.KNIGHT && characterManager.GetComponent<CHARACTER_MNG>().coins >= knightPrice)
@@ -261,7 +270,6 @@ public class CuartelManager : MonoBehaviour
 
         coinsText.SetText(charManager.coins + "");
     }
-
     private void SetExpText()
     {
         if (charManager.meleeLevel == 1)
@@ -342,6 +350,70 @@ public class CuartelManager : MonoBehaviour
         {
             MageTextLvl.SetText("Lvl 3");
             MageTextExp.SetText("MAX XP");
+        }
+    }
+
+    public void SetAbilityOne()
+    {
+        ability = Ability.ONE;
+    }
+
+    public void SetAbilityTwo()
+    {
+        ability = Ability.TWO;
+    }
+
+    public void SetAbilityText()
+    {
+        if(soldier == Soldier.KNIGHT && ability == Ability.ONE)
+        {
+            abilityName.SetText("Double Slash");
+            abilityDesc.SetText("Strike the enemy with a double sword thrust dealing 0 damage");
+        }
+        else if (soldier == Soldier.KNIGHT && ability == Ability.TWO)
+        {
+            abilityName.SetText("Justice’s Execute");
+            abilityDesc.SetText("Thrust with a critic attack that ignores the opponent's armour and deals 0 damage");
+        }
+        else if(soldier == Soldier.ARCHER && ability == Ability.ONE)
+        {
+            abilityName.SetText("Bolt of Precision");
+            abilityDesc.SetText("Shoot a long range arrow that never fail");
+        }
+        else if (soldier == Soldier.ARCHER && ability == Ability.TWO)
+        {
+            abilityName.SetText("Wind Rush");
+            abilityDesc.SetText("Hide from the enemies, you can move this unit wherever you want");
+        }
+        else if (soldier == Soldier.HEALER && ability == Ability.ONE)
+        {
+            abilityName.SetText("Hex of Nature");
+            abilityDesc.SetText("Heal a unit in your range with an increased effect (+0)");
+        }
+        else if (soldier == Soldier.HEALER && ability == Ability.TWO)
+        {
+            abilityName.SetText("Divine Grace");
+            abilityDesc.SetText("This unit will heal by (0) every ally on the team");
+        }
+        else if (soldier == Soldier.PALADIN && ability == Ability.ONE)
+        {
+            abilityName.SetText("Overload");
+            abilityDesc.SetText("The definitive tank, this unit will have it's armour increased by 0 for a turn");
+        }
+        else if (soldier == Soldier.PALADIN && ability == Ability.TWO)
+        {
+            abilityName.SetText("Whirlwind");
+            abilityDesc.SetText("An attack in all four directions with a range of 1 cell that deals 0 damage");
+        }
+        else if (soldier == Soldier.WIZARD && ability == Ability.ONE)
+        {
+            abilityName.SetText("Fireburst");
+            abilityDesc.SetText("Spawns a fire in a cell that deals 0 damage instantly and -0% damage each of the following 0 turns");
+        }
+        else if (soldier == Soldier.WIZARD && ability == Ability.TWO)
+        {
+            abilityName.SetText("Shatter");
+            abilityDesc.SetText("Use all your energy and blow-up 3 cells in each direction and dealing 0 damage to every opponent hit");
         }
     }
 }
