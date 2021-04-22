@@ -70,6 +70,10 @@ public class UnitGridCombat : MonoBehaviour {
         Red
     }
 
+    public bool burning = false;
+    public int burningIndex = 0;
+    public int burnDamage = 0;
+
     private void Awake() {
         isOverloaded = false;
         healthBar = GetComponentInChildren<HealthBar>();
@@ -329,6 +333,14 @@ public class UnitGridCombat : MonoBehaviour {
         StartCoroutine(FireDamageFeedback());
     }
 
+    public void BurnDamage()
+    {
+        burnDamage = 8;
+        burningIndex++;
+        healthSystem.Damage(burnDamage);
+        StartCoroutine(FireDamageFeedback());
+    }
+
     private IEnumerator FireDamageFeedback()
     {
         //SoundManager.PlaySound("burst");
@@ -390,6 +402,7 @@ public class UnitGridCombat : MonoBehaviour {
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
                 if (sceneCombatSystem.inspiredAttack) damageAmount = 35.0f + ((35.0f / 100.0f) * 20.0f);
+                if (sceneCombatSystem.justicesExecute) damageAmount = 80;
                 else damageAmount = 35.0f;
             }
 
@@ -405,16 +418,19 @@ public class UnitGridCombat : MonoBehaviour {
             attackedByMage = false;
             if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
             {
+                if (sceneCombatSystem.archer2Syn) damageAmount += 3;
                 if (sceneCombatSystem.inspiredAttack) damageAmount = 20.0f + ((20.0f / 100.0f) * 20.0f);
                 else damageAmount = 20.0f;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL2)
             {
+                if (sceneCombatSystem.archer2Syn) damageAmount += 3;
                 if (sceneCombatSystem.inspiredAttack) damageAmount = 25.0f + ((25.0f / 100.0f) * 20.0f);
                 else damageAmount = 25.0f;
             }
             else if (Attacker.GetComponent<CHARACTER_PREFS>().Getlevel() == CHARACTER_PREFS.Level.NIVEL3)
             {
+                if (sceneCombatSystem.archer2Syn) damageAmount += 3;
                 if (sceneCombatSystem.inspiredAttack) damageAmount = 30.0f + ((30.0f / 100.0f) * 20.0f);
                 else damageAmount = 30.0f;
             }
@@ -491,11 +507,45 @@ public class UnitGridCombat : MonoBehaviour {
             }
         }
         float dmg;
-        dmg = RandomDamage(damageAmount);
+        dmg = RandomDamage(damageAmount, Attacker);
         sceneCombatSystem.DamagePopUp(this.GetPosition(), (int)dmg);
         healthSystem.Damage((int)dmg);
+        if ((Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED) && (sceneCombatSystem.archer4Syn && sceneCombatSystem.enemiesTeamList.Count > 1))
+        {
+            if (Attacker.GetTeam() == Team.Blue)
+            {
+                UnitGridCombat newObjective = LookForClosestUnit(this);
+                sceneCombatSystem.DamagePopUp(newObjective.GetPosition(), (int)dmg);
+                dmg = dmg / 2;
+                newObjective.healthSystem.Damage((int)dmg);
+                StartCoroutine(FeedbackAttack(newObjective));
+            }
+        }
+        if ((this.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK) && (sceneCombatSystem.tank4Syn))
+        {
+            if (Attacker.GetTeam() == Team.Red)
+            {
+                dmg = ((25 * dmg) / 100.0f);
+                sceneCombatSystem.DamagePopUp(Attacker.GetPosition(), (int)dmg);
+                Attacker.healthSystem.Damage((int)dmg);
+            }
+        }
+        if ((Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER) && (sceneCombatSystem.healer4Syn))
+        {
+            if (Attacker.GetTeam() == Team.Blue)
+            {
+                for (int i = 0; i < sceneCombatSystem.enemiesTeamList.Count; i++)
+                {
+                    UnitGridCombat enemyToAttack = sceneCombatSystem.enemiesTeamList[i];
+                    sceneCombatSystem.DamagePopUp(enemyToAttack.GetPosition(), (int)dmg);
+                    enemyToAttack.healthSystem.Damage((int)dmg);
+                    enemyToAttack.StartCoroutine(FeedbackAttack(enemyToAttack));
+                }
+                SoundManager.PlaySound("HealerBasicAttack");
+            }
+        }
 
-        if (healthSystem.IsDead()){
+            if (healthSystem.IsDead()){
             if(Attacker.GetTeam() == Team.Blue) 
             {
                 if(characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
@@ -503,6 +553,7 @@ public class UnitGridCombat : MonoBehaviour {
                     if (attackedByMelee)
                     {
                         characterManager.meleeExp += 5;
+                        sceneCombatSystem.inspiration++;
                     }
                     if (attackedByArcher)
                     {
@@ -589,10 +640,18 @@ public class UnitGridCombat : MonoBehaviour {
                 CleanListAlly();
             }
         }
-        StartCoroutine(FeedbackAttack(Attacker));
+
+        if ((Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER) && (sceneCombatSystem.healer4Syn))
+        {
+
+        }
+        else
+        {
+            StartCoroutine(FeedbackAttack(Attacker));
+        }
     }
 
-    float RandomDamage(float damageAmount)
+    float RandomDamage(float damageAmount, UnitGridCombat Attacker)
     {
         int randomNum = UnityEngine.Random.Range(-2, 2);
         damageAmount = damageAmount + randomNum;
@@ -603,11 +662,27 @@ public class UnitGridCombat : MonoBehaviour {
             //feedback
             attackID = 5;
         }
+        else if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MELEE && sceneCombatSystem.melee2Syn)
+        {
+            if (randomNum <= 10)
+            {
+                damageAmount = damageAmount + (damageAmount / 100.0f) * 20.0f;
+                //feedback
+                attackID = 5;
+            }
+        }
         else if(randomNum > 95)
         {
-            damageAmount = 0;
-            //feedback
-            attackID = 6;
+            if (Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED && sceneCombatSystem.archer2Syn)
+            {
+
+            }
+            else
+            {
+                damageAmount = 0;
+                //feedback
+                attackID = 6;
+            }
         }
 
         if(this.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.TANK && sceneCombatSystem.overload && isOverloaded)
@@ -622,6 +697,27 @@ public class UnitGridCombat : MonoBehaviour {
         if (sceneCombatSystem.boltOfPrecision)
         {
             damageAmount = damageAmount + ((damageAmount / 100.0f) * 40.0f);
+        }
+
+        if(sceneCombatSystem.tank2Syn)
+        {
+            if (Attacker.GetTeam() == Team.Red)
+            {
+                damageAmount = damageAmount - ((15 * damageAmount) / 100.0f);
+            }
+        }
+
+        if(sceneCombatSystem.mage4Syn)
+        {
+            if (Attacker.GetTeam() == Team.Blue)
+            {
+                if (randomNum >= 50 || burning)
+                {
+                    burning = true;
+                    Debug.Log(this + "Ardiendo");
+                    StartCoroutine(FireDamageFeedback());
+                }
+            }
         }
 
         return damageAmount;
@@ -721,7 +817,7 @@ public class UnitGridCombat : MonoBehaviour {
             sceneCombatSystem.CheckIfGameIsOver();
         }
 
-        else if (attackedByHealer)
+        else if (attackedByHealer && !sceneCombatSystem.healer4Syn)
         {
             animEnded = false;
             explosionAnim.SetActive(true);
@@ -734,6 +830,22 @@ public class UnitGridCombat : MonoBehaviour {
             animEnded = true;
             if (imDead)
                 Destroy(gameObject);
+            sceneCombatSystem.CheckIfGameIsOver();
+        }
+
+        else if (attackedByHealer && sceneCombatSystem.healer4Syn)
+        {
+            Attacker.animEnded = false;
+            Attacker.explosionAnim.SetActive(true);
+            //SoundManager.PlaySound("HealerBasicAttack");
+            Attacker.playerSprite.color = Color.red;
+            yield return new WaitForSeconds(0.9f);
+            Attacker.explosionAnim.SetActive(false);
+            yield return new WaitForSeconds(0.3f);
+            Attacker.playerSprite.color = Color.white;
+            Attacker.animEnded = true;
+            if (Attacker.imDead)
+                Destroy(Attacker.gameObject);
             sceneCombatSystem.CheckIfGameIsOver();
         }
     }
@@ -755,6 +867,25 @@ public class UnitGridCombat : MonoBehaviour {
     public void DoOverloadFeedback()
     {
         StartCoroutine(FeedbackOverload());
+    }
+
+    private UnitGridCombat LookForClosestUnit(UnitGridCombat thisUnit)
+    {
+        int enemiesCount = sceneCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList.Count;
+        Vector3 myPosition = thisUnit.GetPosition();
+        float minDistance = 9999;
+        float distance = 0.0f;
+        UnitGridCombat temporal = null;
+        
+        for (int i = 0; i < enemiesCount; i++)
+        {
+            distance = Vector3.Distance(myPosition, sceneCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i].GetPosition());
+            if (minDistance > distance)
+            {
+                temporal = sceneCombatSystem.GetComponent<GridCombatSystem>().enemiesTeamList[i];
+            }
+        }
+        return temporal;
     }
 
     public IEnumerator FeedbackOverload()
@@ -786,11 +917,21 @@ public class UnitGridCombat : MonoBehaviour {
 
     public void HealAlly(UnitGridCombat unitGridCombat)
     {
+        if (sceneCombatSystem.healer2Syn) this.Heal(5);
         if (sceneCombatSystem.hexOfNature)
         {
             unitGridCombat.Heal(60);
             sceneCombatSystem.hexOfNature = false;
             sceneCombatSystem.inspiration -= 3;
+        }
+        else if (sceneCombatSystem.divineGrace)
+        {
+            for (int i = 0; i < sceneCombatSystem.alliesTeamList.Count; i++)
+            {
+                sceneCombatSystem.alliesTeamList[i].Heal(healAmount);
+            }
+            sceneCombatSystem.divineGrace = false;
+            sceneCombatSystem.inspiration -= 4;
         }
         else unitGridCombat.Heal(healAmount);
     }

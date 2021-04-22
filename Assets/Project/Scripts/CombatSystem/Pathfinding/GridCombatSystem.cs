@@ -98,7 +98,7 @@ public class GridCombatSystem : MonoBehaviour {
     [HideInInspector] public bool overload = false;
     [HideInInspector] public bool whirlwind = false;
     [HideInInspector] public bool fireBurst = false;
-    [HideInInspector] public bool summon = false;
+    [HideInInspector] public bool shatter = false;
 
     //minimenu in-game
     public GameObject Minimenu;
@@ -167,6 +167,18 @@ public class GridCombatSystem : MonoBehaviour {
     public Transform arrowRoute;
     public GameObject arrowPrefab;
 
+    public bool melee2Syn = false;
+    public bool melee4Syn = false;
+    public bool archer2Syn = false;
+    public bool archer4Syn = false;
+    public bool tank2Syn = false;
+    public bool tank4Syn = false;
+    public bool healer2Syn = false;
+    public bool healer4Syn = false;
+    public bool mage2Syn = false;
+    public bool mage4Syn = false;
+
+
     private void Start() {
         isPaused = false; 
         selectedFeedback = Instantiate(selectedMouse);
@@ -198,6 +210,45 @@ public class GridCombatSystem : MonoBehaviour {
                        + numberOfTank 
                        + numberOfMage;
         characterPrefs = characterManager.characterPrefs;
+
+        //Synergies
+        if (numberOfMelee >= 2 && numberOfMelee < 4) melee2Syn = true;
+        if (numberOfMelee >= 4)
+        {
+            melee2Syn = true;
+            melee4Syn = true;
+        }
+        if (numberOfRanged >= 2 && numberOfRanged < 4) archer2Syn = true;
+        if (numberOfRanged >= 4)
+        {
+            archer2Syn = true;
+            archer4Syn = true;
+        }
+        if (numberOfHealer >= 2 && numberOfHealer < 4) healer2Syn = true;
+        if (numberOfHealer >= 4)
+        {
+            healer2Syn = true;
+            healer4Syn = true;
+        }
+        if (numberOfTank >= 2 && numberOfTank < 4) tank2Syn = true;
+        if (numberOfTank >= 4)
+        {
+            tank2Syn = true;
+            tank4Syn = true;
+        }
+        if (numberOfMage >= 2 && numberOfMage < 4) mage2Syn = true;
+        if (numberOfMage >= 4)
+        {
+            mage2Syn = true;
+            mage4Syn = true;
+        }
+
+        Debug.Log("Melee 2 " + melee2Syn + " / Melee 4 " + melee4Syn);
+        Debug.Log("Archer 2 " + archer2Syn + " / Archer 4 " + archer4Syn);
+        Debug.Log("Healer 2 " + healer2Syn + " / Healer 4 " + healer4Syn);
+        Debug.Log("Tank 2 " + tank2Syn + " / Tank 4 " + tank4Syn);
+        Debug.Log("Mage 2 " + mage2Syn + " / Mage 4 " + mage4Syn);
+
         spawnCharacters();
 
         alliesTeamList = new List<UnitGridCombat>();
@@ -240,6 +291,11 @@ public class GridCombatSystem : MonoBehaviour {
                     SetAttackingTrue();
                 }
 
+                if (windRush)
+                {
+                    SetMovingTrue();
+                }
+
                 if (fireBurst)
                 {
                     FireburstHability();
@@ -248,7 +304,12 @@ public class GridCombatSystem : MonoBehaviour {
                 if (moving)
                 {
                     MoveAllyVisual();
-                    if (inspiredMovement)
+                    if ((windRush && !hasUpdatedPositionMove))
+                    {
+                        SpawnGridHability();
+                        hasUpdatedPositionAttack = true;
+                    }
+                    else if (inspiredMovement)
                     {
                         maxMoveDistance = 6;
                     }
@@ -256,7 +317,7 @@ public class GridCombatSystem : MonoBehaviour {
                     {
                         maxMoveDistance = 4;
                     }
-                    if (!hasUpdatedPositionMove)
+                    if (!hasUpdatedPositionMove && !windRush)
                     {
                         UpdateValidMovePositions();
                         hasUpdatedPositionMove = true;
@@ -918,7 +979,7 @@ public class GridCombatSystem : MonoBehaviour {
         else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {
             hability1Text.SetText("Fire Burst");
-            hability2Text.SetText("Summon");
+            hability2Text.SetText("Shatter");
         }
     }
 
@@ -930,31 +991,91 @@ public class GridCombatSystem : MonoBehaviour {
                 unitGridCombat.curHealth = unitGridCombat.maxHealth;
             isAllyTurn = false;
             allyTeamActiveUnitIndex = -1;
-            if (burstTurns < 5)
+            if (mage2Syn)
             {
-                burstTurns++;
-                CheckFireDamage();
+                if (burstTurns < 7)
+                {
+                    burstTurns++;
+                    CheckFireDamage();
+                }
+                else
+                {
+                    Destroy(temporalFireBurst);
+                    fireBurstBox.x = 0;
+                    fireBurstBox.y = 0;
+                }
             }
-            else
+            else if (!mage2Syn)
             {
-                Destroy(temporalFireBurst);
-                fireBurstBox.x = 0;
-                fireBurstBox.y = 0;
+                if (burstTurns < 5)
+                {
+                    burstTurns++;
+                    CheckFireDamage();
+                }
+                else
+                {
+                    Destroy(temporalFireBurst);
+                    fireBurstBox.x = 0;
+                    fireBurstBox.y = 0;
+                }
+            }
+            if (mage4Syn)
+            {
+                for (int i = 0; i < enemiesTeamList.Count; i++)
+                {
+                    if (enemiesTeamList[i].burningIndex < 2)
+                    {
+                        enemiesTeamList[i].burningIndex = 0;
+                        enemiesTeamList[i].burning = false;
+                    }
+
+                    if (enemiesTeamList[i].burning && enemiesTeamList[i].burningIndex < 2)
+                    {
+                        enemiesTeamList[i].BurnDamage();
+                    }
+                }
             }
             selectedFeedback.SetActive(false);
         }
         if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
         {
-            if (burstTurns < 5)
+            if (mage2Syn)
             {
-                burstTurns++;
-                CheckFireDamage();
+                if (burstTurns < 7)
+                {
+                    burstTurns++;
+                    CheckFireDamage();
+                }
+                else
+                {
+                    Destroy(temporalFireBurst);
+                    fireBurstBox.x = 0;
+                    fireBurstBox.y = 0;
+                }
             }
-            else
+            else if (!mage2Syn)
             {
-                Destroy(temporalFireBurst);
-                fireBurstBox.x = 0;
-                fireBurstBox.y = 0;
+                if (burstTurns < 5)
+                {
+                    burstTurns++;
+                    CheckFireDamage();
+                }
+                else
+                {
+                    Destroy(temporalFireBurst);
+                    fireBurstBox.x = 0;
+                    fireBurstBox.y = 0;
+                }
+            }
+            if (mage4Syn)
+            {
+                for (int i = 0; i < enemiesTeamList.Count; i++)
+                {
+                    if (enemiesTeamList[i].burning && enemiesTeamList[i].burningIndex <= 2)
+                    {
+                        enemiesTeamList[i].FireDamage();
+                    }
+                }
             }
             selectedFeedback.SetActive(true);
             if (inspiration < 4) //sumamos uno de inspiración al comienzo del turno
@@ -1011,6 +1132,11 @@ public class GridCombatSystem : MonoBehaviour {
                     // Valid Move Position
                     if (canMoveThisTurn)
                     {
+                        if (windRush) // borra el rango de la habilidad de rango infinito
+                        {
+                            SpawnGridHability();
+                        }
+
                         inspirationManager.HidePointsAction();
                         moveButton.interactable = false;
                         if (SceneManager.GetActiveScene().name == "Tutorial") moveButtonTutorial.interactable = false;
@@ -1098,17 +1224,38 @@ public class GridCombatSystem : MonoBehaviour {
                                 StartCoroutine(DoubleSlash(gridObject));
                                 inspiration -= 3;
                             }
-                            else
+
+                            else if (justicesExecute)
                             {
-                                unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                                JusticeExecute(gridObject);
+                                inspiration -= 4;
                             }
 
-                            if(boltOfPrecision)
+                            else if (whirlwind)
+                            {
+                                StartCoroutine(Whirlwind(gridObject, unitGridCombat));
+                                inspiration -= 4;
+                            }
+
+                            else if (shatter)
+                            {
+                                StartCoroutine(Shatter(gridObject, unitGridCombat));
+                                inspiration -= 4;
+                            }
+   
+                            else if(boltOfPrecision)
                             {
                                 if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasUsedHability) tutorialManager.hasUsedHability = true;
                                 boltOfPrecision = false;
                                 inspiration -= 3;
                             }
+
+                            else
+                            {
+                                unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                            }
+
+
                             if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasAttacked) tutorialManager.hasAttacked = true;
                             inspiredAttack = false;
                             inspirationManager.pointAttack = true;
@@ -1295,6 +1442,127 @@ public class GridCombatSystem : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
         doubleSlash = false;
+    }
+
+    void  JusticeExecute(GridObject gridObject)
+    {
+        unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+        justicesExecute = false;
+    }
+
+    private IEnumerator Shatter(GridObject Objective, UnitGridCombat Attacker)
+    {
+        Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+        unitGridCombat.AttackUnit(Objective.GetUnitGridCombat());
+        yield return new WaitForSeconds(0.5f);
+
+        Vector3 centralPos = Objective.GetUnitGridCombat().GetPosition();
+        //derecha
+        centralPos.x += 10;
+        GridObject gridObject = grid.GetGridObject(centralPos);
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //arriba - derecha
+        centralPos.y += 10;
+        gridObject = grid.GetGridObject(centralPos);
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //arriba
+        centralPos.x -= 10;
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //arriba - izquierda
+        centralPos.x -= 10;
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //izquierda
+        centralPos.y -= 10;
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //abajo - izquierda
+        centralPos.y -= 10;
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //abajo
+        centralPos.x += 10;
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //abajo - derecha
+        centralPos.x += 10;
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+
+        shatter = false;
+    }
+
+    private IEnumerator Whirlwind(GridObject Objective, UnitGridCombat Attacker)
+    {
+        Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+        unitGridCombat.AttackUnit(Objective.GetUnitGridCombat());
+        yield return new WaitForSeconds(0.5f);
+
+        Vector3 position = Attacker.GetPosition();
+        //derecha
+        position.x += 10;
+        GridObject gridObject = grid.GetGridObject(position);
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat() && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            yield return new WaitForSeconds(0.5f);
+        }
+        //arriba
+        position.x -= 10;
+        position.y += 10;
+        gridObject = grid.GetGridObject(position);
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat() && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            yield return new WaitForSeconds(0.5f);
+        }
+        //izquierda
+        position.y -= 10;
+        position.x -= 10;
+        gridObject = grid.GetGridObject(position);
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat() && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            yield return new WaitForSeconds(0.5f);
+        }
+        //abajo
+        position.x += 10;
+        position.y -= 10;
+        gridObject = grid.GetGridObject(position);
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat() && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        whirlwind = false;
     }
 
     public void SetAttackingTrue()

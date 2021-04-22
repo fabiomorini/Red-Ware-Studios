@@ -765,7 +765,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 198924376}
   m_OnClick:
     m_PersistentCalls:
@@ -4961,7 +4961,7 @@ MonoBehaviour:
   overload: 0
   whirlwind: 0
   fireBurst: 0
-  summon: 0
+  shatter: 0
   Minimenu: {fileID: 1321756828}
   moving: 0
   attacking: 0
@@ -4972,6 +4972,7 @@ MonoBehaviour:
   moveButton: {fileID: 942170753}
   attackButtonTutorial: {fileID: 0}
   moveButtonTutorial: {fileID: 0}
+  abilityButtonTutorial: {fileID: 0}
   healthMenu: {fileID: 31388274}
   inspirationUI: {fileID: 163661247}
   hability1Text: {fileID: 1958981713}
@@ -5007,6 +5008,16 @@ MonoBehaviour:
   arrowRoute: {fileID: 1069063553}
   arrowPrefab: {fileID: 641970379968207096, guid: 34cb63c8de5f80c4c99d1a20a88c6063,
     type: 3}
+  melee2Syn: 0
+  melee4Syn: 0
+  archer2Syn: 0
+  archer4Syn: 0
+  tank2Syn: 0
+  tank4Syn: 0
+  healer2Syn: 0
+  healer4Syn: 0
+  mage2Syn: 0
+  mage4Syn: 0
 --- !u!1 &790866642
 GameObject:
   m_ObjectHideFlags: 0
@@ -20948,7 +20959,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141661505}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 209.10736, y: 69.58382, z: -10}
+  m_LocalPosition: {x: 194.6456, y: 69.58382, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1892862704}

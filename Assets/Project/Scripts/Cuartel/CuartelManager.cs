@@ -140,6 +140,7 @@ public class CuartelManager : MonoBehaviour
     }
     public void BuyTank()
     {
+        characterManager.GetComponent<CHARACTER_MNG>().coins += 500;
         if (characterManager.GetComponent<CHARACTER_MNG>().coins >= tankPrice)
         {
             SoundManager.PlaySound("buyAlly");

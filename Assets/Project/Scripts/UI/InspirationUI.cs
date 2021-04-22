@@ -172,9 +172,9 @@ public class InspirationUI : MonoBehaviour
     public void ActivateHability2()
     {
         if (pointHability2) Hability2Button.color = Color.white;
-        if (combatSystem.inspiration > 2)
+        if (combatSystem.inspiration > 3)
         {
-            if (!pointHability1)
+            if (!pointHability2)
             {
                 Hability2Button.color = new Color32(241, 178, 35, 255);
                 pointHability2 = true;
@@ -235,7 +235,7 @@ public class InspirationUI : MonoBehaviour
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {
-            combatSystem.summon = true;
+            combatSystem.shatter = true;
         }
     }
 
@@ -250,7 +250,7 @@ public class InspirationUI : MonoBehaviour
         combatSystem.divineGrace = false;
         combatSystem.whirlwind = false;
         combatSystem.fireBurst = false;
-        combatSystem.summon = false;
+        combatSystem.shatter = false;
     }
 
 
@@ -375,6 +375,10 @@ public class InspirationUI : MonoBehaviour
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
         {
+            combatSystem.whirlwind = true;
+            combatSystem.feedbackHability = true;
+            combatSystem.SetAttackingTrue();
+            combatSystem.AttackAllyVisual();
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {
