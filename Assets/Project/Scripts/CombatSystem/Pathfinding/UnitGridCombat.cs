@@ -525,7 +525,7 @@ public class UnitGridCombat : MonoBehaviour {
         {
             if (Attacker.GetTeam() == Team.Red)
             {
-                dmg = ((30 * dmg) / 100.0f);
+                dmg = ((25 * dmg) / 100.0f);
                 sceneCombatSystem.DamagePopUp(Attacker.GetPosition(), (int)dmg);
                 Attacker.healthSystem.Damage((int)dmg);
             }
@@ -545,7 +545,7 @@ public class UnitGridCombat : MonoBehaviour {
             }
         }
 
-        if (healthSystem.IsDead()){
+            if (healthSystem.IsDead()){
             if(Attacker.GetTeam() == Team.Blue) 
             {
                 if(characterPrefs.Getlevel() == CHARACTER_PREFS.Level.NIVEL1)
@@ -703,7 +703,7 @@ public class UnitGridCombat : MonoBehaviour {
         {
             if (Attacker.GetTeam() == Team.Red)
             {
-                damageAmount = damageAmount - ((5 * damageAmount) / 100.0f);
+                damageAmount = damageAmount - ((15 * damageAmount) / 100.0f);
             }
         }
 
@@ -715,7 +715,7 @@ public class UnitGridCombat : MonoBehaviour {
                 {
                     burning = true;
                     Debug.Log(this + "Ardiendo");
-                    //StartCoroutine(FireDamageFeedback());
+                    StartCoroutine(FireDamageFeedback());
                 }
             }
         }

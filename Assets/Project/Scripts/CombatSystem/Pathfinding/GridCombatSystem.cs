@@ -291,6 +291,11 @@ public class GridCombatSystem : MonoBehaviour {
                     SetAttackingTrue();
                 }
 
+                if (windRush)
+                {
+                    SetMovingTrue();
+                }
+
                 if (fireBurst)
                 {
                     FireburstHability();
@@ -299,7 +304,12 @@ public class GridCombatSystem : MonoBehaviour {
                 if (moving)
                 {
                     MoveAllyVisual();
-                    if (inspiredMovement)
+                    if ((windRush && !hasUpdatedPositionMove))
+                    {
+                        SpawnGridHability();
+                        hasUpdatedPositionAttack = true;
+                    }
+                    else if (inspiredMovement)
                     {
                         maxMoveDistance = 6;
                     }
@@ -307,7 +317,7 @@ public class GridCombatSystem : MonoBehaviour {
                     {
                         maxMoveDistance = 4;
                     }
-                    if (!hasUpdatedPositionMove)
+                    if (!hasUpdatedPositionMove && !windRush)
                     {
                         UpdateValidMovePositions();
                         hasUpdatedPositionMove = true;
@@ -969,7 +979,7 @@ public class GridCombatSystem : MonoBehaviour {
         else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {
             hability1Text.SetText("Fire Burst");
-            hability2Text.SetText("Summon");
+            hability2Text.SetText("Shatter");
         }
     }
 
@@ -1013,9 +1023,15 @@ public class GridCombatSystem : MonoBehaviour {
             {
                 for (int i = 0; i < enemiesTeamList.Count; i++)
                 {
-                    if (enemiesTeamList[i].burning && enemiesTeamList[i].burningIndex <= 2)
+                    if (enemiesTeamList[i].burningIndex < 2)
                     {
-                        enemiesTeamList[i].FireDamage();
+                        enemiesTeamList[i].burningIndex = 0;
+                        enemiesTeamList[i].burning = false;
+                    }
+
+                    if (enemiesTeamList[i].burning && enemiesTeamList[i].burningIndex < 2)
+                    {
+                        enemiesTeamList[i].BurnDamage();
                     }
                 }
             }
@@ -1116,6 +1132,11 @@ public class GridCombatSystem : MonoBehaviour {
                     // Valid Move Position
                     if (canMoveThisTurn)
                     {
+                        if (windRush) // borra el rango de la habilidad de rango infinito
+                        {
+                            SpawnGridHability();
+                        }
+
                         inspirationManager.HidePointsAction();
                         moveButton.interactable = false;
                         if (SceneManager.GetActiveScene().name == "Tutorial") moveButtonTutorial.interactable = false;
@@ -1206,13 +1227,19 @@ public class GridCombatSystem : MonoBehaviour {
 
                             else if (justicesExecute)
                             {
-                                StartCoroutine(JusticeExecute(gridObject));
+                                JusticeExecute(gridObject);
                                 inspiration -= 4;
                             }
 
                             else if (whirlwind)
                             {
                                 StartCoroutine(Whirlwind(gridObject, unitGridCombat));
+                                inspiration -= 4;
+                            }
+
+                            else if (shatter)
+                            {
+                                StartCoroutine(Shatter(gridObject, unitGridCombat));
                                 inspiration -= 4;
                             }
    
@@ -1417,11 +1444,79 @@ public class GridCombatSystem : MonoBehaviour {
         doubleSlash = false;
     }
 
-    private IEnumerator JusticeExecute(GridObject gridObject)
+    void  JusticeExecute(GridObject gridObject)
     {
         unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
-        yield return new WaitForSeconds(0.5f);
         justicesExecute = false;
+    }
+
+    private IEnumerator Shatter(GridObject Objective, UnitGridCombat Attacker)
+    {
+        Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+        unitGridCombat.AttackUnit(Objective.GetUnitGridCombat());
+        yield return new WaitForSeconds(0.5f);
+
+        Vector3 centralPos = Objective.GetUnitGridCombat().GetPosition();
+        //derecha
+        centralPos.x += 10;
+        GridObject gridObject = grid.GetGridObject(centralPos);
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //arriba - derecha
+        centralPos.y += 10;
+        gridObject = grid.GetGridObject(centralPos);
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //arriba
+        centralPos.x -= 10;
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //arriba - izquierda
+        centralPos.x -= 10;
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //izquierda
+        centralPos.y -= 10;
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //abajo - izquierda
+        centralPos.y -= 10;
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //abajo
+        centralPos.x += 10;
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+        //abajo - derecha
+        centralPos.x += 10;
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
+        {
+            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+            //yield return new WaitForSeconds(0.5f);
+        }
+
+        shatter = false;
     }
 
     private IEnumerator Whirlwind(GridObject Objective, UnitGridCombat Attacker)
@@ -1434,7 +1529,7 @@ public class GridCombatSystem : MonoBehaviour {
         //derecha
         position.x += 10;
         GridObject gridObject = grid.GetGridObject(position);
-        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat())
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat() && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
         {
             unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
             yield return new WaitForSeconds(0.5f);
@@ -1443,7 +1538,7 @@ public class GridCombatSystem : MonoBehaviour {
         position.x -= 10;
         position.y += 10;
         gridObject = grid.GetGridObject(position);
-        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat())
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat() && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
         {
             unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
             yield return new WaitForSeconds(0.5f);
@@ -1452,7 +1547,7 @@ public class GridCombatSystem : MonoBehaviour {
         position.y -= 10;
         position.x -= 10;
         gridObject = grid.GetGridObject(position);
-        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat())
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat() && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
         {
             unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
             yield return new WaitForSeconds(0.5f);
@@ -1461,7 +1556,7 @@ public class GridCombatSystem : MonoBehaviour {
         position.x += 10;
         position.y -= 10;
         gridObject = grid.GetGridObject(position);
-        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat())
+        if (gridObject.GetUnitGridCombat() != null && gridObject.GetUnitGridCombat() != Objective.GetUnitGridCombat() && gridObject.GetUnitGridCombat().GetTeam() != Attacker.GetTeam())
         {
             unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
             yield return new WaitForSeconds(0.5f);
