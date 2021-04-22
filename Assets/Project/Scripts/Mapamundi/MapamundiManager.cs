@@ -39,7 +39,7 @@ public class MapamundiManager : MonoBehaviour
         Nv1.interactable = true;
         Nv2.interactable = false;
         Nv3.interactable = false;
-        sliderLevels.maxValue = scrollObject.transform.position.y + 390;
+        sliderLevels.maxValue = scrollObject.transform.position.y + 392;
         sliderLevels.minValue = scrollObject.transform.position.y - 30;
         sliderLevels.value = scrollObject.transform.position.y;
     }
