@@ -52,6 +52,12 @@ public class CuartelManager : MonoBehaviour
     public GameObject TankImage;
     public GameObject MageImage;
 
+    public GameObject knightArrow;
+    public GameObject ArcherArrow;
+    public GameObject HealerArrow;
+    public GameObject TankArrow;
+    public GameObject MageArrow;
+
     public TMP_Text price;
 
     private enum Soldier { KNIGHT, ARCHER, HEALER, PALADIN, WIZARD };
@@ -118,6 +124,12 @@ public class CuartelManager : MonoBehaviour
         MageImage.SetActive(false);
 
         price.SetText(""+ knightPrice);
+
+        knightArrow.SetActive(true);
+        ArcherArrow.SetActive(false);
+        HealerArrow.SetActive(false);
+        TankArrow.SetActive(false);
+        MageArrow.SetActive(false);
     }
     public void SetArcher()
     {
@@ -131,6 +143,12 @@ public class CuartelManager : MonoBehaviour
         MageImage.SetActive(false);
 
         price.SetText("" + archerPrice);
+
+        knightArrow.SetActive(false);
+        ArcherArrow.SetActive(true);
+        HealerArrow.SetActive(false);
+        TankArrow.SetActive(false);
+        MageArrow.SetActive(false);
     }
     public void SetHealer()
     {
@@ -144,6 +162,12 @@ public class CuartelManager : MonoBehaviour
         MageImage.SetActive(false);
 
         price.SetText("" + healerPrice);
+
+        knightArrow.SetActive(false);
+        ArcherArrow.SetActive(false);
+        HealerArrow.SetActive(true);
+        TankArrow.SetActive(false);
+        MageArrow.SetActive(false);
     }
     public void SetPaladin()
     {
@@ -157,6 +181,12 @@ public class CuartelManager : MonoBehaviour
         MageImage.SetActive(false);
 
         price.SetText("" + tankPrice);
+
+        knightArrow.SetActive(false);
+        ArcherArrow.SetActive(false);
+        HealerArrow.SetActive(false);
+        TankArrow.SetActive(true);
+        MageArrow.SetActive(false);
     }
     public void SetWizard()
     {
@@ -170,6 +200,12 @@ public class CuartelManager : MonoBehaviour
         MageImage.SetActive(true);
 
         price.SetText("" + magePrice);
+
+        knightArrow.SetActive(false);
+        ArcherArrow.SetActive(false);
+        HealerArrow.SetActive(false);
+        TankArrow.SetActive(false);
+        MageArrow.SetActive(true);
     }
 
     public void BuySoldier()
