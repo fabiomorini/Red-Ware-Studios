@@ -58,10 +58,10 @@ public class MapamundiManager : MonoBehaviour
             Nv3.interactable = true;
         }
 
-        CheckSliderValue();
+        //CheckSliderValue();
 
-        /*if (Input.GetAxis("Mouse ScrollWheel") == 0f) {  }
-        else { CheckScrollMouse(); }*/
+        if (Input.GetAxis("Mouse ScrollWheel") == 0f) { CheckSliderValue(); }
+        else { CheckScrollMouse(); }
     }
     private void CheckSliderValue()
     {
