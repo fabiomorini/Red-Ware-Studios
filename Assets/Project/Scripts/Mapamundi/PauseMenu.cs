@@ -49,6 +49,11 @@ public class PauseMenu : MonoBehaviour
         Application.Quit();
     }
 
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene("Main Menu");
+    }
+
     public void ExitOptionsMenu()
     {
         SoundManager.PlaySound("Return");
