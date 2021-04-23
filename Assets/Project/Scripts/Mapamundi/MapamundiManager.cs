@@ -39,8 +39,8 @@ public class MapamundiManager : MonoBehaviour
         Nv1.interactable = true;
         Nv2.interactable = false;
         Nv3.interactable = false;
-        sliderLevels.maxValue = scrollObject.transform.position.y + 392;
-        sliderLevels.minValue = scrollObject.transform.position.y - 30;
+        sliderLevels.maxValue = scrollObject.transform.position.y + 398 + 40;
+        sliderLevels.minValue = scrollObject.transform.position.y;
         sliderLevels.value = scrollObject.transform.position.y;
     }
 
@@ -58,8 +58,10 @@ public class MapamundiManager : MonoBehaviour
             Nv3.interactable = true;
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") == 0f) { CheckSliderValue();  }
-        else { CheckScrollMouse(); }
+        CheckSliderValue();
+
+        /*if (Input.GetAxis("Mouse ScrollWheel") == 0f) {  }
+        else { CheckScrollMouse(); }*/
     }
     private void CheckSliderValue()
     {
@@ -71,13 +73,13 @@ public class MapamundiManager : MonoBehaviour
         mousePos = Input.mousePosition;
         if (mousePos.x > point1.transform.position.x && mousePos.x < point2.transform.position.x && mousePos.y < point1.transform.position.y && mousePos.y > point2.transform.position.y)
         {
-            if (Input.GetAxis("Mouse ScrollWheel") < 0f && point4.transform.position.y + scrollObject.transform.position.y < 1350.0f) // forward
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f && point4.transform.position.y + scrollObject.transform.position.y < 1380.0f) // forward
             {
-                scrollObject.transform.Translate(Vector3.up * 30);
+                scrollObject.transform.Translate(Vector3.up * 20);
             }
             if (Input.GetAxis("Mouse ScrollWheel") > 0f && point3.transform.position.y + scrollObject.transform.position.y > 1330.0f) // backwards
             {
-                scrollObject.transform.Translate(Vector3.down * 30);
+                scrollObject.transform.Translate(Vector3.down * 20);
             }
         }
         sliderLevels.value = scrollObject.transform.position.y;
