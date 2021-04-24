@@ -178,6 +178,15 @@ public class GridCombatSystem : MonoBehaviour {
     public bool mage2Syn = false;
     public bool mage4Syn = false;
 
+    public bool dayTime = false;
+    public bool nightTime = false;
+    private int totalUnits = 0;
+    private int randomNum = 0;
+    private int halfTurnDone = 0;
+    private int wholeTurnDone = 0;
+
+    private int nightAndDayCicle = 0;
+
     private void Start() {
         isPaused = false; 
         selectedFeedback = Instantiate(selectedMouse);
@@ -254,6 +263,14 @@ public class GridCombatSystem : MonoBehaviour {
         enemiesTeamList = new List<UnitGridCombat>();
         allyTeamActiveUnitIndex = -1;
         enemiesTeamActiveUnitIndex = -1;
+
+
+        if (SceneManager.GetActiveScene().name == "Tutorial") randomNum = 0;
+        else randomNum = UnityEngine.Random.Range(2, 3);
+        if (randomNum == 0 || randomNum == 1) dayTime = true;
+        else nightTime = true;
+        Debug.Log("Day = " + dayTime);
+        Debug.Log("Night = " + nightTime);
 
         // Asigna a los personajes en sus posiciones
         foreach (UnitGridCombat unitGridCombat in unitGridCombatArray)
@@ -988,13 +1005,145 @@ public class GridCombatSystem : MonoBehaviour {
 
     private void SelectNextActiveUnit()
     {
-        if (allyTeamActiveUnitIndex + 1 == alliesTeamList.Count && isAllyTurn)
+        if (dayTime)
         {
-            if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.DUMMY)
-                unitGridCombat.curHealth = unitGridCombat.maxHealth;
-            isAllyTurn = false;
-            allyTeamActiveUnitIndex = -1;
-            if (mage2Syn)
+            if (allyTeamActiveUnitIndex + 1 == alliesTeamList.Count && isAllyTurn)
+            {
+                if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.DUMMY)
+                    unitGridCombat.curHealth = unitGridCombat.maxHealth;
+                isAllyTurn = false;
+                allyTeamActiveUnitIndex = -1;
+                if (mage2Syn)
+                {
+                    if (burstTurns < 7)
+                    {
+                        burstTurns++;
+                        CheckFireDamage();
+                    }
+                    else
+                    {
+                        Destroy(temporalFireBurst);
+                        fireBurstBox.x = 0;
+                        fireBurstBox.y = 0;
+                    }
+                }
+                else if (!mage2Syn)
+                {
+                    if (burstTurns < 5)
+                    {
+                        burstTurns++;
+                        CheckFireDamage();
+                    }
+                    else
+                    {
+                        Destroy(temporalFireBurst);
+                        fireBurstBox.x = 0;
+                        fireBurstBox.y = 0;
+                    }
+                }
+                if (mage4Syn)
+                {
+                    for (int i = 0; i < enemiesTeamList.Count; i++)
+                    {
+                        if (enemiesTeamList[i].burningIndex < 2)
+                        {
+                            enemiesTeamList[i].burningIndex = 0;
+                            enemiesTeamList[i].burning = false;
+                        }
+
+                        if (enemiesTeamList[i].burning && enemiesTeamList[i].burningIndex < 2)
+                        {
+                            enemiesTeamList[i].BurnDamage();
+                        }
+                    }
+                }
+                selectedFeedback.SetActive(false);
+            }
+            if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
+            {
+                if (mage2Syn)
+                {
+                    if (burstTurns < 7)
+                    {
+                        burstTurns++;
+                        CheckFireDamage();
+                    }
+                    else
+                    {
+                        Destroy(temporalFireBurst);
+                        fireBurstBox.x = 0;
+                        fireBurstBox.y = 0;
+                    }
+                }
+                else if (!mage2Syn)
+                {
+                    if (burstTurns < 5)
+                    {
+                        burstTurns++;
+                        CheckFireDamage();
+                    }
+                    else
+                    {
+                        Destroy(temporalFireBurst);
+                        fireBurstBox.x = 0;
+                        fireBurstBox.y = 0;
+                    }
+                }
+                if (mage4Syn)
+                {
+                    for (int i = 0; i < enemiesTeamList.Count; i++)
+                    {
+                        if (enemiesTeamList[i].burning && enemiesTeamList[i].burningIndex <= 2)
+                        {
+                            enemiesTeamList[i].FireDamage();
+                        }
+                    }
+                }
+                selectedFeedback.SetActive(true);
+                if (inspiration < 4) //sumamos uno de inspiración al comienzo del turno
+                {
+                    inspiration++;
+                }
+                for (int i = 0; i < alliesTeamList.Count; i++) // reset de la habilidad overload cuando acaban los enemigos
+                {
+                    alliesTeamList[i].GetComponent<UnitGridCombat>().isOverloaded = false;
+                }
+                isAllyTurn = true;
+                StartCoroutine(YourTurnUI());
+                enemiesTeamActiveUnitIndex = -1;
+                SetNightAndDayTime();
+            }
+
+            unitGridCombat = GetNextActiveUnit();
+            CheckNameHability(); // update el nombre de las habilidades
+            GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
+            canMoveThisTurn = true;
+            canAttackThisTurn = true;
+        }
+        else if (nightTime)
+        {
+            totalUnits = alliesTeamList.Count + enemiesTeamList.Count;
+            //Debug.Log("WholeTurnStartFunc = " + wholeTurnDone);
+            if (wholeTurnDone == 0) //Reset turno
+            {
+                wholeTurnDone = totalUnits;
+                halfTurnDone = totalUnits / 2;
+                for (int i = 0; i < alliesTeamList.Count; i++)
+                {
+                    alliesTeamList[i].alreadyMoved = false;
+                    alliesTeamList[i].GetComponent<UnitGridCombat>().isOverloaded = false;
+                }
+                for (int i = 0; i < enemiesTeamList.Count; i++)
+                {
+                    enemiesTeamList[i].alreadyMoved = false;
+                }
+                if (inspiration < 4) //sumamos uno de inspiración al comienzo del turno
+                {
+                    inspiration++;
+                }
+                SetNightAndDayTime();
+            }
+            if ((mage2Syn && halfTurnDone == 0) || (mage2Syn && wholeTurnDone == 0))
             {
                 if (burstTurns < 7)
                 {
@@ -1008,7 +1157,7 @@ public class GridCombatSystem : MonoBehaviour {
                     fireBurstBox.y = 0;
                 }
             }
-            else if (!mage2Syn)
+            else if ((!mage2Syn && halfTurnDone == 0) || (!mage2Syn && wholeTurnDone == 0))
             {
                 if (burstTurns < 5)
                 {
@@ -1022,7 +1171,8 @@ public class GridCombatSystem : MonoBehaviour {
                     fireBurstBox.y = 0;
                 }
             }
-            if (mage4Syn)
+
+            if ((mage4Syn && halfTurnDone == 0) || (mage4Syn && wholeTurnDone == 0))
             {
                 for (int i = 0; i < enemiesTeamList.Count; i++)
                 {
@@ -1038,81 +1188,120 @@ public class GridCombatSystem : MonoBehaviour {
                     }
                 }
             }
-            selectedFeedback.SetActive(false);
-        }
-        if (enemiesTeamActiveUnitIndex + 1 == enemiesTeamList.Count && !isAllyTurn)
-        {
-            if (mage2Syn)
-            {
-                if (burstTurns < 7)
-                {
-                    burstTurns++;
-                    CheckFireDamage();
-                }
-                else
-                {
-                    Destroy(temporalFireBurst);
-                    fireBurstBox.x = 0;
-                    fireBurstBox.y = 0;
-                }
-            }
-            else if (!mage2Syn)
-            {
-                if (burstTurns < 5)
-                {
-                    burstTurns++;
-                    CheckFireDamage();
-                }
-                else
-                {
-                    Destroy(temporalFireBurst);
-                    fireBurstBox.x = 0;
-                    fireBurstBox.y = 0;
-                }
-            }
-            if (mage4Syn)
-            {
-                for (int i = 0; i < enemiesTeamList.Count; i++)
-                {
-                    if (enemiesTeamList[i].burning && enemiesTeamList[i].burningIndex <= 2)
-                    {
-                        enemiesTeamList[i].FireDamage();
-                    }
-                }
-            }
-            selectedFeedback.SetActive(true);
-            if (inspiration < 4) //sumamos uno de inspiración al comienzo del turno
-            {
-                inspiration++;
-            }
-            for(int i = 0; i < alliesTeamList.Count; i++) // reset de la habilidad overload cuando acaban los enemigos
-            {
-                alliesTeamList[i].GetComponent<UnitGridCombat>().isOverloaded = false;
-            }
-            isAllyTurn = true;
-            StartCoroutine(YourTurnUI());
-            enemiesTeamActiveUnitIndex = -1;
-        }
 
-        unitGridCombat = GetNextActiveUnit();
-        CheckNameHability(); // update el nombre de las habilidades
-        GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
-        canMoveThisTurn = true;
-        canAttackThisTurn = true;
+            selectedFeedback.SetActive(false);
+            halfTurnDone--;
+            if (wholeTurnDone != 0) wholeTurnDone--;
+            unitGridCombat = GetNextActiveUnit();
+            CheckNameHability(); // update el nombre de las habilidades
+            GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
+            canMoveThisTurn = true;
+            canAttackThisTurn = true;
+            //Debug.Log("WholeTurn = " + wholeTurnDone);
+            //Debug.Log("HalfTurn = " + halfTurnDone);
+        }
     }
     public UnitGridCombat GetNextActiveUnit()
     {
-        if (isAllyTurn)
+        if (dayTime)
         {
-            allyTeamActiveUnitIndex = (allyTeamActiveUnitIndex + 1) % alliesTeamList.Count;
-            return alliesTeamList[allyTeamActiveUnitIndex];
+            if (isAllyTurn)
+            {
+                allyTeamActiveUnitIndex = (allyTeamActiveUnitIndex + 1) % alliesTeamList.Count;
+                return alliesTeamList[allyTeamActiveUnitIndex];
+            }
+            else if (!isAllyTurn)
+            {
+                enemiesTeamActiveUnitIndex = (enemiesTeamActiveUnitIndex + 1) % enemiesTeamList.Count;
+                return enemiesTeamList[enemiesTeamActiveUnitIndex];
+            }
         }
-        else if (!isAllyTurn)
+        else if (nightTime)
         {
-            enemiesTeamActiveUnitIndex = (enemiesTeamActiveUnitIndex + 1) % enemiesTeamList.Count;
-            return enemiesTeamList[enemiesTeamActiveUnitIndex];
+            totalUnits = alliesTeamList.Count + enemiesTeamList.Count;
+            Debug.Log(totalUnits);
+            for (int i = 0; i < totalUnits; i++)
+            {
+                randomNum = UnityEngine.Random.Range(0, totalUnits - 1);
+                Debug.Log("Rand = " + randomNum);
+                if (randomNum > alliesTeamList.Count - 1)
+                {
+                    randomNum -= alliesTeamList.Count;
+                    if (!enemiesTeamList[randomNum].alreadyMoved)
+                    {
+                        enemiesTeamList[randomNum].alreadyMoved = true;
+                        return enemiesTeamList[randomNum];
+                    }
+                }
+                else if (randomNum < alliesTeamList.Count)
+                {
+                    if (!alliesTeamList[randomNum].alreadyMoved)
+                    {
+                        alliesTeamList[randomNum].alreadyMoved = true;
+                        return alliesTeamList[randomNum];
+                    }
+                }
+            }
+
+            for (int i = 0; i < alliesTeamList.Count; i++)
+            {
+                if (!alliesTeamList[i].alreadyMoved)
+                {
+                    alliesTeamList[i].alreadyMoved = true;
+                    return alliesTeamList[i];
+                }
+            }
+
+            for (int i = 0; i < enemiesTeamList.Count; i++)
+            {
+                if (!enemiesTeamList[i].alreadyMoved)
+                {
+                    enemiesTeamList[i].alreadyMoved = true;
+                    return enemiesTeamList[i];
+                }
+            }
+
+            Debug.Log("NotFound");
+            return null;
         }
-        return null;
+
+        Debug.Log("NotFound2");
+        return null;    
+    }
+
+    public void SetNightAndDayTime()
+    {
+        randomNum = UnityEngine.Random.Range(nightAndDayCicle, 4);
+        //Debug.Log(randomNum);
+        if (dayTime)
+        {
+            if (randomNum == 4)
+            {
+                dayTime = false;
+                nightTime = true;
+                nightAndDayCicle = 0;
+            }
+            else
+            {
+                nightAndDayCicle++;
+            }
+        }
+        else if (nightTime)
+        {
+            if (randomNum == 4)
+            {
+                dayTime = true;
+                nightTime = false;
+                nightAndDayCicle = 0;
+            }
+            else
+            {
+                nightAndDayCicle++;
+            }
+        }
+
+        Debug.Log("Day = " + dayTime);
+        Debug.Log("Night = " + nightTime);
     }
 
     public void MoveAllyVisual()

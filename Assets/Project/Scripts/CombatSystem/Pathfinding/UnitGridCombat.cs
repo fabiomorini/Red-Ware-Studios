@@ -74,6 +74,8 @@ public class UnitGridCombat : MonoBehaviour {
     public int burningIndex = 0;
     public int burnDamage = 0;
 
+    public bool alreadyMoved = false;
+
     private void Awake() {
         isOverloaded = false;
         healthBar = GetComponentInChildren<HealthBar>();
