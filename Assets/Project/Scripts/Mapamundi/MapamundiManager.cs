@@ -56,6 +56,18 @@ public class MapamundiManager : MonoBehaviour
     Vector3 mousePos;
     public Slider sliderLevels;
 
+
+    public GameObject circle1;
+    public GameObject circle2;
+    public GameObject circle3;
+    public GameObject circle4;
+    public GameObject circle5;
+    public GameObject circle6;
+    public GameObject circle7;
+    public GameObject circle8;
+    public GameObject circle9;
+    public GameObject circle10;
+
     private void Start()
     {
         Nv1.interactable = true;
@@ -208,101 +220,121 @@ public class MapamundiManager : MonoBehaviour
     public void HoverL1Enter()
     {
         Nv1.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
+        circle1.SetActive(true);
     }
 
     public void HoverL1Exit()
     {
         Nv1.GetComponent<Image>().color = new Color32(239, 73, 107, 255);
+        circle1.SetActive(false);
     }
 
     public void HoverL2Enter()
     {
         Nv2.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
+        circle2.SetActive(true);
     }
 
     public void HoverL2Exit()
     {
         Nv2.GetComponent<Image>().color = new Color32(239, 73, 107, 255);
+        circle2.SetActive(false);
     }
 
     public void HoverL3Enter()
     {
         Nv3.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
+        circle3.SetActive(true);
     }
 
     public void HoverL3Exit()
     {
         Nv3.GetComponent<Image>().color = new Color32(239, 73, 107, 255);
+        circle3.SetActive(false);
     }
 
     public void HoverL4Enter()
     {
         Nv4.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
+        circle4.SetActive(true);
     }
 
     public void HoverL4Exit()
     {
         Nv4.GetComponent<Image>().color = new Color32(239, 73, 107, 255);
+        circle4.SetActive(false);
     }
 
     public void HoverL5Enter()
     {
         Nv5.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
+        circle5.SetActive(true);
     }
 
     public void HoverL5Exit()
     {
         Nv5.GetComponent<Image>().color = new Color32(239, 73, 107, 255);
+        circle5.SetActive(false);
     }
 
     public void HoverL6Enter()
     {
         Nv6.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
+        circle6.SetActive(true);
     }
 
     public void HoverL6Exit()
     {
         Nv6.GetComponent<Image>().color = new Color32(239, 73, 107, 255);
+        circle6.SetActive(false);
     }
 
     public void HoverL7Enter()
     {
         Nv7.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
+        circle7.SetActive(true);
     }
 
     public void HoverL7Exit()
     {
         Nv7.GetComponent<Image>().color = new Color32(239, 73, 107, 255);
+        circle7.SetActive(false);
     }
 
     public void HoverL8Enter()
     {
         Nv8.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
+        circle8.SetActive(true);
     }
 
     public void HoverL8Exit()
     {
         Nv8.GetComponent<Image>().color = new Color32(239, 73, 107, 255);
+        circle8.SetActive(false);
     }
 
     public void HoverL9Enter()
     {
         Nv9.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
+        circle9.SetActive(true);
     }
 
     public void HoverL9Exit()
     {
         Nv9.GetComponent<Image>().color = new Color32(239, 73, 107, 255);
+        circle9.SetActive(false);
     }
 
     public void HoverL10Enter()
     {
         Nv10.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
+        circle10.SetActive(true);
     }
 
     public void HoverL10Exit()
     {
         Nv10.GetComponent<Image>().color = new Color32(239, 73, 107, 255);
+        circle10.SetActive(false);
     }
 
     public void Nivel1()
