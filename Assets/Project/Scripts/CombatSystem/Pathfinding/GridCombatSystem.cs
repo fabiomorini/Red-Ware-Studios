@@ -178,12 +178,13 @@ public class GridCombatSystem : MonoBehaviour {
     public bool mage2Syn = false;
     public bool mage4Syn = false;
 
-    public bool dayTime = false;
-    public bool nightTime = false;
+    private bool dayTime = false;
+    private bool nightTime = false;
     private int totalUnits = 0;
     private int randomNum = 0;
     private int halfTurnDone = 0;
     private int wholeTurnDone = 0;
+    private bool firstTurn = true;
 
     private int nightAndDayCicle = 0;
 
@@ -1114,7 +1115,7 @@ public class GridCombatSystem : MonoBehaviour {
                 SetNightAndDayTime();
             }
 
-            unitGridCombat = GetNextActiveUnit();
+            unitGridCombat = GetNextActiveUnit(unitGridCombat);
             CheckNameHability(); // update el nombre de las habilidades
             GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
             canMoveThisTurn = true;
@@ -1141,7 +1142,10 @@ public class GridCombatSystem : MonoBehaviour {
                 {
                     inspiration++;
                 }
-                SetNightAndDayTime();
+                if (!firstTurn)
+                {
+                    SetNightAndDayTime();
+                }
             }
             if ((mage2Syn && halfTurnDone == 0) || (mage2Syn && wholeTurnDone == 0))
             {
@@ -1191,17 +1195,25 @@ public class GridCombatSystem : MonoBehaviour {
 
             selectedFeedback.SetActive(false);
             halfTurnDone--;
-            if (wholeTurnDone != 0) wholeTurnDone--;
-            unitGridCombat = GetNextActiveUnit();
-            CheckNameHability(); // update el nombre de las habilidades
-            GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
-            canMoveThisTurn = true;
-            canAttackThisTurn = true;
+            /*if (wholeTurnDone != 0)*/ wholeTurnDone--;
+            unitGridCombat = GetNextActiveUnit(unitGridCombat);
+            if (unitGridCombat == null)
+            {
+                wholeTurnDone = 0;
+            }
+            else
+            {
+                CheckNameHability(); // update el nombre de las habilidades
+                GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
+                canMoveThisTurn = true;
+                canAttackThisTurn = true;
+                firstTurn = false;
+            }
             //Debug.Log("WholeTurn = " + wholeTurnDone);
             //Debug.Log("HalfTurn = " + halfTurnDone);
         }
     }
-    public UnitGridCombat GetNextActiveUnit()
+    public UnitGridCombat GetNextActiveUnit(UnitGridCombat lastUnit)
     {
         if (dayTime)
         {
@@ -1262,7 +1274,9 @@ public class GridCombatSystem : MonoBehaviour {
             }
 
             Debug.Log("NotFound");
-            return null;
+
+            if (lastUnit != alliesTeamList[0]) return alliesTeamList[0];
+            else return enemiesTeamList[0];
         }
 
         Debug.Log("NotFound2");

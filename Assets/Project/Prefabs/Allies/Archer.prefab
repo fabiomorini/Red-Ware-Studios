@@ -781,6 +781,7 @@ MonoBehaviour:
   burning: 0
   burningIndex: 0
   burnDamage: 0
+  alreadyMoved: 0
 --- !u!1 &6621544505132570299
 GameObject:
   m_ObjectHideFlags: 0
