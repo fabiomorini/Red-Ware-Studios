@@ -185,7 +185,6 @@ public class GridCombatSystem : MonoBehaviour {
     private int halfTurnDone = 0;
     private int wholeTurnDone = 0;
     private bool firstTurn = true;
-
     private int nightAndDayCicle = 0;
 
     private void Start() {

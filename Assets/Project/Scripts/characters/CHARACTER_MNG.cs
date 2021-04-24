@@ -29,6 +29,13 @@ public class CHARACTER_MNG : MonoBehaviour
     [HideInInspector] public bool VictoryL1 = false;
     [HideInInspector] public bool VictoryL2 = false;
     [HideInInspector] public bool VictoryL3 = false;
+    [HideInInspector] public bool VictoryL4 = false;
+    [HideInInspector] public bool VictoryL5 = false;
+    [HideInInspector] public bool VictoryL6 = false;
+    [HideInInspector] public bool VictoryL7 = false;
+    [HideInInspector] public bool VictoryL8 = false;
+    [HideInInspector] public bool VictoryL9 = false;
+    [HideInInspector] public bool VictoryL10 = false;
 
     public int meleeLevel = 3;
     public int archerLevel = 3;
@@ -115,6 +122,34 @@ public class CHARACTER_MNG : MonoBehaviour
         {
             VictoryL3True();
         }
+        else if (SceneManager.GetActiveScene().name == "Nivel4")
+        {
+            VictoryL4True();
+        }
+        else if (SceneManager.GetActiveScene().name == "Nivel5")
+        {
+            VictoryL5True();
+        }
+        else if (SceneManager.GetActiveScene().name == "Nivel6")
+        {
+            VictoryL6True();
+        }
+        else if (SceneManager.GetActiveScene().name == "Nivel7")
+        {
+            VictoryL7True();
+        }
+        else if (SceneManager.GetActiveScene().name == "Nivel8")
+        {
+            VictoryL8True();
+        }
+        else if (SceneManager.GetActiveScene().name == "Nivel9")
+        {
+            VictoryL9True();
+        }
+        else if (SceneManager.GetActiveScene().name == "Nivel10")
+        {
+            VictoryL10True();
+        }
     }
     private void VictoryL1True()
     {
@@ -127,6 +162,34 @@ public class CHARACTER_MNG : MonoBehaviour
     private void VictoryL3True()
     {
         VictoryL3 = true;
+    }
+    private void VictoryL4True()
+    {
+        VictoryL4 = true;
+    }
+    private void VictoryL5True()
+    {
+        VictoryL5 = true;
+    }
+    private void VictoryL6True()
+    {
+        VictoryL6 = true;
+    }
+    private void VictoryL7True()
+    {
+        VictoryL7 = true;
+    }
+    private void VictoryL8True()
+    {
+        VictoryL8 = true;
+    }
+    private void VictoryL9True()
+    {
+        VictoryL9 = true;
+    }
+    private void VictoryL10True()
+    {
+        VictoryL10 = true;
     }
     public int NumMelee()
     {
