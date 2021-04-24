@@ -343,6 +343,13 @@ public class MapamundiManager : MonoBehaviour
         N1 = false;
         N2 = true;
         N3 = false;
+        N4 = false;
+        N5 = false;
+        N6 = false;
+        N7 = false;
+        N8 = false;
+        N9 = false;
+        N10 = false;
 
         if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
         {
@@ -369,6 +376,13 @@ public class MapamundiManager : MonoBehaviour
         N1 = false;
         N2 = false;
         N3 = true;
+        N4 = false;
+        N5 = false;
+        N6 = false;
+        N7 = false;
+        N8 = false;
+        N9 = false;
+        N10 = false;
 
         if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
         {
