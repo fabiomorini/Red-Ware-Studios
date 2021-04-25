@@ -275,7 +275,7 @@ GameObject:
   - component: {fileID: 3343523727354211216}
   - component: {fileID: 7466680520578955897}
   m_Layer: 0
-  m_Name: arrowselected (1)
+  m_Name: SelectedArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

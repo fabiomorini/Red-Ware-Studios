@@ -373,7 +373,7 @@ GameObject:
   - component: {fileID: 6436728059301301094}
   - component: {fileID: 6128457823932978301}
   m_Layer: 0
-  m_Name: arrowselected
+  m_Name: SelectedArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

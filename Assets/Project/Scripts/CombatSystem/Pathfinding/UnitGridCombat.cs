@@ -80,7 +80,6 @@ public class UnitGridCombat : MonoBehaviour {
         isOverloaded = false;
         healthBar = GetComponentInChildren<HealthBar>();
         characterPrefs = GetComponent<CHARACTER_PREFS>();
-        selectedGameObject = transform.Find("SelectedArrow").gameObject;
         characterManager = GameObject.FindGameObjectWithTag("characterManager").GetComponent<CHARACTER_MNG>();
 
         SetHealth();
