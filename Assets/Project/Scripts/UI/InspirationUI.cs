@@ -87,10 +87,16 @@ public class InspirationUI : MonoBehaviour
     public void InspiredMovement() // para los botones de inspiración move
     {
         pointMove = !pointMove;
+        Debug.Log(pointMove);
         if (pointMove && combatSystem.inspiration > 0) {
             combatSystem.inspiredMovement = true;
+            combatSystem.hasUpdatedPositionMove = false;
         }
-        else { combatSystem.inspiredMovement = false; }
+        else
+        {
+            combatSystem.inspiredMovement = false;
+            combatSystem.hasUpdatedPositionMove = false;
+        }
     }
 
     public void InspiredAttack()  // para los botones de inspiración attack
@@ -119,6 +125,7 @@ public class InspirationUI : MonoBehaviour
     public void StopShowingAbilitiesUI()
     {
         habilitiesUI.SetActive(false);
+        abilitiesUIShowing = false;
     }
 
     public void SetAbilitiesInteractable()
@@ -159,10 +166,17 @@ public class InspirationUI : MonoBehaviour
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
         {
+
             combatSystem.overload = true;
             combatSystem.feedbackHability = true;
-            combatSystem.alliesTeamList[combatSystem.allyTeamActiveUnitIndex].GetComponent<UnitGridCombat>().isOverloaded = true;
-            combatSystem.alliesTeamList[combatSystem.allyTeamActiveUnitIndex].GetComponent<UnitGridCombat>().DoOverloadFeedback();
+            for (int i = 0; i < combatSystem.alliesTeamList.Count; i++)
+            {
+                if (combatSystem.alliesTeamList[i] == combatSystem.unitGridCombat)
+                {
+                    combatSystem.unitGridCombat.GetComponent<UnitGridCombat>().isOverloaded = true;
+                    combatSystem.unitGridCombat.GetComponent<UnitGridCombat>().DoOverloadFeedback();
+                }
+            }
             combatSystem.inspiration -= 3;
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)

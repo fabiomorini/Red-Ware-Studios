@@ -137,7 +137,6 @@ public class GridCombatSystem : MonoBehaviour {
     public TMP_Text victory;
     public TMP_Text defeat;
     public GameObject allyUI;
-    public GameObject enemyUI;
     public GameObject endGameUI;
     private bool surrender;
     public GameObject SurrenderUI;
@@ -282,7 +281,7 @@ public class GridCombatSystem : MonoBehaviour {
 
 
         if (SceneManager.GetActiveScene().name == "Tutorial") randomNum = 0;
-        else randomNum = UnityEngine.Random.Range(0, 3);
+        else randomNum = UnityEngine.Random.Range(0, 1);
         if (randomNum == 0 || randomNum == 1) dayTime = true;
         else nightTime = true;
         Debug.Log("Day = " + dayTime);
@@ -350,11 +349,6 @@ public class GridCombatSystem : MonoBehaviour {
                     SetAttackingTrue();
                 }
 
-                if (windRush)
-                {
-                    SetMovingTrue();
-                }
-
                 if (fireBurst)
                 {
                     FireburstHability();
@@ -363,12 +357,7 @@ public class GridCombatSystem : MonoBehaviour {
                 if (moving)
                 {
                     MoveAllyVisual();
-                    if ((windRush && !hasUpdatedPositionMove))
-                    {
-                        SpawnGridHability();
-                        hasUpdatedPositionAttack = true;
-                    }
-                    else if (inspiredMovement)
+                    if (inspiredMovement)
                     {
                         maxMoveDistance = 6;
                     }
@@ -376,7 +365,7 @@ public class GridCombatSystem : MonoBehaviour {
                     {
                         maxMoveDistance = 4;
                     }
-                    if (!hasUpdatedPositionMove && !windRush)
+                    if (!hasUpdatedPositionMove)
                     {
                         UpdateValidMovePositions();
                         hasUpdatedPositionMove = true;
@@ -945,7 +934,6 @@ public class GridCombatSystem : MonoBehaviour {
     {
         Minimenu.SetActive(false);
         allyUI.SetActive(false);
-        enemyUI.SetActive(false);
         unitGridCombat.selectedGameObject.SetActive(false);
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(
         MovementTilemap.TilemapObject.TilemapSprite.None);
@@ -999,6 +987,8 @@ public class GridCombatSystem : MonoBehaviour {
         if (SceneManager.GetActiveScene().name == "Tutorial") tutorialManager.SkipTutorialText();
         inspiredAttack = false;
         inspiredMovement = false;
+        inspirationManager.pointMove = false;
+        inspirationManager.pointAttack = false;
         inspirationManager.ResetAbilities();
         inspirationManager.StopShowingAbilitiesUI();
     }
@@ -1372,7 +1362,6 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void MoveAllyVisual()
     {
-        inspirationManager.StopShowingAbilitiesUI();
         ShowMouseCell();
         if (Input.GetMouseButtonDown(0))
         {
@@ -1387,10 +1376,6 @@ public class GridCombatSystem : MonoBehaviour {
                     // Valid Move Position
                     if (canMoveThisTurn)
                     {
-                        if (windRush) // borra el rango de la habilidad de rango infinito
-                        {
-                            SpawnGridHability();
-                        }
 
                         if (inspiredMovement) { // movimiento inspirado
                             inspiration--;
@@ -1430,11 +1415,11 @@ public class GridCombatSystem : MonoBehaviour {
         attacking = false;
         feedbackHability = false;
         hasUpdatedPositionMove = false;
+        inspirationManager.StopShowingAbilitiesUI();
     }
 
     public void AttackAllyVisual()
     {
-        inspirationManager.StopShowingAbilitiesUI();
         ShowMouseCell();
         if (Input.GetMouseButtonDown(0))
         {
@@ -1498,6 +1483,7 @@ public class GridCombatSystem : MonoBehaviour {
                             else if(boltOfPrecision)
                             {
                                 if (SceneManager.GetActiveScene().name == "Tutorial" && !tutorialManager.hasUsedHability) tutorialManager.hasUsedHability = true;
+                                unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
                                 boltOfPrecision = false;
                                 inspiration -= 3;
                             }
@@ -1516,7 +1502,7 @@ public class GridCombatSystem : MonoBehaviour {
                     }
                 }
                 //healer
-                if (unitGridCombat.CanHealUnit(gridObject.GetUnitGridCombat()) && unitGridCombat.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.HEALER)
+                else if (unitGridCombat.CanHealUnit(gridObject.GetUnitGridCombat()) && unitGridCombat.GetComponent<CHARACTER_PREFS>().getType() == CHARACTER_PREFS.Tipo.HEALER)
                 {
                     if(canAttackThisTurn)
                     {
@@ -1807,6 +1793,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void SetAttackingTrue()
     {
+        inspirationManager.StopShowingAbilitiesUI();
         attacking = true;
         moving = false;
         if(boltOfPrecision || doubleSlash)

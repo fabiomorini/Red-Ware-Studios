@@ -849,7 +849,7 @@ public class UnitGridCombat : MonoBehaviour {
         }
     }
 
-    private IEnumerator FeedbackHealing(int healAmount, UnitGridCombat Healed)
+    private IEnumerator FeedbackHealing(int healAmount)
     {
         animEnded = false;
         healAnim.SetActive(true);
@@ -857,7 +857,7 @@ public class UnitGridCombat : MonoBehaviour {
         yield return new WaitForSeconds(1.1f);
         healAnim.SetActive(false);
         playerSprite.color = Color.green;
-        Healed.healthSystem.Heal(healAmount);
+        healthSystem.Heal(healAmount);
         yield return new WaitForSeconds(0.3f);
         playerSprite.color = Color.white;
         animEnded = true;
@@ -916,10 +916,10 @@ public class UnitGridCombat : MonoBehaviour {
 
     public void HealAlly(UnitGridCombat unitGridCombat)
     {
-        if (sceneCombatSystem.healer2Syn) this.Heal(5, this);
+        if (sceneCombatSystem.healer2Syn && GetTeam() == Team.Blue) Heal(5);
         if (sceneCombatSystem.hexOfNature)
         {
-            unitGridCombat.Heal(60, unitGridCombat);
+            unitGridCombat.Heal(60);
             sceneCombatSystem.hexOfNature = false;
             sceneCombatSystem.inspiration -= 3;
         }
@@ -927,17 +927,17 @@ public class UnitGridCombat : MonoBehaviour {
         {
             for (int i = 0; i < sceneCombatSystem.alliesTeamList.Count; i++)
             {
-                sceneCombatSystem.alliesTeamList[i].Heal(healAmount, sceneCombatSystem.alliesTeamList[i]);
+                sceneCombatSystem.alliesTeamList[i].Heal(healAmount);
             }
             sceneCombatSystem.divineGrace = false;
             sceneCombatSystem.inspiration -= 4;
         }
-        else unitGridCombat.Heal(healAmount, unitGridCombat);
+        else unitGridCombat.Heal(healAmount);
     }
 
-    public void Heal(int healAmount, UnitGridCombat Healed)
+    public void Heal(int healAmount)
     {
-        StartCoroutine(FeedbackHealing(healAmount, Healed));
+        StartCoroutine(FeedbackHealing(healAmount));
     }
 
     public bool CanAttackUnit(UnitGridCombat unitGridCombat) {
