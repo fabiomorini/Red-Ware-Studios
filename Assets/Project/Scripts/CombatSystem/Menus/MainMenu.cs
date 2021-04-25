@@ -17,14 +17,16 @@ public class MainMenu : MonoBehaviour
 
     public IEnumerator QuitGame()
     {
-        SoundManager.PlaySound("Return");
+        //SoundManager.PlaySound("Return");
+        SoundManager.PlaySound("ClickMenu");
         yield return new WaitForSeconds(1.0f);
         Application.Quit();
     }
 
     public void ExitOptionsMenu()
     {
-        SoundManager.PlaySound("Return");
+        //SoundManager.PlaySound("Return");
+        SoundManager.PlaySound("ClickMenu");
     }
 
     public void HoverSound()

@@ -12974,7 +12974,6 @@ MonoBehaviour:
   victory: {fileID: 394450443}
   defeat: {fileID: 272935496049246089}
   allyUI: {fileID: 31388274}
-  enemyUI: {fileID: 0}
   endGameUI: {fileID: 1864700914}
   SurrenderUI: {fileID: 416866145}
   fireUI: {fileID: 7043383512610315436, guid: d70a9199374cdc5498909889885507ff, type: 3}
@@ -13009,6 +13008,7 @@ MonoBehaviour:
   healer4Syn: 0
   mage2Syn: 0
   mage4Syn: 0
+  nightTime: 0
   GridDia: {fileID: 124729582}
   GridNoche: {fileID: 1519462465}
   DayTimeText: {fileID: 733732331}
@@ -13701,7 +13701,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227a127fecf6fcf449c778cdad9c87e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 813085218}
   CurrHealth: {fileID: 0}
 --- !u!1 &821428280
 GameObject:
@@ -24485,7 +24484,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 929fb6a9a36c641449bc907d47f0a282, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 541eaa8898ae21b4c8d70b67e3f55a30, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -25329,7 +25328,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 263.1, y: 112.1}
+  m_AnchoredPosition: {x: 263.1001, y: 112.1001}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1330804718
@@ -27928,7 +27927,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ce79fa8804493ef45a221528b3765373, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f8ebd9feb171c694f9b141554bf11a0c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -30695,7 +30694,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141661505}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 209.14523, y: 69.58382, z: -10}
+  m_LocalPosition: {x: 209.1932, y: 69.58382, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1892862704}
