@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: tree_magical
+  m_Name: tree&rock_set_nn
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: 33afbdc36f6a1624cb241887ad4258fb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 24c91769b48581b4baa05a26dc14cf53, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
