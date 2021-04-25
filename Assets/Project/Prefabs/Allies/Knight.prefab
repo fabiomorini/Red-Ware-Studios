@@ -340,10 +340,12 @@ MonoBehaviour:
   playerSprite: {fileID: 8519992233551733056}
   animEnded: 1
   selectedGameObject: {fileID: 5891246540229211521}
+  healthBar: {fileID: 6744985423471842645}
   burning: 0
   burningIndex: 0
   burnDamage: 0
   alreadyMoved: 0
+  isStunned: 0
 --- !u!1 &4057762915457417208
 GameObject:
   m_ObjectHideFlags: 0

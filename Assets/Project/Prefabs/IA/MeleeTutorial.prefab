@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6267264564363053452}
+  - component: {fileID: 207227333684280993}
   m_Layer: 0
   m_Name: HealthSlider
   m_TagString: Untagged
@@ -31,6 +32,19 @@ Transform:
   m_Father: {fileID: 4539957916773627850}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &207227333684280993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155712797135769293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227a127fecf6fcf449c778cdad9c87e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrHealth: {fileID: 8495639095077560701}
 --- !u!1 &1377176309638734960
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,10 +585,12 @@ MonoBehaviour:
   playerSprite: {fileID: 4849241890087592382}
   animEnded: 1
   selectedGameObject: {fileID: 3732544795403205877}
+  healthBar: {fileID: 207227333684280993}
   burning: 0
   burningIndex: 0
   burnDamage: 0
   alreadyMoved: 0
+  isStunned: 0
 --- !u!1 &5128814868884267690
 GameObject:
   m_ObjectHideFlags: 0

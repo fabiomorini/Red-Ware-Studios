@@ -14,7 +14,6 @@ public class TutorialManager : MonoBehaviour
     [HideInInspector] public bool hasSkip = false;
     [HideInInspector] public bool hasExit = false;
 
-    public Button exitButton;
     public GameObject endText;
     [HideInInspector] public int tutorialIndex = 0;
     public GameObject ToolTip;
@@ -46,7 +45,6 @@ public class TutorialManager : MonoBehaviour
     public GameObject pressSpaceButton;
     private int firstPartIndex = 0;
     public GameObject firstTutorial;
-    public GameObject yourTurnUI;
 
     //Gifs
     public Texture2D[] framesMove; 
@@ -80,7 +78,6 @@ public class TutorialManager : MonoBehaviour
             else if (gifExit) GifSurrender();
 
             UnlockButtons();
-            if (hasMoved && hasAttacked && hasUsedHability) exitButton.interactable = true;
             if (hasUsedHability) InspirationAbility.interactable = true;
             if (gridCombatSystem.canMoveThisTurn) moveButton.interactable = true;
             if (gridCombatSystem.canAttackThisTurn) attackButton.interactable = true;
@@ -98,7 +95,6 @@ public class TutorialManager : MonoBehaviour
         NextTooltipButton.SetActive(false);
         gridCombatSystem.isPaused = false;
         ToolTip.SetActive(false);
-        if(hasExit) SurrenderCheck.SetActive(true);
     }
 
 
@@ -110,8 +106,6 @@ public class TutorialManager : MonoBehaviour
             tutorial1 = false;
             gridCombatSystem.isPaused = false;
             firstTutorial.SetActive(false);
-            inspirationMoveButton.SetActive(false);
-            inspirationAttackButton.SetActive(false);
             arrowMove.SetActive(true);
             moveButton.interactable = true;
         }
@@ -168,13 +162,10 @@ public class TutorialManager : MonoBehaviour
             {
                 pressSpaceButton.SetActive(false);
                 welcomeText.SetText("In the top you have your inspiration points. \n You gain one point each turn and you can use them to enhance your actions.");
-                inspirationMoveButton.SetActive(true);
-                inspirationAttackButton.SetActive(true);
                 arrowUI.SetActive(false);
                 arrowInspiration.SetActive(true);
                 isWaiting4 = true;
                 StartCoroutine(WelcomeWaitTime());
-                yourTurnUI.GetComponent<TMP_Text>().SetText("Your Turn");
             }
         }
     }
@@ -184,15 +175,13 @@ public class TutorialManager : MonoBehaviour
         endText.SetActive(false);
         NextTooltipButton.SetActive(false);
         ToolTip.SetActive(false);
-        yourTurnUI.GetComponent<TMP_Text>().SetText("");
 
         tutorial1 = true;
         gridCombatSystem.isPaused = true;
 
         firstTutorial.SetActive(true);
         pressSpaceButton.SetActive(false);
-        inspirationMoveButton.SetActive(false);
-        inspirationAttackButton.SetActive(false);
+    
         arrowMinimenu.SetActive(false);
         arrowUI.SetActive(false);
         arrowInspiration.SetActive(false);
@@ -202,7 +191,6 @@ public class TutorialManager : MonoBehaviour
         attackButton.interactable = false;
         skipButton.interactable = false;
         habilityButton.interactable = false;
-        exitButton.interactable = false;
 
         hasUsedHability = false;
         hasAttacked = false;

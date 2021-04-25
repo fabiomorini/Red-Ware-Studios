@@ -199,14 +199,15 @@ public class GridCombatSystem : MonoBehaviour {
     public GameObject DayTimeText;
     public GameObject NightTimeText;
 
-    public Animator animatorOut;
-    public Animator animatorIn;
+    public Animator fadeTime;
+    public GameObject fadeTimeImage;
+    public GameObject fadeTimeObject;
 
     private void Start() {
         isPaused = false; 
         selectedFeedback = Instantiate(selectedMouse);
         selectedFeedback.SetActive(false);
-        StartCoroutine(YourTurnUI());
+        if(!(SceneManager.GetActiveScene().name == "Tutorial"))StartCoroutine(YourTurnUI());
         inspirationManager = GameObject.FindGameObjectWithTag("InspirationManager").GetComponent<InspirationUI>();
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
 
@@ -307,26 +308,33 @@ public class GridCombatSystem : MonoBehaviour {
 
     public IEnumerator ShowTime()
     {
-        if(dayTime)
+        if(dayTime && !(SceneManager.GetActiveScene().name == "Tutorial"))
         {
             DayTimeText.SetActive(true);
             NightTimeText.SetActive(false);
+            fadeTimeObject.SetActive(true);
+            fadeTimeImage.SetActive(true);
+            fadeTime.Play("fadeTime");
+            yield return new WaitForSeconds(1.0f);
             GridDia.SetActive(true);
             GridNoche.SetActive(false);
-            //animatorOut.SetTrigger("FadeOut");
             yield return new WaitForSeconds(1.0f);
-            //animatorOut.SetTrigger("FadeIn");
+            fadeTimeObject.SetActive(false);
             DayTimeText.SetActive(false);
         }
         else if (nightTime)
         {
             NightTimeText.SetActive(true);
             DayTimeText.SetActive(false);
+
+            fadeTimeObject.SetActive(true);
+            fadeTimeImage.SetActive(true);
+            fadeTime.Play("fadeTime");
+            yield return new WaitForSeconds(1.0f);
             GridDia.SetActive(false);
             GridNoche.SetActive(true);
-            //animatorOut.SetTrigger("FadeOut");
             yield return new WaitForSeconds(1.0f);
-            //animatorOut.SetTrigger("FadeIn");
+            fadeTimeObject.SetActive(false);
             NightTimeText.SetActive(false);
         }
     }
@@ -1150,7 +1158,7 @@ public class GridCombatSystem : MonoBehaviour {
                     alliesTeamList[i].GetComponent<UnitGridCombat>().isOverloaded = false;
                 }
                 isAllyTurn = true;
-                StartCoroutine(YourTurnUI());
+                if (!(SceneManager.GetActiveScene().name == "Tutorial")) StartCoroutine(YourTurnUI());
                 enemiesTeamActiveUnitIndex = -1;
                 SetNightAndDayTime();
             }
@@ -1343,11 +1351,11 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void SetNightAndDayTime()
     {
-        randomNum = UnityEngine.Random.Range(nightAndDayCicle, 4);
+        randomNum = UnityEngine.Random.Range(nightAndDayCicle, 1);
         //Debug.Log(randomNum);
         if (dayTime)
         {
-            if (randomNum == 4)
+            if (randomNum == 1)
             {
                 dayTime = false;
                 nightTime = true;
@@ -1361,7 +1369,7 @@ public class GridCombatSystem : MonoBehaviour {
         }
         else if (nightTime)
         {
-            if (randomNum == 4)
+            if (randomNum == 1)
             {
                 dayTime = true;
                 nightTime = false;

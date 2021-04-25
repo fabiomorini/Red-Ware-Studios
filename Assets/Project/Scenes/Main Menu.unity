@@ -3699,6 +3699,31 @@ PrefabInstance:
       propertyPath: numberOfRanged
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3466135334562308359, guid: a4f80bfddcb96ea49be05282708b176d,
+        type: 3}
+      propertyPath: meleeLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3466135334562308359, guid: a4f80bfddcb96ea49be05282708b176d,
+        type: 3}
+      propertyPath: archerLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3466135334562308359, guid: a4f80bfddcb96ea49be05282708b176d,
+        type: 3}
+      propertyPath: healerLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3466135334562308359, guid: a4f80bfddcb96ea49be05282708b176d,
+        type: 3}
+      propertyPath: tankLevel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3466135334562308359, guid: a4f80bfddcb96ea49be05282708b176d,
+        type: 3}
+      propertyPath: mageLevel
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4556971247533917802, guid: a4f80bfddcb96ea49be05282708b176d,
         type: 3}
       propertyPath: m_Name
