@@ -451,7 +451,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!156049354 &124729583
 Grid:
   m_ObjectHideFlags: 0
@@ -12731,7 +12731,7 @@ GameObject:
   - component: {fileID: 705680516}
   - component: {fileID: 705680515}
   m_Layer: 8
-  m_Name: GameObject
+  m_Name: Camera Limits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27145,7 +27145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1519462466
 Transform:
   m_ObjectHideFlags: 0
@@ -29721,7 +29721,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -26.87947, y: 50.256912}
+  m_Offset: {x: -24.879036, y: 49.452126}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -29732,7 +29732,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 38.373962, y: 11.503662}
+  m_Size: {x: 44.102127, y: 13.113235}
   m_EdgeRadius: 0
 --- !u!61 &1972762970
 BoxCollider2D:
@@ -29799,7 +29799,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 58.404816, y: -6.4966736}
+  m_Offset: {x: 57.450096, y: -6.4966736}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -29810,7 +29810,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 28.439972, y: 16.118912}
+  m_Size: {x: 30.349411, y: 16.118912}
   m_EdgeRadius: 0
 --- !u!61 &1972762973
 BoxCollider2D:
@@ -30695,7 +30695,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141661505}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 209.11627, y: 69.58382, z: -10}
+  m_LocalPosition: {x: 209.14523, y: 69.58382, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1892862704}
