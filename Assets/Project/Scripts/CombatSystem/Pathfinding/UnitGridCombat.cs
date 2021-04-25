@@ -50,7 +50,7 @@ public class UnitGridCombat : MonoBehaviour {
     public SpriteRenderer playerSprite;
     [HideInInspector] public bool animEnded = true;
 
-    [HideInInspector] public GameObject selectedGameObject;
+    public GameObject selectedGameObject;
     private GridCombatSystem sceneCombatSystem;
     private MovePositionPathfinding movePosition;
     private HealthSystem healthSystem;
@@ -80,14 +80,11 @@ public class UnitGridCombat : MonoBehaviour {
         isOverloaded = false;
         healthBar = GetComponentInChildren<HealthBar>();
         characterPrefs = GetComponent<CHARACTER_PREFS>();
-        selectedGameObject = transform.Find("SelectedArrow").gameObject;
         characterManager = GameObject.FindGameObjectWithTag("characterManager").GetComponent<CHARACTER_MNG>();
 
         SetHealth();
         healthSystem = new HealthSystem(maxHealth);
         curHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
-        healthBar.SetHealth(curHealth);
         healthBar.SetHealthNumber(curHealth);
         movePosition = GetComponent<MovePositionPathfinding>();
         sceneCombatSystem = GameObject.FindWithTag("CombatHandler").GetComponent<GridCombatSystem>();
@@ -96,7 +93,6 @@ public class UnitGridCombat : MonoBehaviour {
     private void Update()
     {
         curHealth = healthSystem.CurrentHealth;
-        healthBar.SetHealth(curHealth);
         healthBar.SetHealthNumber(curHealth);
         animEnded = true;
 
