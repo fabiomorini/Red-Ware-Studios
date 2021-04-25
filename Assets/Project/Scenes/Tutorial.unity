@@ -3238,12 +3238,14 @@ MonoBehaviour:
   healer4Syn: 0
   mage2Syn: 0
   mage4Syn: 0
+  nightTime: 0
   GridDia: {fileID: 0}
   GridNoche: {fileID: 0}
   DayTimeText: {fileID: 0}
   NightTimeText: {fileID: 0}
-  animatorOut: {fileID: 0}
-  animatorIn: {fileID: 0}
+  fadeTime: {fileID: 0}
+  fadeTimeImage: {fileID: 0}
+  fadeTimeObject: {fileID: 0}
 --- !u!1 &809995762
 GameObject:
   m_ObjectHideFlags: 0
@@ -4562,7 +4564,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 929fb6a9a36c641449bc907d47f0a282, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -14625,7 +14627,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ce79fa8804493ef45a221528b3765373, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -17605,7 +17607,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f2dce926847919747aadff116c98a352, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -20273,7 +20275,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.6
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
