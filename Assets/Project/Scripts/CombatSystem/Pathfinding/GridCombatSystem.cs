@@ -197,6 +197,11 @@ public class GridCombatSystem : MonoBehaviour {
 
     public GameObject GridDia;
     public GameObject GridNoche;
+    public GameObject DayTimeText;
+    public GameObject NightTimeText;
+
+    public Animator animatorOut;
+    public Animator animatorIn;
 
     private void Start() {
         isPaused = false; 
@@ -282,16 +287,7 @@ public class GridCombatSystem : MonoBehaviour {
         else nightTime = true;
         Debug.Log("Day = " + dayTime);
         Debug.Log("Night = " + nightTime);
-        if (dayTime)
-        {
-            GridDia.SetActive(true);
-            GridNoche.SetActive(false);
-        }
-        else if (nightTime)
-        {
-            GridDia.SetActive(false);
-            GridNoche.SetActive(true);
-        }
+        StartCoroutine(ShowTime());
 
         // Asigna a los personajes en sus posiciones
         foreach (UnitGridCombat unitGridCombat in unitGridCombatArray)
@@ -308,6 +304,32 @@ public class GridCombatSystem : MonoBehaviour {
         }
         SelectNextActiveUnit(); 
         inspiration = 4;
+    }
+
+    public IEnumerator ShowTime()
+    {
+        if(dayTime)
+        {
+            DayTimeText.SetActive(true);
+            NightTimeText.SetActive(false);
+            GridDia.SetActive(true);
+            GridNoche.SetActive(false);
+            //animatorOut.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(1.0f);
+            //animatorOut.SetTrigger("FadeIn");
+            DayTimeText.SetActive(false);
+        }
+        else if (nightTime)
+        {
+            NightTimeText.SetActive(true);
+            DayTimeText.SetActive(false);
+            GridDia.SetActive(false);
+            GridNoche.SetActive(true);
+            //animatorOut.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(1.0f);
+            //animatorOut.SetTrigger("FadeIn");
+            NightTimeText.SetActive(false);
+        }
     }
 
     private void Update()
@@ -1313,17 +1335,16 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void SetNightAndDayTime()
     {
-        randomNum = UnityEngine.Random.Range(nightAndDayCicle, 4);
+        randomNum = UnityEngine.Random.Range(nightAndDayCicle, 1);
         //Debug.Log(randomNum);
         if (dayTime)
         {
-            if (randomNum == 4)
+            if (randomNum == 1)
             {
                 dayTime = false;
                 nightTime = true;
                 nightAndDayCicle = 0;
-                GridDia.SetActive(false);
-                GridNoche.SetActive(true);
+                StartCoroutine(ShowTime());
             }
             else
             {
@@ -1332,13 +1353,12 @@ public class GridCombatSystem : MonoBehaviour {
         }
         else if (nightTime)
         {
-            if (randomNum == 4)
+            if (randomNum == 1)
             {
                 dayTime = true;
                 nightTime = false;
                 nightAndDayCicle = 0;
-                GridDia.SetActive(true);
-                GridNoche.SetActive(false);
+                StartCoroutine(ShowTime());
             }
             else
             {
