@@ -72,15 +72,15 @@ public class MapamundiManager : MonoBehaviour
     private void Start()
     {
         Nv1.interactable = true;
-        Nv2.interactable = true;
-        Nv3.interactable = true;
-        Nv4.interactable = true;
-        Nv5.interactable = true;
-        Nv6.interactable = true;
-        Nv7.interactable = true;
-        Nv8.interactable = true;
-        Nv9.interactable = true;
-        Nv10.interactable = true;
+        Nv2.interactable = false;
+        Nv3.interactable = false;
+        Nv4.interactable = false;
+        Nv5.interactable = false;
+        Nv6.interactable = false;
+        Nv7.interactable = false;
+        Nv8.interactable = false;
+        Nv9.interactable = false;
+        Nv10.interactable = false;
         sliderLevels.maxValue = scrollObject.transform.position.y + 398 + 60;
         sliderLevels.minValue = scrollObject.transform.position.y;
         sliderLevels.value = scrollObject.transform.position.y;

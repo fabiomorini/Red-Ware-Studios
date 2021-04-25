@@ -283,7 +283,7 @@ public class GridCombatSystem : MonoBehaviour {
 
 
         if (SceneManager.GetActiveScene().name == "Tutorial") randomNum = 0;
-        else randomNum = UnityEngine.Random.Range(0, 1);
+        else randomNum = UnityEngine.Random.Range(0, 3);
         if (randomNum == 0 || randomNum == 1) dayTime = true;
         else nightTime = true;
         Debug.Log("Day = " + dayTime);
@@ -304,7 +304,7 @@ public class GridCombatSystem : MonoBehaviour {
             }
         }
         SelectNextActiveUnit(); 
-        inspiration = 4;
+        inspiration = 1;
     }
 
     public IEnumerator ShowTime()
@@ -1353,11 +1353,11 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void SetNightAndDayTime()
     {
-        randomNum = UnityEngine.Random.Range(nightAndDayCicle, 1);
+        randomNum = UnityEngine.Random.Range(nightAndDayCicle, 4);
         //Debug.Log(randomNum);
         if (dayTime)
         {
-            if (randomNum == 1)
+            if (randomNum == 4)
             {
                 dayTime = false;
                 nightTime = true;
@@ -1371,7 +1371,7 @@ public class GridCombatSystem : MonoBehaviour {
         }
         else if (nightTime)
         {
-            if (randomNum == 1)
+            if (randomNum == 4)
             {
                 dayTime = true;
                 nightTime = false;
