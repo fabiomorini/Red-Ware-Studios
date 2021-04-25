@@ -8,6 +8,7 @@ public class MapamundiManager : MonoBehaviour
 {
     private GameObject CombatHandler;
     public GameObject UI;
+    public Animator animator;
 
     [HideInInspector] public bool N1;
     [HideInInspector] public bool N2;
@@ -158,58 +159,83 @@ public class MapamundiManager : MonoBehaviour
         sliderLevels.value = scrollObject.transform.position.y;
     }
 
-    public void ReadyCheckYes()
+    public IEnumerator ReadyCheckYesRoutine()
     {
         if (N1)
         {
             UIReadyCheck.SetActive(false);
+            animator.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(1.0f);
             SceneManager.LoadScene("Nivel1");
         }
         else if (N2)
         {
             UIReadyCheck.SetActive(false);
+            animator.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(1.0f);
             SceneManager.LoadScene("Nivel2");
         }
         else if (N3)
         {
             UIReadyCheck.SetActive(false);
+            animator.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(1.0f);
             SceneManager.LoadScene("Nivel3");
         }
         else if (N4)
         {
             UIReadyCheck.SetActive(false);
+            animator.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(1.0f);
             SceneManager.LoadScene("Nivel4");
         }
         else if (N5)
         {
             UIReadyCheck.SetActive(false);
+            animator.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(1.0f);
             SceneManager.LoadScene("Nivel5");
         }
         else if (N6)
         {
             UIReadyCheck.SetActive(false);
+            animator.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(1.0f);
             SceneManager.LoadScene("Nivel6");
         }
         else if (N7)
         {
             UIReadyCheck.SetActive(false);
+            animator.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(1.0f);
             SceneManager.LoadScene("Nivel7");
         }
         else if (N8)
         {
             UIReadyCheck.SetActive(false);
+            animator.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(1.0f);
             SceneManager.LoadScene("Nivel8");
         }
         else if (N9)
         {
             UIReadyCheck.SetActive(false);
+            animator.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(1.0f);
             SceneManager.LoadScene("Nivel9");
         }
         else if (N10)
         {
             UIReadyCheck.SetActive(false);
+            animator.SetTrigger("FadeOut");
+            yield return new WaitForSeconds(1.0f);
             SceneManager.LoadScene("Nivel10");
         }
+    }
+
+    public void ReadyCheckYes()
+    {
+        StartCoroutine(ReadyCheckYesRoutine());
     }
 
     public void ReadyCheckNo()
