@@ -186,7 +186,7 @@ public class GridCombatSystem : MonoBehaviour {
     [HideInInspector] public bool mage4Syn = false;
 
     private bool dayTime = false;
-    private bool nightTime = false;
+    public bool nightTime = false;
     private int totalUnits = 0;
     private int randomNum = 0;
     private int halfTurnDone = 0;
@@ -281,7 +281,7 @@ public class GridCombatSystem : MonoBehaviour {
 
 
         if (SceneManager.GetActiveScene().name == "Tutorial") randomNum = 0;
-        else randomNum = UnityEngine.Random.Range(2, 3);
+        else randomNum = UnityEngine.Random.Range(0, 1);
         if (randomNum == 0 || randomNum == 1) dayTime = true;
         else nightTime = true;
         Debug.Log("Day = " + dayTime);

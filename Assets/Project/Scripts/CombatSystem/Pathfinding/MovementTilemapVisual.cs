@@ -27,6 +27,7 @@ public class MovementTilemapVisual : MonoBehaviour {
     private Color attackingColor;
     private Color movingColor;
     private Color habilityColor;
+    private Color movingColorNight;
 
     private Mesh mesh;
     private bool updateMesh;
@@ -64,18 +65,23 @@ public class MovementTilemapVisual : MonoBehaviour {
         attackingColor = new Color32(187, 68, 48, 150);
         movingColor = new Color32(43, 165, 184, 150);
         habilityColor = new Color32(146, 54, 194, 150);
+        movingColorNight = new Color32(43, 165, 255, 230);
 
         if (gridCombatSystem.feedbackHability)
         {
             meshRenderer.material.color = habilityColor;
         }
-        else if (gridCombatSystem.moving)
+        else if (gridCombatSystem.moving && !gridCombatSystem.nightTime)
         {
             meshRenderer.material.color = movingColor;
         }
         else if (gridCombatSystem.attacking)
         {
             meshRenderer.material.color = attackingColor;
+        }
+        else if (gridCombatSystem.moving && gridCombatSystem.nightTime)
+        {
+            meshRenderer.material.color = movingColorNight;
         }
     }
 
