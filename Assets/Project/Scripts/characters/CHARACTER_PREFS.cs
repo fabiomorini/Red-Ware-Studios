@@ -19,7 +19,7 @@ public class CHARACTER_PREFS : MonoBehaviour {
     {
         NIVEL1, 
         NIVEL2, 
-        NIVEL3
+        NIVEL3,
     }
 
     public Vector3 GetPosition() 

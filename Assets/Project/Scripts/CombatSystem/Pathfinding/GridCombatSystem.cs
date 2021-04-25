@@ -63,12 +63,16 @@ public class GridCombatSystem : MonoBehaviour {
     // Sistema de limitación de spawning de tropas por escenas 
     private int maxOfCharacters; 
     //Escenas de Unity por buildIndex
-    private int IndexL1 = 3;
-    private int IndexL2 = 4;
-    private int IndexL3 = 5;
-    private int IndexL4 = 6;
-    private int IndexL5 = 7;
-    private int IndexL6 = 8;
+    private int IndexL1 = 4;
+    private int IndexL2 = 5;
+    private int IndexL3 = 6;
+    private int IndexL4 = 7;
+    private int IndexL5 = 8;
+    private int IndexL6 = 9;
+    private int IndexL7 = 10;
+    private int IndexL8 = 11;
+    private int IndexL9 = 12;
+    private int IndexL10 = 13;
     //MAX personajes por nivel
     private int maxL1 = 3;
     private int maxL2 = 3;
@@ -76,6 +80,10 @@ public class GridCombatSystem : MonoBehaviour {
     private int maxL4 = 5;
     private int maxL5 = 6;
     private int maxL6 = 7;
+    private int maxL7 = 7;
+    private int maxL8 = 7;
+    private int maxL9 = 7;
+    private int maxL10 = 7;
 
     //-------- IA------------
     public IA_enemies iA_Enemies;
@@ -167,16 +175,16 @@ public class GridCombatSystem : MonoBehaviour {
     public Transform arrowRoute;
     public GameObject arrowPrefab;
 
-    public bool melee2Syn = false;
-    public bool melee4Syn = false;
-    public bool archer2Syn = false;
-    public bool archer4Syn = false;
-    public bool tank2Syn = false;
-    public bool tank4Syn = false;
-    public bool healer2Syn = false;
-    public bool healer4Syn = false;
-    public bool mage2Syn = false;
-    public bool mage4Syn = false;
+    [HideInInspector] public bool melee2Syn = false;
+    [HideInInspector] public bool melee4Syn = false;
+    [HideInInspector] public bool archer2Syn = false;
+    [HideInInspector] public bool archer4Syn = false;
+    [HideInInspector] public bool tank2Syn = false;
+    [HideInInspector] public bool tank4Syn = false;
+    [HideInInspector] public bool healer2Syn = false;
+    [HideInInspector] public bool healer4Syn = false;
+    [HideInInspector] public bool mage2Syn = false;
+    [HideInInspector] public bool mage4Syn = false;
 
     private bool dayTime = false;
     private bool nightTime = false;
@@ -186,6 +194,9 @@ public class GridCombatSystem : MonoBehaviour {
     private int wholeTurnDone = 0;
     private bool firstTurn = true;
     private int nightAndDayCicle = 0;
+
+    public GameObject GridDia;
+    public GameObject GridNoche;
 
     private void Start() {
         isPaused = false; 
@@ -266,11 +277,21 @@ public class GridCombatSystem : MonoBehaviour {
 
 
         if (SceneManager.GetActiveScene().name == "Tutorial") randomNum = 0;
-        else randomNum = UnityEngine.Random.Range(2, 3);
+        else randomNum = UnityEngine.Random.Range(0, 3);
         if (randomNum == 0 || randomNum == 1) dayTime = true;
         else nightTime = true;
         Debug.Log("Day = " + dayTime);
         Debug.Log("Night = " + nightTime);
+        if (dayTime)
+        {
+            GridDia.SetActive(true);
+            GridNoche.SetActive(false);
+        }
+        else if (nightTime)
+        {
+            GridDia.SetActive(false);
+            GridNoche.SetActive(true);
+        }
 
         // Asigna a los personajes en sus posiciones
         foreach (UnitGridCombat unitGridCombat in unitGridCombatArray)
@@ -625,6 +646,14 @@ public class GridCombatSystem : MonoBehaviour {
             maxOfCharacters = maxL5;
         else if (SceneManager.GetActiveScene().buildIndex == IndexL6)
             maxOfCharacters = maxL6;
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL7)
+            maxOfCharacters = maxL7;
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL8)
+            maxOfCharacters = maxL8;
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL9)
+            maxOfCharacters = maxL9;
+        else if (SceneManager.GetActiveScene().buildIndex == IndexL10)
+            maxOfCharacters = maxL10;
 
         if (numberOfAllies > maxOfCharacters)
             numberOfAllies = maxOfCharacters;
@@ -1293,6 +1322,8 @@ public class GridCombatSystem : MonoBehaviour {
                 dayTime = false;
                 nightTime = true;
                 nightAndDayCicle = 0;
+                GridDia.SetActive(false);
+                GridNoche.SetActive(true);
             }
             else
             {
@@ -1306,6 +1337,8 @@ public class GridCombatSystem : MonoBehaviour {
                 dayTime = true;
                 nightTime = false;
                 nightAndDayCicle = 0;
+                GridDia.SetActive(true);
+                GridNoche.SetActive(false);
             }
             else
             {
