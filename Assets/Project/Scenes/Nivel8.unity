@@ -12745,7 +12745,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ce79fa8804493ef45a221528b3765373, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f8ebd9feb171c694f9b141554bf11a0c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -15434,7 +15434,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1054248218}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 184.14523, y: 59.583817, z: -10}
+  m_LocalPosition: {x: 184.1932, y: 59.583817, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 133630425}
@@ -17289,7 +17289,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 929fb6a9a36c641449bc907d47f0a282, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 541eaa8898ae21b4c8d70b67e3f55a30, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -29539,7 +29539,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1946150792}
           m_MethodName: Play
           m_Mode: 1
           m_Arguments:
@@ -29655,7 +29655,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 821189510}
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:
@@ -31706,7 +31706,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1946150792}
           m_MethodName: Play
           m_Mode: 1
           m_Arguments:
@@ -31810,7 +31810,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 821189510}
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:
@@ -33779,7 +33779,6 @@ MonoBehaviour:
   victory: {fileID: 7741218183671524770}
   defeat: {fileID: 7541274893583107104}
   allyUI: {fileID: 7741218183307397595}
-  enemyUI: {fileID: 0}
   endGameUI: {fileID: 7741218182726084699}
   SurrenderUI: {fileID: 7741218183458268360}
   fireUI: {fileID: 7043383512610315436, guid: d70a9199374cdc5498909889885507ff, type: 3}
@@ -33814,6 +33813,7 @@ MonoBehaviour:
   healer4Syn: 0
   mage2Syn: 0
   mage4Syn: 0
+  nightTime: 0
   GridDia: {fileID: 321189592}
   GridNoche: {fileID: 662971877}
   DayTimeText: {fileID: 7741218183741187650}
@@ -34072,7 +34072,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 821189510}
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:
@@ -34111,7 +34111,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1946150792}
           m_MethodName: Play
           m_Mode: 1
           m_Arguments:
@@ -35098,7 +35098,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 821189510}
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:
@@ -35184,7 +35184,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1946150792}
           m_MethodName: Play
           m_Mode: 1
           m_Arguments:
@@ -35618,7 +35618,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 821189510}
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:
@@ -35657,7 +35657,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1946150792}
           m_MethodName: Play
           m_Mode: 1
           m_Arguments:
@@ -35894,7 +35894,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227a127fecf6fcf449c778cdad9c87e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 7741218184123730315}
   CurrHealth: {fileID: 0}
 --- !u!114 &7741218184123730315
 MonoBehaviour:

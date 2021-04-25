@@ -14273,7 +14273,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ce79fa8804493ef45a221528b3765373, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f8ebd9feb171c694f9b141554bf11a0c, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -14430,7 +14430,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 929fb6a9a36c641449bc907d47f0a282, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 541eaa8898ae21b4c8d70b67e3f55a30, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -15140,7 +15140,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1453747640}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 184.14523, y: 59.583817, z: -10}
+  m_LocalPosition: {x: 184.1932, y: 59.583817, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1425005565}
@@ -26201,7 +26201,6 @@ MonoBehaviour:
   victory: {fileID: 3756566132777905108}
   defeat: {fileID: 4029500786347311702}
   allyUI: {fileID: 3756566132402769837}
-  enemyUI: {fileID: 0}
   endGameUI: {fileID: 3756566133991976493}
   SurrenderUI: {fileID: 3756566132520608446}
   fireUI: {fileID: 7043383512610315436, guid: d70a9199374cdc5498909889885507ff, type: 3}
@@ -26236,6 +26235,7 @@ MonoBehaviour:
   healer4Syn: 0
   mage2Syn: 0
   mage4Syn: 0
+  nightTime: 0
   GridDia: {fileID: 1609588459}
   GridNoche: {fileID: 1564821104}
   DayTimeText: {fileID: 3756566132841275444}
@@ -26357,7 +26357,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 837844081}
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:
@@ -26396,7 +26396,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1036843205}
           m_MethodName: Play
           m_Mode: 1
           m_Arguments:
@@ -27482,7 +27482,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1036843205}
           m_MethodName: Play
           m_Mode: 1
           m_Arguments:
@@ -27585,7 +27585,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 837844081}
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:
@@ -27928,7 +27928,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 837844081}
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:
@@ -27967,7 +27967,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1036843205}
           m_MethodName: Play
           m_Mode: 1
           m_Arguments:
@@ -28411,7 +28411,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227a127fecf6fcf449c778cdad9c87e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 3756566133198098429}
   CurrHealth: {fileID: 0}
 --- !u!114 &3756566133198098429
 MonoBehaviour:
@@ -31371,7 +31370,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 837844081}
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:
@@ -31399,7 +31398,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1036843205}
           m_MethodName: Play
           m_Mode: 1
           m_Arguments:
@@ -33653,7 +33652,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 837844081}
         m_MethodName: Play
         m_Mode: 1
         m_Arguments:
@@ -33692,7 +33691,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1036843205}
           m_MethodName: Play
           m_Mode: 1
           m_Arguments:

@@ -247,6 +247,7 @@ public class MapamundiManager : MonoBehaviour
     {
         Nv1.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
         circle1.SetActive(true);
+        SoundManager.PlaySound("HoverMenu");
     }
 
     public void HoverL1Exit()
@@ -259,6 +260,7 @@ public class MapamundiManager : MonoBehaviour
     {
         Nv2.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
         circle2.SetActive(true);
+        SoundManager.PlaySound("HoverMenu");
     }
 
     public void HoverL2Exit()
@@ -271,6 +273,7 @@ public class MapamundiManager : MonoBehaviour
     {
         Nv3.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
         circle3.SetActive(true);
+        SoundManager.PlaySound("HoverMenu");
     }
 
     public void HoverL3Exit()
@@ -283,6 +286,7 @@ public class MapamundiManager : MonoBehaviour
     {
         Nv4.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
         circle4.SetActive(true);
+        SoundManager.PlaySound("HoverMenu");
     }
 
     public void HoverL4Exit()
@@ -295,6 +299,7 @@ public class MapamundiManager : MonoBehaviour
     {
         Nv5.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
         circle5.SetActive(true);
+        SoundManager.PlaySound("HoverMenu");
     }
 
     public void HoverL5Exit()
@@ -307,6 +312,7 @@ public class MapamundiManager : MonoBehaviour
     {
         Nv6.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
         circle6.SetActive(true);
+        SoundManager.PlaySound("HoverMenu");
     }
 
     public void HoverL6Exit()
@@ -319,6 +325,7 @@ public class MapamundiManager : MonoBehaviour
     {
         Nv7.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
         circle7.SetActive(true);
+        SoundManager.PlaySound("HoverMenu");
     }
 
     public void HoverL7Exit()
@@ -331,6 +338,7 @@ public class MapamundiManager : MonoBehaviour
     {
         Nv8.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
         circle8.SetActive(true);
+        SoundManager.PlaySound("HoverMenu");
     }
 
     public void HoverL8Exit()
@@ -343,6 +351,7 @@ public class MapamundiManager : MonoBehaviour
     {
         Nv9.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
         circle9.SetActive(true);
+        SoundManager.PlaySound("HoverMenu");
     }
 
     public void HoverL9Exit()
@@ -355,6 +364,7 @@ public class MapamundiManager : MonoBehaviour
     {
         Nv10.GetComponent<Image>().color = new Color32(239, 73, 107, 130);
         circle10.SetActive(true);
+        SoundManager.PlaySound("HoverMenu");
     }
 
     public void HoverL10Exit()
@@ -394,6 +404,8 @@ public class MapamundiManager : MonoBehaviour
                 UIReadyCheck.SetActive(true);
             }
         }
+        
+        SoundManager.PlaySound("ClickMenu");
     }
 
     public void Nivel2()
@@ -427,6 +439,7 @@ public class MapamundiManager : MonoBehaviour
                 UIReadyCheck.SetActive(true);
             }
         }
+        SoundManager.PlaySound("ClickMenu");
     }
 
     public void Nivel3()
@@ -460,6 +473,8 @@ public class MapamundiManager : MonoBehaviour
                 UIReadyCheck.SetActive(true);
             }
         }
+
+        SoundManager.PlaySound("ClickMenu");
     }
 
     public void Nivel4()
@@ -493,6 +508,7 @@ public class MapamundiManager : MonoBehaviour
                 UIReadyCheck.SetActive(true);
             }
         }
+        SoundManager.PlaySound("ClickMenu");
     }
 
     public void Nivel5()
@@ -526,6 +542,7 @@ public class MapamundiManager : MonoBehaviour
                 UIReadyCheck.SetActive(true);
             }
         }
+        SoundManager.PlaySound("ClickMenu");
     }
 
     public void Nivel6()
@@ -559,6 +576,7 @@ public class MapamundiManager : MonoBehaviour
                 UIReadyCheck.SetActive(true);
             }
         }
+        SoundManager.PlaySound("ClickMenu");
     }
 
     public void Nivel7()
@@ -592,6 +610,7 @@ public class MapamundiManager : MonoBehaviour
                 UIReadyCheck.SetActive(true);
             }
         }
+        SoundManager.PlaySound("ClickMenu");
     }
 
     public void Nivel8()
@@ -625,6 +644,7 @@ public class MapamundiManager : MonoBehaviour
                 UIReadyCheck.SetActive(true);
             }
         }
+        SoundManager.PlaySound("ClickMenu");
     }
 
     public void Nivel9()
@@ -658,6 +678,7 @@ public class MapamundiManager : MonoBehaviour
                 UIReadyCheck.SetActive(true);
             }
         }
+        SoundManager.PlaySound("ClickMenu");
     }
 
     public void Nivel10()
@@ -691,5 +712,11 @@ public class MapamundiManager : MonoBehaviour
                 UIReadyCheck.SetActive(true);
             }
         }
+        SoundManager.PlaySound("ClickMenu");
+    }
+
+    public void ActiveHoverSound() 
+    {
+        SoundManager.PlaySound("HoverMenu");
     }
 }

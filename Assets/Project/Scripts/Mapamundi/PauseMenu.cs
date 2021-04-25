@@ -27,6 +27,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
         GameIsPaused = false;
+        SoundManager.PlaySound("ClickMenu");
     }
 
     void Pause() 
@@ -35,6 +36,7 @@ public class PauseMenu : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
+        SoundManager.PlaySound("ClickMenu");
     }
 
     public void LoadMenu() 
@@ -44,7 +46,8 @@ public class PauseMenu : MonoBehaviour
 
     public void QuitGame()
     {
-        SoundManager.PlaySound("Return");
+        //SoundManager.PlaySound("Return");
+        SoundManager.PlaySound("ClickMenu");
         Debug.Log("Quit Game");
         Application.Quit();
     }
@@ -56,7 +59,8 @@ public class PauseMenu : MonoBehaviour
 
     public void ExitOptionsMenu()
     {
-        SoundManager.PlaySound("Return");
+        SoundManager.PlaySound("ClickMenu");
+        //SoundManager.PlaySound("Return");
     }
 
     public void HoverSound()
