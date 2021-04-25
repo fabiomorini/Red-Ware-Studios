@@ -75,6 +75,7 @@ public class UnitGridCombat : MonoBehaviour {
     public int burnDamage = 0;
 
     public bool alreadyMoved = false;
+    public bool isStunned = false;
 
     private void Awake() {
         isOverloaded = false;
@@ -545,6 +546,12 @@ public class UnitGridCombat : MonoBehaviour {
                 }
                 SoundManager.PlaySound("HealerBasicAttack");
             }
+        }
+
+        if ((Attacker.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED) && (sceneCombatSystem.windRush))
+        {
+            this.alreadyMoved = true;
+            this.isStunned = true;
         }
 
             if (healthSystem.IsDead()){

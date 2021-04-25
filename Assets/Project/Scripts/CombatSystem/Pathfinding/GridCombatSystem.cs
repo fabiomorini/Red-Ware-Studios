@@ -281,7 +281,7 @@ public class GridCombatSystem : MonoBehaviour {
 
 
         if (SceneManager.GetActiveScene().name == "Tutorial") randomNum = 0;
-        else randomNum = UnityEngine.Random.Range(0, 1);
+        else randomNum = UnityEngine.Random.Range(2, 3);
         if (randomNum == 0 || randomNum == 1) dayTime = true;
         else nightTime = true;
         Debug.Log("Day = " + dayTime);
@@ -346,7 +346,7 @@ public class GridCombatSystem : MonoBehaviour {
 
                 if (boltOfPrecision && !hasUpdatedPositionAttack)
                 {
-                    SetAttackingTrue();
+                    SetAbilityTrue();
                 }
 
                 if (fireBurst)
@@ -406,7 +406,7 @@ public class GridCombatSystem : MonoBehaviour {
                         maxMoveDistance = 0;
                     }
 
-                    if (!hasUpdatedPositionAttack && !boltOfPrecision)
+                    if (!hasUpdatedPositionAttack)
                     {
                         UpdateValidMovePositions();
                         hasUpdatedPositionAttack = true;
@@ -1177,6 +1177,7 @@ public class GridCombatSystem : MonoBehaviour {
                 for (int i = 0; i < enemiesTeamList.Count; i++)
                 {
                     enemiesTeamList[i].alreadyMoved = false;
+                    enemiesTeamList[i].isStunned = false;
                 }
                 if (inspiration < 4) //sumamos uno de inspiración al comienzo del turno
                 {
@@ -1265,6 +1266,12 @@ public class GridCombatSystem : MonoBehaviour {
             else if (!isAllyTurn)
             {
                 enemiesTeamActiveUnitIndex = (enemiesTeamActiveUnitIndex + 1) % enemiesTeamList.Count;
+                if (enemiesTeamList[enemiesTeamActiveUnitIndex].isStunned)
+                {
+                    if (enemiesTeamList.Count == 1) return alliesTeamList[0];
+                    enemiesTeamList[enemiesTeamActiveUnitIndex].isStunned = false;
+                    enemiesTeamActiveUnitIndex = (enemiesTeamActiveUnitIndex + 1) % enemiesTeamList.Count;
+                }
                 return enemiesTeamList[enemiesTeamActiveUnitIndex];
             }
         }
@@ -1315,8 +1322,19 @@ public class GridCombatSystem : MonoBehaviour {
 
             Debug.Log("NotFound");
 
-            if (lastUnit != alliesTeamList[0]) return alliesTeamList[0];
-            else return enemiesTeamList[0];
+            if (lastUnit != alliesTeamList[0])
+            {
+                return alliesTeamList[0];
+            }
+            else if (enemiesTeamList[0].isStunned)
+            {
+                enemiesTeamList[0].isStunned = false;
+                return alliesTeamList[0];
+            }
+            else
+            {
+                return enemiesTeamList[0];
+            }
         }
 
         Debug.Log("NotFound2");
@@ -1325,11 +1343,11 @@ public class GridCombatSystem : MonoBehaviour {
 
     public void SetNightAndDayTime()
     {
-        randomNum = UnityEngine.Random.Range(nightAndDayCicle, 1);
+        randomNum = UnityEngine.Random.Range(nightAndDayCicle, 4);
         //Debug.Log(randomNum);
         if (dayTime)
         {
-            if (randomNum == 1)
+            if (randomNum == 4)
             {
                 dayTime = false;
                 nightTime = true;
@@ -1343,7 +1361,7 @@ public class GridCombatSystem : MonoBehaviour {
         }
         else if (nightTime)
         {
-            if (randomNum == 1)
+            if (randomNum == 4)
             {
                 dayTime = true;
                 nightTime = false;
@@ -1416,6 +1434,7 @@ public class GridCombatSystem : MonoBehaviour {
         feedbackHability = false;
         hasUpdatedPositionMove = false;
         inspirationManager.StopShowingAbilitiesUI();
+        DeactivateAbilities();
     }
 
     public void AttackAllyVisual()
@@ -1486,6 +1505,12 @@ public class GridCombatSystem : MonoBehaviour {
                                 unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
                                 boltOfPrecision = false;
                                 inspiration -= 3;
+                            }
+                            else if (windRush)
+                            {
+                                unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat());
+                                windRush = false;
+                                inspiration -= 4;
                             }
                             else
                             {
@@ -1791,12 +1816,43 @@ public class GridCombatSystem : MonoBehaviour {
         whirlwind = false;
     }
 
+    private void DeactivateAbilities()
+    {
+        doubleSlash = false;
+        justicesExecute = false;
+        boltOfPrecision = false;
+        windRush = false;
+        hexOfNature = false;
+        divineGrace = false;
+        overload = false;
+        whirlwind = false;
+        fireBurst = false;
+        shatter = false;
+    }
+
+    public void SetAbilityTrue()
+    {
+        inspirationManager.StopShowingAbilitiesUI();
+        attacking = true;
+        moving = false;
+        if (boltOfPrecision || doubleSlash)
+        {
+            feedbackHability = true;
+        }
+        else
+        {
+            feedbackHability = false;
+        }
+        hasUpdatedPositionAttack = false;
+    }
+
     public void SetAttackingTrue()
     {
         inspirationManager.StopShowingAbilitiesUI();
         attacking = true;
         moving = false;
-        if(boltOfPrecision || doubleSlash)
+        DeactivateAbilities();
+        if (boltOfPrecision || doubleSlash)
         {
             feedbackHability = true;
         }

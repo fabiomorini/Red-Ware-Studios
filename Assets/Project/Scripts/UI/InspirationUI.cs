@@ -148,7 +148,7 @@ public class InspirationUI : MonoBehaviour
         {
             combatSystem.doubleSlash = true;
             combatSystem.feedbackHability = true;
-            combatSystem.SetAttackingTrue();
+            combatSystem.SetAbilityTrue();
             combatSystem.AttackAllyVisual();
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
@@ -161,7 +161,7 @@ public class InspirationUI : MonoBehaviour
         {
             combatSystem.feedbackHability = true;
             combatSystem.hexOfNature = true;
-            combatSystem.SetAttackingTrue();
+            combatSystem.SetAbilityTrue();
             combatSystem.AttackAllyVisual();
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.TANK)
@@ -195,14 +195,15 @@ public class InspirationUI : MonoBehaviour
         {
             combatSystem.justicesExecute = true;
             combatSystem.feedbackHability = true;
-            combatSystem.SetAttackingTrue();
+            combatSystem.SetAbilityTrue();
             combatSystem.AttackAllyVisual();
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {
             combatSystem.feedbackHability = true;
             combatSystem.windRush = true;
-            combatSystem.MoveAllyVisual();
+            combatSystem.SetAbilityTrue();
+            combatSystem.AttackAllyVisual();
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.HEALER)
         {
@@ -214,14 +215,14 @@ public class InspirationUI : MonoBehaviour
         {
             combatSystem.whirlwind = true;
             combatSystem.feedbackHability = true;
-            combatSystem.SetAttackingTrue();
+            combatSystem.SetAbilityTrue();
             combatSystem.AttackAllyVisual();
         }
         else if (combatSystem.unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.MAGE)
         {
             combatSystem.feedbackHability = true;
             combatSystem.shatter = true;
-            combatSystem.SetAttackingTrue();
+            combatSystem.SetAbilityTrue();
             combatSystem.AttackAllyVisual();
         }
     }  // aquí llamamos las habilidades
