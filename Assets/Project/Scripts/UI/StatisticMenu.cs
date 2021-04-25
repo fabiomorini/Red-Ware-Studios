@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class StatisticMenu : MonoBehaviour
@@ -63,7 +64,11 @@ public class StatisticMenu : MonoBehaviour
             mageSprite.SetActive(false);
             tipoText.SetText("Knight");
             atkText.SetText("Atk: 25");
-            SetLevelText();
+            if (!(SceneManager.GetActiveScene().name == "Tutorial")) SetLevelText();
+            else
+            {
+                levelText.SetText("Lvl. 1");
+            }
         }
         else if (unitGridCombat.GetComponent<CHARACTER_PREFS>().tipo == CHARACTER_PREFS.Tipo.RANGED)
         {

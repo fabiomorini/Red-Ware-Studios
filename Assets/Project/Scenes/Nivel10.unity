@@ -4907,7 +4907,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628063786}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 179.14523, y: 49.583817, z: -10}
+  m_LocalPosition: {x: 179.11627, y: 49.583817, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 196722076}
@@ -31826,8 +31826,8 @@ RectTransform:
   - {fileID: 757469888026854378}
   - {fileID: 757469888655493540}
   - {fileID: 757469888889542763}
-  - {fileID: 757469888648781415}
   - {fileID: 757469888750088968}
+  - {fileID: 757469888648781415}
   - {fileID: 757469887896296094}
   - {fileID: 757469889118029337}
   - {fileID: 757469889343683784}
@@ -32131,7 +32131,7 @@ RectTransform:
   m_LocalScale: {x: 2.39785, y: 1.6512109, z: 1.1284001}
   m_Children: []
   m_Father: {fileID: 757469888573000503}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -32753,7 +32753,7 @@ RectTransform:
   m_LocalScale: {x: -0.047483, y: -0.047483, z: -0.047483}
   m_Children: []
   m_Father: {fileID: 757469888573000503}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -33959,7 +33959,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227a127fecf6fcf449c778cdad9c87e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 757469888947949960}
   CurrHealth: {fileID: 0}
 --- !u!1 &757469888947949962
 GameObject:

@@ -54,7 +54,6 @@ public class UnitGridCombat : MonoBehaviour {
     private GridCombatSystem sceneCombatSystem;
     private MovePositionPathfinding movePosition;
     private HealthSystem healthSystem;
-    private HealthBar healthBar;
     private CHARACTER_MNG characterManager;
 
     //Arrow
@@ -64,6 +63,8 @@ public class UnitGridCombat : MonoBehaviour {
     private Vector2 p1;
     private Vector2 p2;
     private Vector2 p3;
+
+    public HealthBar healthBar;
 
     public enum Team {
         Blue,
@@ -79,7 +80,6 @@ public class UnitGridCombat : MonoBehaviour {
 
     private void Awake() {
         isOverloaded = false;
-        healthBar = GetComponentInChildren<HealthBar>();
         characterPrefs = GetComponent<CHARACTER_PREFS>();
         characterManager = GameObject.FindGameObjectWithTag("characterManager").GetComponent<CHARACTER_MNG>();
 
@@ -94,10 +94,9 @@ public class UnitGridCombat : MonoBehaviour {
     private void Update()
     {
         curHealth = healthSystem.CurrentHealth;
-        healthBar.SetHealthNumber(curHealth);
         animEnded = true;
-
-        if(sceneCombatSystem.burstTurns >= 5)
+        healthBar.SetHealthNumber(curHealth);
+        if (sceneCombatSystem.burstTurns >= 5)
         {
             fireBurstIndex = 0;
         }

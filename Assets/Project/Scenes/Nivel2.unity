@@ -26090,7 +26090,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2141661505}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 189.14523, y: 64.58382, z: -10}
+  m_LocalPosition: {x: 189.11627, y: 64.58382, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1892862704}
@@ -27973,7 +27973,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227a127fecf6fcf449c778cdad9c87e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 5791245724267912795}
   CurrHealth: {fileID: 0}
 --- !u!114 &5791245724267912795
 MonoBehaviour:
@@ -28600,7 +28599,6 @@ MonoBehaviour:
   victory: {fileID: 5791245724872702578}
   defeat: {fileID: 6023294221481907184}
   allyUI: {fileID: 5791245725045448203}
-  enemyUI: {fileID: 0}
   endGameUI: {fileID: 5791245725554622347}
   SurrenderUI: {fileID: 5791245724659446552}
   fireUI: {fileID: 7043383512610315436, guid: d70a9199374cdc5498909889885507ff, type: 3}
@@ -35619,8 +35617,8 @@ RectTransform:
   - {fileID: 5791245725456419897}
   - {fileID: 5791245726154262135}
   - {fileID: 5791245724173850552}
-  - {fileID: 5791245726176907700}
   - {fileID: 5791245726183980251}
+  - {fileID: 5791245726176907700}
   - {fileID: 5791245725428618573}
   - {fileID: 5791245724500773322}
   - {fileID: 5791245724659446555}
@@ -36224,7 +36222,7 @@ RectTransform:
   m_LocalScale: {x: 2.39785, y: 1.6512109, z: 1.1284001}
   m_Children: []
   m_Father: {fileID: 5791245726101259492}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -36345,7 +36343,7 @@ RectTransform:
   m_LocalScale: {x: -0.047483, y: -0.047483, z: -0.047483}
   m_Children: []
   m_Father: {fileID: 5791245726101259492}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

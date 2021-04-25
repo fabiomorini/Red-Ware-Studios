@@ -206,7 +206,7 @@ public class GridCombatSystem : MonoBehaviour {
         isPaused = false; 
         selectedFeedback = Instantiate(selectedMouse);
         selectedFeedback.SetActive(false);
-        StartCoroutine(YourTurnUI());
+        if(!(SceneManager.GetActiveScene().name == "Tutorial"))StartCoroutine(YourTurnUI());
         inspirationManager = GameObject.FindGameObjectWithTag("InspirationManager").GetComponent<InspirationUI>();
         characterManager = GameObject.FindWithTag("characterManager").GetComponent<CHARACTER_MNG>();
 
@@ -307,7 +307,7 @@ public class GridCombatSystem : MonoBehaviour {
 
     public IEnumerator ShowTime()
     {
-        if(dayTime)
+        if(dayTime && !(SceneManager.GetActiveScene().name == "Tutorial"))
         {
             DayTimeText.SetActive(true);
             NightTimeText.SetActive(false);
@@ -1150,7 +1150,7 @@ public class GridCombatSystem : MonoBehaviour {
                     alliesTeamList[i].GetComponent<UnitGridCombat>().isOverloaded = false;
                 }
                 isAllyTurn = true;
-                StartCoroutine(YourTurnUI());
+                if (!(SceneManager.GetActiveScene().name == "Tutorial")) StartCoroutine(YourTurnUI());
                 enemiesTeamActiveUnitIndex = -1;
                 SetNightAndDayTime();
             }

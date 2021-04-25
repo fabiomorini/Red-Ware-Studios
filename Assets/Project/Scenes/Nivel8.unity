@@ -15434,7 +15434,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1054248218}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 184.14523, y: 59.583817, z: -10}
+  m_LocalPosition: {x: 184.11627, y: 59.583817, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 133630425}
@@ -27750,8 +27750,8 @@ RectTransform:
   - {fileID: 7741218182627859433}
   - {fileID: 7741218182268768679}
   - {fileID: 7741218184046411880}
-  - {fileID: 7741218182274631268}
   - {fileID: 7741218182298446603}
+  - {fileID: 7741218182274631268}
   - {fileID: 7741218183153730205}
   - {fileID: 7741218183819697690}
   - {fileID: 7741218183458268363}
@@ -28281,7 +28281,7 @@ RectTransform:
   m_LocalScale: {x: 2.39785, y: 1.6512109, z: 1.1284001}
   m_Children: []
   m_Father: {fileID: 7741218182215734068}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -28476,7 +28476,7 @@ RectTransform:
   m_LocalScale: {x: -0.047483, y: -0.047483, z: -0.047483}
   m_Children: []
   m_Father: {fileID: 7741218182215734068}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -33779,7 +33779,6 @@ MonoBehaviour:
   victory: {fileID: 7741218183671524770}
   defeat: {fileID: 7541274893583107104}
   allyUI: {fileID: 7741218183307397595}
-  enemyUI: {fileID: 0}
   endGameUI: {fileID: 7741218182726084699}
   SurrenderUI: {fileID: 7741218183458268360}
   fireUI: {fileID: 7043383512610315436, guid: d70a9199374cdc5498909889885507ff, type: 3}
@@ -35894,7 +35893,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 227a127fecf6fcf449c778cdad9c87e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slider: {fileID: 7741218184123730315}
   CurrHealth: {fileID: 0}
 --- !u!114 &7741218184123730315
 MonoBehaviour:
