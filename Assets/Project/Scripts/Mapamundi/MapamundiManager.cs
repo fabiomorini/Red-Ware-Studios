@@ -38,14 +38,14 @@ public class MapamundiManager : MonoBehaviour
 
     [HideInInspector] public int maxL1 = 3;
     [HideInInspector] public int maxL2 = 3;
-    [HideInInspector] public int maxL3 = 4;
-    [HideInInspector] public int maxL4 = 5;
-    [HideInInspector] public int maxL5 = 6;
-    [HideInInspector] public int maxL6 = 7;
-    [HideInInspector] public int maxL7 = 7;
-    [HideInInspector] public int maxL8 = 7;
-    [HideInInspector] public int maxL9 = 7;
-    [HideInInspector] public int maxL10 = 7;
+    [HideInInspector] public int maxL3 = 3;
+    [HideInInspector] public int maxL4 = 4;
+    [HideInInspector] public int maxL5 = 4;
+    [HideInInspector] public int maxL6 = 4;
+    [HideInInspector] public int maxL7 = 5;
+    [HideInInspector] public int maxL8 = 5;
+    [HideInInspector] public int maxL9 = 5;
+    [HideInInspector] public int maxL10 = 5;
 
 
     //scroll levels
@@ -477,7 +477,7 @@ public class MapamundiManager : MonoBehaviour
 
         if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
         {
-            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL1)
+            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL4)
             {
                 //Menu de Seleccion de Personaje
                 UI.SetActive(true);
@@ -510,7 +510,7 @@ public class MapamundiManager : MonoBehaviour
 
         if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
         {
-            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL1)
+            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL5)
             {
                 //Menu de Seleccion de Personaje
                 UI.SetActive(true);
@@ -543,7 +543,7 @@ public class MapamundiManager : MonoBehaviour
 
         if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
         {
-            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL1)
+            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL6)
             {
                 //Menu de Seleccion de Personaje
                 UI.SetActive(true);
@@ -576,7 +576,7 @@ public class MapamundiManager : MonoBehaviour
 
         if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
         {
-            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL1)
+            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL7)
             {
                 //Menu de Seleccion de Personaje
                 UI.SetActive(true);
@@ -609,7 +609,7 @@ public class MapamundiManager : MonoBehaviour
 
         if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
         {
-            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL1)
+            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL8)
             {
                 //Menu de Seleccion de Personaje
                 UI.SetActive(true);
@@ -642,7 +642,7 @@ public class MapamundiManager : MonoBehaviour
 
         if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
         {
-            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL1)
+            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL9)
             {
                 //Menu de Seleccion de Personaje
                 UI.SetActive(true);
@@ -675,7 +675,7 @@ public class MapamundiManager : MonoBehaviour
 
         if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies >= 1)
         {
-            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL1)
+            if (CombatHandler.GetComponent<CHARACTER_MNG>().numberOfAllies > maxL10)
             {
                 //Menu de Seleccion de Personaje
                 UI.SetActive(true);

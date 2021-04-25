@@ -17,13 +17,16 @@ public class CHARACTER_MNG : MonoBehaviour
     public int numberOfTankFight;
     public int numberOfMageFight;
     [HideInInspector] public int numberOfAllies = 2;
-    [HideInInspector] public int RewardL1 = 300;
-    [HideInInspector] public int RewardL2 = 350;
-    [HideInInspector] public int RewardL3 = 400;
-    [HideInInspector] public int RewardL4 = 450;
-    [HideInInspector] public int RewardL5 = 500;
-    [HideInInspector] public int RewardL6 = 550;
-    [HideInInspector] public int RewardL7 = 600;
+    [HideInInspector] public int RewardL1 = 150;
+    [HideInInspector] public int RewardL2 = 175;
+    [HideInInspector] public int RewardL3 = 175;
+    [HideInInspector] public int RewardL4 = 200;
+    [HideInInspector] public int RewardL5 = 225;
+    [HideInInspector] public int RewardL6 = 250;
+    [HideInInspector] public int RewardL7 = 250;
+    [HideInInspector] public int RewardL8 = 250;
+    [HideInInspector] public int RewardL9 = 325;
+    [HideInInspector] public int RewardL10 = 1250;
     [HideInInspector] public List<CHARACTER_PREFS> characterPrefs;
 
     [HideInInspector] public bool VictoryL1 = false;
