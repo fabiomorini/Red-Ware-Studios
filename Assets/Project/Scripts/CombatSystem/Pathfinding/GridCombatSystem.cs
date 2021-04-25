@@ -76,14 +76,14 @@ public class GridCombatSystem : MonoBehaviour {
     //MAX personajes por nivel
     private int maxL1 = 3;
     private int maxL2 = 3;
-    private int maxL3 = 4;
-    private int maxL4 = 5;
-    private int maxL5 = 6;
-    private int maxL6 = 7;
-    private int maxL7 = 7;
-    private int maxL8 = 7;
-    private int maxL9 = 7;
-    private int maxL10 = 7;
+    private int maxL3 = 3;
+    private int maxL4 = 4;
+    private int maxL5 = 4;
+    private int maxL6 = 4;
+    private int maxL7 = 5;
+    private int maxL8 = 5;
+    private int maxL9 = 5;
+    private int maxL10 = 5;
 
     //-------- IA------------
     public IA_enemies iA_Enemies;
