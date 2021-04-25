@@ -194,6 +194,7 @@ public class GridCombatSystem : MonoBehaviour {
     private bool firstTurn = true;
     private int nightAndDayCicle = 0;
 
+    private bool firstTurnTime = true;
     public GameObject GridDia;
     public GameObject GridNoche;
     public GameObject DayTimeText;
@@ -312,9 +313,9 @@ public class GridCombatSystem : MonoBehaviour {
         {
             DayTimeText.SetActive(true);
             NightTimeText.SetActive(false);
-            fadeTimeObject.SetActive(true);
-            fadeTimeImage.SetActive(true);
-            fadeTime.Play("fadeTime");
+            if(!firstTurnTime) fadeTimeObject.SetActive(true);
+            if (!firstTurnTime) fadeTimeImage.SetActive(true);
+            if (!firstTurnTime) fadeTime.Play("fadeTime");
             yield return new WaitForSeconds(1.0f);
             GridDia.SetActive(true);
             GridNoche.SetActive(false);
@@ -327,9 +328,9 @@ public class GridCombatSystem : MonoBehaviour {
             NightTimeText.SetActive(true);
             DayTimeText.SetActive(false);
 
-            fadeTimeObject.SetActive(true);
-            fadeTimeImage.SetActive(true);
-            fadeTime.Play("fadeTime");
+            if (!firstTurnTime) fadeTimeObject.SetActive(true);
+            if (!firstTurnTime) fadeTimeImage.SetActive(true);
+            if (!firstTurnTime) fadeTime.Play("fadeTime");
             yield return new WaitForSeconds(1.0f);
             GridDia.SetActive(false);
             GridNoche.SetActive(true);
@@ -337,6 +338,7 @@ public class GridCombatSystem : MonoBehaviour {
             fadeTimeObject.SetActive(false);
             NightTimeText.SetActive(false);
         }
+        firstTurnTime = false;
     }
 
     private void Update()
