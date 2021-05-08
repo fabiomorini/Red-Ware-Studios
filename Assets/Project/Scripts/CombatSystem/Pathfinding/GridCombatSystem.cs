@@ -283,7 +283,7 @@ public class GridCombatSystem : MonoBehaviour {
 
 
         if (SceneManager.GetActiveScene().name == "Tutorial") randomNum = 0;
-        else randomNum = UnityEngine.Random.Range(0, 3);
+        else randomNum = UnityEngine.Random.Range(0, 4);
         if (randomNum == 0 || randomNum == 1) dayTime = true;
         else nightTime = true;
         Debug.Log("Day = " + dayTime);
